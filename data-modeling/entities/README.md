@@ -1,7 +1,7 @@
 # Entities
 
 Entities are real-world concepts like customers, orders, payments etc. \
-Lynk data modeling framework treats Entities as first-world citizens, meaning everything we build is around Entities and Features for our Entities.
+Lynk data modeling framework treats entities as first-class citizens, meaning everything we build and consume is around entities.
 
 ***
 
@@ -49,19 +49,19 @@ It can be simple fields, aggregated metrics, first - last features, period-over-
 
 ### Related assets
 
-Define which Data Assets are related to the entity. Related assets will be shown when creating new features for an entity. See [Related assets](related-assets.md) for in depth information on this.
+Define which Data Assets are related to the entity. Related assets will be shown and used when creating new features for an entity. For example, if the data asset `db_prod.core.orders` is related to the entity `customer`, we will be able to extract features from `db_prod.core.orders` to the `customer` level. See [Related assets](related-assets.md) for in depth information on this.
 
 ### Related entities
 
 Just like in the real world, entities relate to each other in many ways. To ensure consistency and simplicity, Lynk stores all entity relationships in one place - `entities_relationships.yml` file,.
 
-For example we can define that `customer` entity relates to `order` entity in a one-to-many relationship, where the join path is `customer.order_id = order.id.` This relation definition will be used by lynk across many places within the data modeling framework;
+Entities relationships are used by lynk when creating features and for joining entities on the [consumption](../../consume/) layer.
 
 ***
 
 ## Consuming Entities
 
-You can easily consume Entities and Features via lynk [Playground](../../consume/playground.md), [SQL API](../../consume/sql-api.md) or [REST API](../../consume/rest-api.md).
+You can easily consume Entities and Features via lynk [Playground](../../consume/playground.md), [SQL API](../../consume/sql-api/) or [REST API](../../consume/rest-api.md).
 
 For example, here is a simple SQL API request to get some features defined on a `customer` level:
 

@@ -20,6 +20,18 @@ layout:
 
 # Introduction
 
+## What is a Semantic Layer
+
+
+
+## What is a Semantic Layer
+
+
+
+
+
+
+
 Lynk is a new kind of a Semantic Layer for data teams, business teams, and AI.\
 Create a unified central source of truth of your data, get consistent results across tools, and enable AI apps with the right context.&#x20;
 
@@ -42,9 +54,12 @@ All the business definitions are accessible to data teams, business users and AI
 
 ### Code first
 
-### SQL first
+Lynk is code first, meaning everything can be done via code (YAML files) and version control (GIT) is fully supported.&#x20;
 
+### Lynk Studio
 
+Lynk Studio is a modern data catalog that enables anyone build and consume features and entities. It creates a shared and simple place where people can collaborate with data and keep things simple and clear. \
+The Studio is tightly coupled to code, meaning everything you do on the Studio translates to code and vice versa.&#x20;
 
 
 

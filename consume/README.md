@@ -10,4 +10,4 @@ Lynk offers several ways to consume semantic definitions from various tools.&#x2
 
 ## BI tools
 
-You can connect your BI tool to lynk via [SQL API](sql-api.md).\
+You can connect your BI tool to lynk via [SQL API](sql-api/).\

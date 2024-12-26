@@ -1,9 +1,12 @@
 # Features
 
-* introduction
-* Types of features
-  * Field
-  * Metric
-  * First-last
-  * Formula
-* Data type
+Create features from data assets
+
+create features from other entities
+
+Governance
+
+* feature names&#x20;
+* feature definitions
+
+Data type
