@@ -67,7 +67,19 @@ relationships:
 
 ### Lookup join
 
+Sometimes entities relate to each other not directly, but via a loopup table. \
+For example:&#x20;
 
+customer.nation\_id = nation.nation\_id
+
+Examples of entity relations usage:
+
+* Creating fratures:
+
+
+
+and \
+nation.region\_id = region.region\_id
 
 
 

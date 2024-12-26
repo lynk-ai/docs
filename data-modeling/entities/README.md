@@ -11,7 +11,7 @@ You can easily define entities either via code or via Lynk Studio UI.\
 The below example shows how we define a `customer` entity as a YAML file:
 
 ```yaml
-// .lynk/default/entities/customer.yml
+// customer.yml
 
 name: customer
 
@@ -24,7 +24,8 @@ aliases:
 
 features:
 - name: customer_id
-  ...  
+  type: field
+  ...
 
 related_assets:
 - db_prod.core.orders
@@ -48,13 +49,13 @@ It can be simple fields, aggregated metrics, first - last features, period-over-
 
 ### Related assets
 
-Define which Data Assets (tables and views in your DWH) are related to the entity.
-
-
+Define which Data Assets are related to the entity. Related assets will be shown when creating new features for an entity. See [Related assets](related-assets.md) for in depth information on this.
 
 ### Related entities
 
-Entities can relate&#x20;
+Just like in the real world, entities relate to each other in many ways. To ensure consistency and simplicity, Lynk stores all entity relationships in one place - `entities_relationships.yml` file,.
+
+For example we can define that `customer` entity relates to `order` entity in a one-to-many relationship, where the join path is `customer.order_id = order.id.` This relation definition will be used by lynk across many places within the data modeling framework;
 
 ***
 
