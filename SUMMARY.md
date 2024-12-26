@@ -1,17 +1,19 @@
 # Table of contents
 
 * [Introduction](README.md)
-
-## Getting Started
-
-* [Quickstart](getting-started/quickstart.md)
-* [Publish your docs](getting-started/publish-your-docs.md)
-
-## Basics
-
-* [Editor](basics/editor.md)
-* [Markdown](basics/markdown.md)
-* [Images & media](basics/images-and-media.md)
-* [Interactive blocks](basics/interactive-blocks.md)
-* [OpenAPI](basics/openapi.md)
-* [Integrations](basics/integrations.md)
+* [Data modeling](data-modeling/README.md)
+  * [Entities](data-modeling/entities/README.md)
+    * [Related assets](data-modeling/entities/related-assets.md)
+    * [Related Entities](data-modeling/entities/related-entities.md)
+  * [Features](data-modeling/features.md)
+  * [Data assets](data-modeling/data-assets.md)
+  * [Context](data-modeling/context.md)
+* [Consume](consume/README.md)
+  * [SQL API](consume/sql-api.md)
+  * [REST API](consume/rest-api.md)
+  * [Playground](consume/playground.md)
+  * [BI tools](consume/bi-tools.md)
+  * [AI](consume/ai.md)
+  * [Embedded Analytics](consume/embedded-analytics.md)
+* [Discovery](discovery.md)
+* [Governance](governance.md)
