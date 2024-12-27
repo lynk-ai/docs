@@ -20,11 +20,15 @@ layout:
 
 # Introduction
 
-## What is a Semantic Layer
+## Semantic layer - Governance - Accessability - AI
+
+## Semantic Layer
+
+## Governance
 
 
 
-## What is a Semantic Layer
+## Position in the stack
 
 
 

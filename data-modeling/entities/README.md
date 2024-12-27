@@ -3,6 +3,10 @@
 Entities are real-world concepts like customers, orders, payments etc. \
 Lynk data modeling framework treats entities as first-class citizens, meaning everything we build and consume is around entities.
 
+The main concept of Lynk Semantic Layer is to create a single source of truth for each of the entities in the business, in a trusted and accessible way. In other words, from a business perspective, for each business entity it should be clear what we know of it, and where we can find it. We call these pieces of information on an entity level - [features](../features/).
+
+From a data perspectives, we can think of entities as [virtual data assets](../data-assets/virtual-data-assets.md) and their features as the fields of these virtual data assets.
+
 ***
 
 ## Defining Entities
@@ -35,8 +39,12 @@ related_assets:
 
 ### Key table
 
-Entities in lynk are defined by a key data asset (a table or a view in the underlying DWH)\
-For example, if our entity is `customer`, it's key data asset should have all the customers, and each customer appears once in that data asset.
+Entities are defined by a key data asset. For example, if our entity is `customer`, it's key data asset should have all the customers, and each customer appears only once in that data asset.
+
+{% hint style="info" %}
+Usually the best fit as an entity key table is a DIM table, if exists. \
+It is important that this data asset is highly maintained and trusted in terms of the above requirement to have all the entity's instances, and have each of them only once.
+{% endhint %}
 
 ### Aliases
 
@@ -53,7 +61,7 @@ Define which Data Assets are related to the entity. Related assets will be shown
 
 ### Related entities
 
-Just like in the real world, entities relate to each other in many ways. To ensure consistency and simplicity, Lynk stores all entity relationships in one place - `entities_relationships.yml` file,.
+Just like in the real world, entities relate to each other in many ways. To ensure consistency and simplicity, Lynk stores all entity relationships in one place - `entities_relationships.yml` file. See [related entities](related-assets.md) for in depth information on this.
 
 Entities relationships are used by lynk when creating features and for joining entities on the [consumption](../../consume/) layer.
 
@@ -61,7 +69,7 @@ Entities relationships are used by lynk when creating features and for joining e
 
 ## Consuming Entities
 
-You can easily consume Entities and Features via lynk [Playground](../../consume/playground.md), [SQL API](../../consume/sql-api/) or [REST API](../../consume/rest-api.md).
+You can easily consume Entities and Features via [SQL API](../../consume/sql-api/), [REST API](../../consume/rest-api.md) or via Lynk [Playground](../../consume/playground.md) (see [consume](../../consume/) for in depth information on this).
 
 For example, here is a simple SQL API request to get some features defined on a `customer` level:
 
@@ -72,7 +80,7 @@ SELECT  customer_id,
         total_order_amount,
         first_order_date,
         last_order_status
-FROM    entity('customer')
+FROM    entity('customer') 
 WHERE   country = 'US'
 LIMIT   100
 ```

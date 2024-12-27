@@ -7,7 +7,7 @@ The relation between an entity and a data asset is defined on the entity YAML fi
 
 ## Simple entity-to-asset relation
 
-In this example, we define the relations between the entity `customer` to the data assets `db_prod.core.orders` and `db_prod.core.device`&#x20;
+In this example, we define the relations between the entity `customer` to the data assets `db_prod.core.orders` and `db_prod.core.device` :
 
 ```yaml
 // customer.yml
@@ -73,12 +73,11 @@ In case there is more than one join path between an entity and a data asset, you
 The `default` property takes boolean values (`true` / `false`).\
 There can be only one default join path between an entity and a specific data asset. Lynk will use the default join path when creating features for this entity, unless a name of another join path will be stated.
 
-In case there is more than one join path between an entity and a data asset, you will be able to tell Lynk how connect the entity to the related asset by using the join path name.
+In case there is more than one join path between an entity and a data asset, setting the `default` property becomes mandatory.
 
 ### type
 
-The type property will be used to tell Lynk using which method you define the join path. \
-The options for `type` are
+The type property will be used to tell Lynk using which method you define the join path. The options for `type` are:
 
 * `sql`
 * `fields`
@@ -86,8 +85,8 @@ The options for `type` are
 
 ### `sql` (type)
 
-Use plain sql to define how an entity is related to a data asset.\
-When setting `type: sql`, you will need to add the `sql` property with the SQL definition of the relation.
+Use sql code to define how an entity is related to a data asset.\
+When setting `type: sql`, you will need to add the `sql` property with the SQL definition of the relation as follows:
 
 ```yaml
 // customer.yml
@@ -113,8 +112,8 @@ In the above example, the entity customer has a feature `id` which connects to t
 
 ### `fields` (type)
 
-Use a simple YAML-style way to define how an entity is related to a data asset.\
-When setting `type: fields`, you will need to add the `fields` property with the fields and the operator that define of the relation.
+A simple YAML-style to define how an entity is related to a data asset.\
+When setting `type: fields`, you will need to add the `fields` property with the fields and the operator that define the relation:
 
 ```yaml
 // customer.yml
@@ -151,65 +150,52 @@ The options for the operator property are:
 In the above example, the entity customer has a feature `device_id` which connects to the field `id` in the device data asset, using the operator `equal,` which translates to `customer.device_id = db_prod.core.device.id`
 
 {% hint style="info" %}
-Note that fields property is an array. Meaning, you can add multiple related fields from the source and the destination, to join on more than one field.
+Multiple related fields from the source and the destination are supported, enabling joins on more than one field when needed.
 {% endhint %}
 
 ### `lookup` (type)
 
-Sometimes the relation between an entity and a data asset is not direct.
+Sometimes the relation between an entity and a data asset is not direct, but goes via one or more lookup tables (or "hops"). Lynk supports this scenario using the join type `lookup` as follows:
 
 ```yaml
-// Some code
+// customer.yml
 
 related_assets:
-  demo_dev.tpch_sf1.customer:
-    relationship: one-to-one
-    joins:
-    - name: all_customers
-      default: true
-      type: fields
-      fields:
-      - entity_field: customer_id
-        asset_field: customer_id
-        operator: equal
-
-  demo_dev.tpch_sf1.orders:
-    relationship: one-to-one
-    joins:
-    - name: all_orders
-      default: true
-      type: sql
-      sql:  {source}.customer_id = {destination}.customer_id
 
   lynk.core.payment:
-    relationship: one-to-one
+    relationship: one-to-many
     joins:
     - name: all_payments
       default: true
       type: lookup
       lookup:
-      - type: sql
-        destination: lynk.core.order
-        sql: {source}.cust_id = {destination}.customer_id
-      - type: fields
-        destination: lynk.core.payment
-        fields:
-        - source_field: order_id
-          destination_field: order_id
-          operator: equal
+      - destination: db_prod.core.orders
+        type: sql
+        sql: {source}.id = {destination}.customer_id
+      - destination: db_prod.core.payment
+        type: sql
+        sql: {source}.order_id = {destination}.order_id
 ```
 
+As seen on the above code, lookups kave multiple steps. This is an ordered list of steps to get from the source (the entity) to the destination \*asset".&#x20;
 
+On the first step, the source is the data asset...
 
-## Multiple join paths between entity-to-asset
+Using the `lookup` type;
 
-It's often common that there is more than one way to join two tables.&#x20;
+`destination` refers to the entity
 
-{% hint style="info" %}
+`destination` refers to the data asset
+
+`operator` defines the&#x20;
+
+## Multiple join paths
+
+Often there is a need to define more than one way to join an entity to a data asset.&#x20;
+
 For example, imagine we are a b2b company with a sales department\
 It's common that the sales agent that closed the deal (sale) is not the same agent that renewed the contract with the customer a few years later. What if we want to know for each customer, who was the agent on each occasion? \
 A simple way to do that is to join customers to agents twice - one on sale\_agent and another join on renew\_agent (see below)
-{% endhint %}
 
 Lynk supports multiple join paths between an entity and a data asset as follows:&#x20;
 
@@ -241,70 +227,6 @@ Note that in the case of multiple join paths, each join path needs to have a `na
 {% endhint %}
 
 
-
-```yaml
-// customer.yml
-
-name: customer
-
-description:
-
-key_table: demo_dev.tpch_sf1.customer
-
-aliases: []
-
-features: []
-
-related_assets:
-  demo_dev.tpch_sf1.customer:
-    relationship: one-to-one
-    joins:
-    - name: all_customers
-      default: true
-      type: fields
-      fields:
-      - entity_field: customer_id
-        asset_field: customer_id
-        operator: equal
-
-  demo_dev.tpch_sf1.orders:
-    relationship: one-to-one
-    joins:
-    - name: all_orders
-      default: true
-      type: sql
-      sql:  {source}.customer_id = {destination}.customer_id
-
-  lynk.core.payment:
-    relationship: one-to-one
-    joins:
-    - name: all_payments
-      default: true
-      type: lookup
-      lookup:
-      - type: sql
-        destination: lynk.core.order
-        sql: {source}.cust_id = {destination}.customer_id
-      - type: fields
-        destination: lynk.core.payment
-        fields:
-        - source_field: order_id
-          destination_field: order_id
-          operator: equal
-    - name: successful_payments
-      default: false
-      type: lookup
-      lookup:
-      - type: sql
-        destination: lynk.core.order
-        sql: {source}.cust_id = {destination}.customer_id and {destination}.order_status = 'O'
-      - type: fields
-        destination: lynk.core.payment
-        fields:
-        - source_field: order_id
-          destination_field: order_id
-          operator: equal
-```
 
 ### Structure
 

@@ -9,7 +9,15 @@ The framework allows&#x20;
 
 ## DIAGRAM OF ENTITIES, FEATURES, DATA ASSETS etc and how all relate
 
-Concept here
+## Entities
+
+
+
+## Features
+
+## Data assets
+
+## &#x20;
 
 
 
