@@ -30,8 +30,8 @@ related_assets:
       type: fields
       fields: 
       - source: device_id
-      - destination: id
-      - operator: equal
+        destination: id
+        operator: equal
 ```
 
 ### Related assets
@@ -57,13 +57,11 @@ Lynk will use the relationship property to suggest the correct data assets when 
 ### Joins
 
 Define how the entity and the data asset should be joined. \
-The `joins` property is an array. Lynk supports multiple join paths between an entity and a data asset
+Lynk supports multiple join paths between an entity and a data asset, hens the `joins` property is an array.&#x20;
 
 ### **name \[optional]**
 
-Give the join path a name.&#x20;
-
-This property is optional. \
+The join path a name. \
 If you choose not to name a join path, lynk will consider the name as "default".\
 Note that in case another join path will be added, naming it will be mandatory as there can be only one "default" join path name.
 
@@ -72,8 +70,7 @@ In case there is more than one join path between an entity and a data asset, you
 
 ### **default \[optional]**
 
-The `default` property takes boolean values (`true` / `false`).
-
+The `default` property takes boolean values (`true` / `false`).\
 There can be only one default join path between an entity and a specific data asset. Lynk will use the default join path when creating features for this entity, unless a name of another join path will be stated.
 
 In case there is more than one join path between an entity and a data asset, you will be able to tell Lynk how connect the entity to the related asset by using the join path name.
@@ -132,8 +129,8 @@ related_assets:
       type: fields
       fields: 
       - source: device_id
-      - destination: id
-      - operator: equal
+        destination: id
+        operator: equal
 ```
 
 Using the `fields` type;
@@ -142,7 +139,8 @@ Using the `fields` type;
 
 `destination` refers to the data asset
 
-`operator` defines the operator of the relation between the two fields. the options for the operator property are:
+`operator` defines the operator of the relation between the two fields. \
+The options for the operator property are:
 
 * equal
 * gt
@@ -150,13 +148,58 @@ Using the `fields` type;
 * lt
 * lte
 
-In the above example, the entity customer has a feature `id` which connects to the orders data asset field `customer_id`
+In the above example, the entity customer has a feature `device_id` which connects to the field `id` in the device data asset, using the operator `equal,` which translates to `customer.device_id = db_prod.core.device.id`
 
 {% hint style="info" %}
-When adding related data assets to an entity using the Studio UI, lynk will add these relations to the relevant YAML file automatically, using join type `fields`.
+Note that fields property is an array. Meaning, you can add multiple related fields from the source and the destination, to join on more than one field.
 {% endhint %}
 
 ### `lookup` (type)
+
+Sometimes the relation between an entity and a data asset is not direct.
+
+```yaml
+// Some code
+
+related_assets:
+  demo_dev.tpch_sf1.customer:
+    relationship: one-to-one
+    joins:
+    - name: all_customers
+      default: true
+      type: fields
+      fields:
+      - entity_field: customer_id
+        asset_field: customer_id
+        operator: equal
+
+  demo_dev.tpch_sf1.orders:
+    relationship: one-to-one
+    joins:
+    - name: all_orders
+      default: true
+      type: sql
+      sql:  {source}.customer_id = {destination}.customer_id
+
+  lynk.core.payment:
+    relationship: one-to-one
+    joins:
+    - name: all_payments
+      default: true
+      type: lookup
+      lookup:
+      - type: sql
+        destination: lynk.core.order
+        sql: {source}.cust_id = {destination}.customer_id
+      - type: fields
+        destination: lynk.core.payment
+        fields:
+        - source_field: order_id
+          destination_field: order_id
+          operator: equal
+```
+
+
 
 ## Multiple join paths between entity-to-asset
 
@@ -194,7 +237,7 @@ related_assets:
 ```
 
 {% hint style="info" %}
-note that each join path has a `name` and only one of them can be set to `default`
+Note that in the case of multiple join paths, each join path needs to have a `name` and only one can be set to `default`
 {% endhint %}
 
 
