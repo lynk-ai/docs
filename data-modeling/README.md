@@ -9,14 +9,8 @@ The framework allows&#x20;
 
 ## DIAGRAM OF ENTITIES, FEATURES, DATA ASSETS etc and how all relate
 
+Concept here
 
 
 
-
-concepts
-
-Business entities
-
-Features
-
-Data assets
+consume

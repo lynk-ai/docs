@@ -20,6 +20,7 @@
     * [Calendaric](data-modeling/time-aggregations/calendaric.md)
     * [Rolling window](data-modeling/time-aggregations/rolling-window.md)
   * [Efficiency and performance](data-modeling/efficiency-and-performance.md)
+  * [Consume](data-modeling/consume.md)
 * [Consume](consume/README.md)
   * [SQL API](consume/sql-api/README.md)
     * [USE](consume/sql-api/use.md)
