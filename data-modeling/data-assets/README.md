@@ -1,10 +1,12 @@
 # Data assets
 
-Data assets are tables and views in your data warehouse. It can be from any layer - from raw data to aggregated tables.&#x20;
+Data assets are tables and views from the underlying data warehouse.
 
-It is recommended that you would use a transformation tool like dbt to transform your raw data into a clean and clear dimensional model with DIM and FACT tables - and expose that dimensional model to lynk Semantic Layer.&#x20;
+You can create entities and features from any data asset. It is recommended that you would use a transformation tool like dbt to transform raw data into a clean dimensional model with DIM and FACT tables, and expose that dimensional model to Lynk Semantic Layer.
 
-Within Lynk, you can create the logical business layer that connects all the different DIM tables, connects between DIM and FACT tables to create aggregations and First-Last features and more complex features - resulting in one connected, clear and governed source of truth.
+Lynk enables anyone at your team to create the logical business layer that translates technical data assets into abstract, business oriented entities and features.&#x20;
+
+Data assets are stored on the Graph as nodes, as well as data asset fields. Once making changes, enrichments to data assets, Lynk Each data assets has a YAML file with the following properties
 
 ```yaml
 // Some code

@@ -3,15 +3,15 @@
 Entities are real-world concepts like customers, orders, payments etc. \
 Lynk data modeling framework treats entities as first-class citizens, meaning everything we build and consume is around entities.
 
-The main concept of Lynk Semantic Layer is to create a single source of truth for each of the entities in the business, in a trusted and accessible way. In other words, from a business perspective, for each business entity it should be clear what we know of it, and where we can find it. We call these pieces of information on an entity level - [features](../features/).
+The main concept of Lynk Semantic Layer is to create a central source of truth for each of the entities in the business, in a trusted and accessible way. In other words, from a business perspective, for each business entity it should be clear what we know of it, and where we can find it. We call these pieces of information on an entity level - [features](../features/).
 
-From a data perspectives, we can think of entities as [virtual data assets](../data-assets/virtual-data-assets.md) and their features as the fields of these virtual data assets.
+From a data perspectives, we can think of entities as [virtual data assets](../data-assets/virtual-data-assets.md), and their features as the fields of these virtual assets.
 
 ***
 
 ## Defining Entities
 
-You can easily define entities either via code or via Lynk Studio UI.\
+Entities can be defined either via code or via Lynk Studio UI.\
 The below example shows how we define a `customer` entity as a YAML file:
 
 ```yaml
@@ -39,11 +39,14 @@ related_assets:
 
 ### Key table
 
-Entities are defined by a key data asset. For example, if our entity is `customer`, it's key data asset should have all the customers, and each customer appears only once in that data asset.
+Entities are defined by a key data asset. \
+An entity key data asset is a table or a view in the data warehouse, that has all the entity instances and each entity instance exists only once on this asset.&#x20;
+
+For example, if our entity is customer, it's key data asset should have all the customers, and each customer appears only once in that data asset.
 
 {% hint style="info" %}
-Usually the best fit as an entity key table is a DIM table, if exists. \
-It is important that this data asset is highly maintained and trusted in terms of the above requirement to have all the entity's instances, and have each of them only once.
+The entity DIM table is a good fit here, if exists in the DWH.\
+However, any data asset which answers the the above requirement can fit. Once loaded as an entity in Lynk, you will be able to add as many enrichment features as needed.
 {% endhint %}
 
 ### Aliases
