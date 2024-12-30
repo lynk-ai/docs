@@ -37,6 +37,10 @@ related_assets:
 
 ```
 
+{% hint style="info" %}
+For quick onboarding to Lynk, use the [discovery](./#discovery) process to automatically extract business entities from your Data Warehouse and SQL files&#x20;
+{% endhint %}
+
 ### Key table
 
 Entities are defined by a key data asset. \

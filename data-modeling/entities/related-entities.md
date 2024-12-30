@@ -1,7 +1,7 @@
 # Related Entities
 
 Entities can relate to to other entities. \
-Lynk stores all entity relationships in `entities_relationships.yml` , to ensure consistency and simplicity. You can add entity relations via code, directly to this YAML file, or via the Studio UI.
+Lynk stores all entity relationships in one file `entities_relationships.yml` , to ensure consistency and simplicity. You can add entity relations via code, directly to this YAML file, or via the Studio UI.
 
 {% hint style="info" %}
 Related entities will allow us to enrich an entity with features from other entities, or to join  entities on SQL/REST API calls.
@@ -167,108 +167,41 @@ Sometimes the relation between two entities is not direct. Meaning, in order to 
 
 See the below example:
 
+ADD A DIAGRAM CUSTOMER --> TEAM --> ORGANIZATION
+
 ```yaml
-// customer.yml
+// entities_relationships.yml
 
-related_assets:
+relationships:
 
-  db_prod.core.payment:
-    relationship: one-to-many
+  customer-organization:
+    relationship: many-to-one
     joins:
-    - name: all_payments
+    - name: lookup_via_team
       default: true
       type: lookup
       lookup:
-      - destination: db_prod.core.orders
+      - destination: db_prod.core.team
         type: sql
-        sql: {source}.id = {destination}.customer_id
-      - destination: db_prod.core.payment
+        sql: {source}.team_id = {destination}.team_id
+      - destination: organization
         type: sql
-        sql: {source}.order_id = {destination}.order_id
+        sql: {source}.organization_id = {destination}.id
 ```
 
-In the above example, we connect the table `db_prod.core.payment` to our `customer` entity. Note that there is no direct connection between those two, and we have to join customer to orders first and then join orders to payment.
+In the above example, we connect the entity customer to the entity organization. \
+Note that there is no direct connection between the two, and we have to join customer to db\_prod.core.team first and then join db\_prod.core.team to prganization.
 
-
-
-On the first step, the source is the data asset...
+{% hint style="info" %}
+When joining two entities via lookups there is no limit to the amount of lookups ("hops")
+{% endhint %}
 
 Using the `lookup` type;
 
-As seen on the above code, lookups are a n ordered list of steps;
+As seen on the above code, lookups are an ordered list of steps;
 
-* On the first step, `source` is always the entity and destination is the first data asset we connect to it.&#x20;
-* On the next steps, the source is the previous destination.
-* On the last step, the destination is the final destination we would like to reach. in this case it's `db_prod.core.payment`
+* On the first step, `source` is always the first entity
+* On the last step, `destination` is always the second entity
+* The middle lookup assets should be data assets (not entities)
 
 Inside each lookup step, we can define the connection between the source and destination, and choose how - using the `type` parameter as usual -  `SQL` or `fields`
-
-***
-
-```
-// Some code  customer-device:
-    relationship: one-to-one
-    joins:
-    - name: direct_on_customer_id
-      default: true
-      type: sql
-      sql: '{source}.customer_id = {destination}.customerid'
-    - name: lookup_via_team
-      default: false
-      type: lookup
-      lookup:
-      - type: fields
-        destination: db.schema.team
-        fields:
-        - source: nation_id
-          destination: nation_id
-          operator: equal
-      - type: sql
-        destination: device
-        sql: sql: '{source}.device_id = {destination}.device_id'
-```
-
-
-
-
-
-### Relation (customer-order)
-
-### Relationship
-
-### joins
-
-
-
-
-
-
-
-
-
-## bi-directional relationships
-
-## Types of joins
-
-### Direct join
-
-### Lookup join
-
-Sometimes entities relate to each other not directly, but via a loopup table. \
-For example:&#x20;
-
-customer.nation\_id = nation.nation\_id
-
-Examples of entity relations usage:
-
-* Creating fratures:
-
-
-
-and \
-nation.region\_id = region.region\_id
-
-
-
-
-

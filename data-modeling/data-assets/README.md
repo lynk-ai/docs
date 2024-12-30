@@ -2,14 +2,21 @@
 
 Data assets are tables and views from the underlying data warehouse.
 
-You can create entities and features from any data asset. It is recommended that you would use a transformation tool like dbt to transform raw data into a clean dimensional model with DIM and FACT tables, and expose that dimensional model to Lynk Semantic Layer.
+You can create entities and features from any data asset. It is recommended to use a transformation tool like dbt to transform raw data into dimensional model with DIM and FACT tables, and expose that dimensional model to Lynk Semantic Layer.
 
-Lynk enables anyone at your team to create the logical business layer that translates technical data assets into abstract, business oriented entities and features.&#x20;
+Lynk enables anyone at your team to create the logical business layer that translates technical data assets into business entities, features and KPIs with business meaning.
 
-Data assets are stored on the Graph as nodes, as well as data asset fields. Once making changes, enrichments to data assets, Lynk Each data assets has a YAML file with the following properties
+***
+
+## Data assets YAML file
+
+Data assets can be modified either via code or via Lynk Studio UI.\
+The below example shows a YAML file for the data asset db\_prod.core.orders
+
+See the following example:
 
 ```yaml
-// Some code
+// db_prod.core.orders.yml
 
 asset: db_prod.core.orders
 
@@ -30,41 +37,80 @@ measures:
 
 ```
 
-### Asset
+{% hint style="info" %}
+Data assets are stored on the Graph DB during the [discovery](../../discovery.md) process. Once making changes on a data asset (e.g adding fields / measures) a YAML file for that asset will be created with properties as shown on the example above.
 
-Data Asset name and location (`db.schema.name`)
+Once a YAML file gets created for a data asset, the asset is now stored in Git as well as on the Graph DB. Lynk will take care for syncing the Graph DB and your Git repository. See more on Lynk [Graph](../../graph-db.md)[ DB](../../graph-db.md) here.
+{% endhint %}
 
-### Key
+### `asset`
+
+Data Asset name and location as it appears in your underlying Data Warehouse (`db.schema.name`)
+
+### `key`
 
 The asset key field (primary key). \
-It is important to state the correct data asset key in order to avoid duplications and errors. Lynk will automatically find and suggest data asset keys after the [discovery](../../discovery.md) process is completed
+It is important to state the correct data asset key in order to avoid duplications and errors. Lynk will automatically find and suggest data asset keys after the [discovery](../../discovery.md) process is completed.
 
-### Business key
+### `business_key` \[optional]
 
-Sometimes the key is just "`id`", and there is some combination of fields that represent the true level of granularity of that table (what is the meaning of each row). In such cases, we can use the `business_key` and pass it these fields, so it will be clear what this data asset is about, and what each row represents.  &#x20;
+Sometimes the key is just "`id`". \
+In such cases, some combination of other fields might represent the level of granularity of that data asset, and make more sense business wise. We call this combination of fields the `business_key` of that asset.
 
-### Default time field
+{% hint style="info" %}
+Business keys help us be clear on what this data asset is about, and what each row represents.  &#x20;
+{% endhint %}
 
-It is highly recommended to choose a default time field for each data asset. Lynk will use the default time field to aggregate and filter time-related queries.&#x20;
+### `defaults`
 
-For example, if we have a data asset for orders db\_prod.core.orders and we set the default\_time\_field to be "order date" - from now on, unless stated otherwise - this will be the field we aggregate by for date calculations&#x20;
+Holds the defaults for the data asset.  See [default time field](./#default-time-field) for example.
 
-### Measures
+### `time_field` \[optional]
 
-Measures are reusable components that define how one or more fields should be aggregated. Lynk applies the measure logic once a [metric](../features/metric.md) feature is created for a specific entity.
+It is recommended to choose a default time field for each data asset. Lynk will use the default time field to aggregate and filter time-related queries on features.
 
-Lynk is SQL-first, meaning anything that would work on plain SQL will work with Lynk as well. You can type any SQL aggregate function (from your query engine) and Lynk will apply that as the measure definition. Examples: `SUM` , `COUNT` , `MIN` , `MAX` , `COUNT DISTINCT` , `APPROX_PERCENTILE` etc&#x20;
+For example, if we have a data asset for orders db\_prod.core.orders and we set the `default_time_field` to be order\_date, Lynk will use this field for time-based aggregations by default.
 
-Required Define measures via YAML files
+{% hint style="info" %}
+In case a data asset has no default `time_field` , and no other time field will be chosen on the feature definition, Lynk will not skip aggregating that feature on any time level (the aggregation will be on "all" time)
+{% endhint %}
 
-**name**
+### `Measures`
 
-measure name
+Measures are reusable components that define how the data asset fields should be aggregated. Lynk applies the measure logic once a feature of type [metric](../features/metric.md) feature is created and consumed.
 
-Description
+### `Name`
 
-measure descriptiom
+Give the measure a name. \
+This will be used when creating [metric](../features/metric.md) features and also will be shown on the Studio UI. It is recommended to give measures informative names that indicate their purpose.
 
-SQL
+### `Description` \[optional]
 
-measure descriptiom
+Describe the measure.\
+It is recommended to give measures informative names that indicate their purpose - for other team members to be able to reuse the measure and for AI apps as well.&#x20;
+
+### `SQL`
+
+The measure definition. It should be composed of an aggregate function and a field.  \
+It is possible to chain multiple aggregate functions and / or multiple fields, just like you would do on plain SQL when needed.&#x20;
+
+{% hint style="info" %}
+Lynk is SQL-first, meaning anything that would work on plain SQL will work with Lynk as well. You can type any SQL aggregate function compatible with your query engine, and Lynk will apply that as the measure definition and chain it to the query engine.
+
+Examples: `SUM` , `COUNT` , `MIN` , `MAX` , `COUNT DISTINCT` , `APPROX_PERCENTILE` etc&#x20;
+{% endhint %}
+
+Examples:
+
+```yaml
+measures:
+- name: count_orders
+  description: count of orders
+  sql: count(1)
+- name: total_order_amount
+  description: sum of order amount
+  sql: sum(total_amount)
+- name: successful_order_amount
+  description: sum of successful orders amount
+  sql: sum(IFF(order_status = 'success', total_amount, 0))
+```

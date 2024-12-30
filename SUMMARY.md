@@ -33,5 +33,6 @@
 * [Cache](cache.md)
 * [Discovery](discovery.md)
 * [Governance](governance.md)
-* [Graph](graph.md)
+* [Graph DB](graph-db.md)
 * [Integrations](integrations.md)
+* [Studio](studio.md)
