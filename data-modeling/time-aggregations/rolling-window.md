@@ -1,2 +1,0 @@
-# Rolling window
-

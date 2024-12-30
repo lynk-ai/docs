@@ -119,11 +119,17 @@ measures:
 
 ## Virtual data assets
 
-For each entity, Lynk creates a virtual data asset. This allows you to chain feature logic across entities.&#x20;
+For each entity, a virtual data asset is created automatically, where the entity features exposed as the virtual assets fields.&#x20;
 
 ADD A DIAGRAM HERE WITH AN EXAMPLE
 
+Virtual data assets enable creating entity features based on features of other related entities. It also enable creating measures on an entity level and consuming those measures as entity rollups.
+
 {% hint style="info" %}
-Virtual data assets behave just like&#x20;
+Virtual data assets are just like regular data assets, except there is no table or view in the underlying database, they live virtually within Lynk.
 {% endhint %}
+
+### Creating features based on features from other entities
+
+Lynk enables to create features based on features from other entities, using virtual data assets. For example
 

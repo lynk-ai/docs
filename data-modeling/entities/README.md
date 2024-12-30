@@ -1,11 +1,9 @@
 # Entities
 
 Entities are real-world concepts like customers, orders, payments etc. \
-Lynk data modeling framework treats entities as first-class citizens, meaning everything we build and consume is around entities.
+Lynk treats entities as first-class citizens, meaning everything we build and consume is around entities.
 
 The main concept of Lynk Semantic Layer is to create a central source of truth for each of the entities in the business, in a trusted and accessible way. In other words, from a business perspective, for each business entity it should be clear what we know of it, and where we can find it. We call these pieces of information on an entity level - [features](../features/).
-
-From a data perspectives, we can think of entities as [virtual data assets](broken-reference), and their features as the fields of these virtual assets.
 
 ***
 
@@ -76,7 +74,7 @@ Entities relationships are used by lynk when creating features and for joining e
 
 ## Consuming Entities
 
-You can easily consume Entities and Features via [SQL API](../../consume/sql-api/), [REST API](../../consume/rest-api.md) or via Lynk [Playground](../../consume/playground.md) (see [consume](../../consume/) for in depth information on this).
+Entities and Features are consumed via [SQL API](../../consume/sql-api/), [REST API](../../consume/rest-api.md) or via Lynk [Playground](../../consume/playground.md). See [consume](../../consume/) for in depth information on this.
 
 For example, here is a simple SQL API request to get some features defined on a `customer` level:
 
@@ -100,6 +98,7 @@ Lynk [Governance](../../governance.md) makes sure Entities are unique:
 
 * Entities have unique names
 * Entities have unique Key data asset
+* Entity key asset does not break (duplications, missing instances)
 * Entities do not share the same aliases
 
 ***
