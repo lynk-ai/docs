@@ -53,7 +53,7 @@ The options for the Relationship property are:
 * `many-to-one`
 
 {% hint style="info" %}
-Lynk will use the relationship property to suggest the correct [virtual data assets](../data-assets/virtual-data-assets.md) when creating features. For example, when creating metrics, Lynk will only suggest one-to-many related virtual data assets.
+Lynk will use the relationship property to suggest the correct [virtual data assets](broken-reference) when creating features. For example, when creating metrics, Lynk will only suggest one-to-many related virtual data assets.
 {% endhint %}
 
 ### `Joins`

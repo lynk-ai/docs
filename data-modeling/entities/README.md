@@ -5,7 +5,7 @@ Lynk data modeling framework treats entities as first-class citizens, meaning ev
 
 The main concept of Lynk Semantic Layer is to create a central source of truth for each of the entities in the business, in a trusted and accessible way. In other words, from a business perspective, for each business entity it should be clear what we know of it, and where we can find it. We call these pieces of information on an entity level - [features](../features/).
 
-From a data perspectives, we can think of entities as [virtual data assets](../data-assets/virtual-data-assets.md), and their features as the fields of these virtual assets.
+From a data perspectives, we can think of entities as [virtual data assets](broken-reference), and their features as the fields of these virtual assets.
 
 ***
 
