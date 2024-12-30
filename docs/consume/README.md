@@ -6,7 +6,7 @@ description: Use lynk semantic definitions in your BI, AI and embedded analytics
 
 Lynk offers several ways to consume semantic definitions from various tools.&#x20;
 
-<figure><img src="../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
 
 ## Consuming entities
 
