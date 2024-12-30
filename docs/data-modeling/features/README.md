@@ -35,6 +35,14 @@ It is commonly used to enrich an entity with more complex calculations that requ
 
 ***
 
+## Separating feature logic from time aggregation
+
+Lynk separates between features business logic and time aggregations.
+
+For example, if we have ...
+
+***
+
 ## Consuming features
 
 Features are consumed via [SQL API](../../consume/sql-api/), [REST API](../../consume/rest-api.md) or via Lynk [Playground](../../consume/playground.md). See [consume](../../consume/) for in depth information on this.
