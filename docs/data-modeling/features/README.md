@@ -15,7 +15,7 @@ Features represent the business logic of enriching entities with information bas
 
 ### Field&#x20;
 
-Field features are great for enrichments from **one-to-one** relations.\
+Field features are great for enrichments from **one-to-one** or **many-to-one** relations.\
 It is commonly used to enrich an entity with simple, non aggregate fields from one-to-one related assets or entities. See more in depth information on [Field](field.md)[ features](field.md).
 
 ### Metric

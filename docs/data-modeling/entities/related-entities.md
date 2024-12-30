@@ -7,6 +7,8 @@ Lynk stores all entity relationships in one file `entities_relationships.yml` , 
 Related entities will allow us to enrich an entity with features from other entities, or to join  entities on SQL/REST API calls.
 {% endhint %}
 
+***
+
 ## Simple entity-to-entity relation
 
 In this example, the entity `nation` relates to the entity `customer` in a one-to-many relationship (a nation has many customers)

@@ -4,8 +4,7 @@ description: lynk Data modeling framework
 
 # Data modeling
 
-At the core of it's Semantic Layer, lynk has it's data modeling framework.\
-The framework allows&#x20;
+The data modeling framework is at the core of Lynk Semantic Layer.&#x20;
 
 ## DIAGRAM OF ENTITIES, FEATURES, DATA ASSETS etc and how all relate
 
@@ -17,7 +16,13 @@ The framework allows&#x20;
 
 ## Data assets
 
-## &#x20;
+## Contexts
+
+## Time aggregation
+
+Efficiency and performance\
+
+
 
 
 

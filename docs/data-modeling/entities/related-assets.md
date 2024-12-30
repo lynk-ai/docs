@@ -8,6 +8,8 @@ Joining related assets will allow us to enrich our entity with features
 
 \[ADD here a diagram showing an entity and related assets]
 
+***
+
 ## Simple entity-to-asset relation
 
 In this example, we define the relations between the entity `customer` to the data assets `db_prod.core.orders` and `db_prod.core.device`:
@@ -246,6 +248,3 @@ related_assets:
 {% hint style="info" %}
 Note that in the case of multiple join paths, each join path needs to have a `name` and only one can be set to `default`
 {% endhint %}
-
-
-
