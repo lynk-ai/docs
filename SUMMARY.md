@@ -1,9 +1,8 @@
 # Table of contents
 
-* [Introduction](README.md)
-
 ## Docs
 
+* [Introduction](README.md)
 * [Data modeling](docs/data-modeling/README.md)
   * [Entities](docs/data-modeling/entities/README.md)
     * [Related assets](docs/data-modeling/entities/related-assets.md)
@@ -13,10 +12,11 @@
     * [Metric](docs/data-modeling/features/metric.md)
     * [First-Last](docs/data-modeling/features/first-last.md)
     * [Formula](docs/data-modeling/features/formula.md)
-    * [Period over period](docs/data-modeling/features/period-over-period.md)
+  * [Functions](docs/data-modeling/functions.md)
   * [Data assets](docs/data-modeling/data-assets.md)
   * [Context](docs/data-modeling/context.md)
   * [Time aggregation](docs/data-modeling/time-aggregation.md)
+  * [Filters](docs/data-modeling/filters.md)
   * [Efficiency and performance](docs/data-modeling/efficiency-and-performance.md)
 * [Consume](docs/consume/README.md)
   * [SQL API](docs/consume/sql-api/README.md)

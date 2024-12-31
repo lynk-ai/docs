@@ -1,2 +1,0 @@
-# Period over period
-

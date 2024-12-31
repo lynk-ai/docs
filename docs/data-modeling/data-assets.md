@@ -16,7 +16,7 @@ The below example shows a YAML file for the data asset db\_prod.core.orders
 See the following example:
 
 ```yaml
-// db_prod.core.orders.yml
+# db_prod.core.orders.yml
 
 asset: db_prod.core.orders
 
@@ -79,6 +79,18 @@ In case a data asset has no default `time_field` , and no other time field will 
 
 Measures are reusable components that define how the data asset fields should be aggregated. Lynk applies the measure logic once a feature of type [metric](features/metric.md) feature is created and consumed.
 
+In practice, measures are definitions of how aggregate functions should be applied to fields;
+
+```yaml
+# db_prod.core.orders.yml
+
+measures:
+
+- name: total_order_amount
+  description: sum of order amount
+  sql: sum(total_amount)
+```
+
 ### `Name`
 
 Give the measure a name. \
@@ -100,16 +112,21 @@ Lynk is SQL-first, meaning anything that would work on plain SQL will work with 
 Examples: `SUM` , `COUNT` , `MIN` , `MAX` , `COUNT DISTINCT` , `APPROX_PERCENTILE` etc&#x20;
 {% endhint %}
 
-Examples:
+Some more examples:
 
 ```yaml
+# db_prod.core.orders.yml
+
 measures:
+
 - name: count_orders
   description: count of orders
   sql: count(1)
+
 - name: total_order_amount
   description: sum of order amount
   sql: sum(total_amount)
+
 - name: successful_order_amount
   description: sum of successful orders amount
   sql: sum(IFF(order_status = 'success', total_amount, 0))
@@ -133,3 +150,11 @@ Virtual data assets are just like regular data assets, except there is no table 
 
 Lynk enables to create features based on features from other entities, using virtual data assets. For example
 
+***
+
+## Governance
+
+Lynk [Governance](../governance.md) makes sure Measures are unique:
+
+* Measures have unique names
+* Measures have unique SQL definitions
