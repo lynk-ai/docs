@@ -18,16 +18,21 @@ In this example, we define simple `metric` features for the entity `customer`:
 features:
   
 - type: metric
-  name: total_logins
-  asset: db_prod.core.fact_logins
-  measure: logins_count
-  filters: null
-
-- type: metric
   name: orders_count
   asset: db_prod.core.orders
   measure: orders_count
   filters: null
+
+- type: metric
+  name: successful_orders_count
+  asset: db_prod.core.orders
+  measure: orders_count
+  filters:
+  - type: field
+    field: order_status
+    operator: is
+    values:
+    - success
 ```
 
 ### `type`
@@ -62,23 +67,7 @@ Custom filters to be applied on the data asset. See [filters](../data-assets/fil
 
 ***
 
-## Time aggregations
-
-Lynk separates feature business logic from time granularity.&#x20;
-
-There is no need to create multiple features with the same business logic and different time granolarity.&#x20;
-
-
-
-
-
-***
-
-
-
 ## Create metric features from related entities
-
-Just as we can add features from related data assets, it is possible to create features from entities.
 
 In case of a creating a metric from a related entity, the entity name should be specified as the `asset`. The rest of the parameters remain the same as in creating metric features from regular data assets.
 

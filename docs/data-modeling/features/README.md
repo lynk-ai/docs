@@ -35,6 +35,12 @@ It is commonly used to enrich an entity with more complex calculations that requ
 
 ***
 
+## Chaining features across entities
+
+
+
+***
+
 ## Separating feature logic from time aggregation
 
 Lynk separates between features business logic and time aggregations.

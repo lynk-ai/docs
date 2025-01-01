@@ -1,9 +1,9 @@
 # Entities
 
 Entities are real-world concepts like customers, orders, payments etc. \
-Lynk treats entities as first-class citizens, meaning everything we build and consume is around entities.
+Entities are first-class citizens for Semantic Layers, meaning everything we build and consume is around entities.
 
-The main concept of Lynk Semantic Layer is to create a central source of truth for each of the entities in the business, in a trusted and accessible way. In other words, from a business perspective, for each business entity it should be clear what we know of it, and where we can find it. We call these pieces of information on an entity level - [features](../features/).
+The main concept of Lynk Semantic Layer is to create a central source of truth for each of the entities in the business, in a trusted and accessible way. In other words, from a business perspective, for each business entity it should be clear what we know of it, how it was defined, and where we can find it. We call these pieces of information on an entity level - [features](../features/).
 
 ***
 
@@ -36,7 +36,7 @@ related_assets:
 ```
 
 {% hint style="info" %}
-For quick onboarding to Lynk, use the [discovery](./#discovery) process to automatically extract business entities from your Data Warehouse and SQL files&#x20;
+For a quick onboarding, use the [discovery](./#discovery) process to automatically extract business entities from your Data Warehouse schemas and SQL code.
 {% endhint %}
 
 ### Key table
@@ -62,11 +62,11 @@ It can be simple fields, aggregated metrics, first - last features, period-over-
 
 ### Related assets
 
-Define which Data Assets are related to the entity. Related assets will be shown and used when creating new features for an entity. For example, if the data asset `db_prod.core.orders` is related to the entity `customer`, we will be able to extract features from `db_prod.core.orders` to the `customer` level. See [Related assets](related-assets.md) for in depth information on this.
+Define which Data Assets are related to the entity. Related assets will be shown and used when creating new features for an entity. For example, if the data asset `db_prod.core.orders` is related to the entity `customer`, we will be able to extract features from `db_prod.core.orders` to the `customer` level. See [Related assets](related-data-assets.md) for in depth information on this.
 
 ### Related entities
 
-Just like in the real world, entities relate to each other in many ways. To ensure consistency and simplicity, Lynk stores all entity relationships in one place - `entities_relationships.yml` file. See [related entities](related-assets.md) for in depth information on this.
+Just like in the real world, entities relate to each other in many ways. To ensure consistency and simplicity, Lynk stores all entity relationships in one place - `entities_relationships.yml` file. See [related entities](related-data-assets.md) for in depth information on this.
 
 Entities relationships are used by lynk when creating features and for joining entities on the [consumption](../../consume/) layer.
 

@@ -65,9 +65,14 @@ Custom filters to be applied on the data asset. See [filters](../data-assets/fil
 
 ## Create field features from related entities
 
-Just as we can add features from related data assets, it is possible to create features from entities.
+Lynk supports creating features based on related entities features.\
+In this case, the `asset` property should be the entity name. The rest of the feature properties remain the same as in creating field features from regular data assets.
 
-In case of an enrichment from a related entity, the entity name should be specified as the `asset.` The rest of the parameters remain the same as in creating field features from regular data assets.
+{% hint style="info" %}
+This is a powerful feature that allows creating robust ETLs with Lynk's well structured data modeling framework. See [chaining features](chaining-features.md) for in depth information about this.
+{% endhint %}
+
+
 
 See the below example:
 
