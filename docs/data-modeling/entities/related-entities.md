@@ -80,7 +80,7 @@ In case there is more than one join path between an entity and a data asset, set
 
 ### `type`
 
-Use the `type` property tell Lynk using which method to use for defining the join path. \
+The `type` property tells Lynk which method to use for defining the join path.\
 The options for `type` are:
 
 * `sql`

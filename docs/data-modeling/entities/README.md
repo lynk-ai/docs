@@ -68,13 +68,13 @@ Define which Data Assets are related to the entity. Related assets will be shown
 
 Just like in the real world, entities relate to each other in many ways. To ensure consistency and simplicity, Lynk stores all entity relationships in one place - `entities_relationships.yml` file. See [related entities](related-assets.md) for in depth information on this.
 
-Entities relationships are used by lynk when creating features and for joining entities on the [consumption](../../consume/) layer.
+Entities relationships are used by lynk when creating features and for joining entities on the [consumption](../../consume-apis/) layer.
 
 ***
 
 ## Consuming Entities
 
-Entities and Features are consumed via [SQL API](../../consume/sql-api/), [REST API](../../consume/rest-api.md) or via Lynk [Playground](../../consume/playground.md). See [consume](../../consume/) for in depth information on this.
+Entities and Features are consumed via [SQL API](../../consume-apis/sql-api/), [REST API](../../consume-apis/rest-api.md) or via Lynk [Playground](../../consume-apis/playground.md). See [consume](../../consume-apis/) for in depth information on this.
 
 For example, here is a simple SQL API request to get some features defined on a `customer` level:
 

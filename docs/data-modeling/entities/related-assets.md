@@ -1,6 +1,6 @@
 # Related assets
 
-Each entity has related [data assets](../data-assets.md), which are tables or views that we can join with our entity. The relation between an entity and a data asset is defined on the entity YAML file, under `related_assets` or via the Studio UI.
+Each entity has related [data assets](../data-assets/), which are tables or views that we can join with our entity. The relation between an entity and a data asset is defined on the entity YAML file, under `related_assets` or via the Studio UI.
 
 {% hint style="info" %}
 Joining related assets will allow us to enrich our entity with features
@@ -86,7 +86,7 @@ In case there is more than one join path between an entity and a data asset, set
 
 ### `type`
 
-Use the `type` property tell Lynk using which method to use for defining the join path. \
+The `type` property tells Lynk which method to use for defining the join path.\
 The options for `type` are:
 
 * `sql`

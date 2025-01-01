@@ -4,3 +4,33 @@ A diagram that shows the flow - where time aggregations get into play with USE (
 
 USE
 
+```
+USE {
+    time_agg {
+}
+```
+
+### time\_grain
+
+* year
+* quarter
+* month
+* week
+* day
+* hour
+* minute
+
+### direction
+
+### window\_size
+
+### is\_cumulative
+
+
+
+
+
+
+
+
+

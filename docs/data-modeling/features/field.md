@@ -5,8 +5,11 @@ It is commonly used to enrich an entity with simple, non aggregate fields from r
 
 **Main use cases**
 
-1. Add a field feature from a data asset that is on the same level of granularity as the entity (one-to-one relationship)
-2. Add a feature from a parent entity (many-to-one relationship)
+
+
+1. Add a field feature from a data asset with the same level of granularity as the entity (one-to-one relationship)
+2. Add a field feature from a related entity with one-to-one relationship
+3. Add a feature from a parent entity (many-to-one relationship)
 
 ***
 
@@ -60,15 +63,15 @@ The name of the field we would like to get from the related asset, in order to e
 
 ### `filters`
 
-Add a custom filter. See [filters](../filters.md) page for in depth information on this.
+Custom filters to be applied on the data asset. See [filters](../data-assets/filters.md) page for in depth information on how to apply filters.&#x20;
 
 ***
 
 ## Create field features from related entities
 
-Just as we can add features from related data assets, it is possible to create features on top of other entities features.
+Just as we can add features from related data assets, it is possible to create features from entities.
 
-In case of an enrichment from a related entity, the entity name should be specified as the `asset`, and Lynk will reference to it's virtual data asset. The rest of the parameters remain the same as in creating field features from regular data assets.
+In case of an enrichment from a related entity, the entity name should be specified as the `asset.` The rest of the parameters remain the same as in creating field features from regular data assets.
 
 See the below example:
 
@@ -89,21 +92,3 @@ The `asset` has to be related to our entity (see [related entities](../entities/
 
 ***
 
-## Using a custom join path
-
-explain here how to use a join path to the asset which is not the default one
-
-
-
-
-
-Customer has one-to-one relationship with organization (each customer has one organization and vice versa). We would like to&#x20;
-
-&#x20;if we would like to enrich the entity "customer" with the name of the sales agent that closed the deal with that customer
-
-Field features are great for one-to-one relations.\
-It is commonly used to enrich our entity with simple, non aggregate fields from related assets or entities.
-
-Field suite a **one-to-one**  relationship between the entity and the data asset or entity we create the feature from.
-
-SHOW CODE EXAMPLE
