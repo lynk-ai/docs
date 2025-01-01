@@ -7,7 +7,7 @@ It is commonly used to enrich an entity with aggregated fields from one-to-many 
 
 ## Simple Metric feature
 
-A Metric feature is simply applying a [measure](../data-assets/#measures) aggregation to the level of an entity.
+A Metric feature is simply applying a [measure](../data-assets.md#measures) aggregation to the level of an entity.
 
 In this example, we define simple `metric` features for the entity `customer`:
 

@@ -2,7 +2,7 @@
 description: Use lynk semantic definitions in your BI, AI and embedded analytics tools
 ---
 
-# Consume
+# Consume APIs
 
 Lynk offers several ways to consume semantic definitions from various tools.&#x20;
 

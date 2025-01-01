@@ -1,11 +1,8 @@
 # Field
 
-Field features are great for entity enrichments from **one-to-one** or **many-to-one** relations.\
-It is commonly used to enrich an entity with simple, non aggregate fields from related assets or entities.
+Field features are great for entity enrichments from **one-to-one** or **many-to-one** relations. It is commonly used to enrich an entity with simple, non aggregate fields from related assets or entities.
 
 **Main use cases**
-
-
 
 1. Add a field feature from a data asset with the same level of granularity as the entity (one-to-one relationship)
 2. Add a field feature from a related entity with one-to-one relationship

@@ -45,7 +45,7 @@ For example, if we have ...
 
 ## Consuming features
 
-Features are consumed via [SQL API](../../consume-apis/sql-api/), [REST API](../../consume-apis/rest-api.md) or via Lynk [Playground](../../consume-apis/playground.md). See [consume](../../consume-apis/) for in depth information on this.
+Features are consumed via [SQL API](../../consume/sql-api/), [REST API](../../consume/rest-api.md) or via Lynk [Playground](../../consume/playground.md). See [consume](../../consume/) for in depth information on this.
 
 For example, here is a simple SQL API request to get some features defined on a customer level:
 
