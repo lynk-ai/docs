@@ -53,10 +53,8 @@ The data asset with the measure to be aggregated to the level of our entity.\
 The name of the measure we would like to aggregate from the related asset to the level of our entity.&#x20;
 
 {% hint style="info" %}
-Measures are defined on a data asset level. See [measures](../data-assets.md#measures) for more in depth information about this.
+Measures are defined on a data asset level. See [measures](../data-assets.md#measures) for in depth information on this.
 {% endhint %}
-
-
 
 ### `filters`
 
