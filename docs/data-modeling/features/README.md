@@ -13,7 +13,7 @@ Features represent the business logic of enriching entities with information bas
 
 ## Types of features
 
-### Field&#x20;
+### Field
 
 Field features are great for enrichments from **one-to-one** or **many-to-one** relations.\
 It is commonly used to enrich an entity with simple, non aggregate fields from one-to-one related assets or entities. See more in depth information on [Field](field.md)[ features](field.md).
@@ -35,23 +35,21 @@ It is commonly used to enrich an entity with more complex calculations that requ
 
 ***
 
-## Chaining features across entities
+## Chaining features
 
+Lynk supports creating features based on previously created features on related entities.
 
+For example, let's assume we have an entity called `user` and another entity called `team`, with in a many-to-one relationship. You can create a feature called `is_active_user` on the `user` level and consume it for creating a metric feature `active_users_count` on the `team` entity level.&#x20;
 
-***
-
-## Separating feature logic from time aggregation
-
-Lynk separates between features business logic and time aggregations.
-
-For example, if we have ...
+{% hint style="info" %}
+This allows building consistent, accessible and governed business logic - See [chaining features](chaining-features.md) for in depth information about this.
+{% endhint %}
 
 ***
 
 ## Consuming features
 
-Features are consumed via [SQL API](../../consume/sql-api/), [REST API](../../consume/rest-api.md) or via Lynk [Playground](../../consume/playground.md). See [consume](../../consume/) for in depth information on this.
+Features are consumed via [SQL API](../../consume-and-apis/sql-api/), [REST API](../../consume-and-apis/rest-api.md) or via Lynk [Playground](../../consume-and-apis/playground.md).&#x20;
 
 For example, here is a simple SQL API request to get some features defined on a customer level:
 
@@ -66,6 +64,16 @@ FROM    entity('customer')
 WHERE   country = 'US'
 LIMIT   100
 ```
+
+See [consume](../../consume-and-apis/) for in depth information on this.
+
+***
+
+## Time aggregations
+
+Lynk separates between business logic and time aggregations like rolling\_window on the cunsumption layer.
+
+For example, if we have ...
 
 ***
 

@@ -63,33 +63,12 @@ Custom filters to be applied on the data asset. See [filters](../data-assets/fil
 
 ***
 
-## Create field features from related entities
+## Create features from related entities
 
-Lynk supports creating features based on related entities features.\
-In this case, the `asset` property should be the entity name. The rest of the feature properties remain the same as in creating field features from regular data assets.
+Lynk supports creating features based on related entities.&#x20;
 
-{% hint style="info" %}
-This is a powerful feature that allows creating robust ETLs with Lynk's well structured data modeling framework. See [chaining features](chaining-features.md) for in depth information about this.
-{% endhint %}
+This means you can create features on one entity and then create features on another entity based on those previously created features.&#x20;
 
+For example, if we have an entity called `user` and another entity called `team`, and their relation is many-to-one (each user has one team, but a team may have many users). You can create a feature called `is_active_user` on the `user` level and consume it to the `team` entity to create a metric feature for `active_users_count`. This will allow us to build a business logic which is consistent, accessible and governed - and highly flexible in terms of [time aggregations](../../consume-and-apis/time-aggregation.md).
 
-
-See the below example:
-
-```yaml
-# customer.yml
-features: 
-
-- type: field
-  name: team_name
-  asset: team
-  field: name
-  filters: null
-```
-
-{% hint style="info" %}
-The entity we refer to as `asset` has to be related to our entity (see [related entities](../entities/related-entities.md)).
-{% endhint %}
-
-***
-
+See [chaining features](chaining-features.md) for in depth information about this.
