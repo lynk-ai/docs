@@ -9,7 +9,7 @@ When we create a metric feature, we apply a [measure](../data-assets.md#measures
 
 ***
 
-## Simple Metric feature
+## Simple metric feature
 
 In this example, we define simple `metric` features for the entity `customer`:
 
