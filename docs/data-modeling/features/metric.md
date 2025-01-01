@@ -1,13 +1,15 @@
 # Metric
 
 Metric features are great for aggregations from **one-to-many** relations.\
-It is commonly used to enrich an entity with aggregated fields from one-to-many related assets or entities.
+It is commonly used to enrich an entity with aggregated fields from one-to-many related assets or entities.&#x20;
+
+{% hint style="info" %}
+When we create a metric feature, we apply a [measure](../data-assets.md#measures) aggregation to the level of an entity.
+{% endhint %}
 
 ***
 
 ## Simple Metric feature
-
-A Metric feature is simply applying a [measure](../data-assets.md#measures) aggregation to the level of an entity.
 
 In this example, we define simple `metric` features for the entity `customer`:
 
@@ -35,21 +37,26 @@ In case of metric features, it should be set to `metric`.
 
 ### `name`
 
-Give the feature a name.&#x20;
+Give the metric feature a name.&#x20;
 
 ### `asset`
 
-The data asset with the field to be added as feature to our entity.\
+The data asset with the measure to be aggregated to the level of our entity.\
 `asset` should be the full path: "db.schema.name".
 
 {% hint style="info" %}
-`asset` has to be related to our entity (see [related data asset](../entities/#related-assets)). \
-Lynk will use the `joins` definition to join the asset to our entity when creating the feature.
+`asset` has to be related to our entity (see [related data asset](../entities/#related-assets)).
 {% endhint %}
 
 ### `measure`
 
 The name of the measure we would like to aggregate from the related asset to the level of our entity.&#x20;
+
+{% hint style="info" %}
+Measures are defined on a data asset level. See [measures](../data-assets.md#measures) for more in depth information about this.
+{% endhint %}
+
+
 
 ### `filters`
 
@@ -91,7 +98,7 @@ features:
 ```
 
 {% hint style="info" %}
-The `asset` has to be related to our entity (see [related entities](../entities/related-entities.md)). Lynk will use the `joins` definition to join the related entity to our entity when creating the feature.
+The entity we refer to as `asset` has to be related to our entity (see [related entities](../entities/related-entities.md)).
 {% endhint %}
 
 ***

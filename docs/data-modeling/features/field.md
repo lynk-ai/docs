@@ -38,7 +38,7 @@ In case of field features, it should be set to `field`.
 
 ### `name`
 
-Give the feature a name.&#x20;
+Give the field feature a name.&#x20;
 
 ### `asset`
 
@@ -46,8 +46,7 @@ The data asset with the field to be added as feature to our entity.\
 `asset` should be the full path: "db.schema.name".
 
 {% hint style="info" %}
-`asset` has to be related to our entity (see [related data asset](../entities/#related-assets)). \
-Lynk will use the `joins` definition to join the asset to our entity when creating the feature.
+`asset` has to be related to our entity (see [related data asset](../entities/#related-assets)).
 {% endhint %}
 
 ### `field`
@@ -84,7 +83,7 @@ features:
 ```
 
 {% hint style="info" %}
-The `asset` has to be related to our entity (see [related entities](../entities/related-entities.md)). Lynk will use the `joins` definition to join the related entity to our entity when creating the feature.
+The entity we refer to as `asset` has to be related to our entity (see [related entities](../entities/related-entities.md)).
 {% endhint %}
 
 ***
