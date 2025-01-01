@@ -42,7 +42,7 @@ Lynk supports creating features based on previously created features on related 
 For example, let's assume we have an entity called `user` and another entity called `team`, with in a many-to-one relationship. You can create a feature called `is_active_user` on the `user` level and consume it for creating a metric feature `active_users_count` on the `team` entity level.&#x20;
 
 {% hint style="info" %}
-This allows building consistent, accessible and governed business logic - See [chaining features](chaining-features.md) for in depth information about this.
+This allows building consistent, accessible and governed business logic - See [chaining features](../chaining-features.md) for in depth information about this.
 {% endhint %}
 
 ***

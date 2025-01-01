@@ -5,33 +5,32 @@ It is commonly used to enrich an entity with fields of the first or last appeara
 
 ***
 
-## Simple Metric feature
+## Simple first-last feature
 
-A Metric feature is simply applying a [measure](../data-assets.md#measures) aggregation to the level of an entity.
-
-In this example, we define simple `metric` features for the entity `customer`:
+In this example, we define simple `first-last` features for the entity `customer`:
 
 ```yaml
 # customer.yml
-features: 
-- asset: networx_prod.communications.phone_call_dim
-  filters: null
-  name: last_call_at
-  type: first_last
+
+features:
+- type: first_last
+  name: last_call_agent_id
+  asset: db_prod.core.phone_call_dim
   options:
     method: last
     sort_by: created_at
-    field: created_at
+    field: agent_id
+  filters: null
 ```
 
 ### `type`
 
 The feature type. \
-In case of metric features, it should be set to `metric`.
+In case of first-last features, it should be set to `first_last`.
 
 ### `name`
 
-Give the feature a name.&#x20;
+Give the feature a name.
 
 ### `asset`
 
@@ -39,56 +38,30 @@ The data asset with the field to be added as feature to our entity.\
 `asset` should be the full path: "db.schema.name".
 
 {% hint style="info" %}
-`asset` has to be related to our entity (see [related data asset](../entities/#related-assets)). \
-Lynk will use the `joins` definition to join the asset to our entity when creating the feature.
+`asset` has to be related to our entity (see [related data asset](../entities/#related-assets)).&#x20;
 {% endhint %}
 
-### `measure`
+### `options`
 
-The name of the measure we would like to aggregate from the related asset to the level of our entity.&#x20;
+The options for the first-last definitions on which field we would like to get and how to sort the related data asset
+
+### `method`
+
+Determines which instance of the data asset to retrieve - the `first` or the `last`, based on the `sort_by` option.
+
+### `sort_by`
+
+The data asset field to sort by.
+
+### `field`
+
+The name of the data asset field to retrieve as the entity feature.
 
 ### `filters`
 
 Custom filters to be applied on the data asset. See [filters](../data-assets/filters.md) page for in depth information on how to apply filters.
 
-***
 
-## Time aggregations
-
-Lynk separates feature business logic from time granularity.&#x20;
-
-There is no need to create multiple features with the same business logic and different time granolarity.&#x20;
-
-
-
-
-
-***
-
-
-
-## Create metric features from related entities
-
-Just as we can add features from related data assets, it is possible to create features from entities.
-
-In case of a creating a metric from a related entity, the entity name should be specified as the `asset`. The rest of the parameters remain the same as in creating metric features from regular data assets.
-
-See the below example:
-
-```yaml
-# customer.yml
-features: 
-
-- type: metric
-  name: total_
-  asset: team
-  field: name
-  filters: null
-```
-
-{% hint style="info" %}
-The `asset` has to be related to our entity (see [related entities](../entities/related-entities.md)). Lynk will use the `joins` definition to join the related entity to our entity when creating the feature.
-{% endhint %}
 
 ***
 

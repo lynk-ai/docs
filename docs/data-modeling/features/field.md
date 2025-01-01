@@ -60,15 +60,3 @@ The name of the field we would like to get from the related asset, in order to e
 ### `filters`
 
 Custom filters to be applied on the data asset. See [filters](../data-assets/filters.md) page for in depth information on how to apply filters.&#x20;
-
-***
-
-## Create features from related entities
-
-Lynk supports creating features based on related entities.&#x20;
-
-This means you can create features on one entity and then create features on another entity based on those previously created features.&#x20;
-
-For example, if we have an entity called `user` and another entity called `team`, and their relation is many-to-one (each user has one team, but a team may have many users). You can create a feature called `is_active_user` on the `user` level and consume it to the `team` entity to create a metric feature for `active_users_count`. This will allow us to build a business logic which is consistent, accessible and governed - and highly flexible in terms of [time aggregations](../../consume-and-apis/time-aggregation.md).
-
-See [chaining features](chaining-features.md) for in depth information about this.

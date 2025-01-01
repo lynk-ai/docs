@@ -65,28 +65,5 @@ Measures are defined on a data asset level. See [measures](../data-assets.md#mea
 
 Custom filters to be applied on the data asset. See [filters](../data-assets/filters.md) page for in depth information on how to apply filters.
 
-***
 
-## Create metric features from related entities
-
-In case of a creating a metric from a related entity, the entity name should be specified as the `asset`. The rest of the parameters remain the same as in creating metric features from regular data assets.
-
-See the below example:
-
-```yaml
-# customer.yml
-features: 
-
-- type: metric
-  name: total_
-  asset: team
-  field: name
-  filters: null
-```
-
-{% hint style="info" %}
-The entity we refer to as `asset` has to be related to our entity (see [related entities](../entities/related-entities.md)).
-{% endhint %}
-
-***
 

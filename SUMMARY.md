@@ -12,7 +12,7 @@
     * [Metric](docs/data-modeling/features/metric.md)
     * [First-Last](docs/data-modeling/features/first-last.md)
     * [Formula](docs/data-modeling/features/formula.md)
-    * [Chaining features](docs/data-modeling/features/chaining-features.md)
+  * [Chaining features](docs/data-modeling/chaining-features.md)
   * [Functions](docs/data-modeling/functions/README.md)
     * [POP()](docs/data-modeling/functions/pop.md)
   * [Data assets](docs/data-modeling/data-assets.md)

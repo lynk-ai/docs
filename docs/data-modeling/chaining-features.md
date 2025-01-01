@@ -22,7 +22,7 @@ This means you can create features on one entity and then create features on ano
 For example, let's assume we have an entity called `user` and another entity called `team`, and their relation is many-to-one. You can create a feature called `is_active_user` on the `user` level and consume it for creating a metric feature `active_users_count` on the `team` entity level.&#x20;
 
 {% hint style="info" %}
-This allows building consistent, accessible and governed business logic - which is also very flexible in terms of [time aggregations](../../consume-and-apis/time-aggregation.md).
+This allows building consistent, accessible and governed business logic - which is also very flexible in terms of [time aggregations](../consume-and-apis/time-aggregation.md).
 {% endhint %}
 
 See [chaining features](chaining-features.md) for in depth information about this.
@@ -45,5 +45,28 @@ features:
 ```
 
 {% hint style="info" %}
-The entity we refer to as `asset` has to be related to our entity (see [related entities](../entities/related-entities.md)).
+The entity we refer to as `asset` has to be related to our entity (see [related entities](entities/related-entities.md)).
 {% endhint %}
+
+## Create metric features from related entities
+
+In case of a creating a metric from a related entity, the entity name should be specified as the `asset`. The rest of the parameters remain the same as in creating metric features from regular data assets.
+
+See the below example:
+
+```yaml
+# customer.yml
+features: 
+
+- type: metric
+  name: total_
+  asset: team
+  field: name
+  filters: null
+```
+
+{% hint style="info" %}
+The entity we refer to as `asset` has to be related to our entity (see [related entities](entities/related-entities.md)).
+{% endhint %}
+
+***
