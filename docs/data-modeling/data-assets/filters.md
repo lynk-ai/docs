@@ -23,7 +23,7 @@ features:
   filters:
   - type: fields
     field: order_status
-    operator: equal
+    operator: is
     values:
     - success
 ```
@@ -69,7 +69,7 @@ features:
 Use simple YAML-style to define how a data asset should be filtered.\
 When setting `type: fields`, you will need to add the `fields` property with the fields and the operator that define the relation.
 
-See the following example:
+#### Example (`fields`):
 
 ```yaml
 // customer.yml
@@ -83,12 +83,12 @@ featurs:
   filters:
   - type: fields
     field: order_status
-    operator: equal
+    operator: is
     values:
     - success
 ```
 
-In the above example we filter the data asset `db_prod.core.orders` to retrieve only records where the `value` of the `field` order\_status equals to 'success'.
+In the above example we filter the data asset `db_prod.core.orders` to retrieve only records where the `value` of the `field` order\_status is 'success'.
 
 Using the `filters` type `fields`, the following properties should be specified:
 
@@ -100,44 +100,184 @@ The field name in the data asset, which we would like to apply a filtering logic
 
 The operator to be applied on the `field` , that defines the logic of which values we would like to filter in the results. The options for the operator property are:
 
-#### `equals`
+#### `is`
 
 Equals to.\
 "A `equals` B" translates to "A `=` B".
 
-#### `is not`
+Usage example (`is` operator):&#x20;
 
-Does not Equals to.\
-"A `is not` B" translates to "A `!=` B" (or "A `<>` B").
+```yaml
+...
+  filters:
+  - type: fields
+    field: order_status
+    operator: is
+    values:
+    - success
+```
+
+Retrieves only records where the `value` of the `field` order\_status **is** 'success'.
+
+#### `is_not`
+
+Does not equal to.\
+"A `is_not` B" translates to "A `!=` B" (or "A `<>` B").
+
+Usage example (`is_not` operator):&#x20;
+
+```yaml
+...
+  filters:
+  - type: fields
+    field: order_status
+    operator: is_not
+    values:
+    - success
+```
+
+Retrieves only records where the `value` of the `field` order\_status **is not** 'success'.
+
+#### `between`
+
+Between two values\
+"A `between` B and C" translates to "A `>=` B and A `<=` C
+
+Usage example (`between` operator):&#x20;
+
+```yaml
+...
+  filters:
+  - type: fields
+    field: order_date
+    operator: between
+    values:
+    - 2024-01-01
+    - 2025-01-01
+```
+
+Retrieves only records where the `values` of the `field` order\_date are **between** '2024-01-01' and 2025-01-01.
+
+Note that the order matters - the first value is the lower bound and the second value is the upper bound of the `between` operator.
 
 #### `gt`
 
 Greater than.\
 "A `gt` B" translates to "A `>` B".
 
+Usage example (`gt` operator):&#x20;
+
+```yaml
+...
+  filters:
+  - type: fields
+    field: order_amount
+    operator: gt
+    values:
+    - 100
+```
+
+Retrieves only records where the `value` of the `field` order\_amount is **greater than** 100.
+
 #### `gte`
 
 Greater than or equals to.\
 "A `gte` B" translates "to a `>=` b".
+
+Usage example (`gte` operator):&#x20;
+
+```yaml
+...
+  filters:
+  - type: fields
+    field: order_amount
+    operator: gte
+    values:
+    - 100
+```
+
+Retrieves only records where the `value` of the `field` order\_amount is **greater than or equals** 100.
 
 #### `lt`
 
 Lower than.\
 "A `lt` B" translates "to a `<` b".
 
+Usage example (`lt` operator):&#x20;
+
+```yaml
+...
+  filters:
+  - type: fields
+    field: order_amount
+    operator: lt
+    values:
+    - 100
+```
+
+Retrieves only records where the `value` of the `field` order\_amount is **lower than** 100.
+
 #### `lte`
 
 Lower than or equals to.\
 "A `lte` B" translates "to a `<=` b".
+
+Usage example (`lte` operator):&#x20;
+
+```yaml
+...
+  filters:
+  - type: fields
+    field: order_amount
+    operator: lte
+    values:
+    - 100
+```
+
+Retrieves only records where the `value` of the `field` order\_amount is **lower than or equals** 100.
 
 #### `is_set`
 
 The value is not NULL.\
 "A `is_set`" translates to "A `is not null`".
 
+Usage example (`is_set` operator):&#x20;
+
+```yaml
+...
+  filters:
+  - type: fields
+    field: order_amount
+    operator: is_set
+```
+
+Retrieves only records where the `value` of the `field` order\_amount is **set**. Meaning, order\_amount **is not Null**.&#x20;
+
+Note that in the case of the operator `is_set` there is no need to add the `values` property.&#x20;
+
 #### `is_not_set`
 
 The value is NULL.\
 "A `is_not_set`" translates to "A `is null`".
+
+Usage example (`is_not_set` operator):&#x20;
+
+```yaml
+...
+  filters:
+  - type: fields
+    field: order_amount
+    operator: is_not_set
+```
+
+Retrieves only records where the `value` of the `field` order\_amount is **not set**. Meaning, order\_amount **is Null**.&#x20;
+
+Note that in the case of the operator `is_not_set` there is no need to add the `values` property.&#x20;
+
+### `Values`
+
+The values to accept.\
+Lynk will apply the `operator` logic to the `field` and the given `values`. The records that will return are the records where that filtering logic returns "true" (see [this example](filters.md#example-fields))\
+
 
 ***
