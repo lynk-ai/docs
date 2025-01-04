@@ -1,85 +1,48 @@
 # Chaining features
 
-Features are reusable. You can use existing features to create new features on related entities.
+Features are reusable. This means it is possible to create robust data pipelines within Lynk - by adding  features to an entity, based on features of other (related) entities.
 
 {% hint style="info" %}
-Each entity in Lynk has a virtual data asset
+Common challenges in data modeling are questions like "how should I model this?" and "was this done before, somewhere else?"
+
+Lynk takes care of such challenges by providing a structured way to model data (defining features on entities via YAML files), governing it with the [Governance](../governance.md) layer and making it all accessible via the Studio interface.
 {% endhint %}
 
+## Virtual data assets
 
+[Virtual data assets](data-assets.md#virtual-data-assets) are data assets that live "virtually" within Lynk. Meaning, there is no materialized asset on the underlying data source. **A virtual data assets is created for each entity within Lynk**, where the entity is the "asset" and it's features are the "fields".&#x20;
 
-\[A diagram of chaining features]
-
-
-
-
-
-
-
-In this case, the `asset` property should be the entity name. The rest of the feature properties remain the same as in creating field features from regular data assets.
-
-{% hint style="info" %}
-This is a powerful feature that allows creating robust ETLs with Lynk's well structured data modeling framework. See [chaining features](chaining-features.md) for in depth information about this.
-{% endhint %}
-
-
-
-
-
-### Creating features from related entities
-
-Lynk supports creating features based on related entities.&#x20;
-
-This means you can create features on one entity and then create features on another entity based on those previously created features.
+## Creating features from related entities
 
 For example, let's assume we have an entity called `user` and another entity called `team`, and their relation is many-to-one. You can create a feature called `is_active_user` on the `user` level and consume it for creating a metric feature `active_users_count` on the `team` entity level.&#x20;
 
-{% hint style="info" %}
-This allows building consistent, accessible and governed business logic - which is also very flexible in terms of [time aggregations](../consume-and-apis/time-aggregation.md).
-{% endhint %}
-
-See [chaining features](chaining-features.md) for in depth information about this.
-
-
-
-
-
-See the below example:
-
 ```yaml
-# customer.yml
-features: 
+# user.yml (virtual data asset)
 
-- type: field
-  name: team_name
-  asset: team
-  field: name
-  filters: null
+asset: user
+...
+
+measures:
+- name: active_users_count
+  description: count of active users
+  sql: SUM(IFF(is_active_user = true, 1, 0))
 ```
 
-{% hint style="info" %}
-The entity we refer to as `asset` has to be related to our entity (see [related entities](entities/related-entities.md)).
-{% endhint %}
-
-## Create metric features from related entities
-
-In case of a creating a metric from a related entity, the entity name should be specified as the `asset`. The rest of the parameters remain the same as in creating metric features from regular data assets.
-
-See the below example:
-
 ```yaml
-# customer.yml
+# team.yml (team entity)
+...
 features: 
 
 - type: metric
-  name: total_
-  asset: team
-  field: name
+  name: active_users_count
+  asset: user
+  field: active_users_count
   filters: null
 ```
 
 {% hint style="info" %}
-The entity we refer to as `asset` has to be related to our entity (see [related entities](entities/related-entities.md)).
+Note that the `asset` in this case is the related entity name (see [related entities](entities/related-entities.md)).
 {% endhint %}
 
 ***
+

@@ -136,23 +136,13 @@ measures:
 
 ## Virtual data assets
 
-Virtual data asset are data assets that live "virtually" within Lynk. Meaning, there is no materialized asset on the underlying data source (like cloud data warehouse).
+Virtual data asset are data assets that live "virtually" within Lynk. Meaning, there is no materialized asset on the underlying data source. **A virtual data assets is created for each entity within Lynk**, where the entity is the "asset" and it's features are the "fields".&#x20;
 
-A virtual data assets is created for each entity within Lynk, where the entity is the "asset" and it's features are the "fields". Just like regular data assets, measures can be added to these assets.&#x20;
+{% hint style="info" %}
+Just like regular data assets, measures can be added to virtual data assets.&#x20;
+{% endhint %}
 
-In practice, those assets hold the business logic of each field and&#x20;
+#### Usage of virtual data assets
 
-ADD A DIAGRAM HERE WITH AN EXAMPLE
-
-Virtual data assets enable creating entity features based on features of other related entities. It also enable creating measures on an entity level and consuming those measures as entity rollups and in BI tools.
-
-
-
-***
-
-## Governance
-
-Lynk [Governance](../governance.md) makes sure Measures are unique:
-
-* Measures have unique names
-* Measures have unique SQL definitions
+1. Chaining features - creating entity features based on features of other related entities.
+2. Consume entity measures on BI tools -  creating measures on an entity level for consuming those measures in BI tools.

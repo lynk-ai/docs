@@ -4,21 +4,23 @@ description: lynk Data modeling framework
 
 # Data modeling
 
-Data modeling is super important for succeeding with data, specially in the era of AI. This page summarizes the core concepts of Lynk data modeling framework.
+Data modeling is core for succeeding with data, specially in the era of AI. This page summarizes the core concepts of Lynk data modeling framework.
 
 ## Entity Centric Data Modeling
 
 Lynk has a built-in data modeling framework, which is based on the **Entity-Centric-Data-Modeling** (ECM) architecture, derived from the **Domain Driven Design** (DDD) architecture.&#x20;
 
-This approach has a lot of advantages, among them are:
+While the Star-Schema approach is to **normalize** our data into FACT tables associated with DIM tables, the Entity-Driven-Design approach is to **denormalize** data around business entities, which is more suitable for creating a central source of truth.
+
+The ECM approach has a lot of advantages, among them are:
 
 * Making data accessible to business users
-* Connecting all data silos into one fabric
+* Better for creating a central source of truth
+* Connecting all data silos
 * Keeping the data model clean (following the DRY pattern)
 
 {% hint style="info" %}
-to keep them flexible, Lynk does not materialize features.\
-Features are purely business logic definitions. How to aggregate them is done on the consumption level - to enable flexibility in the exploratory ("slice & dice") phase.
+On top of the data modeling layer, lynk applies the [Governance](../governance.md) layer to make sure our data model is consistent, clean and efficient.
 {% endhint %}
 
 ## [Entities](entities/)
@@ -54,18 +56,26 @@ Lynk holds all the business logic but does not materialize entities and features
 For performance optimizations, we have plans on our roadmap to enable entities and features materialization with dbt. If that's something you would like to see coming soon, please [contact us](https://www.getlynk.ai/book-a-demo) and let us know.
 {% endhint %}
 
+## [Chaining features](chaining-features.md)
+
+Features are reusable. This means it is possible to create robust data pipelines within Lynk - by adding  features to an entity, based on features of other (related) entities.
+
+{% hint style="info" %}
+Common challenges in data modeling are questions like "how should I model this?" and "was this done before, somewhere else?"
+
+Lynk takes care of such challenges by providing a structured way to model data (defining features on entities via YAML files), governing it with the [Governance](../governance.md) layer and making it all accessible via the Studio interface.
+{% endhint %}
+
 ## [Data assets](data-assets.md)
 
 Data assets are tables and views from the underlying data source (a data warehouse). Data assets can be related to entities and they are being used mostly for creating entity features.
 
-## Contexts
+## [Context](context.md)
 
-## Time aggregation
+Contexts allow us to create business definitions specific to a business context like marketing / sales / product etc. For example, the definition of "active user" can differ between the product team and the marketing team. Contexts make it possible to have both definitions as "active user", in a different context.
 
-Efficiency and performance\
+## [Time aggregation](../consume-and-apis/time-aggregation.md)
 
+Time aggregations include many options to aggregate features in different time frames like calendric aggregations (day, week, month, year etc) or rolling window aggregations (last 7 days etc).&#x20;
 
-
-
-
-consume
+Lynk applies these aggregate definitions on the consumption level, to keep the feature definition level with pure business logic, and enable flexibility when consuming entities and features.
