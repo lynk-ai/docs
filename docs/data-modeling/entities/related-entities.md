@@ -35,7 +35,7 @@ relationships:
 This is where we define all of our entity-to-entity relationships.&#x20;
 
 {% hint style="info" %}
-There is no need to define a relationship between two entities twice. You can define it once, no matter what direction you will choose, and Lynk will automatically reverse the direction when needed.
+A relationship should be defined once regardless of the direction (e.g `nation-customer` is the same relationship as `customer-nation`). Lynk will automatically reverse the direction when needed.
 {% endhint %}
 
 Define a relationship by adding an object `entity1-entity2`. \
