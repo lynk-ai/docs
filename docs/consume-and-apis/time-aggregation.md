@@ -63,9 +63,17 @@ The options for `time_agg` are:
 If `time_agg` is defined, the data Lynk will return on SQL API requsts will be on the level of the main entity + the selected time grain. If no `time_agg` was defined, Lynk will return one record per `entity`.
 {% endhint %}
 
+#### Using time\_agg in SELECT statements
+
+In case of using a time aggregation via the `time_agg` API property, You will need to add the parameter `time_agg` to the SQL API SELECT clause for Lynk to retrieve the rigth results, aggregated on both the entity and the selected time\_grain (exposed within `time_agg`)
+
 ### `time_grain [optional]`
 
-The supprted time grains are:
+Optional, defaults to `day`. &#x20;
+
+Time grains are time aggregation levels. Lynk will aggregate the whole SQL API / REST API query according to the selected time grain.&#x20;
+
+The supported time grains are:
 
 * year
 * quarter
@@ -75,9 +83,84 @@ The supprted time grains are:
 * hour
 * minute
 
-### direction
+For example:&#x20;
 
-### window\_size
+```sql
+// SQL API
+
+USE {
+  time_agg {
+    time_grain : week
+}
+
+SELECT  customer_id,
+        time_agg as date_week,
+        count_orders
+FROM    entity('customer')
+```
+
+The above example returns for each customer and week, the result of the feature count\_orders.
+
+### `window_size` \[optional]
+
+Optional, defaults to `1`.&#x20;
+
+Window size is for aggregating rolling windows - this property will determine the window size of the rolling window. Note that the time grain will be taken into account here for determining the "size" of the window as well.&#x20;
+
+`window sizes` supports **integer** values.&#x20;
+
+For example:&#x20;
+
+```sql
+// SQL API
+
+USE {
+  time_agg {
+    time_grain : month,
+    window_size: 3,
+    direction: backward
+    
+}
+
+SELECT  customer_id,
+        time_agg as date_month,
+        count_orders
+FROM    entity('customer')
+```
+
+The above example returns for each customer and month, the result of the feature count\_orders in the last 3 months.
+
+### `direction`
+
+Optional, defaults to `backward`.
+
+Determines the direction of the rolling window.
+
+`direction` supports the values
+
+* `backward`
+* `forward`
+
+For example:&#x20;
+
+```sql
+// SQL API
+
+USE {
+  time_agg {
+    time_grain : day,
+    window_size: 7,
+    direction: foreward
+    
+}
+
+SELECT  customer_id,
+        time_agg as date_day,
+        count_orders
+FROM    entity('customer')
+```
+
+The above example returns for each customer and day, the result of the feature count\_orders in the next 7 days.
 
 ### is\_cumulative
 
