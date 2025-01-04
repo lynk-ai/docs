@@ -1,6 +1,6 @@
 # Chaining features
 
-Features in Lynk are reusable. You can use existing features to create new features on related entities.
+Features are reusable. You can use existing features to create new features on related entities.
 
 {% hint style="info" %}
 Each entity in Lynk has a virtual data asset

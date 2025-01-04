@@ -3,8 +3,6 @@
 Features are entity-level attributes, representing all the things we know of entities.\
 Lynk makes it simple to create features, based on related data assets or related entities.
 
-ADD A DIAGRAM OF OPTIONAL FEATURES FOR THE CUSTOMER ENTITY
-
 {% hint style="info" %}
 Features represent the business logic of enriching entities with information based on other related assets or entities.
 {% endhint %}

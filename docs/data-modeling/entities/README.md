@@ -1,9 +1,9 @@
 # Entities
 
 Entities are real-world concepts like customers, orders, payments etc. \
-Entities are first-class citizens for Semantic Layers, meaning everything we build and consume is around entities.
+These are first-class citizens in Lynk, meaning everything we build and consume is around entities.
 
-The main concept of Lynk Semantic Layer is to create a central source of truth for each of the entities in the business, in a trusted and accessible way. In other words, from a business perspective, for each business entity it should be clear what we know of it, how it was defined, and where we can find it. We call these pieces of information on an entity level - [features](../features/).
+The main concept of Lynk Semantic Layer is to create a central source of truth for each of the entities in the business, in a trusted and accessible way. In other words, from a business perspective, for each business entity it should be clear what we know of it, how was it defined, and where we can find it. We call these pieces of information on an entity level - [features](../features/).
 
 ***
 
@@ -39,10 +39,10 @@ related_assets:
 For a quick onboarding, use the [discovery](./#discovery) process to automatically extract business entities from your Data Warehouse schemas and SQL code.
 {% endhint %}
 
-### Key table
+### `key_table`
 
-Entities are defined by a key data asset. \
-An entity key data asset is a table or a view in the data warehouse, that has all the entity instances and each entity instance exists only once on this asset.&#x20;
+An entities is defined by it's key data asset. \
+An entity key data asset is a table or a view in the data warehouse, that has all the entity instances, and each entity instance exists only once on this asset.&#x20;
 
 For example, if our entity is customer, it's key data asset should have all the customers, and each customer appears only once in that data asset.
 
@@ -51,35 +51,33 @@ The entity DIM table is a good fit here, if exists in the DWH.\
 However, any data asset which answers the the above requirement can fit. Once loaded as an entity in Lynk, you will be able to add as many enrichment features as needed.
 {% endhint %}
 
-### Aliases
+### `aliases`
 
 Sometimes different people might call the same entity by different names. e.g a `customer` can also be referred to as a `user`. This is relevant especially when interacting with AI apps to ask questions. Lynk supports aliases to entity names.
 
-### Features
+### `features`
 
 Features are attributes that represent all we know about our Entities. \
 It can be simple fields, aggregated metrics, first - last features, period-over-period formulas, custom formulas and more. See [Features](./#features) page for in depth information on this.
 
-### Related assets
+### `related_assets`
 
 Define which Data Assets are related to the entity. Related assets will be shown and used when creating new features for an entity. For example, if the data asset `db_prod.core.orders` is related to the entity `customer`, we will be able to extract features from `db_prod.core.orders` to the `customer` level. See [Related assets](related-data-assets.md) for in depth information on this.
 
-### Related entities
+***
 
-Just like in the real world, entities relate to each other in many ways. To ensure consistency and simplicity, Lynk stores all entity relationships in one place - `entities_relationships.yml` file. See [related entities](related-data-assets.md) for in depth information on this.
+## Entity relationships
 
-Entities relationships are used by lynk when creating features and for joining entities on the [consumption](../../consume-and-apis/) layer.
+To see how to define and use relationships between entities, please see [Related entities](related-data-assets.md) page.
 
 ***
 
 ## Consuming Entities
 
-Entities and Features are consumed via [SQL API](../../consume-and-apis/sql-api/), [REST API](../../consume-and-apis/rest-api.md) or via Lynk [Playground](../../consume-and-apis/playground.md). See [consume](../../consume-and-apis/) for in depth information on this.
-
-For example, here is a simple SQL API request to get some features defined on a `customer` level:
+Entities and Features are consumed via [SQL API](../../consume-and-apis/sql-api/), [REST API](../../consume-and-apis/rest-api.md) or via Lynk [Playground](../../consume-and-apis/playground.md). See [Consume & APIs](../../consume-and-apis/) for in depth information on this.
 
 ```sql
-// A simple SQL API query
+// Example for a simple SQL API query
 
 SELECT  customer_id,
         total_order_amount,
@@ -98,7 +96,7 @@ Lynk [Governance](../../governance.md) makes sure Entities are unique:
 
 * Entities have unique names
 * Entities have unique Key data asset
-* Entity key asset does not break (duplications, missing instances)
+* Entity key asset validation (no duplications, no missing instances)
 * Entities do not share the same aliases
 
 ***
