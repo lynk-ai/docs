@@ -4,15 +4,26 @@ description: lynk Data modeling framework
 
 # Data modeling
 
-This page summarizes the core concepts of Lynk data modeling framework.
+Data modeling is super important for succeeding with data, specially in the era of AI. This page summarizes the core concepts of Lynk data modeling framework.
 
-## A central source of truth
+## Entity Centric Data Modeling
 
-The main concept of Lynk is to create a central source of truth for each of the entities in the business, in a trusted and accessible way. In other words, from a business perspective, for each business entity it should be clear what we know of it, how was it defined, and where we can find it. We call these pieces of information on an entity level "features".
+Lynk has a built-in data modeling framework, which is based on the **Entity-Centric-Data-Modeling** (ECM) architecture, derived from the **Domain Driven Design** (DDD) architecture.&#x20;
+
+This approach has a lot of advantages, among them are:
+
+* Making data accessible to business users
+* Connecting all data silos into one fabric
+* Keeping the data model clean (following the DRY pattern)
+
+{% hint style="info" %}
+to keep them flexible, Lynk does not materialize features.\
+Features are purely business logic definitions. How to aggregate them is done on the consumption level - to enable flexibility in the exploratory ("slice & dice") phase.
+{% endhint %}
 
 ## [Entities](entities/)
 
-Entities are real-world concepts like customers, orders, payments etc.  These are first-class citizens in Lynk, meaning everything we build and consume is around entities.
+Entities are real-world concepts like customers, orders, payments etc.  These are first-class citizens in Lynk, meaning everything we build and consume is around entities. Each business entity is attached with everything we to know about it. We call these pieces of information on an entity level "features".
 
 ## [Features](features/)
 

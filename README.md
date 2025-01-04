@@ -20,6 +20,32 @@ layout:
 
 # Introduction
 
+## A flexible central source of truth
+
+#### Source of truth
+
+The main concept of Lynk is to create a central source of truth for each of the entities in the business, in a trusted and accessible way. In other words, from a business perspective, for each business entity it should be clear what we know of it, how was it defined, and where we can find it. We call these pieces of information on an entity level - "features".
+
+#### Flexibility
+
+The challenge with the traditional data "source of truth" is the their rigidness - data teams have to think of all the possible metrics and definitions in advance.
+
+#### **Accessibility**
+
+Another challenge is keeping the documentation up to date, as well as making data accessible to non data team members (non technical stakeholders).&#x20;
+
+
+
+On top of the modeling framework, Lynk applies three extra layers:
+
+**Governance layer** \
+Making sure your data model is clean and clear.&#x20;
+
+* Accessability layer\
+  Making sure data definitions are accessible to all. Documentation is always in sync with business definitions.
+* **AI layer**\
+  Making data availalble to all, proactively.&#x20;
+
 ## Semantic layer - Governance - Accessability - AI
 
 ## Semantic Layer

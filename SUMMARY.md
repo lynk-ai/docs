@@ -19,7 +19,6 @@
     * [Filters](docs/data-modeling/data-assets/filters.md)
     * [Time spine (dim\_dates)](docs/data-modeling/data-assets/time-spine-dim_dates.md)
   * [Context](docs/data-modeling/context.md)
-* [Project structure](docs/project-structure.md)
 * [Consume & APIs](docs/consume-and-apis/README.md)
   * [Time aggregation](docs/consume-and-apis/time-aggregation.md)
   * [Playground](docs/consume-and-apis/playground.md)
@@ -34,10 +33,11 @@
   * [Embedded Analytics](docs/consume-and-apis/embedded-analytics.md)
 * [Discovery](docs/discovery.md)
 * [Governance](docs/governance.md)
+* [Accessability](docs/accessability.md)
 * [Integrations](docs/integrations/README.md)
   * [Snowflake](docs/integrations/snowflake.md)
 * [Graph DB](docs/graph-db.md)
-* [Studio](docs/studio.md)
+* [Project structure](docs/project-structure.md)
 
 ## Guides
 
