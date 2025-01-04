@@ -31,14 +31,15 @@ In case of formula features, it should be set to `formula`.
 
 Give the feature a name.
 
-### sql&#x20;
+### `sql`&#x20;
 
-The formula defunition. Any SQL code applies here as long as&#x20;
+The formula definition.&#x20;
+
+Any SQL code applies here as long as:
 
 1. It is based on features already defined on the entity
 2. it does not have aggregate functions
 
 {% hint style="info" %}
-In case you need to use aggregate function in a formula, you probably need to create another metric feature and then the formula feature on top of it
+In case you have an aggregate function in a formula, you probably need to create another metric feature and then create the formula feature on top of it
 {% endhint %}
-

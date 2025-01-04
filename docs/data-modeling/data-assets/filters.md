@@ -1,8 +1,6 @@
 # Filters
 
-### `filters`
-
-Custom filters to be applied on the data asset.
+Filtering data assets is simple and can be done on a feature definition level.
 
 See the following example:
 
@@ -10,62 +8,65 @@ See the following example:
 # customer.yml
 features: 
 
-- type: field
-  name: current_customer_city
-  asset: db_prod.core.customer_details_snapshot
-  field: city_name
+- type: metric
+  name: orders_count_2025
+  asset: db_prod.core.orders
+  measures: count_orders
   filters:
-  - type: field
-    field: end_time
-    operator: is
+  - type: sql
+    sql: order_date >= '2025-01-01' and order_date <= 2025-12-31'
+
+- type: metric
+  name: successful_orders_count
+  asset: db_prod.core.orders
+  measures: count_orders
+  filters:
+  - type: fields
+    field: order_status
+    operator: equal
     values:
-    - 2999-01-01
+    - success
 ```
 
-In the above example we filter the data asset `customer_details_snapshot` to return only rows with `end_time = '2999-01-01'`, meaning current status of the snapshot. This will give us the current city\_name for each customer in that customers snapshot.
+### `filters`
 
-### `type` (filters)
+Filters are defined in the `filters` property. This is an array that can get as many filter inputs as needed, where each input can be defined as a SQL statement or a YAML statement (`type` : `sql` / `field`).&#x20;
 
-The `type` property tells Lynk which method to use for the filter.\
+{% hint style="info" %}
+When defining multiple `filters` inputs, Lynk will chain these filters with an `and` statement between them and then apply them : filter\_1 and filter\_2 and filter\_3&#x20;
+{% endhint %}
+
+### `type`
+
+Use the filters `type` property to determine which method to use for the filter.\
 The options for `type` are:
 
 * `sql`
 * `field`
 
-A simple YAML-style to define how an entity is related to a data asset.
-
 ### `sql` (type)
 
-Use sql code to define how an entity is related to a data asset.\
+Use sql code to define how a data asset should be filtered.\
 When setting `type: sql`, you will need to add the `sql` property with the SQL definition of the relation.
 
-See the following example;
+In this example, we use SQL to filter the `orders` data asset to retrieve only records where the `order_date` field is in 2025 for the feature `orders_count_2025`.
 
 ```yaml
-// customer.yml
+# customer.yml
+features: 
 
-related_assets:
-
-  db_prod.core.orders:
-    relationship: one-to-many
-    joins:
-    - name: all_orders
-      default: true
-      type: sql
-      sql:  {source}.id = {destination}.customer_id
+- type: metric
+  name: orders_count_2025
+  asset: db_prod.core.orders
+  measures: count_orders
+  filters:
+  - type: sql
+    sql: order_date >= '2025-01-01' and order_date <= 2025-12-31'
 ```
-
-Using the `sql` type;
-
-`{source}` refers to the entity
-
-`{destination}` refers to the data asset
-
-In the above example, the entity customer has a feature `id` which connects to the orders data asset field `customer_id`
 
 ### `fields` (type)
 
-A simple YAML-style to define how an entity is related to a data asset.\
+Use simple YAML-style to define how a data asset should be filtered.\
 When setting `type: fields`, you will need to add the `fields` property with the fields and the operator that define the relation.
 
 See the following example:
@@ -73,40 +74,70 @@ See the following example:
 ```yaml
 // customer.yml
 
-related_assets:
+featurs: 
 
-  db_prod.core.device:
-    relationship: one-to-one
-    joins:
-    - name: customer_device
-      default: true
-      type: fields
-      fields: 
-      - source: device_id
-        destination: id
-        operator: equal
+- type: metric
+  name: successful_orders_count
+  asset: db_prod.core.orders
+  measures: count_orders
+  filters:
+  - type: fields
+    field: order_status
+    operator: equal
+    values:
+    - success
 ```
 
-Using the `fields` type;
+In the above example we filter the data asset `db_prod.core.orders` to retrieve only records where the `value` of the `field` order\_status equals to 'success'.
 
-`source` refers to the entity
+Using the `filters` type `fields`, the following properties should be specified:
 
-`destination` refers to the data asset
+### `field`
 
-`operator` defines the operator of the relation between the two fields. \
-The options for the operator property are:
+The field name in the data asset, which we would like to apply a filtering logic on.
 
-* equal
-* gt
-* gte
-* lt
-* lte
+### `Operator`
 
-In the above example, the entity customer has a feature `device_id` which connects to the field `id` in the device data asset, using the operator `equal`. \
-This translates to `customer.device_id = db_prod.core.device.id`
+The operator to be applied on the `field` , that defines the logic of which values we would like to filter in the results. The options for the operator property are:
 
-{% hint style="info" %}
-Lynk supports multiple related fields from the source to the destination, enabling joins on more than one field when needed.
-{% endhint %}
+#### `equals`
+
+Equals to.\
+"A `equals` B" translates to "A `=` B".
+
+#### `is not`
+
+Does not Equals to.\
+"A `is not` B" translates to "A `!=` B" (or "A `<>` B").
+
+#### `gt`
+
+Greater than.\
+"A `gt` B" translates to "A `>` B".
+
+#### `gte`
+
+Greater than or equals to.\
+"A `gte` B" translates "to a `>=` b".
+
+#### `lt`
+
+Lower than.\
+"A `lt` B" translates "to a `<` b".
+
+#### `lte`
+
+Lower than or equals to.\
+"A `lte` B" translates "to a `<=` b".
+
+#### `is_set`
+
+The value is not NULL.\
+"A `is_set`" translates to "A `is not null`".
+
+#### `is_not_set`
+
+The value is NULL.\
+"A `is_not_set`" translates to "A `is null`".
 
 ***

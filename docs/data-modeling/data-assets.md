@@ -1,10 +1,10 @@
 # Data assets
 
-Data assets are tables and views from the underlying data warehouse.
+Data assets are tables and views from the underlying data source (mostly a warehouse). Data assets can be [related](entities/related-data-assets.md) to entities and they are being used for creating entity features.
 
+{% hint style="info" %}
 It is recommended to use a transformation tool like dbt to transform raw data into dimensional model with DIM and FACT tables, and expose that dimensional model to Lynk Semantic Layer.
-
-Lynk enables anyone at your team to create the logical business layer that translates technical data assets into business entities, features and KPIs with business meaning.
+{% endhint %}
 
 ***
 
@@ -38,7 +38,7 @@ measures:
 ```
 
 {% hint style="info" %}
-Data assets are stored on the Graph DB during the [discovery](../discovery.md) process. Once making changes on a data asset (e.g adding fields / measures) a YAML file for that asset will be created with properties as shown on the example above.
+Data assets are stored on the Lynk [Graph DB](../graph-db.md) during the [discovery](../discovery.md) process. If changes are made to a data asset within Lynk (e.g adding fields / measures), a YAML file will be created as shown on the example above.
 
 Once a YAML file gets created for a data asset, the asset is now stored in Git as well as on the Graph DB. Lynk will take care for syncing the Graph DB and your Git repository. See more on Lynk [Graph](../graph-db.md)[ DB](../graph-db.md) here.
 {% endhint %}
@@ -136,19 +136,17 @@ measures:
 
 ## Virtual data assets
 
-For each entity, a virtual data asset is created automatically, where the entity features exposed as fields.&#x20;
+Virtual data asset are data assets that live "virtually" within Lynk. Meaning, there is no materialized asset on the underlying data source (like cloud data warehouse).
+
+A virtual data assets is created for each entity within Lynk, where the entity is the "asset" and it's features are the "fields". Just like regular data assets, measures can be added to these assets.&#x20;
+
+In practice, those assets hold the business logic of each field and&#x20;
 
 ADD A DIAGRAM HERE WITH AN EXAMPLE
 
-Virtual data assets enable creating entity features based on features of other related entities. It also enable creating measures on an entity level and consuming those measures as entity rollups.
+Virtual data assets enable creating entity features based on features of other related entities. It also enable creating measures on an entity level and consuming those measures as entity rollups and in BI tools.
 
-{% hint style="info" %}
-Virtual data assets are just like regular data assets, except there is no table or view in the underlying database, they live virtually within Lynk.
-{% endhint %}
 
-### Creating features based on features from other entities
-
-Lynk enables to create features based on features from other entities, using virtual data assets. For example
 
 ***
 

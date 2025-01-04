@@ -16,6 +16,8 @@ The data modeling framework is at the core of Lynk Semantic Layer.&#x20;
 
 ## Data assets
 
+Lynk enables anyone at your team to create the logical business layer that translates technical data assets into business entities, features and KPIs with business meaning.
+
 ## Contexts
 
 ## Time aggregation

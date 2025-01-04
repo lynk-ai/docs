@@ -61,7 +61,3 @@ The name of the data asset field to retrieve as the entity feature.
 
 Custom filters to be applied on the data asset. See [filters](../data-assets/filters.md) page for in depth information on how to apply filters.
 
-
-
-***
-

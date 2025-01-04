@@ -1,8 +1,21 @@
 # Chaining features
 
-## Create field features from related entities
+Features in Lynk are reusable. You can use existing features to create new features on related entities.
 
-Lynk supports creating features based on related entities features.\
+{% hint style="info" %}
+Each entity in Lynk has a virtual data asset
+{% endhint %}
+
+
+
+\[A diagram of chaining features]
+
+
+
+
+
+
+
 In this case, the `asset` property should be the entity name. The rest of the feature properties remain the same as in creating field features from regular data assets.
 
 {% hint style="info" %}
