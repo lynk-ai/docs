@@ -122,7 +122,7 @@ The supported values for `window_size` are:&#x20;
 * integer values
 * `unbounded`
 
-`window_size` example, using an **integer** value:
+`window_size` example, using an integer value:
 
 ```sql
 // SQL API
@@ -141,7 +141,7 @@ SELECT  customer_id,
 FROM    entity('customer')
 ```
 
-The above example returns the result of the feature `count_orders` in the last `3` months, for each `customer` and `month`.
+The above example returns the cumulative results of the feature `count_orders` in the last `3` months, for each `customer` and `month`.
 
 {% hint style="info" %}
 Choosing `window_size` = `1` is equivalent to not choosing a window size.\
@@ -167,9 +167,9 @@ SELECT  customer_id,
 FROM    entity('customer')
 ```
 
-The above example returns for each `customer` and `month`,  the **cumulative** results of `count_orders` up until that hour. The window of time in this case starts from the first order of each `customer` that matches the business logic of the metric `count_orders`.&#x20;
+The above example returns for each `customer` and `month`,  the cumulative results of `count_orders` up until that hour. The window of time in this case starts from the first order of each `customer` that matches the business logic of the metric `count_orders`.&#x20;
 
-If we would choose `direction: forward`, Lynk would cumulate the results of `count_orders` for each data point (`customer` and `month`) up until the last known order in the underlying data asset.
+If we would choose `direction: forward`, the returned results would be the cumulating the feature `count_orders` for each data point (`customer` and `month`) up until the last known order in the underlying data asset.
 
 {% hint style="info" %}
 When using `window_size` , Lynk doesn’t introduce new aggregation logic but extends the time window for the existing feature logic to calculate **cumulative** results.
@@ -207,19 +207,25 @@ FROM    entity('customer')
 
 The above example returns the result of the feature `count_orders` in the **next** `7` days for each `customer` and `day`.
 
-### `anchor`
-
-
-
-
-
 ***
 
 ## Query level aggregation
 
-When using `time_agg` in the `USE` config block, the provided time aggregation will apply on **all features in the query**.&#x20;
+When using `time_agg`, the time aggregation will apply to **all features in the query,** except features that their origin `data_asset` does not have a `default_time_field` and the feature does not have any `aggregate_time_field.`
 
-### Default time field
+### Asset default time field
+
+time\_agg will apply only to&#x20;
+
+### Feature aggregate time field
+
+time\_agg will apply only to&#x20;
+
+{% hint style="info" %}
+Currently Lynk supports time aggregations on a query level. We have plans on our roadmap to add feature level time aggregations. If this is something you are interested in, please [contact us](https://www.getlynk.ai/book-a-demo) and let us know.
+{% endhint %}
+
+
 
 ***
 
