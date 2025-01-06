@@ -6,7 +6,11 @@ Data modeling is core for succeeding with data, specially in the era of AI. This
 
 Lynk has a built-in data modeling framework, which is based on the **Entity-Centric-Data-Modeling** (ECM) architecture, derived from the **Domain Driven Design** (DDD) architecture.&#x20;
 
-While the Star-Schema approach is to **normalize** data with main FACT tables connected to DIM tables, the Entity-Driven-Design approach is to **denormalize** data around business entities, which is more suitable for creating a central source of truth.
+While the Star-Schema approach is to **normalize** data with main FACT tables connected to DIM tables, the Entity-Driven-Design approach is to **denormalize** data around business entities, which is more suitable for creating a central source of truth.&#x20;
+
+{% hint style="info" %}
+Entity-Driven-Design can play very nicely with the Start Schema architecture, creating a denormalized table per entity on top of the Dim and Fact tables.
+{% endhint %}
 
 #### The ECM approach has many advantages, among them:
 
