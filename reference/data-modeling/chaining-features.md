@@ -10,7 +10,7 @@ Lynk takes care of such challenges by providing a structured way to model data (
 
 ## Virtual data assets
 
-[Virtual data assets](data-assets.md#virtual-data-assets) are data assets that live "virtually" within Lynk. Meaning, there is no materialized asset on the underlying data source. **A virtual data assets is created for each entity within Lynk**, where the entity is the "asset" and it's features are the "fields".&#x20;
+[Virtual data assets](data-assets/#virtual-data-assets) are data assets that live "virtually" within Lynk. Meaning, there is no materialized asset on the underlying data source. **A virtual data assets is created for each entity within Lynk**, where the entity is the "asset" and it's features are the "fields".&#x20;
 
 ## Creating features from related entities
 

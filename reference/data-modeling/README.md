@@ -10,13 +10,13 @@ Data modeling is core for succeeding with data, specially in the era of AI. This
 
 Lynk has a built-in data modeling framework, which is based on the **Entity-Centric-Data-Modeling** (ECM) architecture, derived from the **Domain Driven Design** (DDD) architecture.&#x20;
 
-While the Star-Schema approach is to **normalize** our data into FACT tables associated with DIM tables, the Entity-Driven-Design approach is to **denormalize** data around business entities, which is more suitable for creating a central source of truth.
+While the Star-Schema approach is to **normalize** data with main FACT tables connected to DIM tables, the Entity-Driven-Design approach is to **denormalize** data around business entities, which is more suitable for creating a central source of truth.
 
-The ECM approach has a lot of advantages, among them are:
+#### The ECM approach has many advantages, among them:
 
 * Making data accessible to business users
 * Better for creating a central source of truth
-* Connecting all data silos
+* Connecting data silos
 * Keeping the data model clean (following the DRY pattern)
 
 {% hint style="info" %}
@@ -58,21 +58,27 @@ For performance optimizations, we have plans on our roadmap to enable entities a
 
 ## [Chaining features](chaining-features.md)
 
-Features are reusable. This means it is possible to create robust data pipelines within Lynk - by adding  features to an entity, based on features of other (related) entities.
+Features are reusable. This means it is possible to create robust data pipelines within Lynk - by chaining features across entities.
 
 {% hint style="info" %}
 Common challenges in data modeling are questions like "how should I model this?" and "was this done before, somewhere else?"
 
-Lynk takes care of such challenges by providing a structured way to model data (defining features on entities via YAML files), governing it with the [Governance](../governance.md) layer and making it all accessible via the Studio interface.
+Lynk takes care of such challenges by providing a structured way to model data (defining features on entities via YAML files), governing it with the [Governance](../governance.md) layer and making it all easily accessible via the Studio interface.
 {% endhint %}
 
-## [Data assets](data-assets.md)
+## [Data assets](data-assets/)
 
-Data assets are tables and views from the underlying data source (a data warehouse). Data assets can be related to entities and they are being used mostly for creating entity features.
+Data assets are tables and views from the underlying data source (a data warehouse). Data assets are being used for creating features.
+
+For example, if we have a data asset that holds all the payment attempts done by customer, we can define features like first / last payment, aggregating payments to a customer level etc..
 
 ## [Context](context.md)
 
-Contexts allow us to create business definitions specific to a business context like marketing / sales / product etc. For example, the definition of "active user" can differ between the product team and the marketing team. Contexts make it possible to have both definitions as "active user", in a different context.
+Contexts allow us to create business definitions specific to a business context like marketing / sales / product etc. For example, the definition of "active user" can differ between the product team and the marketing team. Contexts make it possible to have more than one definition of "active\_user" - one for marketing team and one for sales team.&#x20;
+
+{% hint style="info" %}
+Contexts can also be in use for access and permissions purposes - to control who can see what, by just assigning users to specific contexts. This feature is currently in a private beta. [contact us](https://www.getlynk.ai/book-a-demo) to let us know you are interested in this feature.
+{% endhint %}
 
 ## [Time aggregation](../consume-and-apis/time-aggregation.md)
 

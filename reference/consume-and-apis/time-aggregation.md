@@ -231,13 +231,4 @@ Currently Lynk supports time aggregations on a query level. We have plans on our
 
 ## Using time\_agg with BI tools
 
-The best way to leverage the power of time aggregations with BI tools, is by passing parameters with the time\_agg properties. This way, you can dynamically change time aggregations from the BI tool without ease.
-
-
-
-
-
-
-
-
-
+Using BI tools, it is possible to leverage the power of time aggregations, and dynamically change time aggregations - by passing parameters to the time\_agg properties.&#x20;

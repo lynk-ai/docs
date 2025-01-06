@@ -74,7 +74,7 @@ To see how to define and use relationships between entities, please see [Related
 
 ## Consuming Entities
 
-Entities and Features are consumed via [SQL API](../../consume-and-apis/sql-api/), [REST API](../../consume-and-apis/rest-api.md) or via Lynk [Playground](../../consume-and-apis/playground.md). See [Consume & APIs](../../consume-and-apis/) for in depth information on this.
+Entities and Features are consumed via [SQL API](../../consume-and-apis/sql-api/), [REST API](../../consume-and-apis/rest-api.md) or via Lynk [Playground](broken-reference). See [Consume & APIs](../../consume-and-apis/) for in depth information on this.
 
 ```sql
 // Example for a simple SQL API query

@@ -22,13 +22,15 @@ layout:
 
 ## A flexible central source of truth
 
+
+
 #### Source of truth
 
 The main concept of Lynk is to create a central source of truth for each of the entities in the business, in a trusted and accessible way. In other words, from a business perspective, for each business entity it should be clear what we know of it, how was it defined, and where we can find it. We call these pieces of information on an entity level - "features".
 
 #### Flexibility
 
-The challenge with the traditional data "source of truth" is the their rigidness - data teams have to think of all the possible metrics and definitions in advance.
+The challenge with the traditional "sources of truth" is the their _rigidness_ - data teams have to think of all the possible metrics and definitions in advance. But the business is ever evolving and different teams need different ways to explore data.
 
 #### **Accessibility**
 
@@ -38,7 +40,8 @@ Another challenge is keeping the documentation up to date, as well as making dat
 
 On top of the modeling framework, Lynk applies three extra layers:
 
-**Governance layer** \
+#### **Governance layer**&#x20;
+
 Making sure your data model is clean and clear.&#x20;
 
 * Accessability layer\
@@ -97,4 +100,4 @@ The Studio is tightly coupled to code, meaning everything you do on the Studio t
 
 ### Jump right in
 
-<table data-view="cards"><thead><tr><th></th><th></th><th data-hidden data-card-cover data-type="files"></th><th data-hidden></th><th data-hidden data-card-target data-type="content-ref"></th></tr></thead><tbody><tr><td><strong>Getting Started</strong></td><td>Create your first site</td><td></td><td></td><td><a href="broken-reference">Broken link</a></td></tr><tr><td><strong>Basics</strong></td><td>Learn the basics of GitBook</td><td></td><td></td><td><a href="broken-reference/">broken-reference</a></td></tr><tr><td><strong>Publish your docs</strong></td><td>Share your docs online</td><td></td><td></td><td><a href="broken-reference">Broken link</a></td></tr></tbody></table>
+<table data-view="cards"><thead><tr><th></th><th></th><th data-hidden data-card-cover data-type="files"></th><th data-hidden></th><th data-hidden data-card-target data-type="content-ref"></th></tr></thead><tbody><tr><td><strong>Data modeling</strong></td><td> </td><td></td><td></td><td><a href="broken-reference">Broken link</a></td></tr><tr><td><strong>Governance</strong></td><td></td><td></td><td></td><td><a href="broken-reference">Broken link</a></td></tr><tr><td><strong>Accessibility</strong></td><td></td><td></td><td></td><td></td></tr></tbody></table>

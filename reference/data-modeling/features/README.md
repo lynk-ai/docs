@@ -47,7 +47,7 @@ This allows building consistent, accessible and governed business logic - See [c
 
 ## Consuming features
 
-Features are consumed via [SQL API](../../consume-and-apis/sql-api/), [REST API](../../consume-and-apis/rest-api.md) or via Lynk [Playground](../../consume-and-apis/playground.md).&#x20;
+Features are consumed via [SQL API](../../consume-and-apis/sql-api/), [REST API](../../consume-and-apis/rest-api.md) or via Lynk [Playground](broken-reference).&#x20;
 
 For example, here is a simple SQL API request to get some features defined on a customer level:
 

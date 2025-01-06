@@ -1,6 +1,6 @@
 # Data assets
 
-Data assets are tables and views from the underlying data source (mostly a warehouse). Data assets can be [related](entities/related-data-assets.md) to entities and they are being used for creating entity features.
+Data assets are tables and views from the underlying data source (mostly a warehouse). Data assets can be [related](../entities/related-data-assets.md) to entities and they are being used for creating entity features.
 
 {% hint style="info" %}
 It is recommended to use a transformation tool like dbt to transform raw data into dimensional model with DIM and FACT tables, and expose that dimensional model to Lynk Semantic Layer.
@@ -38,9 +38,9 @@ measures:
 ```
 
 {% hint style="info" %}
-Data assets are stored on the Lynk [Graph DB](../graph-db.md) during the [discovery](../discovery.md) process. If changes are made to a data asset within Lynk (e.g adding fields / measures), a YAML file will be created as shown on the example above.
+Data assets are stored on the Lynk [Graph DB](../../graph-db.md) during the [discovery](../../discovery.md) process. If changes are made to a data asset within Lynk (e.g adding fields / measures), a YAML file will be created as shown on the example above.
 
-Once a YAML file gets created for a data asset, the asset is now stored in Git as well as on the Graph DB. Lynk will take care for syncing the Graph DB and your Git repository. See more on Lynk [Graph](../graph-db.md)[ DB](../graph-db.md) here.
+Once a YAML file gets created for a data asset, the asset is now stored in Git as well as on the Graph DB. Lynk will take care for syncing the Graph DB and your Git repository. See more on Lynk [Graph](../../graph-db.md)[ DB](../../graph-db.md) here.
 {% endhint %}
 
 ### `asset`
@@ -50,7 +50,7 @@ Data Asset name and location as it appears in your underlying Data Warehouse (`d
 ### `key`
 
 The asset key field (primary key). \
-It is important to state the correct data asset key in order to avoid duplications and errors. Lynk will automatically find and suggest data asset keys after the [discovery](../discovery.md) process is completed.
+It is important to state the correct data asset key in order to avoid duplications and errors. Lynk will automatically find and suggest data asset keys after the [discovery](../../discovery.md) process is completed.
 
 ### `business_key` \[optional]
 
@@ -63,7 +63,7 @@ Business keys help us be clear on what this data asset is about, and what each r
 
 ### `defaults`
 
-Holds the defaults for the data asset.  See [default time field](data-assets.md#default-time-field) for example.
+Holds the defaults for the data asset.  See [default time field](./#default-time-field) for example.
 
 ### `time_field` \[optional]
 
@@ -77,7 +77,7 @@ In case a data asset has no default `time_field` , and no other time field will 
 
 ### `Measures`
 
-Measures are reusable components that define how the data asset fields should be aggregated. Lynk applies the measure logic once a feature of type [metric](features/metric.md) feature is created and consumed.
+Measures are reusable components that define how the data asset fields should be aggregated. Lynk applies the measure logic once a feature of type [metric](../features/metric.md) feature is created and consumed.
 
 In practice, measures are definitions of how aggregate functions should be applied to fields;
 
@@ -94,7 +94,7 @@ measures:
 ### `Name`
 
 Give the measure a name. \
-This will be used when creating [metric](features/metric.md) features and also will be shown on the Studio UI. It is recommended to give measures informative names that indicate their purpose.
+This will be used when creating [metric](../features/metric.md) features and also will be shown on the Studio UI. It is recommended to give measures informative names that indicate their purpose.
 
 ### `Description` \[optional]
 
