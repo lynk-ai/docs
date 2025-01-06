@@ -1,7 +1,3 @@
----
-description: lynk Data modeling framework
----
-
 # Data modeling
 
 Data modeling is core for succeeding with data, specially in the era of AI. This page summarizes the core concepts of Lynk data modeling framework.
