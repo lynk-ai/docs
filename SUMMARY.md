@@ -1,6 +1,11 @@
 # Table of contents
 
 * [Introduction](README.md)
+* [Getting started](getting-started/README.md)
+  * [Onboarding](getting-started/onboarding.md)
+  * [Discovery](getting-started/discovery.md)
+  * [Build](getting-started/build.md)
+  * [Query](getting-started/query.md)
 
 ## Reference
 
@@ -31,7 +36,6 @@
   * [BI tools](reference/consume-and-apis/bi-tools.md)
   * [AI](reference/consume-and-apis/ai.md)
   * [Embedded Analytics](reference/consume-and-apis/embedded-analytics.md)
-* [Discovery](reference/discovery.md)
 * [Governance](reference/governance.md)
 * [Accessibility](reference/accessibility.md)
 * [Integrations](reference/integrations/README.md)
