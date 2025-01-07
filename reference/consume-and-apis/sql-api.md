@@ -21,6 +21,8 @@ WHERE   country = 'US'
 LIMIT   100
 ```
 
+***
+
 ## Entities and features
 
 When querying Lynk via the SQL API, we are actually querying **entities** and their **features**. As shown in the above example, the `FROM` statement expects an entity using the `entity()` function, and the fields in the `SELECT` statement are actually **features**.
@@ -66,7 +68,9 @@ The above example will return a record per `customer` and `day`.&#x20;
 It is recommended to use `start_time` and `stop_time` parameters in the `USE` statement when using `time_agg`.
 {% endhint %}
 
-### Joining entities
+***
+
+## Joining entities
 
 Joining entities is done using the `JOIN` statement. \
 Under the hood, Lynk applies a LEFT JOIN operation between each two joined entities, according to the join path specified between the two entities. See [entities relationship](../data-modeling/entities/related-entities.md) for more information on how to specify join paths between two entities.
@@ -85,11 +89,9 @@ JOIN    entity('team') t
 
 Note that `team_name` is a feature that was defined on the entity `team` and joined to each customer on this SQL API query.
 
-{% hint style="warning" %}
-It is possible to join an entity to the main entity only if it has a one-to-one or many-to-one relationship to the main entity. Lynk enforces this to make sure no unwanted duplications occur on query level.
-{% endhint %}
+***
 
-### Joining entities using the join path name
+## Joining entities using join path name
 
 In some cases, there might be more than one way to join two entities. Lynk supports this scenario by supporting the definition of more than one join path between two entities.
 
@@ -136,18 +138,18 @@ Any of the statements above are supported, using the SQL flavor of the underlyin
 // customers per orders histogram
 
 SELECT  c.count_orders,
-        count(c.customer_id) as users_count
+        count(c.customer_id) as count_customers
 FROM    entity('customer') c
 JOIN    entity('team') t
 WHERE   t.size >= 100
 GROUP BY c.count_orders
 ORDER BY c.count_orders ASC
-LIMIT 100      
+LIMIT 20
 ```
 
-The above query will return&#x20;
+The above query will return a histogram of the number of customers per number of orders, for customers which their team size is 100 or more. It will also order the results by the number of orders in an ascending order, and return only 20 rows.
 
-{% hint style="warning" %}
+{% hint style="info" %}
 N**ot** supported
 
 * CTEs ("WITH" statements)
@@ -170,7 +172,7 @@ The supported query level configurations are:
 
 Specify which git `branch` to use.
 
-By default Lynk will run against the default git branch according to the project's repository. In case the `branch` option is passed in the `USE` configuration block, Lynk will take the entities and features definitions from that specified branch.
+By default Lynk will retrieve semantic definitions from the default git branch, according to the project's repository. In case the `branch` option is passed to the `USE` block, Lynk will take the semantic definitions (entities, features, join paths etc) from that specified branch.
 
 #### Example using a custom branch
 
@@ -186,11 +188,15 @@ SELECT  customer_id,
 from    entity('customer')
 ```
 
-
-
-
+In the above example we are using the `branch` "dev"
 
 ### `context`
+
+Specify which git `context` to use.&#x20;
+
+By default Lynk will retrieve semantic definitions from the default context (shared). In case the `branch` option is passed to the `USE` block, Lynk will take the semantic definitions (entities, features, join paths etc) from that specified branch.
+
+See [contexts](../data-modeling/context.md) for in depth information on this.
 
 ### `time_agg`
 

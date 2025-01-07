@@ -29,7 +29,7 @@
 * [Governance](reference/governance.md)
 * [Integrations](reference/integrations/README.md)
   * [Git](reference/integrations/git.md)
-  * [Snowflake](reference/integrations/snowflake.md)
+  * [Query engines](reference/integrations/query-engines.md)
 * [Graph DB](reference/graph-db.md)
 * [Project structure](reference/project-structure.md)
 

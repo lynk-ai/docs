@@ -2,7 +2,7 @@
 
 ## Data providers
 
-Lynk supports [Snowflake](snowflake.md).
+Lynk supports [Snowflake](query-engines.md).
 
 If you would like to try Lynk and need support to other data platform, please [contact us](https://www.getlynk.ai/book-a-demo) and we will add it quickly.
 

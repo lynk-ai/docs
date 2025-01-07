@@ -8,7 +8,7 @@ Contexts allow creating business definitions specific to a business context like
 
 There are two types of contexts:
 
-* `shared` context(default)
+* `shared` context (default)
 * custom context
 
 ### `shared` (the default context)
@@ -20,7 +20,7 @@ There are two types of contexts:
 Creating a custom context is done via settings > account > contexts on the Studio.\
 Only **admins** can create and manage contexts.
 
-<figure><img src="../../.gitbook/assets/image (1) (1).png" alt=""><figcaption><p>Example for "marketing" as a custom context</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1) (1) (1).png" alt=""><figcaption><p>Example for "marketing" as a custom context</p></figcaption></figure>
 
 ***
 
@@ -41,11 +41,11 @@ The below table shows what would be the result when consuming a feature that was
 
 | Defined on             | Consumed from | Result                    |
 | ---------------------- | ------------- | ------------------------- |
-| shared only            | shared        | shared definition         |
-| shared only            | custom        | shared definition         |
+| shared only            | shared        | `shared` definition       |
+| shared only            | custom        | `shared` definition       |
 | custom only            | shared        | feature not found (error) |
 | custom only            | custom        | custom definition         |
-| both shared and custom | shared        | shared definition         |
+| both shared and custom | shared        | `shared` definition       |
 | both shared and custom | custom        | custom definition         |
 
 ***
