@@ -9,7 +9,7 @@ Apply coding best practices, CI/CD and tests to semantics definitions - while le
 
 Connecting a Git repository is done on the onboarding process.&#x20;
 
-<figure><img src="../../.gitbook/assets/image (1).png" alt=""><figcaption><p>Connecting a Git repository on the onboarding process</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1) (1).png" alt=""><figcaption><p>Connecting a Git repository on the onboarding process</p></figcaption></figure>
 
 Once connected, Lynk will work with this repository to save the project files.&#x20;
 

@@ -1,11 +1,6 @@
 # Table of contents
 
 * [Introduction](README.md)
-* [Getting started](getting-started/README.md)
-  * [Onboarding](getting-started/onboarding.md)
-  * [Discovery](getting-started/discovery.md)
-  * [Build](getting-started/build.md)
-  * [Query](getting-started/query.md)
 
 ## Reference
 
@@ -24,8 +19,8 @@
   * [Context](reference/data-modeling/context.md)
 * [Consume & APIs](reference/consume-and-apis/README.md)
   * [Time aggregation](reference/consume-and-apis/time-aggregation.md)
-  * [Authentication](reference/consume-and-apis/authentication.md)
   * [SQL API](reference/consume-and-apis/sql-api.md)
+  * [Authentication](reference/consume-and-apis/authentication.md)
 * [Governance](reference/governance.md)
 * [Integrations](reference/integrations/README.md)
   * [Git](reference/integrations/git.md)
