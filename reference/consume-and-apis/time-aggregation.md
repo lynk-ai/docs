@@ -63,8 +63,6 @@ The options for `time_agg` are:
 * `time_grain`
 * `window_size`
 * `direction`
-* `is_cumulative`
-* `anchor`
 
 {% hint style="info" %}
 If `time_agg` is defined, the data Lynk will return on SQL API requsts will be on the level of the main entity + the selected time grain. If no `time_agg` was defined, Lynk will return one record per `entity`.
@@ -234,10 +232,3 @@ Lynk applies time aggregations on a query level. \
 We have plans on our roadmap to add feature level time aggregations. If this is something you are interested in, please [contact us](https://www.getlynk.ai/book-a-demo) and let us know.
 {% endhint %}
 
-
-
-***
-
-## Using time\_agg with BI tools
-
-Using BI tools, it is possible to leverage the power of time aggregations, and dynamically change time aggregations - by passing parameters to the time\_agg properties.&#x20;
