@@ -25,8 +25,3 @@
   * [Git](reference/integrations/git.md)
   * [Query engines](reference/integrations/query-engines.md)
 * [Governance](reference/governance.md)
-
-## Guides
-
-* [Embedded Analytics](guides/embedded-analytics.md)
-* [BI tools](guides/bi-tools.md)
