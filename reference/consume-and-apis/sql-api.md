@@ -7,7 +7,7 @@ Querying the SQL API is as simple as writing a simple SQL SELECT statement.
 The SQL API supports standard `SELECT` statements.\
 The query format is similar to a vanilla (regular) SQL query, using the SQL flavor of your query engine (Snowflake, BigQuery etc).
 
-#### An example for a simple SQL API query:
+#### Example:
 
 ```sql
 // A simple SQL API query
