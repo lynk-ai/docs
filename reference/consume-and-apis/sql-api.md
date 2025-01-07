@@ -208,6 +208,8 @@ SELECT  customer_id,
 from    entity('customer')
 ```
 
+The above query will return for each `customer`, it's `customer_id` and the value of the feature `is_active_customer`. In case the context `marketing` has a feature called `is_active_customer` on a customer level, Lynk will use this feature definition to build the query. If the context `marketing` does not have a feature called `is_active_customer`, Lynk will use the definition from the `shared` context for the feature `is_active_customer`.
+
 See [contexts](../data-modeling/context.md) for in depth information on this.
 
 ***
@@ -218,11 +220,46 @@ Use `time_agg` to specify how to aggregate the query features, in terms of time 
 
 See [time aggregation](time-aggregation.md) for in depth information on this.
 
+***
+
 ### `start_time`
+
+Use `start_time` to specify a lower time barrier for the query.&#x20;
+
+The `start_time` parameter will be applied to all of the underlying data assets that Lynk will query in order to build the requested features.
+
+{% hint style="info" %}
+When using `time_agg` it is highly recommended to use the `start_time` option for performance and cost saving purposes.&#x20;
+{% endhint %}
+
+***
 
 ### `stop_time`
 
+Use `stop_time` to specify an upper time barrier for the query.&#x20;
 
+The `stop_time` option will be applied to all of the underlying data assets that Lynk will query in order to build the requested features.
+
+{% hint style="info" %}
+When using `time_agg` it is highly recommended to use the `stop_time` option for performance and cost saving purposes.&#x20;
+{% endhint %}
+
+#### Example
+
+```sql
+// Using start_time and stop_time
+​
+USE {
+  "start_time": "2024-01-01",
+  "stop_time": "2025-01-01"
+}
+​
+SELECT  customer_id,
+        count_orders
+from    entity('customer')
+```
+
+In the above example, Lynk will return for each customer, it's `customer_id` and the feature `count_orders,` where `count_orders` is calculated for each user on the time frame between `2024-01-01` and `2025-01-01`.&#x20;
 
 ***
 
@@ -258,17 +295,13 @@ In case of SQL error occurs on the query engine, the original error will return.
 
 ***
 
+## Query pushdowns
 
+It is possible to query the query engine directly via Lynk. We call this operation a `pushdown`.
 
-***
+In case the `entity()` function is not passed to the `FROM` statement, Lynk will assume you are not querying entities, and will pass the query as is to the underlying query engine - and return the results.
 
-## Pushdowns
-
-if not entity - passes directly to the engine
-
-
-
-
-
-
+{% hint style="info" %}
+We are working on a new "admin board" that will allow Lynk admins view all the queries that ran through Lynk SQL API - Including queries that retrieve entities and pushdowns. This feature is on our product roadmap for Q1 2025. Please [contact us](https://www.getlynk.ai/book-a-demo) if you find this interesting.
+{% endhint %}
 
