@@ -2,7 +2,7 @@
 description: Use lynk semantic definitions in your BI, AI and embedded analytics tools
 ---
 
-# Consume APIs
+# Consume & APIs
 
 Lynk offers several ways to consume semantic definitions from various tools.&#x20;
 
@@ -28,4 +28,4 @@ LIMIT   100
 
 ## BI tools
 
-You can connect your BI tool to lynk via [SQL API](sql-api/).\
+You can connect your BI tool to lynk via [SQL API](sql-api.md).\

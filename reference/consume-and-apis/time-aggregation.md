@@ -52,7 +52,7 @@ In the above example, a record per customer and day will return, counting the am
 
 ### `USE`
 
-Set this object on the SQL API / REST API query, to define all the query level configurations, including time\_agg. See [USE](sql-api/use.md) for in depth information on this.
+Set this object on the SQL API / REST API query, to define all the query level configurations, including time\_agg. See [USE](broken-reference) for in depth information on this.
 
 ### `time_agg`
 

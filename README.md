@@ -54,7 +54,3 @@ Semantic definitions are translated to efficient SQL code. Lynk also governs usa
 
 Lynk is built from the ground up with AI in mind.\
 AI helps Lynk users to build, explain and consume entities, features and insights.
-
-### Jump right in
-
-<table data-view="cards"><thead><tr><th></th><th></th><th data-hidden data-card-cover data-type="files"></th><th data-hidden></th><th data-hidden data-card-target data-type="content-ref"></th></tr></thead><tbody><tr><td><strong>Data modeling</strong></td><td> </td><td></td><td></td><td><a href="broken-reference">Broken link</a></td></tr><tr><td><strong>Accessibility</strong></td><td></td><td></td><td></td><td></td></tr><tr><td><strong>Governance</strong></td><td></td><td></td><td></td><td><a href="broken-reference">Broken link</a></td></tr></tbody></table>
