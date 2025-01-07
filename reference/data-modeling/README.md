@@ -6,21 +6,24 @@ Data modeling is core for succeeding with data, specially in the era of AI. This
 
 Lynk has a built-in data modeling framework, which is based on the **Entity-Centric-Data-Modeling** (ECM) architecture, derived from the **Domain Driven Design** (DDD) architecture.&#x20;
 
-While the Star-Schema approach is to **normalize** data with main FACT tables connected to DIM tables, the Entity-Driven-Design approach is to **denormalize** data around business entities, which is more suitable for creating a central source of truth.&#x20;
+While the Star-Schema approach is to **normalize** data with FACT and DIM tables, the Entity-Centric-Data-Modeling approach is to **denormalize** data around business entities. This approach is more suitable for creating a central source of truth and specially for making it easy and accessible for business teams and AI.
 
 {% hint style="info" %}
-Entity-Centric-Data-Modeling can play very nicely with the Start Schema architecture, creating a denormalized table per entity on top of the Dim and Fact tables.
+Entity-Centric-Data-Modeling can be built on top of a Star Schema architecture, creating a denormalized table per entity (with all the entity features) on top of the Dim and Fact tables.
 {% endhint %}
 
-#### The ECM approach has many advantages, among them:
+### The ECM architecture advantages
+
+The Entity-Centric-Data-Modeling architecture advantages include:
 
 * Making data accessible to business users
 * Better for creating a central source of truth
 * Connecting data silos
-* Keeping the data model clean (following the DRY pattern)
+* Easier to Keep the data model clean (following the DRY pattern)
+* Better for AI enablement
 
 {% hint style="info" %}
-On top of the data modeling layer, lynk applies the [Governance](../governance.md) layer to make sure our data model is consistent, clean and efficient.
+On top of the data modeling layer, lynk applies the [governance](../governance.md) layer to make sure our data model is consistent, clean and efficient.
 {% endhint %}
 
 ## [Entities](entities/)
