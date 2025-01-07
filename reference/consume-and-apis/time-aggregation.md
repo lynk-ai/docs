@@ -32,8 +32,8 @@ If we would like to get the **daily** amount of `count_orders` per customer, we 
 // SQL API
 
 USE {
-  time_agg {
-    time_grain : day
+  "time_agg" {
+    "time_grain" : "day"
     }
 }
 
@@ -92,8 +92,8 @@ For example:&#x20;
 // SQL API
 
 USE {
-  time_agg {
-    time_grain : week
+  "time_agg" {
+    "time_grain" : "week"
     }
 }
 
@@ -126,10 +126,10 @@ The supported values for `window_size` are:&#x20;
 // SQL API
 
 USE {
-  time_agg {
-    time_grain : month,
-    window_size: 1,
-    direction: backward
+  "time_agg" {
+    "time_grain" : "month",
+    "window_size": 1,
+    "direction": "backward"
     }
 }
 
@@ -152,10 +152,10 @@ For example, if the `time_grain` is set to `day` and `window_size` is set to `1`
 // SQL API
 
 USE {
-  time_agg {
-    time_grain : month,
-    window_size: unbounded,
-    direction: backward
+  "time_agg" {
+    "time_grain" : "month",
+    "window_size": "unbounded",
+    "direction": "backward"
     }
 }
 
@@ -190,10 +190,10 @@ For example:&#x20;
 // SQL API
 
 USE {
-  time_agg {
-    time_grain : day,
-    window_size: 7,
-    direction: foreward
+  "time_agg" {
+    "time_grain" : "day",
+    "window_size": 7,
+    "direction": "foreward"
     }
 }
 

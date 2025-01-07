@@ -172,7 +172,7 @@ The supported query level configurations are:
 
 Specify which git `branch` to use.
 
-By default Lynk will retrieve semantic definitions from the default git branch, according to the project's repository. In case the `branch` option is passed to the `USE` block, Lynk will take the semantic definitions (entities, features, join paths etc) from that specified branch.
+By default Lynk will retrieve semantic definitions from the default git branch, according to the project's repository. In case the `branch` option is passed to the `USE` block, Lynk will take the semantic definitions (entities, features, join paths etc) from the specified branch.
 
 #### Example using a custom branch
 
@@ -192,13 +192,31 @@ In the above example we are using the `branch` "dev"
 
 ### `context`
 
-Specify which git `context` to use.&#x20;
+Specify which `context` to use.&#x20;
 
-By default Lynk will retrieve semantic definitions from the default context (shared). In case the `branch` option is passed to the `USE` block, Lynk will take the semantic definitions (entities, features, join paths etc) from that specified branch.
+By default Lynk will retrieve semantic definitions from the default context ("shared"). In case the `context` option is passed to the `USE` block, Lynk will take the semantic definitions (entities, features, join paths etc) from the specified context.
+
+```sql
+// Using a custom context
+​
+USE {
+  "context": "marketing"
+}
+​
+SELECT  customer_id,
+        is_active_customer
+from    entity('customer')
+```
 
 See [contexts](../data-modeling/context.md) for in depth information on this.
 
+***
+
 ### `time_agg`
+
+Use `time_agg` to specify how to aggregate the query features, in terms of time aggregation.&#x20;
+
+See [time aggregation](time-aggregation.md) for in depth information on this.
 
 ### `start_time`
 
