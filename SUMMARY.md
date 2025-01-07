@@ -21,12 +21,10 @@
   * [Time aggregation](reference/consume-and-apis/time-aggregation.md)
   * [SQL API](reference/consume-and-apis/sql-api.md)
   * [Authentication](reference/consume-and-apis/authentication.md)
-* [Governance](reference/governance.md)
 * [Integrations](reference/integrations/README.md)
   * [Git](reference/integrations/git.md)
   * [Query engines](reference/integrations/query-engines.md)
-* [Graph DB](reference/graph-db.md)
-* [Project structure](reference/project-structure.md)
+* [Governance](reference/governance.md)
 
 ## Guides
 

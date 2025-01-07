@@ -38,9 +38,9 @@ measures:
 ```
 
 {% hint style="info" %}
-Data assets are stored on the Lynk [Graph DB](../../graph-db.md) during the [discovery](broken-reference) process. If changes are made to a data asset within Lynk (e.g adding fields / measures), a YAML file will be created as shown on the example above.
+Data assets are stored on the Lynk [Graph DB](broken-reference) during the [discovery](broken-reference) process. If changes are made to a data asset within Lynk (e.g adding fields / measures), a YAML file will be created as shown on the example above.
 
-Once a YAML file gets created for a data asset, the asset is now stored in Git as well as on the Graph DB. Lynk will take care for syncing the Graph DB and your Git repository. See more on Lynk [Graph](../../graph-db.md)[ DB](../../graph-db.md) here.
+Once a YAML file gets created for a data asset, the asset is now stored in Git as well as on the Graph DB. Lynk will take care for syncing the Graph DB and your Git repository. See more on Lynk [Graph](broken-reference)[ DB](broken-reference) here.
 {% endhint %}
 
 ### `asset`
