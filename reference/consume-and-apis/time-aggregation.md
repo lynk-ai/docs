@@ -211,18 +211,27 @@ The above example returns the result of the feature `count_orders` in the **next
 
 ## Query level aggregation
 
-When using `time_agg`, the time aggregation will apply to **all features in the query,** except features that their origin `data_asset` does not have a `default_time_field` and the feature does not have any `aggregate_time_field.`
+Time aggregations apply to all features on the query, **according to the time field specified for each feature**. Aggregate time field can be specified as a `default_time_field` to a data asset or as a `aggregate_time_field` on a feature level.
 
-### Asset default time field
+In other words, `time_agg` will be applied to features that have one of the following:
 
-time\_agg will apply only to&#x20;
+#### The feature is built from a data asset that has a `default_time_field`
 
-### Feature aggregate time field
+Lynk will use the `default_time_field` to aggregate the feature.
 
-time\_agg will apply only to&#x20;
+#### The feature has an `aggregate_time_field` on the feature definition
+
+Lynk will use the `aggregate_time_field` to aggregate the feature.
+
+In case the underlying data asset that the feature was created from has a `default_time_field`, and the feature also has a `aggregate_time_field` specified to it - Lynk will use the `aggregate_time_field` for aggregating that feature. This enables flexability on the feature aggregation level.
 
 {% hint style="info" %}
-Currently Lynk supports time aggregations on a query level. We have plans on our roadmap to add feature level time aggregations. If this is something you are interested in, please [contact us](https://www.getlynk.ai/book-a-demo) and let us know.
+In case a feature has none of these two, Lynk will not apply time aggregation to that feature, and it will be aggregated on all available time range of the underlying data asset that the feature was built from.
+{% endhint %}
+
+{% hint style="info" %}
+Lynk applies time aggregations on a query level. \
+We have plans on our roadmap to add feature level time aggregations. If this is something you are interested in, please [contact us](https://www.getlynk.ai/book-a-demo) and let us know.
 {% endhint %}
 
 
