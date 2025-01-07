@@ -1,18 +1,14 @@
----
-description: Use lynk semantic definitions in your BI, AI and embedded analytics tools
----
-
 # Consume & APIs
 
-Lynk offers several ways to consume semantic definitions from various tools.&#x20;
+Entities and features can be consumed via [SQL API](sql-api.md).
 
-<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+{% hint style="info" %}
+REST API is on our roadmap for Q1 2025. Please [contact us](https://www.getlynk.ai/book-a-demo) if you are interested in this topic.
+{% endhint %}
 
 ## Consuming entities
 
-Main entity
-
-joined entities - left join
+### joined entities - left join
 
 ```sql
 // A simple SQL API query
@@ -28,4 +24,4 @@ LIMIT   100
 
 ## BI tools
 
-You can connect your BI tool to lynk via [SQL API](sql-api.md).\
+You can connect your BI tool to lynk via SQL API.\

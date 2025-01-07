@@ -30,12 +30,12 @@ Enabling teams to create a central source of truth for each of the entities in t
 Lynk is suitable to both business users and data teams. \
 All the semantic definitions like Entities and Features are available to view and edit via Lynk studio - a user friendly UI.
 
-## **Data modeling**
+## [**Data modeling**](reference/data-modeling/)
 
 At it's core, Lynk has a structured data modeling framework.\
 Data is modeled as entities and features in a way that makes it simpler to overcome common challenges like "how should I model this data" and "was this already done before?"
 
-## **Governance**
+## [**Governance**](reference/governance.md)
 
 Entities, features and usage patterns are all constantly governed.\
 To make sure our source of truth is trusted and avoid duplicated logic and wasted resources.

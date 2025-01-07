@@ -27,10 +27,9 @@
   * [Authentication](reference/consume-and-apis/authentication.md)
   * [SQL API](reference/consume-and-apis/sql-api.md)
 * [Governance](reference/governance.md)
-* [Accessibility](reference/accessibility.md)
 * [Integrations](reference/integrations/README.md)
-  * [Snowflake](reference/integrations/snowflake.md)
   * [Git](reference/integrations/git.md)
+  * [Snowflake](reference/integrations/snowflake.md)
 * [Graph DB](reference/graph-db.md)
 * [Project structure](reference/project-structure.md)
 
