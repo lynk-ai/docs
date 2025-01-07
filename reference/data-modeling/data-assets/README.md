@@ -112,7 +112,7 @@ Lynk is SQL-first, meaning anything that would work on plain SQL will work with 
 Examples: `SUM` , `COUNT` , `MIN` , `MAX` , `COUNT DISTINCT` , `APPROX_PERCENTILE` etc&#x20;
 {% endhint %}
 
-Some more examples:
+#### Some more examples:
 
 ```yaml
 # db_prod.core.orders.yml
@@ -136,13 +136,12 @@ measures:
 
 ## Virtual data assets
 
-Virtual data asset are data assets that live "virtually" within Lynk. Meaning, there is no materialized asset on the underlying data source. **A virtual data assets is created for each entity within Lynk**, where the entity is the "asset" and it's features are the "fields".&#x20;
+Virtual data asset are data assets that live "virtually" within Lynk. Meaning, there is no materialized asset on the underlying data source. A virtual data assets is created for each entity within Lynk, where the entity is the "asset" and it's features are the "fields".&#x20;
 
 {% hint style="info" %}
-Just like regular data assets, measures can be added to virtual data assets.&#x20;
+Measures can be added to virtual data assets, just like in regular data assets.
 {% endhint %}
 
 #### Usage of virtual data assets
 
-1. Chaining features - creating entity features based on features of other related entities.
-2. Consume entity measures on BI tools -  creating measures on an entity level for consuming those measures in BI tools.
+virtual data assets are mainly used for [chaining features](../chaining-features.md) - creating entity features based on features of other related entities.
