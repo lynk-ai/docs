@@ -68,7 +68,7 @@ Define which Data Assets are related to the entity. Related assets will be shown
 
 ## Entity relationships
 
-To see how to define and use relationships between entities, please see [Related entities](related-data-assets.md) page.
+To see how to define and use relationships between entities, please see [Related entities](related-entities.md) page.
 
 ***
 
