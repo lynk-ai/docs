@@ -140,6 +140,10 @@ Note that in order to use a named join pattern, we use the `ON` keyword and then
 
 Any of the statements above are supported, using the SQL flavor of the underlying query engine in use.
 
+{% hint style="info" %}
+When querying the SQL API, we refer to **entities** as a "tables" and to **features** as "fields".
+{% endhint %}
+
 #### Example:
 
 ```sql
