@@ -6,8 +6,6 @@ Each entity has related [data assets](../data-assets/), which are tables or view
 Joining related assets will allow us to enrich our entity with features
 {% endhint %}
 
-\[ADD here a diagram showing an entity and related assets]
-
 ***
 
 ## Simple entity-to-asset relation
