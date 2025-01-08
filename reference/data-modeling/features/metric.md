@@ -50,7 +50,7 @@ The data asset with the measure to be aggregated to the level of our entity.\
 `asset` should be the full path: "db.schema.name".
 
 {% hint style="info" %}
-`asset` has to be related to our entity (see [related data asset](../entities/#related-assets)).
+`asset` has to be related to our entity (see [related data asset](../entities/related-data-assets.md)).
 {% endhint %}
 
 ### `measure`

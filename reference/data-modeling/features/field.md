@@ -46,7 +46,7 @@ The data asset with the field to be added as feature to our entity.\
 `asset` should be the full path: "db.schema.name".
 
 {% hint style="info" %}
-`asset` has to be related to our entity (see [related data asset](../entities/#related-assets)).
+`asset` has to be related to our entity (see [related data asset](../entities/related-data-assets.md)).
 {% endhint %}
 
 ### `field`
