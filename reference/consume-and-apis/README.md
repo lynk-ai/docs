@@ -8,20 +8,6 @@ REST API is on our roadmap for Q1 2025. Please [contact us](https://www.getlynk.
 
 ## Consuming entities
 
-### joined entities - left join
+Entities and features built within Lynk are easily consumable to any BI, AI and embedded analytics tools via SQL API (and soon via REST API).
 
-```sql
-// A simple SQL API query
-
-SELECT  customer_id,
-        total_order_amount,
-        first_order_date,
-        last_order_status
-FROM    entity('customer') 
-WHERE   country = 'US'
-LIMIT   100
-```
-
-## BI tools
-
-You can connect your BI tool to lynk via SQL API.\
+Learn more on [SQL API](sql-api.md) page.\

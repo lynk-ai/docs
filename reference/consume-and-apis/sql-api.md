@@ -2,6 +2,14 @@
 
 Querying the SQL API is as simple as writing a simple SQL SELECT statement.
 
+## Connecting to Lynk SQL API
+
+Connecting to Lynk SQL API is done via a regular Postgres SQL connector.
+
+***
+
+
+
 ## Query structure
 
 The SQL API supports standard `SELECT` statements.\
