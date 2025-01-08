@@ -18,7 +18,7 @@ In this example, we define the relations between the entity `customer` to the da
 related_assets:
 
   db_prod.core.orders:
-    relationship: one-to-many
+    relationship: one_to_many
     joins:
     - name: all_orders
       default: true
@@ -26,7 +26,7 @@ related_assets:
       sql:  {source}.customer_id = {destination}.customer_id
 
   db_prod.core.device:
-    relationship: one-to-one
+    relationship: one_to_one
     joins:
     - name: customer_device
       default: true
@@ -48,10 +48,10 @@ Each data asset element has to include the full path to the data asset as it in 
 Sets the `Relationship` between the entity and the data asset.\
 The options for the Relationship property are:
 
-* `one-to-one`
-* `one-to-many`
-* `many-to-many`
-* `many-to-one`
+* `one_to_one`
+* `one_to_many`
+* `many_to_many`
+* `many_to_one`
 
 The direction of the relationship is entity-to-asset. Meaning, in our example, the entity is `customer` and the first data asset is `order`. So in this case a customer has many orders.&#x20;
 
@@ -104,7 +104,7 @@ See the following example;
 related_assets:
 
   db_prod.core.orders:
-    relationship: one-to-many
+    relationship: one_to_many
     joins:
     - name: all_orders
       default: true
@@ -133,7 +133,7 @@ See the following example:
 related_assets:
 
   db_prod.core.device:
-    relationship: one-to-one
+    relationship: one_to_one
     joins:
     - name: customer_device
       default: true
@@ -178,7 +178,7 @@ See the below example:
 related_assets:
 
   db_prod.core.payment:
-    relationship: one-to-many
+    relationship: one_to_many
     joins:
     - name: all_payments
       default: true
@@ -225,7 +225,7 @@ Lynk supports multiple join paths between an entity and a data asset as follows:
 
 related_assets:
   db_prod.core.agents:
-    relationship: many-to-many
+    relationship: many_to_many
     joins:
     - name: sale_agent
       default: true

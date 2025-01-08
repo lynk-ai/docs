@@ -19,7 +19,7 @@ In this example, the entity `nation` relates to the entity `customer` in a one-t
 relationships:
   
   nation-customer:
-    relationship: one-to-many
+    relationship: one_to_many
     joins:
     - name: nation_id
       default: true
@@ -49,13 +49,13 @@ Sets the `Relationship` between the two entities, according to the direction. In
 
 The options for the Relationship property are:
 
-* `one-to-one`
-* `one-to-many`
-* `many-to-many`
-* `many-to-one`
+* `one_to_one`
+* `one_to_many`
+* `many_to_many`
+* `many_to_one`
 
 {% hint style="info" %}
-Lynk will use the relationship property to suggest the correct [virtual data assets](broken-reference) when creating features. For example, when creating metrics, Lynk will only suggest one-to-many related virtual data assets.
+Lynk will use the relationship property to suggest the correct [virtual data assets](../data-assets/#virtual-data-assets) when creating features. For example, when creating metrics, Lynk will only suggest one\_to\_many related virtual data assets.
 {% endhint %}
 
 ### `Joins`
@@ -100,7 +100,7 @@ See the following example:
 relationships:
   
   nation-customer:
-    relationship: one-to-many
+    relationship: one_to_many
     joins:
     - name: nation_id
       default: true
@@ -129,7 +129,7 @@ See the following example:
 relationships:
   
   nation-customer:
-    relationship: one-to-many
+    relationship: one_to_many
     joins:
     - name: nation_id
       default: true
@@ -177,7 +177,7 @@ ADD A DIAGRAM CUSTOMER --> TEAM --> ORGANIZATION
 relationships:
 
   customer-organization:
-    relationship: many-to-one
+    relationship: many_to_one
     joins:
     - name: lookup_via_team
       default: true
