@@ -16,7 +16,7 @@ A feature's business logic is defined on the feature definition level, while how
 For example, let's assume we have an entity `customer` and it has a simple metric feature `count_orders` that counts how many orders a customer has.&#x20;
 
 ```sql
-// SQL API
+-- SQL API
 
 SELECT  customer_id,
         count_orders
@@ -29,7 +29,7 @@ The above SQL API request will calculate for each `customer` the count of total 
 If we would like to get the **daily** amount of `count_orders` per customer, we can change the query as follows:
 
 ```sql
-// SQL API
+-- SQL API
 
 USE {
   "time_agg" {
@@ -89,7 +89,7 @@ The supported values for `time_grain` are:
 For example:&#x20;
 
 ```sql
-// SQL API
+-- SQL API
 
 USE {
   "time_agg" {
@@ -123,7 +123,7 @@ The supported values for `window_size` are:&#x20;
 `window_size` example, using an integer value:
 
 ```sql
-// SQL API
+-- SQL API
 
 USE {
   "time_agg" {
@@ -149,7 +149,7 @@ For example, if the `time_grain` is set to `day` and `window_size` is set to `1`
 `window_size` example, using `unbounded`:
 
 ```sql
-// SQL API
+-- SQL API
 
 USE {
   "time_agg" {
@@ -187,7 +187,7 @@ The supported values for `direction` are:
 For example:&#x20;
 
 ```sql
-// SQL API
+-- SQL API
 
 USE {
   "time_agg" {

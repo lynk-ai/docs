@@ -52,7 +52,7 @@ Features are consumed via [SQL API](../../consume-and-apis/sql-api.md), [REST AP
 For example, here is a simple SQL API request to get some features defined on a customer level:
 
 ```sql
-// A simple SQL API query
+-- A simple SQL API query
 
 SELECT  customer_id,
         total_order_amount,

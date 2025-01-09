@@ -14,7 +14,7 @@ Related entities will allow us to enrich an entity with features from other enti
 In this example, the entity `nation` relates to the entity `customer` in a one-to-many relationship (a nation has many customers)
 
 ```yaml
-// entities_relationships.yml
+# entities_relationships.yml
 
 relationships:
   
@@ -95,7 +95,7 @@ When setting `type: sql`, you will need to add the `sql` property with the SQL d
 See the following example:
 
 ```yaml
-// entities_relationships.yml
+# entities_relationships.yml
 
 relationships:
   
@@ -124,7 +124,7 @@ When setting `type: fields`, you will need to add the `fields` property with the
 See the following example:
 
 ```yaml
-// entities_relationships.yml
+# entities_relationships.yml
 
 relationships:
   
@@ -172,7 +172,7 @@ See the below example:
 ADD A DIAGRAM CUSTOMER --> TEAM --> ORGANIZATION
 
 ```yaml
-// entities_relationships.yml
+# entities_relationships.yml
 
 relationships:
 

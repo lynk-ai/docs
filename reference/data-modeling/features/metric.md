@@ -15,6 +15,7 @@ In this example, we define simple `metric` features for the entity `customer`:
 
 ```yaml
 # customer.yml
+
 features:
   
 - type: metric
