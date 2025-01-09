@@ -13,7 +13,7 @@ Joining related assets will allow us to enrich our entity with features
 In this example, we define the relations between the entity `customer` to the data assets `db_prod.core.orders` and `db_prod.core.device`:
 
 ```yaml
-// customer.yml
+# customer.yml
 
 related_assets:
 
@@ -99,7 +99,7 @@ When setting `type: sql`, you will need to add the `sql` property with the SQL d
 See the following example;
 
 ```yaml
-// customer.yml
+# customer.yml
 
 related_assets:
 
@@ -128,7 +128,7 @@ When setting `type: fields`, you will need to add the `fields` property with the
 See the following example:
 
 ```yaml
-// customer.yml
+# customer.yml
 
 related_assets:
 
@@ -173,7 +173,7 @@ Sometimes the relation between an entity and a data asset is not direct. Meaning
 See the below example:
 
 ```yaml
-// customer.yml
+# customer.yml
 
 related_assets:
 
@@ -221,7 +221,7 @@ A simple way to do that is to join customers to agents twice - one on sale\_agen
 Lynk supports multiple join paths between an entity and a data asset as follows:&#x20;
 
 ```yaml
-// customer.yml
+# customer.yml
 
 related_assets:
   db_prod.core.agents:

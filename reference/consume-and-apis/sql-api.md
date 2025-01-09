@@ -18,7 +18,7 @@ The query format is similar to a vanilla (regular) SQL query, using the SQL flav
 #### Example:
 
 ```sql
-// A simple SQL API query
+-- A simple SQL API query
 
 SELECT  customer_id,
         total_order_amount,
@@ -42,7 +42,7 @@ The **main entity** is the first entity passed to the `FROM` statement, using th
 #### For example:
 
 ```sql
-// A simple SQL API query
+-- A simple SQL API query
 
 SELECT  customer_id,
         count_orders
@@ -54,7 +54,7 @@ The above example will return a record per `customer`. Meaning, all customers wi
 #### Another example, with `time_agg`:&#x20;
 
 ```sql
-// A simple SQL API query
+-- A simple SQL API query
 
 USE {
   "time_agg": {
@@ -86,7 +86,7 @@ Under the hood, Lynk applies a LEFT JOIN operation between each two joined entit
 #### Example for joining entities
 
 ```sql
-// Joining two entities
+-- Joining two entities
 
 SELECT  c.customer_id,
         c.count_orders,
@@ -106,7 +106,7 @@ In some cases, there might be more than one way to join two entities. Lynk suppo
 If passed to the SQL API query, Lynk will use the join path `name` to  join the two entities. If no join path name stated, the default join path will be applied in order to join the two entities.  See [`NAME`](../data-modeling/entities/related-entities.md#name-optional) section in the [related entities](../data-modeling/entities/related-entities.md) page for more information on this.
 
 ```sql
-// Joining entities with named join paths
+-- Joining entities with named join paths
 
 SELECT  c.customer_id,
         c.count_orders,
@@ -147,7 +147,7 @@ When querying the SQL API, we refer to **entities** as a "tables" and to **featu
 #### Example:
 
 ```sql
-// customers per orders histogram
+-- customers per orders histogram
 
 SELECT  c.count_orders,
         count(c.customer_id) as count_customers
@@ -189,7 +189,7 @@ By default Lynk will retrieve semantic definitions from the default git branch, 
 #### Example using a custom branch
 
 ```sql
-// Using a custom branch
+-- Using a custom branch
 
 USE {
   "branch": "dev"
@@ -209,7 +209,7 @@ Specify which `context` to use.&#x20;
 By default Lynk will retrieve semantic definitions from the default context ("shared"). In case the `context` option is passed to the `USE` block, Lynk will take the semantic definitions (entities, features, join paths etc) from the specified context.
 
 ```sql
-// Using a custom context
+-- Using a custom context
 ​
 USE {
   "context": "marketing"

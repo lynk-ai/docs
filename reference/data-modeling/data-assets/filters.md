@@ -72,7 +72,7 @@ When setting `type: fields`, you will need to add the `fields` property with the
 #### Example (`fields`):
 
 ```yaml
-// customer.yml
+# customer.yml
 
 featurs: 
 

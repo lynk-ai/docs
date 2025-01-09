@@ -13,7 +13,7 @@ Entities can be defined either via code or via Lynk Studio UI.\
 The below example shows how we define a `customer` entity as a YAML file:
 
 ```yaml
-// customer.yml
+# customer.yml
 
 name: customer
 
@@ -77,7 +77,7 @@ To see how to define and use relationships between entities, please see [Related
 Entities and Features are consumed via [SQL API](../../consume-and-apis/sql-api.md), [REST API](broken-reference) or via Lynk [Playground](broken-reference). See [Consume & APIs](../../consume-and-apis/) for in depth information on this.
 
 ```sql
-// Example for a simple SQL API query
+-- Example for a simple SQL API query
 
 SELECT  customer_id,
         total_order_amount,
