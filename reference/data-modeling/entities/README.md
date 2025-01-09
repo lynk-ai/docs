@@ -1,6 +1,6 @@
 # Entities
 
-Entities are real-world concepts like customers, orders, payments etc. \
+Entities are real-world concepts like customers, orders, payments etc.\
 These are first-class citizens in Lynk, meaning everything we build and consume is around entities.
 
 The main concept of Lynk Semantic Layer is to create a central source of truth for each of the entities in the business, in a trusted and accessible way. In other words, from a business perspective, for each business entity it should be clear what we know of it, how was it defined, and where we can find it. We call these pieces of information on an entity level - [features](../features/).
@@ -25,13 +25,22 @@ aliases:
 - user
 
 features:
-- name: customer_id
-  type: field
-  ...
 
+- type: metric
+  name: orders_count
+  asset: db_prod.core.orders
+  measure: orders_count
+  filters: null
+  
 related_assets:
-- db_prod.core.orders
-  ...
+
+  db_prod.core.orders:
+    relationship: one_to_many
+    joins:
+    - name: all_orders
+      default: true
+      type: sql
+      sql:  {source}.customer_id = {destination}.customer_id
 
 ```
 
@@ -41,8 +50,8 @@ For a quick onboarding, use the [discovery](./#discovery) process to automatical
 
 ### `key_table`
 
-An entities is defined by it's key data asset. \
-An entity key data asset is a table or a view in the data warehouse, that has all the entity instances, and each entity instance exists only once on this asset.&#x20;
+An entities is defined by it's key data asset.\
+An entity key data asset is a table or a view in the data warehouse, that has all the entity instances, and each entity instance exists only once on this asset.
 
 For example, if our entity is customer, it's key data asset should have all the customers, and each customer appears only once in that data asset.
 
@@ -57,7 +66,7 @@ Sometimes different people might call the same entity by different names. e.g a 
 
 ### `features`
 
-Features are attributes that represent all we know about our Entities. \
+Features are attributes that represent all we know about our Entities.\
 It can be simple fields, aggregated metrics, first - last features, period-over-period formulas, custom formulas and more. See [Features](./#features) page for in depth information on this.
 
 ### `related_assets`
@@ -74,7 +83,7 @@ To see how to define and use relationships between entities, please see [Related
 
 ## Consuming Entities
 
-Entities and Features are consumed via [SQL API](../../consume-and-apis/sql-api.md), [REST API](broken-reference) or via Lynk [Playground](broken-reference). See [Consume & APIs](../../consume-and-apis/) for in depth information on this.
+Entities and Features are consumed via [SQL API](../../consume-and-apis/sql-api.md), [REST API](broken-reference/) or via Lynk [Playground](broken-reference/). See [Consume & APIs](../../consume-and-apis/) for in depth information on this.
 
 ```sql
 -- Example for a simple SQL API query
@@ -104,4 +113,3 @@ Lynk [Governance](../../governance.md) makes sure Entities are unique:
 ## Discovery
 
 Lynk Discovery makes it easy to bootstrap your project and define entities automatically. Read more on this on the [Discovery](./#discovery) page.
-
