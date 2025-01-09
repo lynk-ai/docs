@@ -1,10 +1,10 @@
 # Related Entities
 
-Entities can relate to to other entities. \
+Entities can relate to to other entities.\
 Lynk stores all entity relationships in one file `entities_relationships.yml` , to ensure consistency and simplicity. You can add entity relations via code, directly to this YAML file, or via the Studio UI.
 
 {% hint style="info" %}
-Related entities will allow us to enrich an entity with features from other entities, or to join  entities on SQL/REST API calls.
+Related entities will allow us to enrich an entity with features from other entities, or to join entities on SQL/REST API calls.
 {% endhint %}
 
 ***
@@ -32,14 +32,14 @@ relationships:
 
 ### `Relationships`
 
-This is where we define all of our entity-to-entity relationships.&#x20;
+This is where we define all of our entity-to-entity relationships.
 
 {% hint style="info" %}
 A relationship should be defined once regardless of the direction (e.g `nation-customer` is the same relationship as `customer-nation`). Lynk will automatically reverse the direction when needed.
 {% endhint %}
 
-Define a relationship by adding an object `entity1-entity2`. \
-In our example customer-nation, the direction is customer -> to -> nation.&#x20;
+Define a relationship by adding an object `entity1-entity2`.\
+In our example customer-nation, the direction is customer -> to -> nation.
 
 Note that the direction applies to the `Relationship` parameter as well as to the `source` and `destination` parameters (see below)
 
@@ -64,11 +64,14 @@ Define how the entities should be joined, by connecting features of the first (s
 
 ### **`name` \[optional]**
 
-Give the join path a name (optional).\
-In case more than one join path will be defined between two entities, `name` will become mandatory.
+Give the join path a name.&#x20;
+
+If you choose not to name a join path, lynk will automatically name as the join path as "default" followd by a number. For example, the first unnamed join path will be named by Lynk to `default_1`, the second to `default_2` etc..
+
+Note that Join path `name` has to be unique on a related entity level.&#x20;
 
 {% hint style="info" %}
-The `name` property will be used when creating features or when joining two entities via  SQL/REST API. In case there is more than one join path between two entities, you will be able to tell Lynk how connect the two entities by using the join path `name`.
+The `name` property will be used when creating features or when joining two entities via SQL/REST API. In case there is more than one join path between two entities, you will be able to tell Lynk how connect the two entities by using the join path `name`.
 {% endhint %}
 
 ### **`default` \[optional]**
@@ -90,7 +93,7 @@ The options for `type` are:
 ### `sql` (type)
 
 Use sql code to define how the two entities are related.\
-When setting `type: sql`, you will need to add the `sql` property with the SQL definition of the relation. &#x20;
+When setting `type: sql`, you will need to add the `sql` property with the SQL definition of the relation.
 
 See the following example:
 
@@ -146,7 +149,7 @@ Using the `fields` type;
 
 `{destination}` refers to the second entity
 
-`operator` defines the operator of the relation between the two fields. \
+`operator` defines the operator of the relation between the two fields.\
 The options for the operator property are:
 
 * equal
@@ -156,7 +159,7 @@ The options for the operator property are:
 * lte
 
 In the above example, the relationship direction is nation-customer. So the `source` is nation and the `destination` is customer.\
-The entity nation has a feature `nation_id` which connects to the feature `nation_id` of the entity customer,  using the operator `equal.` \
+The entity nation has a feature `nation_id` which connects to the feature `nation_id` of the entity customer, using the operator `equal.`\
 This translates to `nation.nation_id = customer.nation_id`
 
 {% hint style="info" %}
@@ -165,7 +168,7 @@ Lynk supports multiple related fields from the source to the destination, enabli
 
 ### `lookup` (type)
 
-Sometimes the relation between two entities is not direct. Meaning, in order to connect two entities we have to join them via one or more lookup tables ("hops").  Lynk supports this scenario using the `lookup` join type.&#x20;
+Sometimes the relation between two entities is not direct. Meaning, in order to connect two entities we have to join them via one or more lookup tables ("hops"). Lynk supports this scenario using the `lookup` join type.
 
 See the below example:
 
@@ -191,7 +194,7 @@ relationships:
         sql: {source}.organization_id = {destination}.id
 ```
 
-In the above example, we connect the entity customer to the entity organization. \
+In the above example, we connect the entity customer to the entity organization.\
 Note that there is no direct connection between the two, and we have to join customer to db\_prod.core.team first and then join db\_prod.core.team to prganization.
 
 {% hint style="info" %}
@@ -206,4 +209,4 @@ As seen on the above code, lookups are an ordered list of steps;
 * On the last step, `destination` is always the second entity
 * The middle lookup assets should be data assets (not entities)
 
-Inside each lookup step, we can define the connection between the source and destination, and choose how - using the `type` parameter as usual -  `SQL` or `fields`
+Inside each lookup step, we can define the connection between the source and destination, and choose how - using the `type` parameter as usual - `SQL` or `fields`

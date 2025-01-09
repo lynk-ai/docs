@@ -39,7 +39,7 @@ related_assets:
 
 ### `Related assets`
 
-The `related_assets` property holds all the assets that relate to the entity.&#x20;
+The `related_assets` property holds all the assets that relate to the entity.
 
 Each data asset element has to include the full path to the data asset as it in the origin data warehouse - db name, schema name and asset name (`db.schema.name`)
 
@@ -53,7 +53,7 @@ The options for the Relationship property are:
 * `many_to_many`
 * `many_to_one`
 
-The direction of the relationship is entity-to-asset. Meaning, in our example, the entity is `customer` and the first data asset is `order`. So in this case a customer has many orders.&#x20;
+The direction of the relationship is entity-to-asset. Meaning, in our example, the entity is `customer` and the first data asset is `order`. So in this case a customer has many orders.
 
 {% hint style="info" %}
 Lynk will use the relationship property to suggest the correct data assets when creating features. For example, when creating metrics, Lynk will only suggest one-to-many related assets.
@@ -65,13 +65,14 @@ Define how the entity and the data asset should be joined, by connecting entity 
 
 ### **`name` \[optional]**
 
-Give the join path a name. If you choose not to name a join path, lynk will consider the name as "default".
+Give the join path a name.&#x20;
 
-Give the join path a name (optional).\
-In case [multiple join paths](related-data-assets.md#example-data-asset-with-multiple-join-paths) will be defined between between an entity and a data asset, `name` will become mandatory.
+If you choose not to name a join path, lynk will automatically name as the join path as "default" followd by a number. For example, the first unnamed join path will be named by Lynk to `default_1`, the second to `default_2` etc..
+
+Note that Join path `name` has to be unique on a related asset level.
 
 {% hint style="info" %}
-The `name` property will be used when creating features. \
+The `name` property will be used when creating features.\
 In case there is more than one join path between an entity and a data asset, you will be able to tell Lynk how connect the entity to the related asset by using the join path `name`.
 {% endhint %}
 
@@ -150,7 +151,7 @@ Using the `fields` type;
 
 `destination` refers to the data asset
 
-`operator` defines the operator of the relation between the two fields. \
+`operator` defines the operator of the relation between the two fields.\
 The options for the operator property are:
 
 * equal
@@ -159,7 +160,7 @@ The options for the operator property are:
 * lt
 * lte
 
-In the above example, the entity customer has a feature `device_id` which connects to the field `id` in the device data asset, using the operator `equal`. \
+In the above example, the entity customer has a feature `device_id` which connects to the field `id` in the device data asset, using the operator `equal`.\
 This translates to `customer.device_id = db_prod.core.device.id`
 
 {% hint style="info" %}
@@ -168,7 +169,7 @@ Lynk supports multiple related fields from the source to the destination, enabli
 
 ### `lookup` (type)
 
-Sometimes the relation between an entity and a data asset is not direct. Meaning, in order to connect an entity and a data asset we have to join them via one or more lookup tables ("hops").  Lynk supports this scenario using the `lookup` join type.&#x20;
+Sometimes the relation between an entity and a data asset is not direct. Meaning, in order to connect an entity and a data asset we have to join them via one or more lookup tables ("hops"). Lynk supports this scenario using the `lookup` join type.
 
 See the below example:
 
@@ -194,31 +195,29 @@ related_assets:
 
 In the above example, we connect the table `db_prod.core.payment` to our `customer` entity. Note that there is no direct connection between those two, and we have to join customer to orders first and then join orders to payment.
 
-
-
 On the first step, the source is the data asset...
 
 Using the `lookup` type;
 
 As seen on the above code, lookups are a n ordered list of steps;
 
-* On the first step, `source` is always the entity and destination is the first data asset we connect to it.&#x20;
+* On the first step, `source` is always the entity and destination is the first data asset we connect to it.
 * On the next steps, the source is the previous destination.
 * On the last step, the destination is the final destination we would like to reach. in this case it's `db_prod.core.payment`
 
-Inside each lookup step, we can define the connection between the source and destination, and choose how - using the `type` parameter as usual -  `SQL` or `fields`
+Inside each lookup step, we can define the connection between the source and destination, and choose how - using the `type` parameter as usual - `SQL` or `fields`
 
 ***
 
 ## Example - data asset with multiple join paths
 
-Sometimes there is a need to define more than one way to join an entity to a data asset.&#x20;
+Sometimes there is a need to define more than one way to join an entity to a data asset.
 
 For example, imagine we are a b2b company with a sales department\
-It's common that the sales agent that closed the deal (sale) is not the same agent that renewed the contract with the customer a few years later. What if we want to know for each customer, who was the agent on each occasion? \
+It's common that the sales agent that closed the deal (sale) is not the same agent that renewed the contract with the customer a few years later. What if we want to know for each customer, who was the agent on each occasion?\
 A simple way to do that is to join customers to agents twice - one on sale\_agent and another join on renew\_agent (see below)
 
-Lynk supports multiple join paths between an entity and a data asset as follows:&#x20;
+Lynk supports multiple join paths between an entity and a data asset as follows:
 
 ```yaml
 # customer.yml
