@@ -41,6 +41,12 @@ The data asset with the field to be added as feature to our entity.\
 `asset` has to be related to our entity (see [related data asset](../entities/related-data-assets.md)).
 {% endhint %}
 
+### `join_name` \[optional]
+
+In case of multiple join patterns were defined between an entity and a data asset, `join_name` is used to determine which join path to use for this feature.&#x20;
+
+For more information about using multiple join paths between an entity to a data asset, visit [related data assets](../entities/related-data-assets.md#name-optional) page.
+
 ### `options`
 
 The options for the first-last definitions on which field we would like to get and how to sort the related data asset

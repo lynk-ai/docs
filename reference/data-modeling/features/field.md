@@ -25,8 +25,9 @@ features:
   filters: null
   
 - type: field
-  name: is_US_customer
+  name: is_us_customer
   asset: db_prod.core.geos
+  join_name: login_geo
   field: iff(name = 'US', true, false)
   filters: null
 ```
@@ -48,6 +49,12 @@ The data asset with the field to be added as feature to our entity.\
 {% hint style="info" %}
 `asset` has to be related to our entity (see [related data asset](../entities/related-data-assets.md)).
 {% endhint %}
+
+### `join_name` \[optional]
+
+In case of multiple join patterns were defined between an entity and a data asset, `join_name` is used to determine which join path to use for this feature.&#x20;
+
+In the above example, we are joining the entity `customer` to the `geos` asset on the `login_geo` join path name. For more information about using multiple join paths between an entity to a data asset, visit [related data assets](../entities/related-data-assets.md#name-optional) page.
 
 ### `field`
 
