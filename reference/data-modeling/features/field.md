@@ -52,9 +52,9 @@ The data asset with the field to be added as feature to our entity.\
 
 ### `join_name` \[optional]
 
-In case of multiple join patterns were defined between an entity and a data asset, `join_name` is used to determine which join path to use for this feature.&#x20;
+In case multiple join patterns are defined between an entity and a data asset, `join_name` is used to determine which join path to use for a specific feature.
 
-In the above example, we are joining the entity `customer` to the `geos` asset on the `login_geo` join path name. For more information about using multiple join paths between an entity to a data asset, visit [related data assets](../entities/related-data-assets.md#name-optional) page.
+In the example above, we are joining the entity `customer` to the `geos` asset using the `login_geo` join path name. For more information about using multiple join paths between an entity and a data asset, visit the [related data assets](../entities/related-data-assets.md#name-optional) page.
 
 ### `field`
 
