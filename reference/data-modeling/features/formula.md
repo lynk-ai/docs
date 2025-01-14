@@ -35,19 +35,28 @@ In case of formula features, it should be set to `formula`.
 
 Give the feature a name.
 
-### `data_type`
+### `data_type` \[optional]
 
-Specify the feature data type.&#x20;
+Specify the feature data type. \
+If no data\_type specified, Lynk will assume the data type is `string`.
 
 The options for data types are:
 
 `string`
 
-`integer`
+For any type of string data type
 
-`boolean`
+`number`
 
-`timestamp`
+For any type of number data type. For example: integer, float, decimal etc..
+
+`bool`
+
+For boolean data type.
+
+`datetime`&#x20;
+
+For any type of time-based data type. For example: date, timestamp, datetime etc..
 
 ### `sql`&#x20;
 
