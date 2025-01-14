@@ -15,6 +15,7 @@ In this example, we define simple `first-last` features for the entity `customer
 features:
 - type: first_last
   name: last_call_agent_id
+  data_type: string
   asset: db_prod.core.phone_call_dim
   options:
     method: last
@@ -46,6 +47,20 @@ The data asset with the field to be added as feature to our entity.\
 In case multiple join patterns are defined between an entity and a data asset, `join_name` is used to determine which join path to use for a specific feature.
 
 For more information about using multiple join paths between an entity and a data asset, visit the [related data assets](../entities/related-data-assets.md#name-optional) page.
+
+### `data_type`
+
+Specify the feature data type.&#x20;
+
+The options for data types are:
+
+`string`
+
+`integer`
+
+`boolean`
+
+`timestamp`
 
 ### `options`
 

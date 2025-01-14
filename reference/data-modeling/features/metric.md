@@ -22,12 +22,14 @@ features:
   name: orders_count
   asset: db_prod.core.orders
   measure: orders_count
+  data_type: number
   filters: null
 
 - type: metric
   name: successful_orders_count
   asset: db_prod.core.orders
   measure: orders_count
+  data_type: number
   filters:
   - type: field
     field: order_status
@@ -59,6 +61,20 @@ The data asset with the measure to be aggregated to the level of our entity.\
 In case multiple join patterns are defined between an entity and a data asset, `join_name` is used to determine which join path to use for a specific feature.
 
 For more information about using multiple join paths between an entity and a data asset, visit the [related data assets](../entities/related-data-assets.md#name-optional) page.
+
+### `data_type`
+
+Specify the feature data type.&#x20;
+
+The options for data types are:
+
+`string`
+
+`integer`
+
+`boolean`
+
+`timestamp`
 
 ### `measure`
 

@@ -22,12 +22,14 @@ features:
   name: organization_size
   asset: db_prod.core.organizations
   field: size
+  data_type: number
   filters: null
   
 - type: field
   name: is_us_customer
   asset: db_prod.core.geos
   join_name: login_geo
+  data_type: boolean
   field: iff(name = 'US', true, false)
   filters: null
 ```
@@ -55,6 +57,20 @@ The data asset with the field to be added as feature to our entity.\
 In case multiple join patterns are defined between an entity and a data asset, `join_name` is used to determine which join path to use for a specific feature.
 
 In the example above, we are joining the entity `customer` to the `geos` asset using the `login_geo` join path name. For more information about using multiple join paths between an entity and a data asset, visit the [related data assets](../entities/related-data-assets.md#name-optional) page.
+
+### `data_type`
+
+Specify the feature data type.&#x20;
+
+The options for data types are:
+
+`string`
+
+`integer`
+
+`boolean`
+
+`timestamp`
 
 ### `field`
 

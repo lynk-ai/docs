@@ -12,7 +12,11 @@ features:
   
 - type: formula
   name: is_active_customer
+  data_type: boolean
   sql: IFF((last_login_date > date_add('day', -30, current_date())) and total_orders > 100, true, false)
+  features: 
+  - feature: last_login_date
+  - feature: total_orders
   
 ```
 
@@ -31,6 +35,20 @@ In case of formula features, it should be set to `formula`.
 
 Give the feature a name.
 
+### `data_type`
+
+Specify the feature data type.&#x20;
+
+The options for data types are:
+
+`string`
+
+`integer`
+
+`boolean`
+
+`timestamp`
+
 ### `sql`&#x20;
 
 The formula definition.&#x20;
@@ -43,3 +61,11 @@ Any SQL code applies here as long as:
 {% hint style="info" %}
 In case you have an aggregate function in a formula, you probably need to create another metric feature and then create the formula feature on top of it
 {% endhint %}
+
+### `features`&#x20;
+
+A list of the features that were included in the formula `sql` definition.
+
+### `feature`
+
+The feature name for each feature that was included in the formula `sql` definition.
