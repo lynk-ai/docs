@@ -207,9 +207,43 @@ The above example returns the result of the feature `count_orders` in the **next
 
 ***
 
-## Query level aggregation
+## How time aggregations work
 
-Once the time\_agg option is passed to the query through the USE config, Lynk applies time aggregation to all the features on the query.
+Once the time\_agg option is passed to the query through the USE config, Lynk applies time aggregation to **all the features on the query**.
+
+#### For example
+
+```sql
+-- SQL API
+
+USE {
+  "time_agg" {
+    "time_grain" : "day",
+    "window_size": 7,
+    "direction": "backward"
+    }
+  "start_time" = "2025-01-01",
+  "stop_time" = "2025-02-01"
+}
+
+SELECT  customer_id,
+        time_agg as date_day,
+        first_order_date,
+        count_orders
+FROM    entity('customer')
+```
+
+{% hint style="info" %}
+This approach allows flexibility and code efficiency:
+
+**Efficiency of code**\
+Decoupling business logic from time aggregation logic - create the business logic once instead of multiple times with different time aggregation logic (e.g different window functions)
+
+**Simplicity of use** \
+Pass parameters from your BI tool to change time aggregation logic dynamically without the need to change features on the BI tool side (e.g switch the window logic from days to months)
+{% endhint %}
+
+### Using `time_field`
 
 The aggregation is applied according to the specified `time_field,` as follows:
 
@@ -217,6 +251,3 @@ The aggregation is applied according to the specified `time_field,` as follows:
 2. If no `time_field` is specified on the feature level, Lynk will use the default [`time_field`](../data-modeling/data-assets/#time_field-optional) on the data asset level.&#x20;
 3. For features on which time\_field was not specified on either feature nor asset level, Lynk will not apply any time aggregation logic.
 
-{% hint style="info" %}
-
-{% endhint %}
