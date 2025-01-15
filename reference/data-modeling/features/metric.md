@@ -30,6 +30,7 @@ features:
   asset: db_prod.core.orders
   measure: orders_count
   data_type: number
+  time_field: order_date
   filters:
   - type: field
     field: order_status
@@ -77,13 +78,19 @@ For any type of string data type
 
 For any type of number data type. For example: integer, float, decimal etc..
 
+`datetime`&#x20;
+
+For any type of time-based data type. For example: date, timestamp, datetime etc..
+
 `bool`
 
 For boolean data type.
 
-`datetime`&#x20;
+### `time_field` \[optional]
 
-For any type of time-based data type. For example: date, timestamp, datetime etc..
+Specifies which asset time field to use in case of time-based aggregation is applied to the metric. If not specified, Lynk will use the asset's [default `time_field`](../data-assets/#time_field-optional).
+
+See [time aggregation](../../consume-and-apis/time-aggregation.md) for more information on how time fields are being used for time-based metric aggregations.
 
 ### `measure`
 

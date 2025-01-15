@@ -1,10 +1,10 @@
 # Time aggregation
 
-When [consuming](./) entities and their features, we can tell Lynk on which time frame to aggregate the features, by using the `time_agg` property in the `USE` config block.&#x20;
+When [consuming](./) entities and their features, we can tell Lynk on which time frame to aggregate the features, by using the `time_agg` property in the `USE` config block.
 
 #### Examples for time aggregations:
 
-* **Calendric**:  day / month  / year etc
+* **Calendric**: day / month / year etc
 * **Rolling windows** : "last 30 days" / "first 7 days after signup" etc
 * **No time frame** (full date range)
 
@@ -13,7 +13,7 @@ Lynk decouples features business logic from time aggregation logic.\
 A feature's business logic is defined on the feature definition level, while how to apply time aggregate logic to a feature is defined on the consumption level.
 {% endhint %}
 
-For example, let's assume we have an entity `customer` and it has a simple metric feature `count_orders` that counts how many orders a customer has.&#x20;
+For example, let's assume we have an entity `customer` and it has a simple metric feature `count_orders` that counts how many orders a customer has.
 
 ```sql
 -- SQL API
@@ -52,7 +52,7 @@ In the above example, a record per customer and day will return, counting the am
 
 ### `USE`
 
-Set this object on the SQL API / REST API query, to define all the query level configurations, including time\_agg. See [USE](broken-reference) for in depth information on this.
+Set this object on the SQL API / REST API query, to define all the query level configurations, including time\_agg. See [USE](broken-reference/) for in depth information on this.
 
 ### `time_agg`
 
@@ -70,7 +70,7 @@ If `time_agg` is defined, the data Lynk will return on SQL API requsts will be o
 
 ### `time_grain` \[optional]
 
-Optional, defaults to `day`. &#x20;
+Optional, defaults to `day`.
 
 A time grain refers to the level of granularity at which time is divided in the result of the API query. It determines how entity-level aggregations or calculations (e.g., sums, averages, counts) are grouped.
 
@@ -86,7 +86,7 @@ The supported values for `time_grain` are:
 * hour
 * minute
 
-For example:&#x20;
+For example:
 
 ```sql
 -- SQL API
@@ -111,11 +111,11 @@ When using small time grains such as `minute`, `hour` and even `day`, it is reco
 
 ### `window_size` \[optional]
 
-Optional, defaults to `1`.&#x20;
+Optional, defaults to `1`.
 
-Window size is for aggregating rolling windows - this property will determine the window size of the rolling window. Note that the time grain will be taken into account here for determining the "size" of the window as well.&#x20;
+Window size is for aggregating rolling windows - this property will determine the window size of the rolling window. Note that the time grain will be taken into account here for determining the "size" of the window as well.
 
-The supported values for `window_size` are:&#x20;
+The supported values for `window_size` are:
 
 * integer values
 * `unbounded`
@@ -165,7 +165,7 @@ SELECT  customer_id,
 FROM    entity('customer')
 ```
 
-The above example returns for each `customer` and `month`,  the cumulative results of `count_orders` up until that hour. The window of time in this case starts from the first order of each `customer` that matches the business logic of the metric `count_orders`.&#x20;
+The above example returns for each `customer` and `month`, the cumulative results of `count_orders` up until that hour. The window of time in this case starts from the first order of each `customer` that matches the business logic of the metric `count_orders`.
 
 If we would choose `direction: forward`, the returned results would be the cumulating the feature `count_orders` for each data point (`customer` and `month`) up until the last known order in the underlying data asset.
 
@@ -184,7 +184,7 @@ The supported values for `direction` are:
 * `backward`
 * `forward`
 
-For example:&#x20;
+For example:
 
 ```sql
 -- SQL API
@@ -209,26 +209,14 @@ The above example returns the result of the feature `count_orders` in the **next
 
 ## Query level aggregation
 
-Time aggregations apply to all features on the query, **according to the time field specified for each feature**. Aggregate time field can be specified as a `default_time_field` to a data asset or as a `aggregate_time_field` on a feature level.
+Once the time\_agg option is passed to the query through the USE config, Lynk applies time aggregation to all the features on the query.
 
-In other words, `time_agg` will be applied to features that have one of the following:
+The aggregation is applied according to the specified `time_field,` as follows:
 
-#### The feature is built from a data asset that has a `default_time_field`
-
-Lynk will use the `default_time_field` to aggregate the feature.
-
-#### The feature has an `aggregate_time_field` on the feature definition
-
-Lynk will use the `aggregate_time_field` to aggregate the feature.
-
-In case the underlying data asset that the feature was created from has a `default_time_field`, and the feature also has a `aggregate_time_field` specified to it - Lynk will use the `aggregate_time_field` for aggregating that feature. This enables flexability on the feature aggregation level.
+1. Using the feature level [`time_field`](../data-modeling/features/metric.md#time_field-optional) property.&#x20;
+2. If no `time_field` is specified on the feature level, Lynk will use the default [`time_field`](../data-modeling/data-assets/#time_field-optional) on the data asset level.&#x20;
+3. For features on which time\_field was not specified on either feature nor asset level, Lynk will not apply any time aggregation logic.
 
 {% hint style="info" %}
-In case a feature has none of these two, Lynk will not apply time aggregation to that feature, and it will be aggregated on all available time range of the underlying data asset that the feature was built from.
-{% endhint %}
 
-{% hint style="info" %}
-Lynk applies time aggregations on a query level. \
-We have plans on our roadmap to add feature level time aggregations. If this is something you are interested in, please [contact us](https://www.getlynk.ai/book-a-demo) and let us know.
 {% endhint %}
-
