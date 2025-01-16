@@ -67,7 +67,7 @@ Any SQL code applies here as long as:
 1. It is based on features already defined on the entity
 2. it does not have aggregate functions
 
-{% hint style="info" %}
+{% hint style="warning" %}
 In case you have an aggregate function in a formula, you probably need to create another metric feature and then create the formula feature on top of it
 {% endhint %}
 
