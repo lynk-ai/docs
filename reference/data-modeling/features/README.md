@@ -37,7 +37,7 @@ It is commonly used to enrich an entity with more complex calculations that requ
 
 Lynk supports creating features based on previously created features on related entities.
 
-For example, let's assume we have an entity called `user` and another entity called `team`, with in a many-to-one relationship. You can create a feature called `is_active_user` on the `user` level and consume it for creating a metric feature `active_users_count` on the `team` entity level.&#x20;
+For example, let's assume we have an entity called `user` and another entity called `team`, with in a many-to-one relationship. You can create a feature called `is_active_user` on the `user` level and consume it for creating a metric feature `active_users_count` on the `team` entity level.
 
 {% hint style="info" %}
 This allows building consistent, accessible and governed business logic - See [chaining features](../chaining-features.md) for in depth information about this.
@@ -47,7 +47,7 @@ This allows building consistent, accessible and governed business logic - See [c
 
 ## Consuming features
 
-Features are consumed via [SQL API](../../consume-and-apis/sql-api.md), [REST API](broken-reference) or via Lynk [Playground](broken-reference).&#x20;
+Features are consumed via [SQL API](../../consume-and-apis/sql-api.md), [REST API](broken-reference/) or via Lynk [Playground](broken-reference/).
 
 For example, here is a simple SQL API request to get some features defined on a customer level:
 
@@ -69,9 +69,7 @@ See [consume](../../consume-and-apis/) for in depth information on this.
 
 ## Time aggregations
 
-Lynk separates between business logic and time aggregations like rolling\_window on the consumption layer.
-
-For example, if we have ...
+Lynk separates between business logic and time aggregations like rolling\_window on the consumption layer. See [time aggregations](../../consume-and-apis/time-aggregation.md) for in depth information on this.
 
 ***
 
