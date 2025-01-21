@@ -69,7 +69,7 @@ See [consume](../../consume-and-apis/) for in depth information on this.
 
 ## Time aggregations
 
-Lynk separates between business logic and time aggregations like rolling\_window on the cunsumption layer.
+Lynk separates between business logic and time aggregations like rolling\_window on the consumption layer.
 
 For example, if we have ...
 

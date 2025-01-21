@@ -259,7 +259,7 @@ When using `time_agg` it is highly recommended to use the `stop_time` option for
 #### Example
 
 ```sql
-// Using start_time and stop_time
+-- Using start_time and stop_time
 ​
 USE {
   "start_time": "2024-01-01",
