@@ -20,7 +20,7 @@ layout:
 
 # Introduction
 
-Lynk is the Semantic Layer for business and data teams, empowering them to create a central source of truth in a trusted and accessible way, while enabling data consumption through modern AI-powered applications.
+Lynk is the Semantic Layer for business and data teams. Companies use it to build a central source of truth for their data - to enable self-service analytics and AI-powered apps.
 
 ## Core concepts&#x20;
 
