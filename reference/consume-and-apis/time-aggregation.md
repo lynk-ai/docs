@@ -65,7 +65,7 @@ The options for `time_agg` are:
 * `direction`
 
 {% hint style="info" %}
-If `time_agg` is defined, the data Lynk will return on SQL API requsts will be on the level of the main entity + the selected time grain. If no `time_agg` was defined, Lynk will return one record per `entity`.
+If `time_agg` is defined, the data Lynk will return on SQL API requests will be on the level of the main entity + the selected time grain. If no `time_agg` was defined, Lynk will return one record per `entity`.
 {% endhint %}
 
 ### `time_grain` \[optional]
@@ -193,7 +193,7 @@ USE {
   "time_agg" {
     "time_grain" : "day",
     "window_size": 7,
-    "direction": "foreward"
+    "direction": "forward"
     }
 }
 

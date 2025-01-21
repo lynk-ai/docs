@@ -74,7 +74,7 @@ When setting `type: fields`, you will need to add the `fields` property with the
 ```yaml
 # customer.yml
 
-featurs: 
+features: 
 
 - type: metric
   name: successful_orders_count

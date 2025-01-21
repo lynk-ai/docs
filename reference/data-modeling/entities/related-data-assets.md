@@ -67,7 +67,7 @@ Define how the entity and the data asset should be joined, by connecting entity 
 
 Give the join path a name.&#x20;
 
-If you choose not to name a join path, lynk will automatically name as the join path as "default" followd by a number. For example, the first unnamed join path will be named by Lynk to `default_1`, the second to `default_2` etc..
+If you choose not to name a join path, lynk will automatically name as the join path as "default" followed by a number. For example, the first unnamed join path will be named by Lynk to `default_1`, the second to `default_2` etc..
 
 Note that Join path `name` has to be unique on a related asset level.
 
