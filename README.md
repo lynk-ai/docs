@@ -35,7 +35,7 @@ The product's core concepts are:
 ### **Accessibility**
 
 Lynk is suitable to both business users and data teams. \
-All the semantic definitions like Entities and Features are available to view and edit via Lynk Studio - a user friendly data catalog and glossary where anyone can access and create data in a simple yet governed manner”.
+All the semantic definitions like Entities and Features are available to view and edit via Lynk Studio - a user friendly data catalog and glossary where anyone can access and create data in a simple yet governed manner.
 
 ### **Data modeling**
 
