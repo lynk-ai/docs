@@ -23,7 +23,7 @@ related_assets:
     - name: all_orders
       default: true
       type: sql
-      sql:  {source}.customer_id = {destination}.customer_id
+      sql:  "{source}.{customer_id} = {destination}.{customer_id}"
 
   db_prod.core.device:
     relationship: one_to_one
@@ -110,7 +110,7 @@ related_assets:
     - name: all_orders
       default: true
       type: sql
-      sql:  {source}.id = {destination}.customer_id
+      sql: "{source}.{id} = {destination}.{customer_id}"
 ```
 
 Using the `sql` type;
@@ -187,10 +187,10 @@ related_assets:
       lookup:
       - destination: db_prod.core.orders
         type: sql
-        sql: {source}.id = {destination}.customer_id
+        sql: "{source}.{id} = {destination}.{customer_id}"
       - destination: db_prod.core.payment
         type: sql
-        sql: {source}.order_id = {destination}.order_id
+        sql: "{source}.{order_id} = {destination}.{order_id}"
 ```
 
 In the above example, we connect the table `db_prod.core.payment` to our `customer` entity. Note that there is no direct connection between those two, and we have to join customer to orders first and then join orders to payment.

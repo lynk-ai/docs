@@ -13,14 +13,10 @@ features:
 - type: formula
   name: is_active_customer
   data_type: boolean
-  sql: IFF((last_login_date > date_add('day', -30, current_date())) and total_orders > 100, true, false)
-  features: 
-  - feature: last_login_date
-  - feature: total_orders
-  
+  sql: IFF(({last_login_date} > date_add('day', -30, current_date())) and {total_orders} > 100, true, false)
 ```
 
-On this example, we already have two features on the `customer` level: `last_login_date` and `total_orders`. We use these two features to define wbich customers are active customers.
+On this example, we already have two features on the `customer` level: `last_login_date` and `total_orders`. We use these two features to define which customers are active customers.
 
 {% hint style="info" %}
 `formula` is a special type of feature, which is not reliant on related data assets or related entities like other feature types, as it creates features based on features of the same entity.
@@ -67,14 +63,8 @@ Any SQL code applies here as long as:
 1. It is based on features already defined on the entity
 2. it does not have aggregate functions
 
+Referencing a feature in the SQL is done by using `{FEATURE_NAME}`
+
 {% hint style="warning" %}
 In case you have an aggregate function in a formula, you probably need to create another metric feature and then create the formula feature on top of it
 {% endhint %}
-
-### `features`&#x20;
-
-A list of the features that were included in the formula `sql` definition.
-
-### `feature`
-
-The feature name for each feature that was included in the formula `sql` definition.

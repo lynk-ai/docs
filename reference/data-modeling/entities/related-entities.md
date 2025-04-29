@@ -66,7 +66,7 @@ Define how the entities should be joined, by connecting features of the first (s
 
 Give the join path a name.&#x20;
 
-If you choose not to name a join path, lynk will automatically name as the join path as "default" followd by a number. For example, the first unnamed join path will be named by Lynk to `default_1`, the second to `default_2` etc..
+If you choose not to name a join path, lynk will automatically name as the join path as "default" followed by a number. For example, the first unnamed join path will be named by Lynk to `default_1`, the second to `default_2` etc..
 
 Note that Join path `name` has to be unique on a related entity level.&#x20;
 
@@ -108,7 +108,7 @@ relationships:
     - name: nation_id
       default: true
       type: sql
-      sql: {source}.nation_id = {destination}.nation_id
+      sql: "{source}.{nation_id} = {destination}.{nation_id}"
 ```
 
 Using the `sql` type;
@@ -188,14 +188,14 @@ relationships:
       lookup:
       - destination: db_prod.core.team
         type: sql
-        sql: {source}.team_id = {destination}.team_id
+        sql: "{source}.{team_id} = {destination}.{team_id}"
       - destination: organization
         type: sql
-        sql: {source}.organization_id = {destination}.id
+        sql: "{source}.{organization_id} = {destination}.{id}"
 ```
 
 In the above example, we connect the entity customer to the entity organization.\
-Note that there is no direct connection between the two, and we have to join customer to db\_prod.core.team first and then join db\_prod.core.team to prganization.
+Note that there is no direct connection between the two, and we have to join customer to db\_prod.core.team first and then join db\_prod.core.team to organization.
 
 {% hint style="info" %}
 When joining two entities via lookups there is no limit to the amount of lookups ("hops")

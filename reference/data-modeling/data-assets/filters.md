@@ -14,7 +14,7 @@ features:
   measures: count_orders
   filters:
   - type: sql
-    sql: order_date >= '2025-01-01' and order_date <= 2025-12-31'
+    sql: "{asset}.{order_date} >= '2025-01-01' and {asset}.{order_date} <= 2025-12-31'"
 
 - type: metric
   name: successful_orders_count
@@ -61,7 +61,7 @@ features:
   measures: count_orders
   filters:
   - type: sql
-    sql: order_date >= '2025-01-01' and order_date <= 2025-12-31'
+    sql: "{asset}.{order_date} >= '2025-01-01' and {asset}.{order_date} <= 2025-12-31'"
 ```
 
 ### `fields` (type)
