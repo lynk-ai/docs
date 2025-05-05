@@ -14,7 +14,7 @@ features:
   measures: count_orders
   filters:
   - type: sql
-    sql: order_date >= '2025-01-01' and order_date <= 2025-12-31'
+    sql: "{asset}.{order_date} >= '2025-01-01' and {asset}.{order_date} <= '2025-12-31'"
 
 - type: metric
   name: successful_orders_count
@@ -61,7 +61,7 @@ features:
   measures: count_orders
   filters:
   - type: sql
-    sql: order_date >= '2025-01-01' and order_date <= 2025-12-31'
+    sql: "{asset}.{order_date} >= '2025-01-01' and {asset}.{order_date} <= '2025-12-31'"
 ```
 
 ### `fields` (type)
@@ -156,7 +156,7 @@ Usage example (`between` operator):&#x20;
     - 2025-01-01
 ```
 
-Retrieves only records where the `values` of the `field` order\_date are **between** '2024-01-01' and 2025-01-01.
+Retrieves only records where the `values` of the `field` order\_date are **between** '2024-01-01' and '2025-01-01'.
 
 Note that the order matters - the first value is the lower bound and the second value is the upper bound of the `between` operator.
 

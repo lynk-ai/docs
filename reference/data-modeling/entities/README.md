@@ -40,7 +40,7 @@ related_assets:
     - name: all_orders
       default: true
       type: sql
-      sql:  {source}.customer_id = {destination}.customer_id
+      sql: "{source}.{customer_id} = {destination}.{customer_id}"
 
 ```
 

@@ -25,7 +25,7 @@ asset: user
 measures:
 - name: active_users_count
   description: count of active users
-  sql: SUM(IFF(is_active_user = true, 1, 0))
+  sql: SUM(IFF({is_active_user} = true, 1, 0))
 ```
 
 ```yaml

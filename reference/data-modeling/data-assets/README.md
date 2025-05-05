@@ -33,7 +33,7 @@ measures:
   sql: count(1)
 - name: total_order_amount
   description: sum of order amount
-  sql: sum(total_amount)
+  sql: sum({total_amount})
 
 ```
 
@@ -88,7 +88,7 @@ measures:
 
 - name: total_order_amount
   description: sum of order amount
-  sql: sum(total_amount)
+  sql: sum({total_amount})
 ```
 
 ### `Name`
@@ -125,11 +125,11 @@ measures:
 
 - name: total_order_amount
   description: sum of order amount
-  sql: sum(total_amount)
+  sql: sum({total_amount})
 
 - name: successful_order_amount
   description: sum of successful orders amount
-  sql: sum(IFF(order_status = 'success', total_amount, 0))
+  sql: sum(IFF({order_status} = 'success', {total_amount}, 0))
 ```
 
 ***
