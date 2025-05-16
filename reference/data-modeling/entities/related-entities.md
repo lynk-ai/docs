@@ -64,11 +64,11 @@ Define how the entities should be joined, by connecting features of the first (s
 
 ### **`name` \[optional]**
 
-Give the join path a name.&#x20;
+Give the join path a name.
 
 If you choose not to name a join path, lynk will automatically name as the join path as "default" followed by a number. For example, the first unnamed join path will be named by Lynk to `default_1`, the second to `default_2` etc..
 
-Note that Join path `name` has to be unique on a related entity level.&#x20;
+Note that Join path `name` has to be unique on a related entity level.
 
 {% hint style="info" %}
 The `name` property will be used when creating features or when joining two entities via SQL/REST API. In case there is more than one join path between two entities, you will be able to tell Lynk how connect the two entities by using the join path `name`.
@@ -171,8 +171,6 @@ Lynk supports multiple related fields from the source to the destination, enabli
 Sometimes the relation between two entities is not direct. Meaning, in order to connect two entities we have to join them via one or more lookup tables ("hops"). Lynk supports this scenario using the `lookup` join type.
 
 See the below example:
-
-ADD A DIAGRAM CUSTOMER --> TEAM --> ORGANIZATION
 
 ```yaml
 # entities_relationships.yml
