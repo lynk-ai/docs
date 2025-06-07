@@ -30,7 +30,7 @@ AI will emerge as the primary consumer of enterprise data, and to support this t
 
 ## Core concepts&#x20;
 
-Lynk’s Semantic Layer is purpose-built for the AI era—designed with AI as both a primary data consumer and contributor, and with business teams in mind.
+Lynk’s was designed with AI as both a primary data consumer and contributor, and with business teams in mind. Data teams use it to manage the semantics and make them accessible to AI as the main direct consumer of data.
 
 It makes defining and consuming semantic and business concepts more accessible to both AI and non-technical users, while enforcing strong data modeling and governance practices to maintain a reliable and structured source of truth.
 
@@ -39,8 +39,6 @@ Lynk empowers AI and every member of the data supply chain with the freedom, fle
 **The product's core concepts are:**
 
 ### **AI first**
-
-Lynk is built from the ground up with AI in mind.
 
 The entity-centric data modeling framework resembles a knowledge graph - an ideal structure for AI interaction. With Lynk, you can build a complete RAG (Retrieval-Augmented Generation) system combining semantic definitions, vectorized documents, and more - exposed through the MCP (Multi-Component Platform) to AI agents. These agents power self-service analytics, data quality assurance, and beyond.
 
