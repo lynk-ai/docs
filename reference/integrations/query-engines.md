@@ -4,7 +4,7 @@
 
 &#x20;Connecting a query engine is done on the onboarding process.&#x20;
 
-<figure><img src="../../.gitbook/assets/image (1).png" alt=""><figcaption><p>Example - connecting to Snowflake</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1) (1).png" alt=""><figcaption><p>Example - connecting to Snowflake</p></figcaption></figure>
 
 ***
 

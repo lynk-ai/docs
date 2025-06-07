@@ -20,7 +20,7 @@ There are two types of contexts:
 Creating a custom context is done via settings > account > contexts on the Studio.\
 Only **admins** can create and manage contexts.
 
-<figure><img src="../../.gitbook/assets/image (1) (1) (1) (1).png" alt=""><figcaption><p>Example for "marketing" as a custom context</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1) (1) (1) (1) (1).png" alt=""><figcaption><p>Example for "marketing" as a custom context</p></figcaption></figure>
 
 ***
 
