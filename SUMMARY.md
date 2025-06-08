@@ -4,7 +4,7 @@
 
 ## Reference
 
-* [AI enablement](reference/ai-enablement.md)
+* [AI](reference/ai.md)
 * [Data modeling](reference/data-modeling/README.md)
   * [Entities](reference/data-modeling/entities.md)
   * [Relationships](reference/data-modeling/relationships/README.md)
