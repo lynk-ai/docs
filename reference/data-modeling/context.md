@@ -8,7 +8,7 @@ Contexts allow creating business definitions specific to a business context like
 
 There are two types of contexts:
 
-* `default` context
+* `shared` context (default)
 * custom context
 
 ### `shared` (the default context)
