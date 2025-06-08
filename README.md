@@ -19,16 +19,25 @@ layout:
 
 # Introduction
 
-Lynk is the Semantic Layer for AI and business users. Companies use it to build a central source of truth for their data - to enable self-service analytics and AI-powered apps.
+Lynk is the Semantic Layer for AI and business users.\
+It empowers companies to build AI-driven applications by creating a centralized, governed, and accessible source of truth for all their data.
 
-## Enterprise Data Access Prediction (2025-2030)
+### AI is changing the rules
 
-We believe that in the coming years, there will be a dramatic shift in how enterprise data is accessed.\
-AI will emerge as the primary consumer of enterprise data, and to support this transformation, we must **fundamentally rethink how data is accessed, modeled, and managed**.
+#### Enterprise Data Access Prediction (2025-2030)
+
+In the coming years, we anticipate a dramatic shift in how enterprise data is accessed.\
+AI will become the primary consumer of enterprise data, with an estimated 90% of queries originating from AI agents.
 
 <figure><img src=".gitbook/assets/image (3).png" alt=""><figcaption><p>Projected shift from traditional human/BI tool access to AI-driven data access</p></figcaption></figure>
 
-## Core concepts&#x20;
+#### Garbage in garbage out
+
+While AI is poised to revolutionize how we use data, most enterprise data environments are not yet ready. They’re often messy - plagued by duplicated logic, unclear definitions, and outdated, manual processes.&#x20;
+
+For AI to reliably consume and act on data, we must address these foundational issues and fundamentally rethink how data is built, managed, governed and accessed.
+
+## Core concepts
 
 Lynk’s was designed with AI as both a primary data consumer and contributor, and with business teams in mind. Data teams use it to manage the semantics and make them accessible to AI as the main direct consumer of data.
 
@@ -40,7 +49,7 @@ Lynk empowers AI and every member of the data supply chain with the freedom, fle
 
 ### **AI first**
 
-The entity-centric data modeling framework resembles a knowledge graph - an ideal structure for AI interaction. With Lynk, you can build a complete RAG (Retrieval-Augmented Generation) system combining semantic definitions, vectorized documents, and more - exposed through the MCP (Multi-Component Platform) to AI agents. These agents power self-service analytics, data quality assurance, and beyond.
+The entity-centric data modeling framework resembles a knowledge graph - an ideal structure for AI interaction. With Lynk, you can build a complete RAG (Retrieval-Augmented Generation) system combining semantic definitions, vectorized documents, and more - exposed through the MCP (Model Context Protocol) to AI agents. These agents power self-service analytics, data quality assurance, and beyond.
 
 Visit [AI enablement](reference/ai-enablement.md) for in-depth information about this.
 
@@ -49,16 +58,16 @@ Visit [AI enablement](reference/ai-enablement.md) for in-depth information about
 At its core, Lynk has a structured and opinionated data modeling framework with governance built in.\
 Data is modeled as **entities** and **features** - a structure that is both intuitive for business users and optimized for AI applications.
 
-Some of the core concepts are:
+Some of the data modeling framework core concepts are:
 
 * Each level of granularity represented only once as entity (including different time aggregation levels)
 * Time aggregations (e.g., daily, monthly, rolling 90 days) are not pre-materialized or hardcoded. Instead, they are dynamically generated at query time, enabling flexible and efficient analysis without bloating the model.
 * Fields, measures, joins, and relationships are defined once and reused across the model. This promotes consistency, reduces duplication, and ensures governed, reliable outputs.
-* Feature definitions, functions, and transformations are built using templated patterns—making the model easy to extend, replicate, and audit.
+* Feature definitions, functions, and transformations are built using templated patterns - making the model easy to extend, replicate, and audit.
 * Unlike traditional semantic layers, Lynk supports feature chaining: the ability to build features on top of features, supporting complex multi-step transformations and aggregations.\
-  This is critical for enabling AI agents to not only answer questions, but also derive and define new metrics, trends, and predictions.
+  This is critical for enabling AI agents to not only answer questions, but also derive and define new metrics, trends, and predictions - as well as performing real root cause analysis.
 
-By following these principles, Lynk provides governance and simplicity in one unified model—a clear, consistent, and scalable approach to data modeling that’s accessible to both technical and non-technical users.
+By following these principles, Lynk provides governance and simplicity in one unified model - a clear, consistent, and scalable approach to data modeling that’s accessible to both technical and non-technical users.
 
 Visit [data modeling](reference/data-modeling/) for in-depth information about this.
 
