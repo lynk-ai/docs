@@ -4,7 +4,8 @@ Data modeling is core for succeeding with data, specially in the era of AI. This
 
 ## Introduction to Lynk Entity-Centric Data Modeling Framework
 
-Lynk has a built-in data modeling framework, which is based on the **Entity-Centric-Data-Modeling** (ECM) architecture.
+At its core, Lynk has a structured and opinionated data modeling framework with governance built in.\
+Data is modeled as **Entities** and **Features** - a structure that is both intuitive for business users and optimized for AI applications.
 
 {% hint style="info" %}
 While the Star-Schema approach is to **normalize** data with FACT and DIM tables, the Entity-Centric-Data-Modeling approach is to **denormalize** data around business entities.
@@ -14,31 +15,28 @@ Entity-Centric-Data-Modeling can be built on top of a Star Schema architecture, 
 This approach is more suitable for creating a central source of truth and specially for making it easy and accessible for AI and business teams.
 {% endhint %}
 
+The framework is opinionated - meaning it applies rules and governance out of the box - and is "self aware" of what's being built and how. Read below to understand more how it works.
+
 ### Core concepts
 
-#### Entity Centric Data Modeling
+* Each level of granularity represented only once as entity (including different time aggregation levels)
+* Time aggregations (e.g., daily, monthly, rolling 90 days) are not pre-materialized or hardcoded. Instead, they are dynamically generated at query time, enabling flexible and efficient analysis without bloating the model.
+* Fields, measures, joins, and relationships are defined once and reused across the model. This promotes consistency, reduces duplication, and ensures governed, reliable outputs.
+* Feature definitions, functions, and transformations are built using templated patterns - making the model easy to extend, replicate, and audit.
+* Unlike traditional semantic layers, Lynk supports feature chaining: the ability to build features on top of features, supporting complex multi-step transformations and aggregations.\
+  This is critical for enabling AI agents to not only answer questions, but also derive and define new features, metrics and trends - as well as performing real root cause analysis.
 
-**The Entity-Centric-Data-Modeling architecture advantages include:**
-
-* Making data accessible to business users
-* Better for creating a central source of truth
-* Connecting data silos
-* Easier to Keep the data model clean (following the DRY pattern)
-* Better for AI enablement
-
-{% hint style="info" %}
-On top of the data modeling layer, lynk applies the [governance](../governance.md) layer to make sure our data model is consistent, clean and efficient.
-{% endhint %}
-
-###
+By following these principles, Lynk provides governance and simplicity in one unified model - a clear, consistent, and scalable approach to data modeling that’s accessible to both technical and non-technical users.
 
 ### Dive Deeper
 
 Dive deeper into each of the framework's components below to learn more and see code examples&#x20;
 
-### [Entities](entities/)
+### [Entities](entities.md)
 
 Entities are real-world concepts like customers, orders, payments etc.  These are first-class citizens in Lynk, meaning everything we build and consume is around entities. Each business entity is attached with everything we to know about it. We call these pieces of information on an entity level "features".
+
+Entities can be further aggregated ("how many active users bought at least once in the past 7 days?). To apply aggregation logic on entities, we define "measures"
 
 ### [Features](features/)
 

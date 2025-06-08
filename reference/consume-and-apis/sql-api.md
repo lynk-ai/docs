@@ -8,8 +8,6 @@ Connecting to Lynk SQL API is done via a regular Postgres SQL connector.
 
 ***
 
-
-
 ## Query structure
 
 The SQL API supports standard `SELECT` statements.\
@@ -37,7 +35,7 @@ When querying Lynk via the SQL API, we are actually querying **entities** and th
 
 ### Main entity
 
-The **main entity** is the first entity passed to the `FROM` statement, using the `entity()` function.&#x20;
+The **main entity** is the first entity passed to the `FROM` statement, using the `entity()` function.
 
 #### For example:
 
@@ -51,7 +49,7 @@ FROM    entity('customer')
 
 The above example will return a record per `customer`. Meaning, all customers will return, and for each customer Lynk will return exactly one row. The metric `count_orders` will be calculated across all available time range
 
-#### Another example, with `time_agg`:&#x20;
+#### Another example, with `time_agg`:
 
 ```sql
 -- A simple SQL API query
@@ -70,7 +68,7 @@ SELECT  customer_id,
 FROM    entity('customer')
 ```
 
-The above example will return a record per `customer` and `day`.&#x20;
+The above example will return a record per `customer` and `day`.
 
 {% hint style="info" %}
 It is recommended to use `start_time` and `stop_time` parameters in the `USE` statement when using `time_agg`.
@@ -80,8 +78,8 @@ It is recommended to use `start_time` and `stop_time` parameters in the `USE` st
 
 ## Joining entities
 
-Joining entities is done using the `JOIN` statement. \
-Under the hood, Lynk applies a LEFT JOIN operation between each two joined entities, according to the join path specified between the two entities. See [entities relationship](../data-modeling/entities/related-entities.md) for more information on how to specify join paths between two entities.
+Joining entities is done using the `JOIN` statement.\
+Under the hood, Lynk applies a LEFT JOIN operation between each two joined entities, according to the join path specified between the two entities. See [entities relationship](../data-modeling/relationships/related-entities.md) for more information on how to specify join paths between two entities.
 
 #### Example for joining entities
 
@@ -103,7 +101,7 @@ Note that `team_name` is a feature that was defined on the entity `team` and joi
 
 In some cases, there might be more than one way to join two entities. Lynk supports this scenario by supporting the definition of more than one join path between two entities.
 
-If passed to the SQL API query, Lynk will use the join path `name` to  join the two entities. If no join path name stated, the default join path will be applied in order to join the two entities.  See [`NAME`](../data-modeling/entities/related-entities.md#name-optional) section in the [related entities](../data-modeling/entities/related-entities.md) page for more information on this.
+If passed to the SQL API query, Lynk will use the join path `name` to join the two entities. If no join path name stated, the default join path will be applied in order to join the two entities. See [`NAME`](../data-modeling/relationships/related-entities.md#name-optional) section in the [related entities](../data-modeling/relationships/related-entities.md) page for more information on this.
 
 ```sql
 -- Joining entities with named join paths
@@ -120,7 +118,7 @@ JOIN    entity('agent') la on last_support_agent
 In this example we join the entity `agent` to the main entity `customer` twice. Once via a join path that joins the `sales_agent` to a customer and once via a join path that joins the `last_support_agent` to a customer.
 
 {% hint style="info" %}
-Note that in order to use a named join pattern, we use the `ON` keyword and then the join path `NAME`. In order to maintain the concept of a **single source of truth**, only a join path `NAME` can be passed here (not the path itself). Join paths should be centrally defined as [entities relationships](../data-modeling/entities/related-entities.md).
+Note that in order to use a named join pattern, we use the `ON` keyword and then the join path `NAME`. In order to maintain the concept of a **single source of truth**, only a join path `NAME` can be passed here (not the path itself). Join paths should be centrally defined as [entities relationships](../data-modeling/relationships/related-entities.md).
 {% endhint %}
 
 ***
@@ -168,7 +166,7 @@ N**ot** supported
 * DDLs
 * DMLs
 
-CTEs are not supported for a reason; \
+CTEs are not supported for a reason;\
 In order to keep the source of truth clean and trusted, Lynk encourages to add business logic to entities and features - and avoid adding business logic to the consumption layer, as it will result in in-accessible and in-reusable logic.
 {% endhint %}
 
@@ -204,7 +202,7 @@ In the above example we are using the `branch` "dev"
 
 ### `context`
 
-Specify which `context` to use.&#x20;
+Specify which `context` to use.
 
 By default Lynk will retrieve semantic definitions from the default context ("shared"). In case the `context` option is passed to the `USE` block, Lynk will take the semantic definitions (entities, features, join paths etc) from the specified context.
 
@@ -228,7 +226,7 @@ See [contexts](../data-modeling/context.md) for in depth information on this.
 
 ### `time_agg`
 
-Use `time_agg` to specify how to aggregate the query features, in terms of time aggregation.&#x20;
+Use `time_agg` to specify how to aggregate the query features, in terms of time aggregation.
 
 See [time aggregation](time-aggregation.md) for in depth information on this.
 
@@ -236,24 +234,24 @@ See [time aggregation](time-aggregation.md) for in depth information on this.
 
 ### `start_time`
 
-Use `start_time` to specify a lower time barrier for the query.&#x20;
+Use `start_time` to specify a lower time barrier for the query.
 
 The `start_time` parameter will be applied to all of the underlying data assets that Lynk will query in order to build the requested features.
 
 {% hint style="info" %}
-When using `time_agg` it is highly recommended to use the `start_time` option for performance and cost saving purposes.&#x20;
+When using `time_agg` it is highly recommended to use the `start_time` option for performance and cost saving purposes.
 {% endhint %}
 
 ***
 
 ### `stop_time`
 
-Use `stop_time` to specify an upper time barrier for the query.&#x20;
+Use `stop_time` to specify an upper time barrier for the query.
 
 The `stop_time` option will be applied to all of the underlying data assets that Lynk will query in order to build the requested features.
 
 {% hint style="info" %}
-When using `time_agg` it is highly recommended to use the `stop_time` option for performance and cost saving purposes.&#x20;
+When using `time_agg` it is highly recommended to use the `stop_time` option for performance and cost saving purposes.
 {% endhint %}
 
 #### Example
@@ -271,7 +269,7 @@ SELECT  customer_id,
 from    entity('customer')
 ```
 
-In the above example, Lynk will return for each customer, it's `customer_id` and the feature `count_orders,` where `count_orders` is calculated for each user on the time frame between `2024-01-01` and `2025-01-01`.&#x20;
+In the above example, Lynk will return for each customer, it's `customer_id` and the feature `count_orders,` where `count_orders` is calculated for each user on the time frame between `2024-01-01` and `2025-01-01`.
 
 ***
 
@@ -296,7 +294,7 @@ Parsing the SQL API query to the relevant query engine
 
 Sending the parsed SQL query to the underlying query engine
 
-#### Step 3: Receiving the results&#x20;
+#### Step 3: Receiving the results
 
 Receiving the results (data) from the query engine.
 
@@ -316,4 +314,3 @@ In case the `entity()` function is not passed to the `FROM` statement, Lynk will
 {% hint style="info" %}
 We are working on a new "admin board" that will allow Lynk admins view all the queries that ran through Lynk SQL API - Including queries that retrieve entities and pushdowns. This feature is on our product roadmap for Q1 2025. Please [contact us](https://www.getlynk.ai/book-a-demo) if you find this interesting.
 {% endhint %}
-

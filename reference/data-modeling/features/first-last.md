@@ -39,14 +39,14 @@ The data asset with the field to be added as feature to our entity.\
 `asset` should be the full path: "db.schema.name".
 
 {% hint style="info" %}
-`asset` has to be related to our entity (see [related data asset](../entities/related-data-assets.md)).
+`asset` has to be related to our entity (see [related data asset](../relationships/related-data-assets.md)).
 {% endhint %}
 
 ### `join_name` \[optional]
 
 In case multiple join patterns are defined between an entity and a data asset, `join_name` is used to determine which join path to use for a specific feature.
 
-For more information about using multiple join paths between an entity and a data asset, visit the [related data assets](../entities/related-data-assets.md#name-optional) page.
+For more information about using multiple join paths between an entity and a data asset, visit the [related data assets](../relationships/related-data-assets.md#name-optional) page.
 
 ### `data_type` \[optional]
 

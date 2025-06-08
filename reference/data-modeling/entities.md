@@ -3,7 +3,7 @@
 Entities are real-world concepts like customers, orders, payments etc.\
 These are first-class citizens in Lynk, meaning everything we build and consume is around entities.
 
-The main concept of Lynk Semantic Layer is to create a central source of truth for each of the entities in the business, in a trusted and accessible way. In other words, from a business perspective, for each business entity it should be clear what we know of it, how was it defined, and where we can find it. We call these pieces of information on an entity level - [features](../features/).
+The main concept of Lynk Semantic Layer is to create a central source of truth for each of the entities in the business, in a trusted and accessible way. In other words, from a business perspective, for each business entity it should be clear what we know of it, how was it defined, and where we can find it. We call these pieces of information on an entity level - [features](features/).
 
 ***
 
@@ -45,7 +45,7 @@ related_assets:
 ```
 
 {% hint style="info" %}
-For a quick onboarding, use the [discovery](./#discovery) process to automatically extract business entities from your Data Warehouse schemas and SQL code.
+For a quick onboarding, use the [discovery](entities.md#discovery) process to automatically extract business entities from your Data Warehouse schemas and SQL code.
 {% endhint %}
 
 ### `key_table`
@@ -67,23 +67,23 @@ Sometimes different people might call the same entity by different names. e.g a 
 ### `features`
 
 Features are attributes that represent all we know about our Entities.\
-It can be simple fields, aggregated metrics, first - last features, period-over-period formulas, custom formulas and more. See [Features](./#features) page for in depth information on this.
+It can be simple fields, aggregated metrics, first - last features, period-over-period formulas, custom formulas and more. See [Features](entities.md#features) page for in depth information on this.
 
 ### `related_assets`
 
-Define which Data Assets are related to the entity. Related assets will be shown and used when creating new features for an entity. For example, if the data asset `db_prod.core.orders` is related to the entity `customer`, we will be able to extract features from `db_prod.core.orders` to the `customer` level. See [Related assets](related-data-assets.md) for in depth information on this.
+Define which Data Assets are related to the entity. Related assets will be shown and used when creating new features for an entity. For example, if the data asset `db_prod.core.orders` is related to the entity `customer`, we will be able to extract features from `db_prod.core.orders` to the `customer` level. See [Related assets](relationships/related-data-assets.md) for in depth information on this.
 
 ***
 
 ## Entity relationships
 
-To see how to define and use relationships between entities, please see [Related entities](related-entities.md) page.
+To see how to define and use relationships between entities, please see [Related entities](relationships/related-entities.md) page.
 
 ***
 
 ## Consuming Entities
 
-Entities and Features are consumed via [SQL API](../../consume-and-apis/sql-api.md), [REST API](broken-reference/) or via Lynk [Playground](broken-reference/). See [Consume & APIs](../../consume-and-apis/) for in depth information on this.
+Entities and Features are consumed via [SQL API](../consume-and-apis/sql-api.md), [REST API](entities/broken-reference/) or via Lynk [Playground](entities/broken-reference/). See [Consume & APIs](../consume-and-apis/) for in depth information on this.
 
 ```sql
 -- Example for a simple SQL API query
@@ -101,7 +101,7 @@ LIMIT   100
 
 ## Governance
 
-Lynk [Governance](../../governance.md) makes sure Entities are unique:
+Lynk [Governance](../governance.md) makes sure Entities are unique:
 
 * Entities have unique names
 * Entities have unique Key data asset
@@ -112,4 +112,4 @@ Lynk [Governance](../../governance.md) makes sure Entities are unique:
 
 ## Discovery
 
-Lynk Discovery makes it easy to bootstrap your project and define entities automatically. Read more on this on the [Discovery](./#discovery) page.
+Lynk Discovery makes it easy to bootstrap your project and define entities automatically. Read more on this on the [Discovery](entities.md#discovery) page.

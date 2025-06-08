@@ -4,7 +4,7 @@ Features are entity-level attributes, representing all the things we know of ent
 Lynk makes it simple to create features, based on related data assets or related entities.
 
 {% hint style="info" %}
-Features represent the business logic of enriching entities with information based on other related assets or entities.
+Features represent the business logic of enriching entities with information based on other related assets or entities. Essentially, features can be thought of as dynamic dimensions.
 {% endhint %}
 
 ***

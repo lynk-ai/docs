@@ -1,6 +1,6 @@
 # Data assets
 
-Data assets are tables and views from the underlying data source (mostly a warehouse). Data assets can be [related](../entities/related-data-assets.md) to entities and they are being used for creating entity features.
+Data assets are tables and views from the underlying data source (mostly a warehouse). Data assets can be [related](../relationships/related-data-assets.md) to entities and they are being used for creating entity features.
 
 {% hint style="info" %}
 It is recommended to use a transformation tool like dbt to transform raw data into dimensional model with DIM and FACT tables, and expose that dimensional model to Lynk Semantic Layer.
@@ -38,9 +38,9 @@ measures:
 ```
 
 {% hint style="info" %}
-Data assets are stored on the Lynk [Graph DB](broken-reference) during the [discovery](broken-reference) process. If changes are made to a data asset within Lynk (e.g adding fields / measures), a YAML file will be created as shown on the example above.
+Data assets are stored on the Lynk [Graph DB](broken-reference/) during the [discovery](broken-reference/) process. If changes are made to a data asset within Lynk (e.g adding fields / measures), a YAML file will be created as shown on the example above.
 
-Once a YAML file gets created for a data asset, the asset is now stored in Git as well as on the Graph DB. Lynk will take care for syncing the Graph DB and your Git repository. See more on Lynk [Graph](broken-reference)[ DB](broken-reference) here.
+Once a YAML file gets created for a data asset, the asset is now stored in Git as well as on the Graph DB. Lynk will take care for syncing the Graph DB and your Git repository. See more on Lynk [Graph](broken-reference/)[ DB](broken-reference/) here.
 {% endhint %}
 
 ### `asset`
@@ -49,21 +49,21 @@ Data Asset name and location as it appears in your underlying Data Warehouse (`d
 
 ### `key`
 
-The asset key field (primary key). \
-It is important to state the correct data asset key in order to avoid duplications and errors. Lynk will automatically find and suggest data asset keys after the [discovery](broken-reference) process is completed.
+The asset key field (primary key).\
+It is important to state the correct data asset key in order to avoid duplications and errors. Lynk will automatically find and suggest data asset keys after the [discovery](broken-reference/) process is completed.
 
 ### `business_key` \[optional]
 
-Sometimes the key is just "`id`". \
+Sometimes the key is just "`id`".\
 In such cases, some combination of other fields might represent the level of granularity of that data asset, and make more sense business wise. We call this combination of fields the `business_key` of that asset.
 
 {% hint style="info" %}
-Business keys help us be clear on what this data asset is about, and what each row represents.  &#x20;
+Business keys help us be clear on what this data asset is about, and what each row represents.
 {% endhint %}
 
 ### `defaults`
 
-Holds the defaults for the data asset.  See [default time field](./#default-time-field) for example.
+Holds the defaults for the data asset. See [default time field](./#default-time-field) for example.
 
 ### `time_field` \[optional]
 
@@ -93,23 +93,23 @@ measures:
 
 ### `Name`
 
-Give the measure a name. \
+Give the measure a name.\
 This will be used when creating [metric](../features/metric.md) features and also will be shown on the Studio UI. It is recommended to give measures informative names that indicate their purpose.
 
 ### `Description` \[optional]
 
 Describe the measure.\
-It is recommended to give measures informative names that indicate their purpose - for other team members to be able to reuse the measure and for AI apps as well.&#x20;
+It is recommended to give measures informative names that indicate their purpose - for other team members to be able to reuse the measure and for AI apps as well.
 
 ### `SQL`
 
-The measure definition. It should be composed of an aggregate function and a field.  \
-It is possible to chain multiple aggregate functions and / or multiple fields, just like you would do on plain SQL when needed.&#x20;
+The measure definition. It should be composed of an aggregate function and a field.\
+It is possible to chain multiple aggregate functions and / or multiple fields, just like you would do on plain SQL when needed.
 
 {% hint style="info" %}
 Lynk is SQL-first, meaning anything that would work on plain SQL will work with Lynk as well. You can type any SQL aggregate function compatible with your query engine, and Lynk will apply that as the measure definition and chain it to the query engine.
 
-Examples: `SUM` , `COUNT` , `MIN` , `MAX` , `COUNT DISTINCT` , `APPROX_PERCENTILE` etc&#x20;
+Examples: `SUM` , `COUNT` , `MIN` , `MAX` , `COUNT DISTINCT` , `APPROX_PERCENTILE` etc
 {% endhint %}
 
 #### Some more examples:
@@ -136,7 +136,7 @@ measures:
 
 ## Virtual data assets
 
-Virtual data asset are data assets that live "virtually" within Lynk. Meaning, there is no materialized asset on the underlying data source. A virtual data assets is created for each entity within Lynk, where the entity is the "asset" and it's features are the "fields".&#x20;
+Virtual data asset are data assets that live "virtually" within Lynk. Meaning, there is no materialized asset on the underlying data source. A virtual data assets is created for each entity within Lynk, where the entity is the "asset" and it's features are the "fields".
 
 {% hint style="info" %}
 Measures can be added to virtual data assets, just like in regular data assets.
