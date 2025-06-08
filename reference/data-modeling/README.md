@@ -1,10 +1,6 @@
 # Data modeling
 
-Data modeling is core for succeeding with data, specially in the era of AI. This page summarizes the core concepts of Lynk data modeling framework.
-
-## Introduction to Lynk Entity-Centric Data Modeling Framework
-
-At its core, Lynk has a structured and opinionated data modeling framework with governance built in.\
+At its core, Lynk has a structured and opinionated data modeling framework with **governance built in**.\
 Data is modeled as **Entities** and **Features** - a structure that is both intuitive for business users and optimized for AI applications.
 
 {% hint style="info" %}
@@ -15,13 +11,15 @@ Entity-Centric-Data-Modeling can be built on top of a Star Schema architecture, 
 This approach is more suitable for creating a central source of truth and specially for making it easy and accessible for AI and business teams.
 {% endhint %}
 
-The framework is opinionated - meaning it applies rules and governance out of the box - and is "self aware" of what's being built and how. Read below to understand more how it works.
+The framework is opinionated - meaning it applies rules and governance out of the box - and is "self aware" of what's being built and how.&#x20;
+
+Read below to understand more how it works;
 
 ### Core concepts
 
 * Each level of granularity represented only once as entity (including different time aggregation levels)
 * Time aggregations (e.g., daily, monthly, rolling 90 days) are not pre-materialized or hardcoded. Instead, they are dynamically generated at query time, enabling flexible and efficient analysis without bloating the model.
-* Fields, measures, joins, and relationships are defined once and reused across the model. This promotes consistency, reduces duplication, and ensures governed, reliable outputs.
+* Entities, relationships, features, measures and fields are defined once and reused across the model. This promotes consistency, reduces duplication, and ensures governed, reliable outputs.
 * Feature definitions, functions, and transformations are built using templated patterns - making the model easy to extend, replicate, and audit.
 * Unlike traditional semantic layers, Lynk supports feature chaining: the ability to build features on top of features, supporting complex multi-step transformations and aggregations.\
   This is critical for enabling AI agents to not only answer questions, but also derive and define new features, metrics and trends - as well as performing real root cause analysis.
@@ -34,9 +32,7 @@ Dive deeper into each of the framework's components below to learn more and see 
 
 ### [Entities](entities.md)
 
-Entities are real-world concepts like customers, orders, payments etc.  These are first-class citizens in Lynk, meaning everything we build and consume is around entities. Each business entity is attached with everything we to know about it. We call these pieces of information on an entity level "features".
-
-Entities can be further aggregated ("how many active users bought at least once in the past 7 days?). To apply aggregation logic on entities, we define "measures"
+Entities are real-world concepts like customers, orders, payments etc.  These are first-class citizens in Lynk, meaning everything we build and consume is around entities. Each business entity is attached with everything we to know about it. We call these pieces of information on an entity level "Features".
 
 ### [Features](features/)
 
@@ -76,6 +72,10 @@ Common challenges in data modeling are questions like "how should I model this?"
 
 Lynk takes care of such challenges by providing a structured way to model data (defining features on entities via YAML files), governing it with the [Governance](../governance.md) layer and making it all easily accessible via the Studio interface.
 {% endhint %}
+
+### [Measures](measures.md)
+
+Entities can be further aggregated ("how many active users bought at least once in the past 7 days?). To apply aggregation logic on entities, we define "Measures" on entities.&#x20;
 
 ### [Data assets](data-assets/)
 
