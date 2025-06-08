@@ -1,15 +1,15 @@
 # Related Entities
 
 Entities can relate to to other entities.\
-Lynk stores all entity relationships in one file `entities_relationships.yml` , to ensure consistency and simplicity. You can add entity relations via code, directly to this YAML file, or via the Studio UI.
+Lynk manages all entity relationships centrally in one file `entities_relationships.yml` , to ensure consistency and simplicity. You can add entity relations via code, directly to this YAML file, or via the Studio UI.
 
 {% hint style="info" %}
-Related entities will allow us to enrich an entity with features from other entities, or to join entities on SQL/REST API calls.
+Related entities will allow us to enrich an entity with features from other entities (see [chaining features](../chaining-features.md)), or to join entities via [SQL API](../../consume-and-apis/sql-api.md) and REST SQL API calls
 {% endhint %}
 
 ***
 
-## Simple entity-to-entity relation
+### Simple entity-to-entity relation
 
 In this example, the entity `nation` relates to the entity `customer` in a one-to-many relationship (a nation has many customers)
 
@@ -32,20 +32,20 @@ relationships:
 
 ### `Relationships`
 
-This is where we define all of our entity-to-entity relationships.
+This is where we define all of our entity-to-entity relationships in the `entities_relationships.yml` file
 
 {% hint style="info" %}
 A relationship should be defined once regardless of the direction (e.g `nation-customer` is the same relationship as `customer-nation`). Lynk will automatically reverse the direction when needed.
 {% endhint %}
 
 Define a relationship by adding an object `entity1-entity2`.\
-In our example customer-nation, the direction is customer -> to -> nation.
+In our example `nation-customer`, the direction is nation -> to -> customer.
 
 Note that the direction applies to the `Relationship` parameter as well as to the `source` and `destination` parameters (see below)
 
 ### `Relationship`
 
-Sets the `Relationship` between the two entities, according to the direction. In the above example, the entity `nation` has a one-to-many relationship with the `customer` entity (A nation can have many customers, and a customer can have only one nation).
+Sets the `Relationship` type between the two entities, according to the direction. In the above example, the entity `nation` has a one-to-many relationship with the `customer` entity (A nation can have many customers, and a customer can have only one nation).
 
 The options for the Relationship property are:
 
@@ -55,7 +55,7 @@ The options for the Relationship property are:
 * `many_to_one`
 
 {% hint style="info" %}
-Lynk will use the relationship property to suggest the correct [virtual data assets](../data-assets/#virtual-data-assets) when creating features. For example, when creating metrics, Lynk will only suggest one\_to\_many related virtual data assets.
+Lynk will use the relationship property to suggest the correct entities when creating features. For example, when creating metrics, Lynk will only suggest related data assets and entities with a one\_to\_many relationship (as metrics are essentially aggregations)
 {% endhint %}
 
 ### `Joins`
