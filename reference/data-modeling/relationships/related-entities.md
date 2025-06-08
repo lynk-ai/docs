@@ -4,7 +4,7 @@ Entities can relate to to other entities.\
 Lynk manages all entity relationships centrally in one file `entities_relationships.yml` , to ensure consistency and simplicity. You can add entity relations via code, directly to this YAML file, or via the Studio UI.
 
 {% hint style="info" %}
-Related entities will allow us to enrich an entity with features from other entities (see [chaining features](../chaining-features.md)), or to join entities via [SQL API](../../consume-and-apis/sql-api.md) and REST SQL API calls
+Related entities will allow us to enrich an entity with features from other entities (see [chaining features](../chaining-features.md)), and to join entities via [SQL API](../../consume-and-apis/sql-api.md) and REST SQL API calls
 {% endhint %}
 
 ***
