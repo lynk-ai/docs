@@ -11,7 +11,7 @@ Within Lynk everything is Semantically important, from raw data to final KPIs, m
 
 ## Virtual data assets
 
-[Virtual data assets](data-assets/#virtual-data-assets) are data assets that live "virtually" within Lynk. Meaning, there is no materialized asset on the underlying data source. **A virtual data assets is created for each entity within Lynk**, where the entity is the "asset" and it's features are the "fields".
+[Virtual data assets](../data-assets/#virtual-data-assets) are data assets that live "virtually" within Lynk. Meaning, there is no materialized asset on the underlying data source. **A virtual data assets is created for each entity within Lynk**, where the entity is the "asset" and it's features are the "fields".
 
 ## Creating features from related entities
 
@@ -42,7 +42,7 @@ features:
 ```
 
 {% hint style="info" %}
-Note that the `asset` in this case is the related entity name (see [related entities](relationships/related-entities.md)).
+Note that the `asset` in this case is the related entity name (see [related entities](../relationships/related-entities.md)).
 {% endhint %}
 
 ***

@@ -15,7 +15,7 @@
     * [Metric](reference/data-modeling/features/metric.md)
     * [First-Last](reference/data-modeling/features/first-last.md)
     * [Formula](reference/data-modeling/features/formula.md)
-  * [Chaining features](reference/data-modeling/chaining-features.md)
+    * [Chaining features](reference/data-modeling/features/chaining-features.md)
   * [Measures](reference/data-modeling/measures.md)
   * [Data assets](reference/data-modeling/data-assets/README.md)
     * [Filters](reference/data-modeling/data-assets/filters.md)

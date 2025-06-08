@@ -63,7 +63,7 @@ Lynk holds all the business logic but does not materialize entities and features
 For performance optimizations, we have plans on our roadmap to enable entities and features materialization with dbt. If that's something you would like to see coming soon, please [contact us](https://www.getlynk.ai/book-a-demo) and let us know.
 {% endhint %}
 
-### [Chaining features](chaining-features.md)
+### [Chaining features](features/chaining-features.md)
 
 Features are reusable. This means it is possible to create robust data pipelines within Lynk - by chaining features across entities.
 

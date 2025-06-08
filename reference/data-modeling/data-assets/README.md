@@ -144,4 +144,4 @@ Measures can be added to virtual data assets, just like in regular data assets.
 
 #### Usage of virtual data assets
 
-virtual data assets are mainly used for [chaining features](../chaining-features.md) - creating entity features based on features of other related entities.
+virtual data assets are mainly used for [chaining features](../features/chaining-features.md) - creating entity features based on features of other related entities.
