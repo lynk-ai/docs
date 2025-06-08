@@ -1,11 +1,12 @@
 # Chaining features
 
-Features are reusable. This means it is possible to create robust data pipelines within Lynk - by adding features to an entity, based on features of other (related) entities.
+Features are reusable.\
+It is possible to create features on an entity, based on features of another (related) entity. This makes it possible to create robust data pipelines within Lynk - from raw data to final KPIs.
 
 {% hint style="info" %}
-Common challenges in data modeling are questions like "how should I model this?" and "was this done before, somewhere else?"
+Chaining features is a critical component in Lynk's design, and a differentiator from other Semantic Layer solutions.&#x20;
 
-Lynk takes care of such challenges by providing a structured way to model data (defining features on entities via YAML files), governing it with the [Governance](../governance.md) layer and making it all accessible via the Studio interface.
+Within Lynk everything is Semantically important, from raw data to final KPIs, making the whole data pipeline well defined centrally, structured, governed and highly accessible for AI not only to Ask questions but also to build new features and semantic definitions on the fly.
 {% endhint %}
 
 ## Virtual data assets
