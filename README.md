@@ -74,7 +74,7 @@ Visit [data modeling](reference/data-modeling/) for in-depth information about t
 ### **Accessibility**
 
 Beyond its native AI accessibility, Lynk is built for both business users and data teams.\
-All semantic definitions - such as _Entities_ and _Features -_ are accessible and editable through Lynk Studio, a user-friendly data catalog and business glossary. It enables anyone to explore, create, and govern data with simplicity and control.
+All semantic definitions - such as Entities and Features _-_ are accessible and editable through Lynk Studio, a user-friendly data catalog and business glossary. It enables anyone to explore, create, and govern data with simplicity and control.
 
 ### **Governance**
 
