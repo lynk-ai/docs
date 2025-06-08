@@ -65,7 +65,7 @@ Some of the data modeling framework core concepts are:
 * Fields, measures, joins, and relationships are defined once and reused across the model. This promotes consistency, reduces duplication, and ensures governed, reliable outputs.
 * Feature definitions, functions, and transformations are built using templated patterns - making the model easy to extend, replicate, and audit.
 * Unlike traditional semantic layers, Lynk supports feature chaining: the ability to build features on top of features, supporting complex multi-step transformations and aggregations.\
-  This is critical for enabling AI agents to not only answer questions, but also derive and define new metrics, trends, and predictions - as well as performing real root cause analysis.
+  This is critical for enabling AI agents to not only answer questions, but also derive and define new features, metrics and trends - as well as performing real root cause analysis.
 
 By following these principles, Lynk provides governance and simplicity in one unified model - a clear, consistent, and scalable approach to data modeling that’s accessible to both technical and non-technical users.
 
@@ -93,4 +93,4 @@ Visit [Git integration](reference/integrations/git.md) for in-depth information 
 ### **Efficiency**
 
 Efficiency is critical for query performance and reducing cost.\
-Semantic definitions are translated to efficient SQL code. Lynk also governs usage patterns to suggest improvements.
+Semantic definitions are translated to efficient SQL code. Lynk also governs usage patterns to suggest improvements and applies advanced cache and pre-aggregation mechanism (coming soon)
