@@ -6,7 +6,7 @@ It is possible to create features on an entity, based on features of another (re
 {% hint style="info" %}
 Chaining features is a critical component in Lynk's design.
 
-Within Lynk everything is Semantically important, from raw data to final KPIs, making the whole data pipeline well defined centrally, structured, governed and highly accessible for AI not only to Ask questions but also to build new features and semantic definitions on the fly.
+Within Lynk everything is Semantically important, from raw data to final KPIs, making the whole data pipeline well defined centrally, structured, governed and highly accessible for AI not only to ask questions but also to build new features and semantic definitions on the fly.
 {% endhint %}
 
 ## Virtual data assets
