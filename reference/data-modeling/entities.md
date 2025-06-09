@@ -32,9 +32,9 @@ features:
   filters: null
 
 measures:
-- name: average_spending
-  description: average of total spending
-  sql: avg({total_spending})
+- name: average_orders
+  description: average of orders count per customer
+  sql: avg({orders_count})
   
 related_assets:
   db_prod.core.orders:
