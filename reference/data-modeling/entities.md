@@ -25,15 +25,18 @@ aliases:
 - user
 
 features:
-
 - type: metric
   name: orders_count
   asset: db_prod.core.orders
   measure: orders_count
   filters: null
+
+measures:
+- name: average_spending
+  description: average of total spending
+  sql: avg({total_spending})
   
 related_assets:
-
   db_prod.core.orders:
     relationship: one_to_many
     joins:
@@ -69,6 +72,10 @@ Sometimes different people might call the same entity by different names. e.g a 
 Features are attributes that represent all we know about our Entities.\
 It can be simple fields, aggregated metrics, first - last features, period-over-period formulas, custom formulas and more. See [Features](entities.md#features) page for in depth information on this.
 
+### `measures`
+
+Measures are reusable aggregate definitions that can be defined on an entity level and used once the entity is aggregated (rolled-up). See [Measures](measures.md) page for in depth information on this.
+
 ### `related_assets`
 
 Define which Data Assets are related to the entity. Related assets will be shown and used when creating new features for an entity. For example, if the data asset `db_prod.core.orders` is related to the entity `customer`, we will be able to extract features from `db_prod.core.orders` to the `customer` level. See [Related assets](relationships/related-data-assets.md) for in depth information on this.
@@ -77,13 +84,13 @@ Define which Data Assets are related to the entity. Related assets will be shown
 
 ## Entity relationships
 
-To see how to define and use relationships between entities, please see [Related entities](relationships/related-entities.md) page.
+To see how to define and use relationships between entities, please see [Entity-to-Enitity Relations](relationships/related-entities.md) page.
 
 ***
 
 ## Consuming Entities
 
-Entities and Features are consumed via [SQL API](../consume-and-apis/sql-api.md), [REST API](entities/broken-reference/) or via Lynk [Playground](entities/broken-reference/). See [Consume & APIs](../consume-and-apis/) for in depth information on this.
+Entities and Features are consumed via [SQL API](../consume-and-apis/sql-api.md), [SQL REST API](../consume-and-apis/sql-rest-api.md) or via Lynk [Playground](entities/broken-reference/). See [Consume & APIs](../consume-and-apis/) for in depth information on this.
 
 ```sql
 -- Example for a simple SQL API query

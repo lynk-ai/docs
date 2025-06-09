@@ -15,7 +15,6 @@ Measures are definitions of how aggregate functions should be applied to feature
 # db_prod.core.orders.yml
 
 measures:
-
 - name: total_order_amount
   description: sum of order amount
   sql: sum({total_amount})
