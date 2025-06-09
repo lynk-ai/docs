@@ -131,17 +131,3 @@ measures:
   description: sum of successful orders amount
   sql: sum(IFF({order_status} = 'success', {total_amount}, 0))
 ```
-
-***
-
-## Virtual data assets
-
-Virtual data asset are data assets that live "virtually" within Lynk. Meaning, there is no materialized asset on the underlying data source. A virtual data assets is created for each entity within Lynk, where the entity is the "asset" and it's features are the "fields".
-
-{% hint style="info" %}
-Measures can be added to virtual data assets, just like in regular data assets.
-{% endhint %}
-
-#### Usage of virtual data assets
-
-virtual data assets are mainly used for [chaining features](features/chaining-features.md) - creating entity features based on features of other related entities.
