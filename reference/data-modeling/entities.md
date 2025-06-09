@@ -74,7 +74,7 @@ It can be simple fields, aggregated metrics, first - last features, period-over-
 
 ### `measures`
 
-Measures are reusable aggregate definitions that can be defined on an entity level and used once the entity is aggregated (rolled-up). See [Measures](measures.md) page for in depth information on this.
+Measures are reusable aggregate definitions that can be defined on an entity level. Entity level measures are being used once the entity is aggregated (rolled-up) and they define centrally how entity aggregations should be performed. See [Measures](measures.md) page for in depth information on this.
 
 ### `related_assets`
 
