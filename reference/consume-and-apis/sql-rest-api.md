@@ -399,7 +399,7 @@ In case of applying `sort` option, you will need to add the following parameters
 The number of rows to return&#x20;
 
 ```json
-// example - groupBy
+// example - limit
 "limit": 3
 ```
 
