@@ -4,7 +4,6 @@
 
 ## Reference
 
-* [AI](reference/ai.md)
 * [Data modeling](reference/data-modeling/README.md)
   * [Entities](reference/data-modeling/entities.md)
   * [Relationships](reference/data-modeling/relationships/README.md)
@@ -27,6 +26,7 @@
   * [REST Metadata API](reference/consume-and-apis/rest-metadata-api.md)
   * [Authentication](reference/consume-and-apis/authentication.md)
 * [Governance](reference/governance.md)
+* [AI agents enablement](reference/ai-agents-enablement.md)
 * [Integrations](reference/integrations/README.md)
   * [Git](reference/integrations/git.md)
   * [Query engines](reference/integrations/query-engines.md)

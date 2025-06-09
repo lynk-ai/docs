@@ -22,16 +22,16 @@ layout:
 Lynk is the Semantic Layer for AI and business users.\
 It empowers companies to build AI-driven applications by creating a centralized, governed, and accessible source of truth for all their data.
 
-### AI is changing the rules
+## AI is changing the rules
 
-#### Enterprise Data Access Prediction (2025-2030)
+### Enterprise Data Access Prediction (2025-2030)
 
 In the coming years, we anticipate a dramatic shift in how enterprise data is accessed.\
 AI will become the primary consumer of enterprise data, with an estimated 90% of queries originating from AI agents.
 
 <figure><img src=".gitbook/assets/image (3).png" alt=""><figcaption><p>Projected shift from traditional human/BI tool access to AI-driven data access</p></figcaption></figure>
 
-#### Garbage in garbage out
+### Garbage in garbage out
 
 While AI is poised to revolutionize how we use data, most enterprise data environments are not yet ready. They’re often messy - plagued by duplicated logic, unclear definitions, and outdated, manual processes.&#x20;
 
@@ -39,7 +39,7 @@ For AI to reliably consume and act on data, we must address these foundational i
 
 ## Core concepts
 
-Lynk’s was designed with AI as both a primary data consumer and contributor, and with business teams in mind. Data teams use it to manage the semantics and make them accessible to AI as the main direct consumer of data.
+Lynk was designed with AI as both a primary data consumer and contributor, and with business teams in mind. Data teams use it to manage the semantics and make them accessible to AI as the main direct consumer of data.
 
 It makes defining and consuming semantic and business concepts more accessible to both AI and non-technical users, while enforcing strong data modeling and governance practices to maintain a reliable and structured source of truth.
 
@@ -51,7 +51,7 @@ Lynk empowers AI and every member of the data supply chain with the freedom, fle
 
 The entity-centric data modeling framework resembles a knowledge graph - an ideal structure for AI interaction. With Lynk, you can build a complete RAG (Retrieval-Augmented Generation) system combining semantic definitions, vectorized documents, and more - exposed through the MCP (Model Context Protocol) to AI agents. These agents power self-service analytics, data quality assurance, and beyond.
 
-Visit [AI enablement](reference/ai.md) for in-depth information about this.
+Visit [AI enablement](reference/ai-agents-enablement.md) for in-depth information about this.
 
 ### **Rethinking Data Modeling**&#x20;
 
