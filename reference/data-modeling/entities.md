@@ -51,6 +51,10 @@ related_assets:
 For a quick onboarding, use the [discovery](entities.md#discovery) process to automatically extract business entities from your Data Warehouse schemas and SQL code.
 {% endhint %}
 
+### `description`
+
+Free text to describe the entity
+
 ### `key_table`
 
 An entities is defined by it's key data asset.\
