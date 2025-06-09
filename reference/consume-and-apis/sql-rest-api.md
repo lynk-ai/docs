@@ -87,7 +87,7 @@ In this example, we request for top 100 the customers (customer\_id) and their t
 The above simple SQL REST API request simple example is equivalent to the following SQL API request:
 
 ```sql
-// Simple example - equivalent SQL API
+-- Simple example - equivalent SQL API
 USE {
     "branch" : "<branch>",    -- Use from endpoint's query param
     "context" : "<context>",  -- Use from endpoint's query param
@@ -108,16 +108,16 @@ limit 100
 
 ### `entity`
 
-Name of the main entity
+Define the main entity of the query
 
 ```json
-// example - main entity block
+// example - main entity caluse
 "entity": "customer"
 ```
 
 ### `joins`
 
-Entities to join to the \`main\_entity\`
+Entities to be joined to the main entity&#x20;
 
 ```json
 // example - joined entities
@@ -150,14 +150,14 @@ The time aggregation definition
 * `direction` \[optional]
 
 {% hint style="info" %}
-For more information about time aggregations, visit the [Time Aggregations](../data-modeling/time-aggregation.md) page.
+For more information about time aggregations, visit  [Time Aggregations](../data-modeling/time-aggregation.md).
 {% endhint %}
 
 ### `select`
 
-The fields to select.&#x20;
+The fields to select
 
-There are 3 types of fields you can use in the select clause:&#x20;
+There are three types of fields you can select in the `select` clause:&#x20;
 
 * `field`
 * `measure`
@@ -198,36 +198,199 @@ There are 3 types of fields you can use in the select clause:&#x20;
 
 Use this option for fetching entity **features**
 
+```json
+// example - select - field
+"select": [
+   {
+     "type" : "field",
+     "entity": "customer",
+     "field" : "customer_id",
+     "alias": "cid"
+   }
+]
+```
+
 `select` - `measure`
 
-Use this option for fetching entity measures (rollup the entity)
+Use this option for fetching entity **measures**
+
+```json
+// example - select - measure
+"select": [
+   {
+     "type" : "measure",
+     "measure" : "average_sales",
+     "alias": "total_orders"
+   }
+]
+```
 
 {% hint style="info" %}
-Measures are reusable aggregate definitions that can be applied on Entities.
+Measures are reusable aggregate definitions that can be applied on entity rollup.
 
-Just like regular SQL, when using measures (aggregate functions), we need to make sure to put the rest of the entity features in the `GROUP BY` clause.
+Just like regular SQL, when using measures (aggregate functions), make sure to put the rest of the entity features in the `GROUP BY` clause.
 {% endhint %}
 
 `select` - `lynk_function`
 
-Defines the function name and parameters
+Use this option to apply a Lynk Function and fetching it's result.\
+For more information about this, visit [Lynk Functions](../data-modeling/lynk-functions/).
 
-***
+```json
+// example - select - lynk function (POP)
+"select": [
+  {
+     "type" : "lynk_function",
+     "alias": "total_orders_over_last_4_months_average",
+     "function": "pop",
+     "params" : {
+       "feature": "total_orders",
+       "offset": 1,
+       "repeats": 4,
+       "offsetOperator": "average",
+       "popOperator": "({a}/{b})"
+     }
+   }
+ ]
+```
 
-1. “where” / “having” - support type “sql” or “fields”.
-2.
-   1. “type” = “sql”: defines SQL to use
-   2. “type” = “fields”: defines an array of where/having filters to apply:
-   3.
-      1. “entity” - name of the entity to take the field from
-      2. “field” - name of the entity’s field to use
-      3. “operator” - The operator to use
-      4. “values” - Array of values to use
-3. “groupBy” - Array of fields (mentioned in the select) to GROUP BY
-4. “sort” - Array of items to sort by:
-5.
-   1. “entity” - name of the entity to take the member from
-   2. “member” - name of the entity field to sort by
-   3. “direction” - “desc” / “asc” (default “asc”)
-6. “limit” - number of rows to return&#x20;
-7. “offset” - number of rows to skip
+### `where`
+
+Apply filters to the query
+
+There are two types of filters you can apply in the `where` clause:&#x20;
+
+* `fields`
+* `sql`
+
+{% hint style="warning" %}
+Note that you can apply either `fields` or `sql` filters, but not both at the same `where` clause. \
+(The effect will be the same whichever way you choose to apply as filter)
+{% endhint %}
+
+### `where` - `fields`
+
+In case of applying `where` filters as `fields`, you will need to add the following parameters:
+
+* `entity` - the entity which the field to filter on belongs to
+* `field` -  the entity feature to filter on
+* `operator` - the filter operator (see all options for [filter operators](../data-modeling/filters.md#operator))
+* `values` - an array of field values to filter by
+
+```json
+// example - where - fields
+"where": {
+  "type": "fields",
+  "fields": [{
+    "entity": "customer",
+    "field": "nation_id",
+    "operator" : "equal",
+    "values": [
+      "40", "42"
+    ]
+  }]
+}
+```
+
+The above example translates to the following SQL `WHERE` clause:
+
+```sql
+-- example - where - fields
+WHERE customer.nation_id in ("40", "42")
+```
+
+### `where` - `sql`
+
+Apply a simple sql expression to use for filtering
+
+```json
+// example - where - sql
+"where": {
+  "type": "sql",
+  "sql": "{customer}.{nation_id} in ('40', '42')"
+}
+```
+
+### `groupBy`
+
+Array of fields to use in the `group by` clause
+
+```json
+// example - groupBy
+"groupBy": ["1", "2"]
+```
+
+### `having`
+
+Apply filters to the query using aggregated fields
+
+There are two types of filters you can apply in the `having` clause:&#x20;
+
+* `fields`
+* `sql`
+
+{% hint style="warning" %}
+Note that you can apply either `fields` or `sql` filters, but not both at the same `where` clause. \
+(The effect will be the same whichever way you choose to apply as filter)
+{% endhint %}
+
+### `having` - `fields`
+
+In case of applying `having` filters as `fields`, you will need to add the following parameters:
+
+* `entity` - the entity which the field to filter on belongs to
+* `measure` -  the entity measure to filter on
+* `operator` - the filter operator (see all options for [filter operators](../data-modeling/filters.md#operator))
+* `values` - an array of field values to filter by
+
+```json
+// example - having - fields
+"having": {
+  "type": "fields",
+  "fields": [{
+    "entity": "customer",
+    "measure": "measure(total_sales)",
+    "operator" : "gt",
+    "values": [
+      "100"
+    ]
+  }]
+}
+```
+
+The above example translates to the following SQL `HAVING` clause:
+
+```sql
+-- example - having - fields
+HAVING customer.total_sales > ("100")
+```
+
+### `having` - `sql`
+
+Apply a simple sql expression to use for filtering
+
+```json
+// example - having - sql
+"where": {
+  "type": "sql",
+  "sql": "{customer}.{total_sales} > ('100')"
+}
+```
+
+### `sort`&#x20;
+
+Array of items to sort by (order by):
+
+In case of applying `sort` option, you will need to add the following parameters:
+
+* `entity` - the entity to take the field to sort by from
+* `field` -  the entity field to sort by
+* `direction` - “desc” or “asc”. (default “asc”)
+
+### `limit`&#x20;
+
+The number of rows to return&#x20;
+
+### `offset`&#x20;
+
+The  number of rows to skip

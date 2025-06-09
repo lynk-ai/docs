@@ -109,9 +109,9 @@ ORDER BY 2 desc
 In the above example we are using the measure `average_orders` defined on the entity `customer`. It is used to calculate the average orders of all customers - in this case by `nation_name`, which is a feature on a customer level.
 
 {% hint style="info" %}
-Measures are reusable aggregate definitions that can be applied on Entities.
+Measures are reusable aggregate definitions that can be applied on entities.
 
-Just like regular SQL, when using measures (aggregate functions), we need to make sure to put the rest of the entity features in the `GROUP BY` clause.
+Just like regular SQL, when using measures (aggregate functions), make sure to put the rest of the entity features in the `GROUP BY` clause.
 {% endhint %}
 
 ***

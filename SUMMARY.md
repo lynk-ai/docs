@@ -19,6 +19,8 @@
   * [Data assets](reference/data-modeling/data-assets.md)
   * [Filters](reference/data-modeling/filters.md)
   * [Time Aggregations](reference/data-modeling/time-aggregation.md)
+  * [Lynk Functions](reference/data-modeling/lynk-functions/README.md)
+    * [POP](reference/data-modeling/lynk-functions/pop.md)
   * [Context](reference/data-modeling/context.md)
 * [Consume & APIs](reference/consume-and-apis/README.md)
   * [SQL API](reference/consume-and-apis/sql-api.md)
