@@ -387,10 +387,27 @@ In case of applying `sort` option, you will need to add the following parameters
 * `field` -  the entity field to sort by
 * `direction` - “desc” or “asc”. (default “asc”)
 
+```json
+// example - sort
+"sort": [
+   {"entity": "customer", "field": "total_sales", "direction": "desc"}
+ ]
+```
+
 ### `limit`&#x20;
 
 The number of rows to return&#x20;
 
+```json
+// example - groupBy
+"limit": 3
+```
+
 ### `offset`&#x20;
 
 The  number of rows to skip
+
+```json
+// example - offset
+"offset": 100
+```
