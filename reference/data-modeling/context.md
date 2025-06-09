@@ -13,12 +13,16 @@ There are two types of contexts:
 
 ### `default` (the default context)
 
-`default` is the context that Lynk comes with out of the box.
+`default` is the context that Lynk comes with out of the box.\
+If no other context is defined, all semantic definitions will be applied and consumed from the `default` context.
 
 ### Custom context
 
-Creating a custom context is done via settings > account > contexts on the Studio.\
+Creating a custom context is done via Lynk Studio. In order to add and manage contexts navigate to settings > account > contexts.
+
+{% hint style="info" %}
 Only **admins** can create and manage contexts.
+{% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (5).png" alt=""><figcaption><p>Example for "marketing" as a custom context</p></figcaption></figure>
 

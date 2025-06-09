@@ -3,7 +3,7 @@
 Entities are real-world concepts like customers, orders, payments etc.\
 These are first-class citizens in Lynk, meaning everything we build and consume is around entities.
 
-The main concept of Lynk Semantic Layer is to create a central source of truth for each of the entities in the business, in a trusted and accessible way. In other words, from a business perspective, for each business entity it should be clear what we know of it, how was it defined, and where we can find it. We call these pieces of information on an entity level - [features](features/).
+The main concept of Lynk Data Modeling Framework is to create a central source of truth for each of the entities in the business, in a trusted and accessible way. In other words, from a business perspective, for each business entity it should be clear what we know of it, how was it defined, and where we can find it. We call these pieces of information on an entity level - [features](features/).
 
 ***
 
