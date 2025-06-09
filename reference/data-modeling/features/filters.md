@@ -1,6 +1,13 @@
 # Filters
 
-Filtering entities and data assets is simple and can be done on a feature definition level.
+When creating features on an entity, it is possible to filter the entities and data assets we create feature from using the `filters` property.
+
+{% hint style="info" %}
+This page is about adding filters on feature definitions.
+
+Filters can be also applied on an entity using the `WHERE` clause, on the consumption level.\
+For more information on this, visit [SQL API](../../consume-and-apis/sql-api.md) and [SQL REST API](../../consume-and-apis/sql-rest-api.md) and look for the `WHERE` clause.
+{% endhint %}
 
 See the following example:
 

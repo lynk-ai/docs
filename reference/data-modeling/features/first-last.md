@@ -95,5 +95,5 @@ The name of the data asset field to retrieve as the entity feature.
 
 ### `filters`
 
-Custom filters to be applied on the data asset. See [filters](../filters.md) page for in depth information on how to apply filters.
+Custom filters to be applied on the data asset. See [filters](filters.md) page for in depth information on how to apply filters.
 

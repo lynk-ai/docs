@@ -102,4 +102,4 @@ Measures are defined on a data asset level. See [measures](../data-assets.md#mea
 
 ### `filters`
 
-Custom filters to be applied on the data asset. See [filters](../filters.md) page for in depth information on how to apply filters.
+Custom filters to be applied on the data asset. See [filters](filters.md) page for in depth information on how to apply filters.

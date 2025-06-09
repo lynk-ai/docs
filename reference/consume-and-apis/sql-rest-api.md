@@ -274,7 +274,7 @@ In case of applying `where` filters as `fields`, you will need to add the follow
 
 * `entity` - the entity which the field to filter on belongs to
 * `field` -  the entity feature to filter on
-* `operator` - the filter operator (see all options for [filter operators](../data-modeling/filters.md#operator))
+* `operator` - the filter operator (see all options for [filter operators](../data-modeling/features/filters.md#operator))
 * `values` - an array of field values to filter by
 
 ```json
@@ -340,7 +340,7 @@ In case of applying `having` filters as `fields`, you will need to add the follo
 
 * `entity` - the entity which the field to filter on belongs to
 * `measure` -  the entity measure to filter on
-* `operator` - the filter operator (see all options for [filter operators](../data-modeling/filters.md#operator))
+* `operator` - the filter operator (see all options for [filter operators](../data-modeling/features/filters.md#operator))
 * `values` - an array of field values to filter by
 
 ```json
