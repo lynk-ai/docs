@@ -33,7 +33,7 @@ AI will become the primary consumer of enterprise data, with an estimated 90% of
 
 ### Garbage in garbage out
 
-While AI is poised to revolutionize how we use data, most enterprise data environments are not yet ready. They’re often messy - plagued by duplicated logic, unclear definitions, and outdated, manual processes.&#x20;
+While AI is poised to revolutionize how we access, build and get value from data, most enterprise data environments are not yet ready. They’re often messy - plagued by duplicated logic, unclear definitions, and outdated, manual processes.&#x20;
 
 For AI to reliably consume and act on data, we must address these foundational issues and fundamentally rethink how data is built, managed, governed and accessed.
 
