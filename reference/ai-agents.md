@@ -12,6 +12,6 @@ Lynk provides both. \
 It acts as a semantic brain - mapping business concepts to data, enabling composable logic through feature chaining, and giving AI agents a governed, structured environment to operate in confidently and accurately.
 
 {% hint style="info" %}
-More on AI agents enablement coming soon.\
+More on AI agents enablement coming soon (Q3 2025).\
 We are soon releasing a full suite of feature that enable agents work smoothly with Lynk: RAG including support to documents on a vector db (for sample Queries, for example), advanced tooling exposed via MCP and more.
 {% endhint %}
