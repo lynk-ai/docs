@@ -1,6 +1,6 @@
 # Measures
 
-Measures are reusable and governed components that define how the entity or data asset fields should be aggregated.&#x20;
+Measures are reusable and governed components that define how an **entity** or a **data asset** should be aggregated.&#x20;
 
 Lynk applies the measure logic in two scenarios:
 

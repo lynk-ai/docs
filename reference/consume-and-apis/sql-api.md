@@ -92,6 +92,8 @@ For more information about time aggregations, visit the [Time Aggregations](../d
 
 ## Entity rollup - using measures
 
+When aggregating an entity (rolling up), in order to apply a predefined measure logic, use the `measure()` function as follows:
+
 ```sql
 -- using measures to perform entity rollup
 USE {
