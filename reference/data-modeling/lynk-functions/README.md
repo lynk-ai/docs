@@ -8,6 +8,6 @@ Lynk Functions are an advanced and powerful feature that enables abstracting com
 
 ### `POP` (period over period)
 
-Use the POP() function to apply **period over period** calculations.&#x20;
+Use the `POP()` function to apply **period over period** calculations.&#x20;
 
 For more information about this, visit [POP](pop.md).
