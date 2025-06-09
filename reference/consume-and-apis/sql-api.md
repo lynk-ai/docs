@@ -242,7 +242,7 @@ See [contexts](../data-modeling/context.md) for in depth information on this.
 
 Use `time_agg` to specify how to aggregate the query features, in terms of time aggregation.
 
-See [time aggregation](time-aggregation.md) for in depth information on this.
+See [time aggregation](../data-modeling/time-aggregation.md) for in depth information on this.
 
 ***
 
@@ -299,7 +299,7 @@ Parsing the SQL API query to the relevant query engine
 * Scanning for errors
 * Translating the query, including:
   * Translating features to their business logic as defined in Lynk
-  * Using the correct [`time_agg`](time-aggregation.md) as stated in the `USE` config
+  * Using the correct [`time_agg`](../data-modeling/time-aggregation.md) as stated in the `USE` config
   * Using the correct [`context`](../data-modeling/context.md) as stated in the `USE` config
   * Using the correct `git branch` as stated in the `USE` config
 * Composing the final parsed query including all SQL statements and feature definitions

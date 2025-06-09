@@ -75,7 +75,7 @@ For boolean data type.
 
 Specifies which asset time field to use in case of time-based aggregation is applied to the first-last feature. If not specified, Lynk will use the asset's [default `time_field`](../data-assets/#time_field-optional).
 
-See [time aggregation](../../consume-and-apis/time-aggregation.md) for more information on how time fields are being used for time-based feature aggregations.
+See [time aggregation](../time-aggregation.md) for more information on how time fields are being used for time-based feature aggregations.
 
 ### `options`
 

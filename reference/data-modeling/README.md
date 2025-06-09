@@ -87,7 +87,7 @@ For example, if we have a data asset that holds all the payment attempts done by
 
 Contexts allow us to create business definitions specific to a business context like marketing / sales / product etc. For example, the definition of "active user" can differ between the product team and the marketing team. Contexts make it possible to have more than one definition of "active\_user" - one for marketing team and one for sales team.&#x20;
 
-### [Time aggregation](../consume-and-apis/time-aggregation.md)
+### [Time aggregation](time-aggregation.md)
 
 Time aggregations include many options to aggregate features in different time frames like calendric aggregations (day, week, month, year etc) or rolling window aggregations (last 7 days etc).&#x20;
 

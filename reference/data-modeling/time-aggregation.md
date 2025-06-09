@@ -1,6 +1,6 @@
-# Time aggregation
+# Time aggregations
 
-When [consuming](./) entities and their features, we can tell Lynk on which time frame to aggregate the features, by using the `time_agg` property in the `USE` config block.
+When [consuming](../consume-and-apis/) entities and their features, we can tell Lynk on which time frame to aggregate the features, by using the `time_agg` property in the `USE` config block.
 
 #### Examples for time aggregations:
 
@@ -52,7 +52,7 @@ In the above example, a record per customer and day will return, counting the am
 
 ### `USE`
 
-Set this object on the SQL API / REST API query, to define all the query level configurations, including time\_agg. See [USE](broken-reference/) for in depth information on this.
+Set this object on the SQL API / REST API query, to define all the query level configurations, including time\_agg. See [USE](../consume-and-apis/broken-reference/) for in depth information on this.
 
 ### `time_agg`
 
@@ -239,7 +239,7 @@ This approach allows flexibility and code efficiency:
 **Efficiency of code**\
 Decoupling business logic from time aggregation logic - create the business logic once instead of multiple times with different time aggregation logic (e.g different window functions)
 
-**Simplicity of use** \
+**Simplicity of use**\
 Pass parameters from your BI tool to change time aggregation logic dynamically without the need to change features on the BI tool side (e.g switch the window logic from days to months)
 {% endhint %}
 
@@ -247,7 +247,6 @@ Pass parameters from your BI tool to change time aggregation logic dynamically w
 
 The aggregation is applied according to the specified `time_field,` as follows:
 
-1. Using the feature level [`time_field`](../data-modeling/features/metric.md#time_field-optional) property.&#x20;
-2. If no `time_field` is specified on the feature level, Lynk will use the default [`time_field`](../data-modeling/data-assets/#time_field-optional) on the data asset level.&#x20;
+1. Using the feature level [`time_field`](features/metric.md#time_field-optional) property.
+2. If no `time_field` is specified on the feature level, Lynk will use the default [`time_field`](data-assets/#time_field-optional) on the data asset level.
 3. For features on which time\_field was not specified on either feature nor asset level, Lynk will not apply any time aggregation logic.
-
