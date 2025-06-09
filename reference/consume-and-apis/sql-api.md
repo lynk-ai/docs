@@ -84,6 +84,8 @@ The above example will return a record per `customer` and `day`, for each day in
 
 {% hint style="info" %}
 It is recommended to use `start_time` and `stop_time` parameters when using `time_agg`.
+
+For more information about time aggregations, visit the [Time Aggregations](../data-modeling/time-aggregation.md) page.
 {% endhint %}
 
 ***
@@ -107,7 +109,7 @@ ORDER BY 2 desc
 In the above example we are using the measure `average_orders` defined on the entity `customer`. It is used to calculate the average orders of all customers - in this case by `nation_name`, which is a feature on a customer level.
 
 {% hint style="info" %}
-Measures are reusable aggregate definitions that can be applied on Entities and Data Assets.
+Measures are reusable aggregate definitions that can be applied on Entities.
 
 Just like regular SQL, when using measures (aggregate functions), we need to make sure to put the rest of the entity features in the `GROUP BY` clause.
 {% endhint %}

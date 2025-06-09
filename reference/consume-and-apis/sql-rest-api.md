@@ -106,6 +106,128 @@ limit 100
 
 ## Request body parameters
 
-### `Entity`
+### `entity`
 
-The main entity to retrieve.&#x20;
+Name of the main entity
+
+```json
+// example - main entity block
+"entity": "customer"
+```
+
+### `joins`
+
+Entities to join to the \`main\_entity\`
+
+```json
+// example - joined entities
+"joins": [
+   {
+     "entity": "order",
+     "joinName": "customer_orders",
+     "alias": "o"
+   } 
+ ]
+```
+
+### `timeAggregation`
+
+The time aggregation definition
+
+```json
+// example - time aggregation
+"timeAggregation": {
+   "timeGrain": "day",
+   "windowSize": 3,
+   "direction": "backward"
+},
+```
+
+`timeAggregation` has the following nested parameters:
+
+* `timeGrain`
+* `windowSize` \[optional]
+* `direction` \[optional]
+
+{% hint style="info" %}
+For more information about time aggregations, visit the [Time Aggregations](../data-modeling/time-aggregation.md) page.
+{% endhint %}
+
+### `select`
+
+The fields to select.&#x20;
+
+There are 3 types of fields you can use in the select clause:&#x20;
+
+* `field`
+* `measure`
+* `lynk_function`
+
+```json
+// example - select
+"select": [
+   {
+     "type" : "field",
+     "entity": "customer",
+     "field" : "customer_id",
+     "alias": "cid"
+   },
+   {
+     "type" : "measure",
+     "measure" : "average_sales",
+     "alias": "total_orders"
+   },
+   {
+     "type" : "lynk_function",
+     "alias": "pop1",
+     "function": "pop",
+     "params" : {
+       "feature": "total_orders",
+       "offset": 12,
+       "repeats": 1,
+       "popOperator": "({a}-{b})",
+       "offsetOperator": "min",
+       "toDate": false
+     }
+   }
+ ]
+
+```
+
+`select` - `field` &#x20;
+
+Use this option for fetching entity **features**
+
+`select` - `measure`
+
+Use this option for fetching entity measures (rollup the entity)
+
+{% hint style="info" %}
+Measures are reusable aggregate definitions that can be applied on Entities.
+
+Just like regular SQL, when using measures (aggregate functions), we need to make sure to put the rest of the entity features in the `GROUP BY` clause.
+{% endhint %}
+
+`select` - `lynk_function`
+
+Defines the function name and parameters
+
+***
+
+1. “where” / “having” - support type “sql” or “fields”.
+2.
+   1. “type” = “sql”: defines SQL to use
+   2. “type” = “fields”: defines an array of where/having filters to apply:
+   3.
+      1. “entity” - name of the entity to take the field from
+      2. “field” - name of the entity’s field to use
+      3. “operator” - The operator to use
+      4. “values” - Array of values to use
+3. “groupBy” - Array of fields (mentioned in the select) to GROUP BY
+4. “sort” - Array of items to sort by:
+5.
+   1. “entity” - name of the entity to take the member from
+   2. “member” - name of the entity field to sort by
+   3. “direction” - “desc” / “asc” (default “asc”)
+6. “limit” - number of rows to return&#x20;
+7. “offset” - number of rows to skip
