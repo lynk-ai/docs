@@ -3,7 +3,8 @@
 Querying the SQL REST API is as simple as sending a json format with the parameters you would use in a regular SQL query.&#x20;
 
 {% hint style="info" %}
-For AI agents, it is recommended to use the SQL REST API - as it is easier for agents to understand and generate.
+For AI agents, it is recommended to use the SQL REST API.\
+SQL REST API is easier for agents to understand and generate.
 {% endhint %}
 
 ## Connecting to Lynk SQL REST API
@@ -42,14 +43,14 @@ The API token should be sent in the `x-api-key` header of the request.
 
 ***
 
-## Request body examples
+## Request body - simple example
 
-### Simple example
+In the example below you can find a simple Request Body for SQL REST API.
 
-In the example below you can find a simple Request Body for SQL REST API
+In this example, we request for top 100 the customers (customer\_id) and their total\_sales, for customers from BRAZIL, ordered by total\_sales.
 
 ```json
-// Request body
+// Request body - simple SQL REST API
 {
  "entity": "customer",
  "select": [
@@ -69,95 +70,42 @@ In the example below you can find a simple Request Body for SQL REST API
    "type": "fields",
    "fields": [{
      "entity": "customer",
-     "field": "nation_id",
+     "field": "nation_name",
      "operator" : "equal",
      "values": [
-       "40", "42"
+       "BRAZIL"
      ]
    }]
  },
  "oredrBy": [
-   {"entity": "customer", "member": "customer_id", "direction": "desc"}
+   {"entity": "customer", "member": "total_sales", "direction": "desc"}
  ],
  "limit": 100
 }
 ```
 
-## Time aggregation example - Request body
+The above simple SQL REST API request simple example is equivalent to the following SQL API request:
 
-```json
-// Request body
-{
- "entity": "customer",
- "joins": [
-   {
-     "entity": "order",
-     "joinName": "customer_orders",
-     "alias": "o"
-   } 
- ],
- "timeAggregation": {
-   "timeGrain": "day",
-   "windowSize": 7,
-   "direction": "backward"
- },
- "startTime": "2025-01-01",
- "stopTime": "2025-06-01",
- "select": [
-   {
-     "type" : "field",
-     "entity": "customer",
-     "field" : "nation_name",
-     "alias": "nation_name"
-   },
-   {
-     "type" : "measure",
-     "measure" : "total_sales",
-     "alias": "total_sales"
-   },
-   {
-     "type" : "lynk_function",
-     "alias": "pop1",
-     "function": "pop",
-     "params" : {
-       "feature": "total_sales",
-       "offset": 12,
-       "repeats": 1,
-       "popOperator": "({a}-{b})",
-       "offsetOperator": "min",
-       "toDate": false
-     }
-   }
- ],
- "where": {
-   "type": "fields",
-   "fields": [{
-     "entity": "customer",
-     "field": "customer_id",
-     "operator" : "equal",
-     "values": [
-       "C1", "C2"
-     ]
-   }]
- },
- "having": {
-   "type": "fields",
-   "fields": [{
-     "entity": "customer",
-     "field": "customer_id",
-     "operator" : "equal",
-     "values": [
-       "C1", "C2"
-     ]
-   }]
- },
- "groupBy": ["m1", "f1"],
- "oredrBy": [
-   {"entity": "customer", "member": "f1", "direction": "desc"}
- ],
- "limit": 100,
- "offset": 100
+```sql
+// Simple example - equivalent SQL API
+USE {
+    "branch" : "<branch>",    -- Use from endpoint's query param
+    "context" : "<context>",  -- Use from endpoint's query param
+    }
 }
+SELECT 
+    customer_id,
+    total_sales
+FROM entity("customer")
+WHERE nation_name in ('BRAZIL')
+ORDER BY total_sales DESC
+limit 100
 ```
 
-\
+***
+
+## Request body parameters
+
+### `Entity`
+
+The main entity to retrieve.&#x20;

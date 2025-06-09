@@ -3,7 +3,7 @@
 Querying the SQL API is as simple as writing a simple SQL SELECT statement.
 
 {% hint style="info" %}
-Lynk SQL API is a Postgres implementation and works best with BI tools.\
+Lynk SQL API is a Postgres implementation.\
 Easily connect any BI tool to Lynk as you would connect to a regular Posgtres DB.
 {% endhint %}
 
@@ -31,7 +31,6 @@ The query format is similar to a vanilla (regular) SQL query, using the SQL flav
 
 ```sql
 -- A simple SQL API query
-
 SELECT  customer_id,
         total_order_amount,
         first_order_date,
@@ -45,7 +44,7 @@ LIMIT   100
 
 ## Entities and features
 
-When querying Lynk via the SQL API, we are actually querying **entities** and their **features**. As shown in the above example, the `FROM` statement expects an entity using the `entity()` function, and the fields in the `SELECT` statement are actually **features**.
+When querying Lynk via the SQL API, we are actually querying **entities** and their **features** and **measures**. As shown in the above example, the `FROM` statement expects an entity using the `entity()` function, and the fields in the `SELECT` statement are actually **features**.
 
 ### Main entity
 
@@ -55,19 +54,18 @@ The **main entity** is the first entity passed to the `FROM` statement, using th
 
 ```sql
 -- A simple SQL API query
-
 SELECT  customer_id,
         count_orders
 FROM    entity('customer')
 ```
 
-The above example will return a record per `customer`. Meaning, all customers will return, and for each customer Lynk will return exactly one row. The metric `count_orders` will be calculated across all available time range
+The above example will return a record per `customer`. \
+In this case, all customers will return, and for each customer Lynk will return exactly one row. The metric feature `count_orders` will be calculated for each customer across all available time range
 
-#### Another example, with `time_agg`:
+#### Another example, with time aggregation:
 
 ```sql
 -- A simple SQL API query
-
 USE {
   "time_agg": {
     "time_grain": "day"
@@ -82,10 +80,36 @@ SELECT  customer_id,
 FROM    entity('customer')
 ```
 
-The above example will return a record per `customer` and `day`.
+The above example will return a record per `customer` and `day`, for each day in 2024.
 
 {% hint style="info" %}
-It is recommended to use `start_time` and `stop_time` parameters in the `USE` statement when using `time_agg`.
+It is recommended to use `start_time` and `stop_time` parameters when using `time_agg`.
+{% endhint %}
+
+***
+
+## Entity rollup - using measures
+
+```sql
+-- using measures to perform entity rollup
+USE {
+  "start_time": "2024-01-01",
+  "stop_time": "2025-01-01"
+}
+
+SELECT  nation_name,
+        measure(average_orders) as average_orders_per_customer
+FROM    entity('customer')
+GROUP BY 1
+ORDER BY 2 desc
+```
+
+In the above example we are using the measure `average_orders` defined on the entity `customer`. It is used to calculate the average orders of all customers - in this case by `nation_name`, which is a feature on a customer level.
+
+{% hint style="info" %}
+Measures are reusable aggregate definitions that can be applied on Entities and Data Assets.
+
+Just like regular SQL, when using measures (aggregate functions), we need to make sure to put the rest of the entity features in the `GROUP BY` clause.
 {% endhint %}
 
 ***
@@ -99,7 +123,6 @@ Under the hood, Lynk applies a LEFT JOIN operation between each two joined entit
 
 ```sql
 -- Joining two entities
-
 SELECT  c.customer_id,
         c.count_orders,
         t.name as team_name
@@ -119,7 +142,6 @@ If passed to the SQL API query, Lynk will use the join path `name` to join the t
 
 ```sql
 -- Joining entities with named join paths
-
 SELECT  c.customer_id,
         c.count_orders,
         sa.name as sales_agent_name,
@@ -160,7 +182,6 @@ When querying the SQL API, we refer to **entities** as a "tables" and to **featu
 
 ```sql
 -- customers per orders histogram
-
 SELECT  c.count_orders,
         count(c.customer_id) as count_customers
 FROM    entity('customer') c
@@ -202,7 +223,6 @@ By default Lynk will retrieve semantic definitions from the default git branch, 
 
 ```sql
 -- Using a custom branch
-
 USE {
   "branch": "dev"
 }
@@ -222,7 +242,6 @@ By default Lynk will retrieve semantic definitions from the default context ("sh
 
 ```sql
 -- Using a custom context
-​
 USE {
   "context": "marketing"
 }
@@ -272,7 +291,6 @@ When using `time_agg` it is highly recommended to use the `stop_time` option for
 
 ```sql
 -- Using start_time and stop_time
-​
 USE {
   "start_time": "2024-01-01",
   "stop_time": "2025-01-01"
@@ -291,7 +309,7 @@ In the above example, Lynk will return for each customer, it's `customer_id` and
 
 Under the hood, the process between sending a query to Lynk and receiving the results does the following:
 
-#### Step 1: Parsing the query
+### Step 1: Parsing the query
 
 Parsing the SQL API query to the relevant query engine
 
@@ -304,15 +322,15 @@ Parsing the SQL API query to the relevant query engine
   * Using the correct `git branch` as stated in the `USE` config
 * Composing the final parsed query including all SQL statements and feature definitions
 
-#### Step 2: Sending the parsed SQL query to the query engine
+### Step 2: Sending the parsed SQL query to the query engine
 
 Sending the parsed SQL query to the underlying query engine
 
-#### Step 3: Receiving the results
+### Step 3: Receiving the results
 
 Receiving the results (data) from the query engine.
 
-#### Step 4: Streaming the results to the requesting client
+### Step 4: Streaming the results to the requesting client
 
 Streaming the results back to the requesting client.\
 In case of SQL error occurs on the query engine, the original error will return.
@@ -324,7 +342,3 @@ In case of SQL error occurs on the query engine, the original error will return.
 It is possible to query the query engine directly via Lynk. We call this operation a `pushdown`.
 
 In case the `entity()` function is not passed to the `FROM` statement, Lynk will assume you are not querying entities, and will pass the query as is to the underlying query engine - and return the results.
-
-{% hint style="info" %}
-We are working on a new "admin board" that will allow Lynk admins view all the queries that ran through Lynk SQL API - Including queries that retrieve entities and pushdowns. This feature is on our product roadmap for Q1 2025. Please [contact us](https://www.getlynk.ai/book-a-demo) if you find this interesting.
-{% endhint %}

@@ -51,7 +51,7 @@ Lynk empowers AI and every member of the data supply chain with the freedom, fle
 
 The entity-centric data modeling framework resembles a knowledge graph - an ideal structure for AI interaction. With Lynk, you can build a complete RAG (Retrieval-Augmented Generation) system combining semantic definitions, vectorized documents, and more - exposed through the MCP (Model Context Protocol) to AI agents. These agents power self-service analytics, data quality assurance, and beyond.
 
-Visit [AI enablement](reference/ai-agents-enablement.md) for in-depth information about this.
+Visit [AI enablement](reference/ai-agents.md) for in-depth information about this.
 
 ### **Rethinking Data Modeling**&#x20;
 

@@ -1,14 +1,19 @@
 # Relationships
 
-There are two types if relationships:
+There are two types of relationships:
 
-1. Entity - to - Entity
-2. Entity - to - Data Asset
+1. Entity-to-Entity
+2. Entity-to-Asset
 
-## Entity relationships
+{% hint style="info" %}
+Lynk is Entity-centric. It means that data is always modeled around Business Entities. \
+This core concept enforces structure and allows governance to take place.
+{% endhint %}
 
-To see how to define and use relationships between entities, please see [Related entities](related-entities.md) page.
+## Entity-to-Entity Relations
 
-## Data Asset relationships
+To see how to define and use relationships between entities, please see [Entity-to-Entity Relations](related-entities.md) page.
 
-To see how to define and use relationships between entities and Data Assets, please see [Related data assets](related-data-assets.md) page.
+## Entity-to-Asset Relations
+
+To see how to define and use relationships between entities and Data Assets, please see [Entity-to-Asset Relations](related-data-assets.md) page.
