@@ -91,4 +91,4 @@ The name of the field we would like to get from the related asset, in order to e
 
 ### `filters`
 
-Custom filters to be applied on the data asset. See [filters](../data-assets/filters.md) page for in depth information on how to apply filters.&#x20;
+Custom filters to be applied on the data asset. See [filters](../filters.md) page for in depth information on how to apply filters.&#x20;

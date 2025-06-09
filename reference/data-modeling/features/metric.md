@@ -4,7 +4,7 @@ Metric features are great for aggregations from **one-to-many** relations.\
 It is commonly used to enrich an entity with aggregated fields from one-to-many related assets or entities.
 
 {% hint style="info" %}
-When we create a metric feature, we apply a [measure](../data-assets/#measures) aggregation to the level of an entity.
+When we create a metric feature, we apply a [measure](../data-assets.md#measures) aggregation to the level of an entity.
 {% endhint %}
 
 ***
@@ -88,7 +88,7 @@ For boolean data type.
 
 ### `time_field` \[optional]
 
-Specifies which asset time field to use in case of time-based aggregation is applied to the metric. If not specified, Lynk will use the asset's [default `time_field`](../data-assets/#time_field-optional).
+Specifies which asset time field to use in case of time-based aggregation is applied to the metric. If not specified, Lynk will use the asset's [default `time_field`](../data-assets.md#time_field-optional).
 
 See [time aggregation](../time-aggregation.md) for more information on how time fields are being used for time-based metric aggregations.
 
@@ -97,9 +97,9 @@ See [time aggregation](../time-aggregation.md) for more information on how time 
 The name of the measure we would like to aggregate from the related asset to the level of our entity.
 
 {% hint style="info" %}
-Measures are defined on a data asset level. See [measures](../data-assets/#measures) for in depth information on this.
+Measures are defined on a data asset level. See [measures](../data-assets.md#measures) for in depth information on this.
 {% endhint %}
 
 ### `filters`
 
-Custom filters to be applied on the data asset. See [filters](../data-assets/filters.md) page for in depth information on how to apply filters.
+Custom filters to be applied on the data asset. See [filters](../filters.md) page for in depth information on how to apply filters.

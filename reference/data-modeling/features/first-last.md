@@ -73,7 +73,7 @@ For boolean data type.
 
 ### `time_field` \[optional]
 
-Specifies which asset time field to use in case of time-based aggregation is applied to the first-last feature. If not specified, Lynk will use the asset's [default `time_field`](../data-assets/#time_field-optional).
+Specifies which asset time field to use in case of time-based aggregation is applied to the first-last feature. If not specified, Lynk will use the asset's [default `time_field`](../data-assets.md#time_field-optional).
 
 See [time aggregation](../time-aggregation.md) for more information on how time fields are being used for time-based feature aggregations.
 
@@ -95,5 +95,5 @@ The name of the data asset field to retrieve as the entity feature.
 
 ### `filters`
 
-Custom filters to be applied on the data asset. See [filters](../data-assets/filters.md) page for in depth information on how to apply filters.
+Custom filters to be applied on the data asset. See [filters](../filters.md) page for in depth information on how to apply filters.
 

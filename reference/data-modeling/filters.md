@@ -1,6 +1,6 @@
 # Filters
 
-Filtering data assets is simple and can be done on a feature definition level.
+Filtering entities and data assets is simple and can be done on a feature definition level.
 
 See the following example:
 
@@ -30,10 +30,10 @@ features:
 
 ### `filters`
 
-Filters are defined in the `filters` property. This is an array that can get as many filter inputs as needed, where each input can be defined as a SQL statement or a YAML statement (`type` : `sql` / `field`).&#x20;
+Filters are defined in the `filters` property. This is an array that can get as many filter inputs as needed, where each input can be defined as a SQL statement or a YAML statement (`type` : `sql` / `field`).
 
 {% hint style="info" %}
-When defining multiple `filters` inputs, Lynk will chain these filters with an `and` statement between them and then apply them : filter\_1 and filter\_2 and filter\_3&#x20;
+When defining multiple `filters` inputs, Lynk will chain these filters with an `and` statement between them and then apply them : filter\_1 and filter\_2 and filter\_3
 {% endhint %}
 
 ### `type`
@@ -105,7 +105,7 @@ The operator to be applied on the `field` , that defines the logic of which valu
 Equals to.\
 "A `equals` B" translates to "A `=` B".
 
-Usage example (`is` operator):&#x20;
+Usage example (`is` operator):
 
 ```yaml
 ...
@@ -124,7 +124,7 @@ Retrieves only records where the `value` of the `field` order\_status **is** 'su
 Does not equal to.\
 "A `is_not` B" translates to "A `!=` B" (or "A `<>` B").
 
-Usage example (`is_not` operator):&#x20;
+Usage example (`is_not` operator):
 
 ```yaml
 ...
@@ -143,7 +143,7 @@ Retrieves only records where the `value` of the `field` order\_status **is not**
 Between two values\
 "A `between` B and C" translates to "A `>=` B and A `<=` C
 
-Usage example (`between` operator):&#x20;
+Usage example (`between` operator):
 
 ```yaml
 ...
@@ -165,7 +165,7 @@ Note that the order matters - the first value is the lower bound and the second 
 Greater than.\
 "A `gt` B" translates to "A `>` B".
 
-Usage example (`gt` operator):&#x20;
+Usage example (`gt` operator):
 
 ```yaml
 ...
@@ -184,7 +184,7 @@ Retrieves only records where the `value` of the `field` order\_amount is **great
 Greater than or equals to.\
 "A `gte` B" translates "to a `>=` b".
 
-Usage example (`gte` operator):&#x20;
+Usage example (`gte` operator):
 
 ```yaml
 ...
@@ -203,7 +203,7 @@ Retrieves only records where the `value` of the `field` order\_amount is **great
 Lower than.\
 "A `lt` B" translates "to a `<` b".
 
-Usage example (`lt` operator):&#x20;
+Usage example (`lt` operator):
 
 ```yaml
 ...
@@ -222,7 +222,7 @@ Retrieves only records where the `value` of the `field` order\_amount is **lower
 Lower than or equals to.\
 "A `lte` B" translates "to a `<=` b".
 
-Usage example (`lte` operator):&#x20;
+Usage example (`lte` operator):
 
 ```yaml
 ...
@@ -241,7 +241,7 @@ Retrieves only records where the `value` of the `field` order\_amount is **lower
 The value is not NULL.\
 "A `is_set`" translates to "A `is not null`".
 
-Usage example (`is_set` operator):&#x20;
+Usage example (`is_set` operator):
 
 ```yaml
 ...
@@ -251,16 +251,16 @@ Usage example (`is_set` operator):&#x20;
     operator: is_set
 ```
 
-Retrieves only records where the `value` of the `field` order\_amount is **set**. Meaning, order\_amount **is not Null**.&#x20;
+Retrieves only records where the `value` of the `field` order\_amount is **set**. Meaning, order\_amount **is not Null**.
 
-Note that in the case of the operator `is_set` there is no need to add the `values` property.&#x20;
+Note that in the case of the operator `is_set` there is no need to add the `values` property.
 
 #### `is_not_set`
 
 The value is NULL.\
 "A `is_not_set`" translates to "A `is null`".
 
-Usage example (`is_not_set` operator):&#x20;
+Usage example (`is_not_set` operator):
 
 ```yaml
 ...
@@ -270,14 +270,13 @@ Usage example (`is_not_set` operator):&#x20;
     operator: is_not_set
 ```
 
-Retrieves only records where the `value` of the `field` order\_amount is **not set**. Meaning, order\_amount **is Null**.&#x20;
+Retrieves only records where the `value` of the `field` order\_amount is **not set**. Meaning, order\_amount **is Null**.
 
-Note that in the case of the operator `is_not_set` there is no need to add the `values` property.&#x20;
+Note that in the case of the operator `is_not_set` there is no need to add the `values` property.
 
 ### `Values`
 
 The values to accept.\
-Lynk will apply the `operator` logic to the `field` and the given `values`. The records that will return are the records where that filtering logic returns "true" (see [this example](filters.md#example-fields))\
-
+Lynk will apply the `operator` logic to the `field` and the given `values`. The records that will return are the records where that filtering logic returns "true" (see [this example](filters.md#example-fields))\\
 
 ***

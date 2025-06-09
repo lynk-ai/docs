@@ -77,7 +77,7 @@ Lynk takes care of such challenges by providing a structured way to model data (
 
 Entities can be further aggregated ("how many active users bought at least once in the past 7 days?). To apply aggregation logic on entities, we define "Measures" on entities.&#x20;
 
-### [Data assets](data-assets/)
+### [Data assets](data-assets.md)
 
 Data assets are tables and views from the underlying data source (a data warehouse). Data assets are being used for creating features.
 

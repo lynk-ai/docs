@@ -248,5 +248,5 @@ Pass parameters from your BI tool to change time aggregation logic dynamically w
 The aggregation is applied according to the specified `time_field,` as follows:
 
 1. Using the feature level [`time_field`](features/metric.md#time_field-optional) property.
-2. If no `time_field` is specified on the feature level, Lynk will use the default [`time_field`](data-assets/#time_field-optional) on the data asset level.
+2. If no `time_field` is specified on the feature level, Lynk will use the default [`time_field`](data-assets.md#time_field-optional) on the data asset level.
 3. For features on which time\_field was not specified on either feature nor asset level, Lynk will not apply any time aggregation logic.

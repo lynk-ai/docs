@@ -10,7 +10,7 @@
 
 ## Choosing databases and schemas
 
-When connecting to a query engine, Lynk will ask to specify which data bases and schemas you would like to connect. After chosen and approved, Lynk will load the tables and views from these schemas as [data assets](../data-modeling/data-assets/).&#x20;
+When connecting to a query engine, Lynk will ask to specify which data bases and schemas you would like to connect. After chosen and approved, Lynk will load the tables and views from these schemas as [data assets](../data-modeling/data-assets.md).&#x20;
 
 ***
 
