@@ -2,7 +2,7 @@
 
 Querying the SQL REST API is as simple as sending a json format with the parameters you would use in a regular SQL query.&#x20;
 
-{% hint style="info" %}
+{% hint style="success" %}
 For AI agents, it is recommended to use the SQL REST API.\
 SQL REST API is easier for agents to understand and generate.
 {% endhint %}
