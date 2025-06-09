@@ -78,7 +78,7 @@ In this example, we request for top 100 the customers (customer\_id) and their t
    }]
  },
  "oredrBy": [
-   {"entity": "customer", "member": "total_sales", "direction": "desc"}
+   {"entity": "customer", "field": "total_sales", "direction": "desc"}
  ],
  "limit": 100
 }
@@ -377,11 +377,11 @@ Apply a simple sql expression to use for filtering
 }
 ```
 
-### `sort`&#x20;
+### `orderBy`&#x20;
 
 Array of items to sort by (order by):
 
-In case of applying `sort` option, you will need to add the following parameters:
+In case of applying `orderBy` option, you will need to add the following parameters:
 
 * `entity` - the entity to take the field to sort by from
 * `field` -  the entity field to sort by
@@ -389,7 +389,7 @@ In case of applying `sort` option, you will need to add the following parameters
 
 ```json
 // example - sort
-"sort": [
+"orderBy": [
    {"entity": "customer", "field": "total_sales", "direction": "desc"}
  ]
 ```
