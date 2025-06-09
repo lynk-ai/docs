@@ -15,7 +15,7 @@ The framework is opinionated - meaning it applies rules and governance out of th
 
 Read below to understand more how it works;
 
-### Core concepts
+## Core concepts
 
 * Each level of granularity represented only once as entity (including different time aggregation levels)
 * Time aggregations (e.g., daily, monthly, rolling 90 days) are not pre-materialized or hardcoded. Instead, they are dynamically generated at query time, enabling flexible and efficient analysis without bloating the model.
@@ -26,7 +26,7 @@ Read below to understand more how it works;
 
 By following these principles, Lynk provides governance and simplicity in one unified model - a clear, consistent, and scalable approach to data modeling that’s accessible to both technical and non-technical users.
 
-### Dive Deeper
+## Dive Deeper
 
 Dive deeper into each of the framework's components below to learn more and see code examples&#x20;
 

@@ -8,7 +8,7 @@ Joining related assets will allow us to enrich our entity with features
 
 ***
 
-## Simple entity-to-asset relation
+## Entity-to-asset relation
 
 In this example, we define the relations between the entity `customer` to the data assets `db_prod.core.orders` and `db_prod.core.device`:
 
@@ -65,7 +65,7 @@ Define how the entity and the data asset should be joined, by connecting entity 
 
 ### **`name` \[optional]**
 
-Give the join path a name.&#x20;
+Give the join path a name.
 
 If you choose not to name a join path, lynk will automatically name as the join path as "default" followed by a number. For example, the first unnamed join path will be named by Lynk to `default_1`, the second to `default_2` etc..
 

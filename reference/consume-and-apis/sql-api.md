@@ -2,9 +2,23 @@
 
 Querying the SQL API is as simple as writing a simple SQL SELECT statement.
 
+{% hint style="info" %}
+Lynk SQL API is a Postgres implementation and works best with BI tools.\
+Easily connect any BI tool to Lynk as you would connect to a regular Posgtres DB.
+{% endhint %}
+
 ## Connecting to Lynk SQL API
 
 Connecting to Lynk SQL API is done via a regular Postgres SQL connector.
+
+In order to successfully connect to Lynk SQL API follow the following steps
+
+1. Create an [authentication token](authentication.md) via the Studio "my account" page and keep that token in a safe place.
+2. From your BI tool or any other tool you're using, choose Postgres connection with the following credentials:&#x20;
+   1. HOST: `sqlapi.app.getlynk.ai`
+   2. PORT: `5433`
+   3. PASSWORD: paste the authentication token here
+3. You are now ready to connect and start querying Lynk via SQL API
 
 ***
 

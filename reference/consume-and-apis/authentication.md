@@ -2,7 +2,7 @@
 
 ## Creating an API token
 
-In order to use the SQL API, you will need to create an authentication token.&#x20;
+In order to use the Lynk APIs, you will need to create an authentication token.&#x20;
 
 This can be easily done via settings > API Tokens > Create a new API token.
 

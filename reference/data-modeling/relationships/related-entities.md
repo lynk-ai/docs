@@ -9,7 +9,7 @@ Related entities will allow us to enrich an entity with features from other enti
 
 ***
 
-### Simple entity-to-entity relation
+## Entity-to-entity relation
 
 In this example, the entity `nation` relates to the entity `customer` in a one-to-many relationship (a nation has many customers)
 
