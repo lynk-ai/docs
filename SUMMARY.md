@@ -4,7 +4,7 @@
 
 ## Reference
 
-* [Data modeling](reference/data-modeling/README.md)
+* [Data Modeling](reference/data-modeling/README.md)
   * [Entities](reference/data-modeling/entities.md)
   * [Relationships](reference/data-modeling/relationships/README.md)
     * [Entity-to-Entity Relations](reference/data-modeling/relationships/related-entities.md)
