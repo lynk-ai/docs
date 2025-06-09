@@ -90,11 +90,10 @@ To see how to define and use relationships between entities, please see [Entity-
 
 ## Consuming Entities
 
-Entities and Features are consumed via [SQL API](../consume-and-apis/sql-api.md), [SQL REST API](../consume-and-apis/sql-rest-api.md) or via Lynk [Playground](entities/broken-reference/). See [Consume & APIs](../consume-and-apis/) for in depth information on this.
+Entities and their Features and Measures can be consumed via [SQL API](../consume-and-apis/sql-api.md) or [SQL REST API](../consume-and-apis/sql-rest-api.md).
 
 ```sql
 -- Example for a simple SQL API query
-
 SELECT  customer_id,
         total_order_amount,
         first_order_date,
