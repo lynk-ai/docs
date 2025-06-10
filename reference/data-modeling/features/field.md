@@ -92,3 +92,15 @@ The name of the field we would like to get from the related asset, in order to e
 ### `filters`
 
 Custom filters to be applied on the data asset. See [filters](filters.md) page for in depth information on how to apply filters.&#x20;
+
+## Understanding Field Features
+
+In case we have a **one-to-one** relationship between a Data Asset and an Entity, and we need to enrich the entity with a field from the Data Asset **-** we can simply define which field to enrich the entity by.
+
+To better understand how Field features work, look the following diagram;
+
+<figure><img src="../../../.gitbook/assets/image (6).png" alt=""><figcaption><p>Field Feature Diagram</p></figcaption></figure>
+
+The above diagram shows an example when a customer (entity) has one nation (data asset). That means, each `customer` can be associated with only one row in `db.schema.nations`.
+
+In this case, we took the field `nation_name` , and added it to the customer entity as a feature.
