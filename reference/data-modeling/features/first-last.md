@@ -95,7 +95,7 @@ The name of the data asset field to retrieve as the entity feature.
 
 ### `offset`
 
-Use offset \[Integer values] to choose the second, third.. from the start or from the end.
+Use `offset` to choose the second, third or other field values with an offset from the start or from the end of the sorted list
 
 #### Offset - Example 1
 
