@@ -99,7 +99,7 @@ Use `offset` to choose the second, third or other field values with an offset fr
 
 #### Offset - Example 1
 
-Enriching the `customer` entity with the **`order status`** of the **third** order, ordered by `created_at`:
+Enriching the `customer` entity with the **`order_status`** of the **third** order, ordered by `created_at`:
 
 ```yaml
 # customer.yml
