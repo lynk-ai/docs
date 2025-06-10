@@ -31,3 +31,7 @@
 * [Integrations](reference/integrations/README.md)
   * [Git](reference/integrations/git.md)
   * [Query Engines](reference/integrations/query-engines.md)
+
+***
+
+* [Cache & Pre-Aggregations](cache-and-pre-aggregations.md)
