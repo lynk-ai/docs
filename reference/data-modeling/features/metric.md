@@ -103,3 +103,15 @@ Measures are defined on a data asset level. See [measures](../data-assets.md#mea
 ### `filters`
 
 Custom filters to be applied on the data asset. See [filters](filters.md) page for in depth information on how to apply filters.
+
+## Understanding Metric features
+
+In case we have a **many-to-one** relationship between a Data Asset and an Entity, and we need to enrich the entity with some aggregation from the Data Asset **-** we can define which [measure](../measures.md) to enrich the entity by.
+
+To better understand how Field features work, look the following diagram;
+
+<figure><img src="../../../.gitbook/assets/image (8).png" alt=""><figcaption><p>Metric Feature Diagram</p></figcaption></figure>
+
+The above diagram shows an example when a customer (entity) has many orders (data asset). That means, each `customer` can be associated with many rows in `db.schema.orders`.
+
+In this case, we took the measure `total_price` which translates to the aggregate definition `SUM(total_price)` and adding it to the customer entity as a metric feature.

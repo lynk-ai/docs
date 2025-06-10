@@ -99,7 +99,7 @@ In case we have a **one-to-one** relationship between a Data Asset and an Entity
 
 To better understand how Field features work, look the following diagram;
 
-<figure><img src="../../../.gitbook/assets/image (6).png" alt=""><figcaption><p>Field Feature Diagram</p></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (7).png" alt=""><figcaption><p>Field Feature Diagram</p></figcaption></figure>
 
 The above diagram shows an example when a customer (entity) has one nation (data asset). That means, each `customer` can be associated with only one row in `db.schema.nations`.
 
