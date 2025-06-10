@@ -23,15 +23,12 @@
     * [POP](reference/data-modeling/lynk-functions/pop.md)
   * [Context](reference/data-modeling/context.md)
 * [Consume & APIs](reference/consume-and-apis/README.md)
+  * [Authentication](reference/consume-and-apis/authentication.md)
   * [SQL API](reference/consume-and-apis/sql-api.md)
   * [SQL REST API](reference/consume-and-apis/sql-rest-api.md)
-  * [Authentication](reference/consume-and-apis/authentication.md)
+  * [Cache & Pre-Aggregations](reference/consume-and-apis/cache-and-pre-aggregations.md)
 * [Governance](reference/governance.md)
-* [AI Agents](reference/ai-agents.md)
 * [Integrations](reference/integrations/README.md)
   * [Git](reference/integrations/git.md)
   * [Query Engines](reference/integrations/query-engines.md)
-
-***
-
-* [Cache & Pre-Aggregations](cache-and-pre-aggregations.md)
+* [AI Agents](reference/ai-agents.md)
