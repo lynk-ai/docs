@@ -31,7 +31,7 @@ and more.&#x20;
 
 AI agents need access to effective tools and the right context;
 
-<figure><img src="../.gitbook/assets/image (1).png" alt=""><figcaption><p>High level architecture - enabling AI agents with context and tools</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1) (1).png" alt=""><figcaption><p>High level architecture - enabling AI agents with context and tools</p></figcaption></figure>
 
 ## **Tools**
 

@@ -9,7 +9,7 @@ Apply coding best practices, CI/CD and tests to semantics definitions - while le
 
 Connecting a Git repository is done on the onboarding process.&#x20;
 
-<figure><img src="../../.gitbook/assets/image (1) (1) (1) (1).png" alt=""><figcaption><p>Connecting a Git repository on the onboarding process</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1) (1) (1) (1) (1).png" alt=""><figcaption><p>Connecting a Git repository on the onboarding process</p></figcaption></figure>
 
 Once connected, Lynk will work with this repository to save the project files.&#x20;
 
@@ -27,7 +27,7 @@ If you are working with YAML files to add and edit semantic definitions, make su
 
 If you are working with Lynk Studio to add and edit semantic definitions, you can choose the branch on the top bar when the Studio is on **edit mode**. When creating changes and additions using **edit mode**, Lynk Studio automatically commits those changes to the branch you are on. Once created a PR which is merged to your repository's main branch, you will be able to see those changes on the main branch as well.&#x20;
 
-<figure><img src="../../.gitbook/assets/image (2) (1) (1).png" alt=""><figcaption><p>On the top bar, you can switch to edit mode and choose a branch to work on</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (2) (1) (1) (1).png" alt=""><figcaption><p>On the top bar, you can switch to edit mode and choose a branch to work on</p></figcaption></figure>
 
 In the above example we are on edit mode, using the branch `dev`.
 

@@ -93,7 +93,64 @@ The data asset field to sort by.
 
 The name of the data asset field to retrieve as the entity feature.
 
+### `offset`
+
+Use offset \[Integer values] to choose the second, third.. from the start or from the end.
+
+#### Offset - Example 1
+
+Enriching the `customer` entity with the **`order status`** of the **third** order, ordered by `created_at`:
+
+```yaml
+# customer.yml
+
+features:
+- type: first_last
+  name: second_order_status
+  data_type: string
+  asset: db_prod.core.orders
+  options:
+    method: first
+    sort_by: created_at
+    field: order_status
+    offset: 3
+  filters: null
+```
+
+#### Offset - Example 2
+
+Enriching the `customer` entity with the **`order status`** of the **second** order from the last (one before the last order), ordered by `created_at`:
+
+```yaml
+# customer.yml
+
+features:
+- type: first_last
+  name: second_order_status
+  data_type: string
+  asset: db_prod.core.orders
+  options:
+    method: last
+    sort_by: created_at
+    field: order_status
+    offset: 2
+  filters: null
+```
+
 ### `filters`
 
 Custom filters to be applied on the data asset. See [filters](filters.md) page for in depth information on how to apply filters.
 
+***
+
+## Understanding First-Last Features
+
+In case we have a **many-to-one** relationship between a Data Asset and an Entity, and we need to enrich the entity with a field from the Data Asset **without aggregating it -** we can't just take the field - we need to define which occurrence to take. This is when we should use first-last features.
+
+To better understand how First-Last features work, look the following diagram;
+
+<figure><img src="../../../.gitbook/assets/image (1).png" alt=""><figcaption><p>First Last Feature Diagram</p></figcaption></figure>
+
+The above diagram shows an example when a customer (entity) has many orders (data asset). That means, each `customer` may be associated with more than one row in `db.schema.orders`.
+
+In this case, we took the field `total_price` of the **last** order, sorted by `order_date`, and added it to the customer entity as a feature.
