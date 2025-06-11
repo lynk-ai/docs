@@ -130,6 +130,20 @@ Entities to be joined to the main entity&#x20;
  ]
 ```
 
+The properties for `joins` are:
+
+#### `entity`
+
+The entity to join
+
+#### `join name [optional]`
+
+Specify the [join name](../data-modeling/relationships/related-data-assets.md#name-optional). If not specified, Lynk will use the default join between the main entity and the entity in this joins clause
+
+#### `alias`&#x20;
+
+Give an alias to the joined entity
+
 ### `timeAggregation`
 
 The time aggregation definition
@@ -143,11 +157,22 @@ The time aggregation definition
 },
 ```
 
-`timeAggregation` has the following nested parameters:
+The properties for `timeAggregation` are:
 
-* `timeGrain`
-* `windowSize` \[optional]
-* `direction` \[optional]
+#### `timeGrain`
+
+The [time grain](../data-modeling/time-aggregation.md#time_grain-optional) to aggregate by (day / week / month etc..)\
+For example: "**day**", for 7 days backward
+
+#### `windowSize` \[optional]
+
+The [window size](../data-modeling/time-aggregation.md#window_size-optional) to apply (numeric value), in case of time window aggregation.\
+For example: "**7** ", for 7 days backward
+
+#### `direction` \[optional]
+
+The direction to apply (backward / forward), in case of time window aggregation.\
+For example: "**backward**", for 7 days backward.
 
 {% hint style="info" %}
 For more information about time aggregations, visit  [Time Aggregations](../data-modeling/time-aggregation.md).
@@ -194,7 +219,9 @@ There are three types of fields you can select in the `select` clause:&#x20;
 
 ```
 
-`select` - `field` &#x20;
+The properties for `select` are:
+
+#### `select` - `field`
 
 Use this option for fetching entity **features**
 
@@ -210,7 +237,7 @@ Use this option for fetching entity **features**
 ]
 ```
 
-`select` - `measure`
+#### `select` - `measure`
 
 Use this option for fetching entity **measures**
 
@@ -231,7 +258,7 @@ Measures are reusable aggregate definitions that can be applied on entity rollup
 Just like regular SQL, when using measures (aggregate functions), make sure to put the rest of the entity features in the `GROUP BY` clause.
 {% endhint %}
 
-`select` - `lynk_function`
+#### `select` - `lynk_function`
 
 Use this option to apply a Lynk Function and fetching it's result.\
 For more information about this, visit [Lynk Functions](../data-modeling/lynk-functions/).
@@ -268,7 +295,7 @@ Note that you can apply either `fields` or `sql` filters, but not both at the sa
 (The effect will be the same whichever way you choose to apply as filter)
 {% endhint %}
 
-### `where` - `fields`
+#### `where` - `fields`
 
 In case of applying `where` filters as `fields`, you will need to add the following parameters:
 
@@ -299,7 +326,7 @@ The above example translates to the following SQL `WHERE` clause:
 WHERE customer.nation_id in ("40", "42")
 ```
 
-### `where` - `sql`
+#### `where` - `sql`
 
 Apply a simple sql expression to use for filtering
 
