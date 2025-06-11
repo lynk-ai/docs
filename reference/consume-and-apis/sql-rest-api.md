@@ -295,7 +295,7 @@ There are two types of filters you can apply in the `where` clause:&#x20;
 * `fields`
 * `sql`
 
-{% hint style="warning" %}
+{% hint style="info" %}
 Note that you can apply either `fields` or `sql` filters, but not both at the same `where` clause. \
 (The effect will be the same whichever way you choose to apply as filter)
 {% endhint %}
@@ -361,8 +361,8 @@ There are two types of filters you can apply in the `having` clause:&#x20;
 * `fields`
 * `sql`
 
-{% hint style="warning" %}
-Note that you can apply either `fields` or `sql` filters, but not both at the same `where` clause. \
+{% hint style="info" %}
+Note that you can apply either `fields` or `sql` filters, but not both at the same `having` clause. \
 (The effect will be the same whichever way you choose to apply as filter)
 {% endhint %}
 
