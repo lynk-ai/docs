@@ -221,7 +221,7 @@ There are three types of fields you can select in the `select` clause:&#x20;
 
 The properties for `select` are:
 
-#### `select` - `field`
+#### `field` \[`select`]
 
 Use this option for fetching entity **features**
 
@@ -237,9 +237,9 @@ Use this option for fetching entity **features**
 ]
 ```
 
-#### `select` - `measure`
+#### `measure` \[`select`]
 
-Use this option for fetching entity **measures**
+Use this option for fetching [measures](../data-modeling/measures.md) from the **main entity.**
 
 ```json
 // example - select - measure
@@ -252,13 +252,18 @@ Use this option for fetching entity **measures**
 ]
 ```
 
+{% hint style="warning" %}
+Make sure to select measures of the **main entity** (not from joined entities).\
+Lynk joins all the joined entities to the main entity, and aggregates to the main entity level (or main entity + time\_agg definition, if specified)
+{% endhint %}
+
 {% hint style="info" %}
 Measures are reusable aggregate definitions that can be applied on entity rollup.
 
 Just like regular SQL, when using measures (aggregate functions), make sure to put the rest of the entity features in the `GROUP BY` clause.
 {% endhint %}
 
-#### `select` - `lynk_function`
+#### `lynk_function` \[`select`]
 
 Use this option to apply a Lynk Function and fetching it's result.\
 For more information about this, visit [Lynk Functions](../data-modeling/lynk-functions/).
