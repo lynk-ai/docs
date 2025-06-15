@@ -19,8 +19,7 @@ layout:
 
 # Introduction
 
-Lynk is the Semantic Layer for AI and business users.\
-It empowers companies to build AI-driven applications by creating a centralized, governed, and accessible source of truth for all their data.
+Lynk is the Semantic Layer for AI and business users. It empowers companies to build AI-driven applications by creating a centralized, governed, and accessible source of truth for all their data.
 
 ## AI is changing the rules
 

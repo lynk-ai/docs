@@ -24,7 +24,7 @@ On this example, we already have two features on the `customer` level: `last_log
 
 ### `type`
 
-The feature type. \
+The feature type.\
 In case of formula features, it should be set to `formula`.
 
 ### `name`
@@ -33,7 +33,7 @@ Give the feature a name.
 
 ### `data_type` \[optional]
 
-Specify the feature data type. \
+Specify the feature data type.\
 If no data\_type specified, Lynk will assume the data type is `string`.
 
 The options for data types are:
@@ -50,13 +50,13 @@ For any type of number data type. For example: integer, float, decimal etc..
 
 For boolean data type.
 
-`datetime`&#x20;
+`datetime`
 
 For any type of time-based data type. For example: date, timestamp, datetime etc..
 
-### `sql`&#x20;
+### `sql`
 
-The formula definition.&#x20;
+The formula definition.
 
 Any SQL code applies here as long as:
 
@@ -68,3 +68,19 @@ Referencing a feature in the SQL is done by using `{FEATURE_NAME}`
 {% hint style="warning" %}
 In case you have an aggregate function in a formula, you probably need to create another metric feature and then create the formula feature on top of it
 {% endhint %}
+
+***
+
+## Understanding Formula Features
+
+In case we need to create a new feature which is composed by other features of an Entity, we can use the **Formula** feature type.&#x20;
+
+{% hint style="info" %}
+Unlike field, metric and first-last features, which are built by enriching an entity from other data assets or other entities, formula features are meant for enriching an entity from features of that same entity.
+{% endhint %}
+
+To better understand how Formula features work, look the following diagram;
+
+<figure><img src="../../../.gitbook/assets/image (9).png" alt=""><figcaption><p>Formula Feature Diagram</p></figcaption></figure>
+
+The above diagram shows an example when a `customer` (entity) already has two existing features `last_order_date` and `total_orders`. We can create a new **Formula** feature `is_active_customer` as a composition of the existing features `last_order_date` and `total_orders`.
