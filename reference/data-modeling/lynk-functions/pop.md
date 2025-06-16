@@ -4,10 +4,7 @@
 
 ## When should we use POP
 
-Whenever we need to perform a period-over-period calculation, and our resulting data would be with a granularity level of one of the following:
-
-* Entity + **time\_agg**
-* Entity aggregation (rollup) with **time\_agg**&#x20;
+Whenever the resulting data would be with a granularity level that includes a time\_grain (by appling time\_agg), and we need to perform a period-over-period calculation.
 
 {% hint style="warning" %}
 As `POP` is a time-based function, using `time_agg` is mandatory for using it. &#x20;
