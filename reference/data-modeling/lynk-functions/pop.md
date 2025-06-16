@@ -33,6 +33,7 @@ USE {
 }
 
 SELECT  customer_id,
+        time_agg as date_day
         POP(
           feature => 'total_sales',
           offset => 1,
