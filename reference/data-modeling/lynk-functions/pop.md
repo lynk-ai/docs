@@ -1,22 +1,18 @@
 # POP
 
-`POP` is a Lynk Function that simplifies **period-over-period** calculations. It can be defined on SQL API or SQL REST API request and added dynamically to the entities, features and measures requested and specified on the `POP` parameters.
+`POP` is a [Lynk Function](./) that simplifies **period-over-period** calculations. Use it on SQL API or SQL REST API request to dynamically add period-over-period calculations.
 
-## When should we use POP
+## How `POP` works
 
-Whenever the resulting data would be with a granularity level that includes a time\_grain (by appling time\_agg), and we need to perform a period-over-period calculation.
+You can also think of `POP` as follows:
+
+"Given a dataset with granularity that includes a `time_grain` (day/week/month/etc.), take this `metric` for the `current_period`. Then move `direction` through time by `time_grain`: skip `num_skip_periods` periods, `num_compare_periods` times to collect the same `metric`, and aggregate them using `agg_function` to create the `compare_period`. Finally, apply `pop_formula` to calculate the relationship between `current_period` and **`compare_period`**."
 
 {% hint style="warning" %}
 As `POP` is a time-based function, using `time_agg` is mandatory for using it. &#x20;
 
 The `time_agg` parameters `time_grain`, `direction` and `window_size` will be used by the `POP` function.
 {% endhint %}
-
-## How `POP` works
-
-If we have a time series data with data point (row) time\_grain or time\_grain + entity / features level. We would use`POP` for applying a period-over-period calculation per each data point, compared to a group of other datapoints.
-
-The result of the `POP` function will be that each of the data points will be compared to a set of other datapoints and the result of that comparison will return as a new column - the `POP` result
 
 ***
 
