@@ -95,7 +95,9 @@ The function to apply on the datapoints of the compare period.&#x20;
 You can use the following presets:
 
 * absolute\_difference
-* avg
+* relative\_difference&#x20;
+* percent\_change
+* ratio
 
 ### `pop_formula`
 
@@ -103,8 +105,13 @@ The function to apply on the **current period** and the **compare period**.
 
 #### Preset formulas
 
-* absolute\_difference
 * avg
+* sum
+* min
+* max
+* count
+* p\_\<number> \
+  For example:  p\_50 for median
 
 #### Custom formulas
 
