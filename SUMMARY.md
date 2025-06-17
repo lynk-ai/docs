@@ -20,7 +20,7 @@
   * [Data Assets](reference/data-modeling/data-assets.md)
   * [Time Aggregations](reference/data-modeling/time-aggregation.md)
   * [Lynk Functions](reference/data-modeling/lynk-functions/README.md)
-    * [POP](reference/data-modeling/lynk-functions/pop.md)
+    * [POP()](reference/data-modeling/lynk-functions/pop.md)
   * [Context](reference/data-modeling/context.md)
 * [Consume & APIs](reference/consume-and-apis/README.md)
   * [Authentication](reference/consume-and-apis/authentication.md)
