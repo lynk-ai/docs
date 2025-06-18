@@ -6,7 +6,7 @@ Visit our [SQL API](sql-api.md) and [SQL REST API](sql-rest-api.md) pages to lea
 
 ***
 
-## Behind the scenes - the process of requesting data from Lynk -&#x20;
+## Behind the scenes - the process of requesting data from Lynk&#x20;
 
 Once an SQL API or REST SQL API is sent to Lynk, the following steps get processed:
 

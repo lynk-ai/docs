@@ -31,7 +31,7 @@ Is done according to the value of `pop_formula`.
 ## How `POP()` works
 
 {% hint style="info" %}
-Lynk Functions, including `POP()` , are parsed and applied to the query after all the entities and features were parsed. See more details on this here.
+Lynk Functions, including `POP()` , are parsed and applied to the query after all the entities and features were parsed. See more details on this [here](../../consume-and-apis/#behind-the-scenes-the-process-of-requesting-data-from-lynk).
 {% endhint %}
 
 You can think of `POP()` as a function that acts as follows:
