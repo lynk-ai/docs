@@ -4,29 +4,47 @@ Use `POP()` for **period-over-period** calculations. `POP()` can be applied via 
 
 ## How `POP()` works
 
+Period over Period analysis is about comparing the same metric, calculated on two different time periods. We call these two time periods as the **Current Period** and the **Compare Period**.
+
+{% hint style="warning" %}
+As `POP()` is a time-based function, using `time_agg` is mandatory for using it.&#x20;
+{% endhint %}
+
+#### Current Period&#x20;
+
+Is a single data point of a level of granularity that includes a time grain (by applying time\_agg).&#x20;
+
+#### Compare Period&#x20;
+
+Can be one or more data points, determined by the `POP()` function parameters `skip_periods` , `compare_periods` , the time\_agg parameter `direction` and then aggregated using the value of the `agg_function` parameter.
+
+#### Comparing Current Period and Comparison Period
+
+Is done according to the value of `pop_formula`.
+
+## Parameters overview (high level)
+
 You can think of `POP()` as a function that acts as follows:
 
 "Given a dataset with a granularity level that includes a `time_grain` (day/week/month/etc), for each granularity level (row)  take the `metric`  as the `current_period`. Then move `direction` through time by `time_grain`: skip `skip_periods` periods, `compare_periods` times to collect the same `metric`, and aggregate them using `agg_function` to create the `compare_period`. Finally, apply `pop_formula` to calculate the relationship between `current_period` and `compare_period`."
 
-{% hint style="warning" %}
-As `POP()` is a time-based function, using `time_agg` is mandatory for using it. &#x20;
+Which translakes to the following visual representation:
 
-The `time_agg` parameters `time_grain`, `direction` and `window_size` will be used by the `POP()` function as well as the `POP()` parameters.&#x20;
-{% endhint %}
+<figure><img src="../../../.gitbook/assets/image (1).png" alt=""><figcaption><p><strong>Current Period</strong> (blue) is compared to the aggregation of the <strong>Compare Periods</strong> (black). </p></figcaption></figure>
 
 ## POP() playground
 
-Click the link below to visit a visual playground where you can play around and see how `POP()` works.
+Click the link below to visit a visual playground to explore how `POP()` parameters affect the results.
 
 {% embed url="https://lynk-ai.github.io/pop-demo-app/" %}
-POP visual playground - click to navigate to site
+POP visual playground - click to explore
 {% endembed %}
 
 ***
 
 ## Simple POP example
 
-In this example, we define simple `POP` function for the entity `customer`, on the metric feature `total_sales`&#x20;
+In this example, we define simple `POP()` function for the entity `customer`, on the metric feature `total_sales`&#x20;
 
 ```sql
 -- A simple SQL API query with POP()

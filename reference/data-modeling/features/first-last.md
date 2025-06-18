@@ -149,7 +149,7 @@ In case we have a **many-to-one** relationship between a Data Asset and an Entit
 
 To better understand how First-Last features work, look the following diagram;
 
-<figure><img src="../../../.gitbook/assets/image (1).png" alt=""><figcaption><p>First Last Feature Diagram</p></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1).png" alt=""><figcaption><p>First Last Feature Diagram</p></figcaption></figure>
 
 The above diagram shows an example when a customer (entity) has many orders (data asset). That means, each `customer` may be associated with more than one row in `db.schema.orders`.
 
