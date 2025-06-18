@@ -48,20 +48,16 @@ POP visual playground - click to explore
 
 In the image below you can see a visual example of how POP() works.&#x20;
 
-It represents the following:
+<figure><img src="../../../.gitbook/assets/image (11).png" alt=""><figcaption><p>Period over Period visual representation</p></figcaption></figure>
+
+This example represents the following:
 
 For each granularity level (day in this case) take the `metric = sales`  as the current\_period. Then move `backward` through time by `time_grain`: skip `skip_periods = 7` periods `compare_periods = 6` times to collect the same metric, and aggregate them using `agg_function = p_50` to create the compare\_period. Finally, apply `pop_formula = absolute_difference` to calculate the relationship between current\_period and compare\_period.
 
-<figure><img src="../../../.gitbook/assets/image (11).png" alt=""><figcaption><p>Period over Period visual representation</p></figcaption></figure>
-
-***
-
-## Simple POP example
-
-In this example, we define simple `POP()` function for the entity `customer`, on the metric feature `total_sales`&#x20;
+And it translates to the following SQL API:
 
 ```sql
--- A simple SQL API query with POP()
+// Some code
 USE {
   "time_agg": {
     "time_grain": "day",
@@ -69,23 +65,21 @@ USE {
     "window_size": 1
   },
   "start_time": "2024-01-01",
-  "stop_time": "2025-01-01"
+  "stop_time": "2025-04-08"
 }
 
-SELECT  customer_id,
-        time_agg as date_day,
+SELECT  time_agg as date_day,
         POP(
-          metric => 'total_sales',
-          skip_periods => 1,
+          metric => 'measure(total_sales)',
+          skip_periods => 7,
           compare_periods => 6,
-          agg_function => ‘avg’,
-          pop_formula => ‘absolute_difference’
-        ) as tota_sales_over_average_of_last_6_days
+          agg_function => 'p_50',
+          pop_formula => 'absolute_difference'
+        ) as pop_example
 FROM    entity('customer')
-LIMIT   100
 ```
 
-In the above example, for each `customer` and `day`,  we are calculating the absolute\_difference of the metric `total_sales` over the average of `total_sales` in the last 6 days.
+***
 
 ### `time_grain` (from `time_agg`)
 
