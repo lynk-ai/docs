@@ -38,10 +38,6 @@ You can think of `POP()` as a function that acts as follows:
 
 "Given a dataset with a granularity level that includes a `time_grain` (day/week/month/etc), for each granularity level (row)  take the `metric`  as the `current_period`. Then move `direction` through time by `time_grain`: skip `skip_periods` periods, `compare_periods` times to collect the same `metric`, and aggregate them using `agg_function` to create the `compare_period`. Finally, apply `pop_formula` to calculate the relationship between `current_period` and `compare_period`."
 
-Which translates to the following visual representation:
-
-<figure><img src="../../../.gitbook/assets/image (1).png" alt=""><figcaption><p><strong>Current Period</strong> (blue) is compared to the aggregation of the <strong>Compare Periods</strong> (black). </p></figcaption></figure>
-
 ## POP() playground
 
 Click the link below to visit a visual playground to explore how `POP()` parameters affect the results.
@@ -49,6 +45,14 @@ Click the link below to visit a visual playground to explore how `POP()` paramet
 {% embed url="https://lynk-ai.github.io/pop-demo-app/" %}
 POP visual playground - click to explore
 {% endembed %}
+
+In the image below you can see a visual example of how POP() works.&#x20;
+
+It represents the following:
+
+For each granularity level (day in this case) take the `metric = sales`  as the current\_period. Then move `backward` through time by `time_grain`: skip `skip_periods = 7` periods `compare_periods = 6` times to collect the same metric, and aggregate them using `agg_function = p_50` to create the compare\_period. Finally, apply `pop_formula = absolute_difference` to calculate the relationship between current\_period and compare\_period.
+
+<figure><img src="../../../.gitbook/assets/image (11).png" alt=""><figcaption><p>Period over Period visual representation</p></figcaption></figure>
 
 ***
 
