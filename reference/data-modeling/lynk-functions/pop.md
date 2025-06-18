@@ -2,7 +2,7 @@
 
 Use `POP()` for **period-over-period** calculations. `POP()` can be applied via a SQL API or SQL REST API request to dynamically add period-over-period calculations.
 
-## How `POP()` works
+## Current Period and Compare Period
 
 Period over Period analysis is about comparing the same metric, calculated on two different time periods. We call these two time periods as the **Current Period** and the **Compare Period**.
 
@@ -12,7 +12,13 @@ As `POP()` is a time-based function, using `time_agg` is mandatory for using it.
 
 #### Current Period&#x20;
 
-Is a single data point of a level of granularity that includes a time grain (by applying time\_agg).&#x20;
+A single data point of a level of granularity that includes a time grain.
+
+Examples:&#x20;
+
+* "day" : 2025-01-01
+* "customer daily" : customer\_id = 123, day = 2025-01-01
+* Customer rollup to nation and month: nation\_name = US, month = 2025-03-01
 
 #### Compare Period&#x20;
 
@@ -22,13 +28,17 @@ Can be one or more data points, determined by the `POP()` function parameters `s
 
 Is done according to the value of `pop_formula`.
 
-## Parameters overview (high level)
+## How `POP()` works
+
+{% hint style="info" %}
+Lynk Functions, including `POP()` , are parsed and applied to the query after all the entities and features were parsed. See more details on this here.
+{% endhint %}
 
 You can think of `POP()` as a function that acts as follows:
 
 "Given a dataset with a granularity level that includes a `time_grain` (day/week/month/etc), for each granularity level (row)  take the `metric`  as the `current_period`. Then move `direction` through time by `time_grain`: skip `skip_periods` periods, `compare_periods` times to collect the same `metric`, and aggregate them using `agg_function` to create the `compare_period`. Finally, apply `pop_formula` to calculate the relationship between `current_period` and `compare_period`."
 
-Which translakes to the following visual representation:
+Which translates to the following visual representation:
 
 <figure><img src="../../../.gitbook/assets/image (1).png" alt=""><figcaption><p><strong>Current Period</strong> (blue) is compared to the aggregation of the <strong>Compare Periods</strong> (black). </p></figcaption></figure>
 

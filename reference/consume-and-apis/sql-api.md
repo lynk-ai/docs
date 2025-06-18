@@ -309,38 +309,6 @@ In the above example, Lynk will return for each customer, it's `customer_id` and
 
 ***
 
-## Understanding the process
-
-Under the hood, the process between sending a query to Lynk and receiving the results does the following:
-
-### Step 1: Parsing the query
-
-Parsing the SQL API query to the relevant query engine
-
-* Reading the query configuration from the [`USE`](sql-api.md#use) statement
-* Scanning for errors
-* Translating the query, including:
-  * Translating features to their business logic as defined in Lynk
-  * Using the correct [`time_agg`](../data-modeling/time-aggregation.md) as stated in the `USE` config
-  * Using the correct [`context`](../data-modeling/context.md) as stated in the `USE` config
-  * Using the correct `git branch` as stated in the `USE` config
-* Composing the final parsed query including all SQL statements and feature definitions
-
-### Step 2: Sending the parsed SQL query to the query engine
-
-Sending the parsed SQL query to the underlying query engine
-
-### Step 3: Receiving the results
-
-Receiving the results (data) from the query engine.
-
-### Step 4: Streaming the results to the requesting client
-
-Streaming the results back to the requesting client.\
-In case of SQL error occurs on the query engine, the original error will return.
-
-***
-
 ## Query pushdowns
 
 It is possible to query the query engine directly via Lynk. We call this operation a `pushdown`.
