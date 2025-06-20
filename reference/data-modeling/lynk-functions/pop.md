@@ -81,7 +81,9 @@ FROM    entity('customer')
 
 ***
 
-### `time_grain` (from `time_agg`)
+### `time_grain`&#x20;
+
+Type: String, taken from `time_agg`
 
 Used for defining the period size. For example, choosing `time_grain` **day**, defines the period as day.
 
@@ -100,21 +102,29 @@ Used for defining the size of the cumulative window of the period over period ca
 
 ### `metric`
 
+Type: String
+
 The metric **feature** or **measure** name of the main entity, to apply the POP (period over period) on.
 
 ### `skip_periods` \[optional]
 
-Define how many datapoints to "jump over" when calculating the compare period using the `offset` parameter. Defaults to **1**.&#x20;
+Type: Numeric, defaults to **1**.
+
+Define how many datapoints to "jump over" when calculating the compare period.&#x20;
 
 For example: For comparing total\_sales of each day, to the average of total\_sales on the previous 4 same days of week, we can use `skip_periods` = 7 and `compare_periods` = 4 along with `time_grain` = day and `direction` = backward.
 
 ### `compare_periods` \[optional]
 
-Define how many datapoints to take into include for the compare period. In other words, how many data points to include in the compare period. Defaults to **1**.
+Type: Numeric, defaults to **1**.
+
+Define how many datapoints to take into include for the compare period. In other words, how many data points to include in the compare period.
 
 For example: For comparing total\_sales of each day, to the average of total\_sales on the previous 4 same days of week, we can use `skip_periods` = 7 and `compare_periods` = 4 along with `time_grain` = day and `direction` = backward.
 
 ### `agg_function`
+
+Type: String.
 
 The function to apply on the datapoints of the compare period.&#x20;
 
@@ -126,6 +136,8 @@ You can use the following presets:
 * ratio
 
 ### `pop_formula`
+
+Type: String.
 
 The function to apply on the **current period** and the **compare period**.
 
