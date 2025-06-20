@@ -40,7 +40,7 @@ You can think of `POP()` as a function that acts as follows:
 
 ## POP() playground
 
-Click the [embedded link](https://lynk-ai.github.io/pop-demo-app/) below to visit a visual playground to explore how `POP()` parameters affect the results.
+Click the [embedded link](https://lynk-ai.github.io/pop-demo-app/) below to visit a visual `POP()` playground.
 
 {% embed url="https://lynk-ai.github.io/pop-demo-app/" fullWidth="false" %}
 POP visual playground - click to explore
