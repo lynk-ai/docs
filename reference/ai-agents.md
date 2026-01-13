@@ -1,12 +1,6 @@
 # AI Agents
 
-{% hint style="info" %}
-AI Agents - coming soon\
-Planned to Q3 2025 - we will release a full suite of feature that enable agents work smoothly with Lynk.\
-Navigate through this section to learn more on what's coming
-{% endhint %}
-
-Data teams can use pre-built AI agents or build custom agents on top of Lynk's MCP and RAG framework.
+Data teams can use pre-built AI agents or build custom agents on top of Lynk's MCP and RAG framework. Lynk provides a comprehensive Context system for teaching agents about your business, making them more accurate and aligned with how your team actually works.
 
 ## Use cases
 
@@ -39,7 +33,22 @@ Lynk’s Model Context Protocol (MCP) provides a rich set of tools powered by bo
 
 ## **Context**
 
-Lynk’s context system uses retrieval-augmented generation (RAG) to inject domain-specific knowledge into agent reasoning. This makes the system more accurate, explainable, and aligned with how your team actually works.
+Lynk's Context system uses retrieval-augmented generation (RAG) to inject domain-specific knowledge into agent reasoning. This makes the system more accurate, explainable, and aligned with how your team actually works.
+
+Context allows you to teach Lynk about your business through four types of context nodes:
+
+- **Knowledge** - Define what things mean in your organization (business rules, definitions, domain-specific context)
+- **Task Instructions** - Guide how tasks execute (SQL standards, query patterns, execution rules)
+- **Glossary** - Provide quick term definitions (acronyms, jargon, business vocabulary)
+- **Agent Behavior** - Control communication style (tone, formatting, interaction patterns)
+
+Each context type can be scoped to specific domains (Marketing, Finance, Sales, etc.), entities, or tasks, allowing different teams to have different definitions and preferences while working from the same data model.
+
+{% hint style="success" %}
+**Learn More**
+
+See the [Context Guide](ai-agents/context-guide.md) for a comprehensive walkthrough of the Context system, including detailed examples and best practices.
+{% endhint %}
 
 ## **The role of the Semantic Layer**
 
