@@ -83,9 +83,9 @@ Data assets are tables and views from the underlying data source (a data warehou
 
 For example, if we have a data asset that holds all the payment attempts done by customer, we can define features like first / last payment, aggregating payments to a customer level etc..
 
-### [Context](context.md)
+### [Domains](domains.md)
 
-Contexts allow us to create business definitions specific to a business context like marketing / sales / product etc. For example, the definition of "active user" can differ between the product team and the marketing team. Contexts make it possible to have more than one definition of "active\_user" - one for marketing team and one for sales team.&#x20;
+Domains allow us to create business definitions specific to a business unit like marketing / sales / product etc. For example, the definition of "active user" can differ between the product team and the marketing team. Domains make it possible to have more than one definition of "active\_user" - one for marketing team and one for sales team.&#x20;
 
 ### [Time aggregation](time-aggregation.md)
 

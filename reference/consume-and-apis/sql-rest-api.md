@@ -29,10 +29,10 @@ If not specified, Lynk will take the definitions of the branch which is defined 
 
 ### `context` \[optional]&#x20;
 
-Indicate which context to use.\
-Allows consuming semantic definitions from different [contexts](../data-modeling/context.md).
+Indicate which domain to use.\
+Allows consuming semantic definitions from different [domains](../data-modeling/domains.md).
 
-If not specified, Lynk will take the `default` context
+If not specified, Lynk will take the `default` domain
 
 ***
 

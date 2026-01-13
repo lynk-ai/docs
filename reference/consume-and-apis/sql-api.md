@@ -259,9 +259,9 @@ SELECT  customer_id,
 from    entity('customer')
 ```
 
-The above query will return for each `customer`, it's `customer_id` and the value of the feature `is_active_customer`. In case the context `marketing` has a feature called `is_active_customer` on a customer level, Lynk will use this feature definition to build the query. If the context `marketing` does not have a feature called `is_active_customer`, Lynk will use the definition from the `shared` context for the feature `is_active_customer`.
+The above query will return for each `customer`, it's `customer_id` and the value of the feature `is_active_customer`. In case the domain `marketing` has a feature called `is_active_customer` on a customer level, Lynk will use this feature definition to build the query. If the domain `marketing` does not have a feature called `is_active_customer`, Lynk will use the definition from the `shared` domain for the feature `is_active_customer`.
 
-See [contexts](../data-modeling/context.md) for in depth information on this.
+See [domains](../data-modeling/domains.md) for in depth information on this.
 
 ***
 

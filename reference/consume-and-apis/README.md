@@ -22,7 +22,7 @@ Parsing the relevant Entities, Relationships and Features, according to:
 * Scanning for errors
 * Parsing the query, according to:
   * The `git branch` as stated in the `USE` config
-  * The [`context`](../data-modeling/context.md) as stated in the `USE` config
+  * The [`domain`](../data-modeling/domains.md) as stated in the `USE` config
   * The [`time_agg`](../data-modeling/time-aggregation.md) as stated in the `USE` config
   * The business logic as defined in Lynk (taken from the relevant YAML files)
 
