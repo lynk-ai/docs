@@ -1,0 +1,20 @@
+{
+  "skill_name": "review",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "/review pitch",
+      "expected_output": "A review file saved to project/reviews/ that critiques core/pitch.md from the perspective of a Head of Analytics. Should identify specific fluff phrases, missing specifics, and include suggested rewrites. File should follow the exact frontmatter + section structure defined in the skill."
+    },
+    {
+      "id": 2,
+      "prompt": "/review the messaging framework — specifically the key differentiators section",
+      "expected_output": "A focused review of the differentiators section in core/messaging-framework.md. Should call out any claims that are vague or unsubstantiated from an analyst's perspective, and suggest more concrete alternatives."
+    },
+    {
+      "id": 3,
+      "prompt": "/review",
+      "expected_output": "The skill should NOT immediately start reviewing everything. It should suggest 3-4 specific content targets based on recently edited files or conversation context, and wait for the user to choose."
+    }
+  ]
+}

@@ -1,95 +1,119 @@
----
-cover: .gitbook/assets/selected (1).png
-coverY: 0
-layout:
-  cover:
-    visible: true
-    size: full
-  title:
-    visible: true
-  description:
-    visible: false
-  tableOfContents:
-    visible: true
-  outline:
-    visible: true
-  pagination:
-    visible: true
+# Lynk — Documentation
+
+This documentation covers the Lynk framework: how to model your data and teach an AI agent everything it needs to know about your company — so it gives accurate, trusted results.
+
 ---
 
-# Introduction
+## How to Use These Docs
 
-Lynk is the Semantic Layer for AI and business users. It empowers companies to build AI-driven applications by creating a centralized, governed, and accessible source of truth for all their data.
+The docs are organized into five sections. Depending on what you need, start in a different place:
 
-## AI is changing the rules
+| If you want to... | Go to |
+|---|---|
+| Set up Lynk for the first time | [Getting Started](overview/getting-started.md) |
+| Understand the big picture first | [Overview](#overview) |
+| Build a semantic layer from scratch | [Project Walkthrough](#project-walkthrough) |
+| Understand how a specific system behaves | [Concepts](#concepts) |
+| Look up a specific file type | [File-Types Reference](#file-types-reference) |
+| Add a feature or entity to an existing project | [Guides](#guides) |
 
-### Enterprise Data Access Prediction (2025-2030)
+---
 
-In the coming years, we anticipate a dramatic shift in how enterprise data is accessed.\
-AI will become the primary consumer of enterprise data, with an estimated 90% of queries originating from AI agents.
+## Overview
 
-<figure><img src=".gitbook/assets/image (3).png" alt=""><figcaption><p>Projected shift from traditional human/BI tool access to AI-driven data access</p></figcaption></figure>
+**Path:** `overview/`
 
-### Garbage in garbage out
+Start here if you're new. These four files introduce the core concepts and structure without getting into implementation details.
 
-While AI is poised to revolutionize how we access, build and get value from data, most enterprise data environments are not yet ready. They’re often messy - plagued by duplicated logic, unclear definitions, and outdated, manual processes.&#x20;
+| File | What it covers |
+|---|---|
+| `overview/getting-started.md` | How to set up Lynk — connect your Git repo, connect your warehouse via the UI, what gets created |
+| `overview/overview.md` | The two file types (YAML + Markdown), supported warehouses and dbt compatibility, context scoping, what goes where, and the end-to-end flow |
+| `overview/main-concepts.md` | Vocabulary: Domain, Entity, Source, Feature, Metric, Relationship, Agent and Tasks |
+| `overview/file-types.md` | Quick-reference table of every file type — location, who reads it, and purpose |
+| `overview/project-structure.md` | Canonical folder layout, naming conventions (double underscore delimiter), and feature resolution rules for custom domains |
 
-For AI to reliably consume and act on data, we must address these foundational issues and fundamentally rethink how data is built, managed, governed and accessed.
+---
 
-## Core concepts
+## Project Walkthrough
 
-Lynk was designed with AI as both a primary data consumer and contributor, and with business teams in mind. Data teams use it to manage the semantics and make them accessible to AI as the main direct consumer of data.
+**Path:** `project/`
 
-It makes defining and consuming semantic and business concepts more accessible to both AI and non-technical users, while enforcing strong data modeling and governance practices to maintain a reliable and structured source of truth.
+A top-down narrative guide for building a complete semantic layer from scratch. Follows the recommended build order: business context first, entities last.
 
-Lynk empowers AI and every member of the data supply chain with the freedom, flexibility, and control to explore and produce data, while keeping data organized, governed, and easily accessible from a central semantic layer.
+| File | Step |
+|---|---|
+| `project/index.md` | Why top-down is better; overview of the 5-step process; time estimates |
+| `project/01-business-context.md` | Write domain knowledge and glossary before touching any entity |
+| `project/02-domains.md` | Define audiences (domains) and when to create custom ones |
+| `project/03-domain-context.md` | Create domain-wide task instructions and agent behavior files |
+| `project/04-entities.md` | Model entities — dimensions first, then facts, then relationships, then feature chaining |
+| `project/05-examples.md` | Add evaluation test cases to validate accuracy before going to production |
 
-**The product's core concepts are:**
+Read these files in order if you're building something new.
 
-### **AI first**
+---
 
-The entity-centric data modeling framework resembles a knowledge graph - an ideal structure for AI interaction. With Lynk, you can build a complete RAG (Retrieval-Augmented Generation) system combining semantic definitions, vectorized documents, and more - exposed through the MCP (Model Context Protocol) to AI agents. These agents power self-service analytics, data quality assurance, and beyond.
+## Concepts
 
-Visit [AI enablement](reference/ai-agents.md) for in-depth information about this.
+**Path:** `concepts/`
 
-### **Rethinking Data Modeling**&#x20;
+Deep-dive reference pages for how specific systems behave across the platform. These are not tied to a single file type — they explain cross-cutting behavior that affects multiple parts of the semantic layer.
 
-At its core, Lynk has a structured and opinionated data modeling framework with governance built in.\
-Data is modeled as **entities** and **features** - a structure that is both intuitive for business users and optimized for AI applications.
+| File | What it covers |
+|---|---|
+| `concepts/domains.md` | Domain inheritance model — how domains are activated, `domain: "*"` vs named vs multi-domain list, override rules, multi-file merging, and conflict handling |
+| `concepts/entities.md` | Entities, features, and metrics — entity anatomy (key_source, keys, sources vs. entities), the four feature types, entity metrics, feature chaining, how context compounds on entities |
+| `concepts/context.md` | The semantic graph — how YAML (data model) and Markdown (context) work together; the five context file types, scoping by domain and entity, context compounding at query time |
+| `concepts/agent.md` | How the agent works — the 6-step question-to-answer lifecycle, dynamic context loading, text-to-sql tool, evaluations, transparency, debugging wrong answers |
+| `concepts/evaluations.md` | How evaluations work — test case structure (English question + expected SQL), running evaluations in the UI, the branch-to-main workflow, building your evaluation suite over time |
+| `concepts/lynk-sql-api.md` | Lynk SQL API reference — `entity()`, `metric()`, joining entities with named join paths, supported and unsupported statements |
 
-Some of the data modeling framework core concepts are:
+---
 
-* Each level of granularity represented only once as entity (including different time aggregation levels)
-* Time aggregations (e.g., daily, monthly, rolling 90 days) are not pre-materialized or hardcoded. Instead, they are dynamically generated at query time, enabling flexible and efficient analysis without bloating the model.
-* Fields, measures, joins, and relationships are defined once and reused across the model. This promotes consistency, reduces duplication, and ensures governed, reliable outputs.
-* Feature definitions, functions, and transformations are built using templated patterns - making the model easy to extend, replicate, and audit.
-* Unlike traditional semantic layers, Lynk supports feature chaining: the ability to build features on top of features, supporting complex multi-step transformations and aggregations.\
-  This is critical for enabling AI agents to not only answer questions, but also derive and define new features, metrics and trends - as well as performing real root cause analysis.
+## File-Types Reference
 
-By following these principles, Lynk provides governance and simplicity in one unified model - a clear, consistent, and scalable approach to data modeling that’s accessible to both technical and non-technical users.
+**Path:** `file-types/`
 
-Visit [data modeling](reference/data-modeling/) for in-depth information about this.
+Deep-dive reference for every file type in the semantic layer. Use these when you need to know the exact structure, allowed fields, or behavior of a specific file type.
 
-### **Accessibility**
+| File | Covers |
+|---|---|
+| `file-types/entity-yaml.md` | Entity YAML structure — features (field, first_last, formula, metric), entity metrics, related_sources, common pitfalls |
+| `file-types/relationships-yaml.md` | `entities_relationships.yml` — relationship types, join definitions (sql / fields / lookup), enabling feature chaining |
+| `file-types/knowledge-md.md` | Knowledge files — business definitions, data quality notes, context |
+| `file-types/task-instructions-md.md` | Task instruction files — SQL patterns, join guidance, naming rules |
+| `file-types/output-format-md.md` | Output format files — table structure, insights, tone, data notes |
+| `file-types/clarification-policy-md.md` | Clarification policy files — when to ask, when to proceed, when to redirect |
+| `file-types/glossary-md.md` | Glossary files — short term and abbreviation definitions. 1–2 sentences per entry |
+| `file-types/evaluations-yaml.md` | `evaluations.yml` — test cases for regression testing before production pushes |
 
-Beyond its native AI accessibility, Lynk is built for both business users and data teams.\
-All semantic definitions - such as Entities and Features _-_ are accessible and editable through Lynk Studio, a user-friendly data catalog and business glossary. It enables anyone to explore, create, and govern data with simplicity and control.
+---
 
-### **Governance**
+## Guides
 
-Entities, Features and usage patterns are all constantly governed.\
-To make sure our source of truth is trusted and avoid duplicated logic and wasted resources.
+**Path:** `guides/`
 
-Visit [governance](reference/governance.md) for in-depth information about this.
+Task-focused how-to guides for the most common operations. Use these when you're extending an existing project.
 
-### **Version control**
+| File | Task |
+|---|---|
+| `guides/adding-an-entity.md` | 6-step checklist for adding a new entity (YAML → relationships → knowledge → task instructions → evaluations → verify) |
+| `guides/adding-a-feature.md` | Decision tree to pick the right feature type (field / first_last / formula / metric), then step-by-step instructions for each |
 
-Everything built on Lynk translates to code and is version controlled, even if built via the Studio. \
-Apply coding best practices, CI/CD and tests to semantic definitions - while letting business users and analysts move fast.
+---
 
-Visit [Git integration](reference/integrations/git.md) for in-depth information about this.
+## Key Concepts at a Glance
 
-### **Efficiency**
+**Feature types:**
 
-Efficiency is critical for query performance and reducing cost.\
-Semantic definitions are translated to efficient SQL code. Lynk also governs usage patterns to suggest improvements and applies advanced cache and pre-aggregation mechanism (coming soon)
+| Type | When to use |
+|---|---|
+| `field` | Direct column from a source table |
+| `first_last` | First or last value ordered by another field |
+| `formula` | Derived from other features on the same entity |
+| `metric` | Aggregated value pulled from a related entity (feature chaining) |
+
+**Naming convention:** File names are up to you — scoping is controlled by frontmatter, not file names.
+
+**Context compounding:** Context loads at multiple levels simultaneously. For a query about the `customer` entity in the `default` domain, domain-wide knowledge, entity knowledge, and domain-wide task instructions all load together.
