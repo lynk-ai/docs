@@ -22,6 +22,12 @@ domain: "*"                # or a specific domain name
 
 ---
 
+## Default Behavior
+
+If no output format file is configured, Lynk applies its built-in output format — a sensible default shared across all Lynk customers. Adding an output format file overrides that default for your project. You are not starting from scratch — you are customizing on top of an existing baseline.
+
+---
+
 ## What Goes in an Output Format File
 
 **Tone** — how the agent should sound. Professional? Direct? Casual? Warm?

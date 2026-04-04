@@ -22,6 +22,12 @@ domain: "*"                # or a specific domain name
 
 ---
 
+## Default Behavior
+
+If no clarification policy file is configured, Lynk applies its built-in clarification policy — a sensible default shared across all Lynk customers. Adding a clarification policy file overrides that default for your project. You are not starting from scratch — you are customizing on top of an existing baseline.
+
+---
+
 ## What Goes in a Clarification Policy
 
 **When to proceed** — cases where the agent should make a default assumption and state it, rather than asking. Define a default for time period and granularity so the agent knows what to assume when the user doesn't specify.
