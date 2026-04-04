@@ -109,6 +109,27 @@ How the agent interacts with users. Two types, set via the `kind` field:
 
 ---
 
+## Getting Started
+
+**What you need:**
+- A Git repository (GitHub, GitLab, Bitbucket, or any hosted Git service)
+- Read-only credentials for the database schemas you want to connect — Snowflake, BigQuery, Postgres, Clickhouse, or Trino
+
+No local installation required.
+
+**Setup:**
+
+1. Go to [app.getlynk.ai](https://app.getlynk.ai) and create your account.
+2. Run the onboarding flow at [app.getlynk.ai/onboarding](https://app.getlynk.ai/onboarding) — it walks through connecting your Git repository and data warehouse in one flow.
+
+**Connecting your Git repository:** Provide your repository URL and grant Lynk access. Lynk creates a `.lynk/` folder at the root of your repo. This is where your entire semantic layer lives — entity definitions, context files, relationships, evaluations. You can edit files in the Lynk UI or directly in your editor (VS Code, Cursor, or any IDE). Both write to the same repository.
+
+**Connecting your data warehouse:** Provide read-only credentials to the schemas you want Lynk to query. Lynk never writes to your warehouse.
+
+**After setup:** Your repo has a `.lynk/default/` folder — your main domain, where all entity definitions live. The agent can answer questions immediately, but accuracy depends on context. The more you teach it — entity definitions, business rules, glossary terms, SQL patterns — the better it performs. Most teams reach their first trusted production answers within 1–2 days.
+
+---
+
 ## How It Works
 
 A user asks: *"Which customers spent more than $10k last quarter?"*
@@ -129,7 +150,7 @@ Every step is driven by context you defined. Nothing is guessed. That's the cont
 
 | If you want to... | Go to |
 |---|---|
-| Understand the vocabulary (Entity, Feature, Metric, etc.) | [Main Concepts](overview/main-concepts.md) |
-| See every file type and what it does | [File Types](overview/file-types.md) |
+| Understand the vocabulary (Entity, Feature, Metric, etc.) | [Concepts](concepts/README.md) |
+| See every file type and what it does | [File-Types Reference](file-types/README.md) |
 | Build a project from scratch | [Project Walkthrough](project/index.md) |
 | Add a new entity to an existing project | [Adding an Entity](guides/adding-an-entity.md) |

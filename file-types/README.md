@@ -28,6 +28,58 @@ This section documents the exact structure, required fields, allowed values, and
 
 ---
 
+## Frontmatter Quick Reference
+
+Every Markdown context file starts with a YAML frontmatter block that controls its scope.
+
+**Knowledge file:**
+```yaml
+---
+type: knowledge
+domain: "default"        # or "*" for all domains, or a specific domain name
+entity: customer         # optional — omit for domain-wide knowledge
+---
+```
+
+**Task instructions file:**
+```yaml
+---
+type: task-instructions
+domain: "default"        # or "*" for all domains, or a specific domain name
+tasks: "text-to-sql"     # which task this applies to
+entity: customer         # optional — omit for domain-wide instructions
+---
+```
+
+**Glossary file:**
+```yaml
+---
+type: glossary
+domain: "*"              # or a specific domain name
+---
+```
+
+**Behavior file:**
+```yaml
+---
+type: behavior
+kind: output_format      # one of: output_format, clarification_policy
+domain: "*"              # or a specific domain name
+---
+```
+
+---
+
+## Key Distinctions
+
+**Knowledge vs. Task Instructions** — Use knowledge files for definitions, business rules, and data context — things the agent needs to understand the question. Use task instructions for SQL-specific guidance — filters, field choices, query patterns — things the agent needs when executing the task.
+
+**Knowledge vs. Glossary** — Use the glossary for quick term lookups (one or two sentences). Use knowledge files for multi-paragraph explanations, data quality caveats, governance rules, and business context that requires interpretation.
+
+**Behavior vs. Everything Else** — Behavior files control how the agent communicates with users — output format and clarification policy. SQL guidance and business definitions do not belong in behavior files.
+
+---
+
 ## What you can do with this
 
 Use this section to:

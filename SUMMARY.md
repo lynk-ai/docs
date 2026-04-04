@@ -2,14 +2,6 @@
 
 * [Introduction](README.md)
 
-## Overview
-
-* [Overview](overview/README.md)
-  * [Getting Started](overview/getting-started.md)
-  * [Main Concepts](overview/main-concepts.md)
-  * [File Types](overview/file-types.md)
-  * [Project Structure](overview/project-structure.md)
-
 ## Project Walkthrough
 
 * [Building a Lynk Project](project/README.md)
