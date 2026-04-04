@@ -23,6 +23,23 @@ Two components are required at each step:
 1. A relationship connecting the two entities
 2. A feature on the destination entity that sources from the source entity (`source: <entity_name>`)
 
+**`formula` features don't chain across entities** — they compute from other features on the same entity, so they can't source from a related entity. But they are essential to data modeling: once a `metric` or `first_last` feature has pulled a value onto an entity, a formula can derive new meaning from it. On `player`, after `total_spend_usd` is chained in from `purchase`, a formula can tier each player:
+
+```yaml
+- type: formula
+  name: player_segment
+  data_type: string
+  description: Spend-based segment — 'whale', 'dolphin', or 'minnow'
+  sql: >
+    CASE
+      WHEN {total_spend_usd} > 100 THEN 'whale'
+      WHEN {total_spend_usd} > 20  THEN 'dolphin'
+      ELSE 'minnow'
+    END
+```
+
+The formula references `total_spend_usd`, which was itself chained in from `purchase`. That's the pattern: chain the raw value in, derive business meaning with a formula.
+
 ---
 
 ## Example: Three Entities, Two Patterns
