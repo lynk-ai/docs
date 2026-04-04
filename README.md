@@ -64,13 +64,17 @@ Each markdown file has frontmatter that controls its scope — how broadly it ap
 ```yaml
 ---
 type: knowledge
-domain: "*"           # applies to all domains (wildcard)
+domain: "*"           # applies to every domain — default, marketing, finance, all of them
 # or
-domain: "default"    # applies to a specific domain
+domain: "default"    # applies ONLY to the main domain — does NOT apply to custom domains like "marketing"
 # optionally add:
-entity: player        # scopes further to a single entity
+entity: player        # scopes further to a single entity within the domain
 ---
 ```
+
+{% hint style="warning" %}
+`domain: "default"` does **not** mean "applies everywhere by default." It scopes content to the main domain only. Use `domain: "*"` for content that should apply across all domains. See [Domains](concepts/domains.md) for the full model.
+{% endhint %}
 
 The same file type can exist at multiple levels. Context compounds — the agent loads all applicable levels together. There are two independent dimensions that control when a file loads.
 

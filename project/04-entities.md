@@ -42,8 +42,6 @@ features:
     source: db_prod.core.customers
     description: Unique identifier for each customer account
     field: id
-    join_name: null
-    filters: []
 
   - type: field
     name: company_name
@@ -51,8 +49,6 @@ features:
     source: db_prod.core.customers
     description: The customer's company name
     field: company_name
-    join_name: null
-    filters: []
 
   - type: field
     name: status
@@ -60,8 +56,6 @@ features:
     source: db_prod.core.customers
     description: Current account status — 'active', 'trial', or 'churned'
     field: status
-    join_name: null
-    filters: []
 
   - type: field
     name: plan_type
@@ -69,8 +63,6 @@ features:
     source: db_prod.core.customers
     description: Subscription tier — 'starter', 'growth', or 'enterprise'
     field: plan_type
-    join_name: null
-    filters: []
 
   - type: field
     name: arr
@@ -78,8 +70,6 @@ features:
     source: db_prod.core.customers
     description: Annual recurring revenue in USD for this account. Reflects the most recent contract value.
     field: arr
-    join_name: null
-    filters: []
 
   - type: field
     name: nps_score
@@ -87,8 +77,6 @@ features:
     source: db_prod.core.customers
     description: Most recent NPS survey score (0–10). Null if no survey response on record.
     field: nps_score
-    join_name: null
-    filters: []
 
   - type: field
     name: first_paid_at
@@ -96,8 +84,6 @@ features:
     source: db_prod.core.customers
     description: Date the account made its first payment. Null for trial accounts. Use as the cohort start date.
     field: first_paid_at
-    join_name: null
-    filters: []
 
   - type: field
     name: churn_date
@@ -105,8 +91,6 @@ features:
     source: db_prod.core.customers
     description: Date the account churned. Null if the account is active or in trial.
     field: churn_date
-    join_name: null
-    filters: []
 
   - type: field
     name: is_test_account
@@ -114,8 +98,6 @@ features:
     source: db_prod.core.customers
     description: True if this is an internal or test account. Excluded from all analytics by default.
     field: is_test_account
-    join_name: null
-    filters: []
 
   - type: field
     name: is_deleted
@@ -123,17 +105,15 @@ features:
     source: db_prod.core.customers
     description: True if this account has been deleted. Excluded from all analytics by default.
     field: is_deleted
-    join_name: null
-    filters: []
 
   - type: formula
     name: customer_tier
     data_type: string
-    description: Account size tier derived from ARR — SMB (under $10K), Mid-Market ($10K–$99K), Enterprise ($100K+)
+    description: Account size tier derived from ARR — SMB (below $20K), Mid-Market ($20K–$99K), Enterprise ($100K+)
     sql: |
       CASE
         WHEN {arr} >= 100000 THEN 'Enterprise'
-        WHEN {arr} >= 10000 THEN 'Mid-Market'
+        WHEN {arr} >= 20000  THEN 'Mid-Market'
         ELSE 'SMB'
       END
 
@@ -187,8 +167,6 @@ features:
     source: db_prod.core.subscriptions
     description: Unique identifier for the subscription contract
     field: subscription_id
-    join_name: null
-    filters: []
 
   - type: field
     name: customer_id
@@ -196,8 +174,6 @@ features:
     source: db_prod.core.subscriptions
     description: The customer account this subscription belongs to
     field: customer_id
-    join_name: null
-    filters: []
 
   - type: field
     name: status
@@ -205,8 +181,6 @@ features:
     source: db_prod.core.subscriptions
     description: Current subscription status — 'active', 'cancelled', 'expired', or 'past_due'
     field: status
-    join_name: null
-    filters: []
 
   - type: field
     name: billing_cycle
@@ -214,8 +188,6 @@ features:
     source: db_prod.core.subscriptions
     description: Billing frequency — 'monthly' or 'annual'
     field: billing_cycle
-    join_name: null
-    filters: []
 
   - type: field
     name: amount_cents
@@ -223,8 +195,6 @@ features:
     source: db_prod.core.subscriptions
     description: Contract value in cents for the billing period. Monthly subscriptions store the monthly amount; annual subscriptions store the full year amount.
     field: amount_cents
-    join_name: null
-    filters: []
 
   - type: field
     name: started_at
@@ -232,8 +202,6 @@ features:
     source: db_prod.core.subscriptions
     description: Date the subscription became active
     field: started_at
-    join_name: null
-    filters: []
 
   - type: field
     name: current_period_end
@@ -241,8 +209,6 @@ features:
     source: db_prod.core.subscriptions
     description: End date of the current billing period. This is the renewal date for active subscriptions.
     field: current_period_end
-    join_name: null
-    filters: []
 
   - type: field
     name: cancelled_at
@@ -250,8 +216,6 @@ features:
     source: db_prod.core.subscriptions
     description: Date the customer submitted a cancellation request. Null if not cancelled.
     field: cancelled_at
-    join_name: null
-    filters: []
 
   - type: formula
     name: mrr

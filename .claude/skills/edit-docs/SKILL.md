@@ -1,6 +1,6 @@
 ---
 name: edit-docs
-description: Edit, update, or make changes to Lynk's documentation. Use this skill whenever the user asks to update docs, edit documentation, add content to docs, rewrite a doc page, fix something in the docs, or make any changes to documentation files. Also trigger when the user asks to add a new guide, update an overview page, or change how something is explained in the docs. Even if the user doesn't say "docs" explicitly — if they're describing a change to written documentation or reference material in this project, use this skill.
+description: Edit, update, or make changes to Lynk's documentation. Use this skill whenever the user asks to update docs, edit documentation, add content to docs, rewrite a doc page, fix something in the docs, or make any changes to documentation files.
 ---
 
 # Edit Docs Skill
@@ -103,7 +103,7 @@ Do not edit the skill file — only flag the need.
 
 ## Docs Sections
 
-The docs have four distinct sections. Each has its own purpose, structure, and conventions. Match the section before writing anything.
+The docs have the following distinct sections. Each has its own purpose, structure, and conventions. Match the section before writing anything.
 
 ---
 

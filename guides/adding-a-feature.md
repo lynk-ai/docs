@@ -210,13 +210,9 @@ To aggregate only a subset of the related entity's rows:
   description: Total points scored in playoff games
   data_type: number
   source: player_game
-  join_name: null
   filters:
-  - type: field
-    field: game_type
-    operator: is
-    values:
-      - 'Playoffs'
+    - type: sql
+      sql: "{source}.{game_type} = 'Playoffs'"
   metric: total_points
 ```
 

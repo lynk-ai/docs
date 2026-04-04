@@ -19,6 +19,7 @@
   * [Context](concepts/context.md)
   * [Agent](concepts/agent.md)
   * [Evaluations](concepts/evaluations.md)
+  * [Data Modeling](concepts/data-modeling.md)
 
 ## API Reference
 
