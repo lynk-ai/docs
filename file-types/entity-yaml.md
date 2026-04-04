@@ -2,7 +2,9 @@
 
 Entity YAML files define the features, metrics, join rules, and examples for a single business entity.
 
-> **First time here?** If you haven't read the other file-type docs yet, start with [knowledge-md.md](./knowledge-md.md) to understand the scoping model, then [task-instructions-md.md](./task-instructions-md.md) for SQL guidance patterns — both are shorter and establish context this file builds on. Come back here when you're ready to model entities.
+{% hint style="info" %}
+**First time here?** If you haven't read the other file-type docs yet, start with [knowledge-md.md](./knowledge-md.md) to understand the scoping model, then [task-instructions-md.md](./task-instructions-md.md) for SQL guidance patterns — both are shorter and establish context this file builds on. Come back here when you're ready to model entities.
+{% endhint %}
 
 ---
 
@@ -345,6 +347,10 @@ Create or update an entity YAML file when a concept meets one of these condition
 ---
 
 ## Common Pitfalls
+
+{% hint style="danger" %}
+Avoid these common pitfalls when defining entity features and metrics.
+{% endhint %}
 
 **Using a raw table name in a metric feature's `source`**
 ```yaml

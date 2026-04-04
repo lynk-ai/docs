@@ -4,7 +4,9 @@ Domains let you scope context to a specific audience. Different teams use differ
 
 ---
 
-> **Common mistake:** `domain: "default"` does NOT mean "applies everywhere by default." It scopes content to the main domain only. Use `domain: "*"` for content that should apply to all domains, including custom ones like `marketing` or `finance`. Getting this wrong produces silent errors — the agent simply won't load the content in other domains.
+{% hint style="warning" %}
+**Common mistake:** `domain: "default"` does NOT mean "applies everywhere by default." It scopes content to the main domain only. Use `domain: "*"` for content that should apply to all domains, including custom ones like `marketing` or `finance`. Getting this wrong produces silent errors — the agent simply won't load the content in other domains.
+{% endhint %}
 
 ---
 

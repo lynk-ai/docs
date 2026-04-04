@@ -160,6 +160,10 @@ it overstates recurring revenue and breaks ARR-based analysis.
 
 ## Common Pitfalls
 
+{% hint style="danger" %}
+Avoid these common pitfalls when creating knowledge files.
+{% endhint %}
+
 **Putting SQL patterns in knowledge files.** SQL guidance belongs in task instructions — the agent does not apply knowledge file content when generating SQL. If you write "always filter deleted accounts" in a knowledge file, it may be ignored at query time.
 
 **Writing vague statements.** "Consider account status" does not help. "Filter by `status = 'active'` to include only current paying customers" does. Be specific about field names, values, and conditions.

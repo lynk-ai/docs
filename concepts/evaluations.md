@@ -58,7 +58,9 @@ The production workflow is:
 3. **Run evaluations** against the branch in the Lynk UI — confirm your change produces the expected SQL and hasn't broken other test cases
 4. **Merge to main** — `main` is your production semantics. The agent queries live users against whatever is on `main`.
 
-Never merge a context change to `main` without running evaluations first. A broken task instruction or a conflicting glossary entry won't fail loudly — the agent will just produce wrong answers quietly. Evaluations catch this before users see it.
+{% hint style="warning" %}
+Never merge a context change to `main` without running evaluations first.
+{% endhint %} A broken task instruction or a conflicting glossary entry won't fail loudly — the agent will just produce wrong answers quietly. Evaluations catch this before users see it.
 
 ---
 

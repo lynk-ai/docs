@@ -115,7 +115,9 @@ For structure, field reference, and full examples, see [Glossary File Reference]
 
 Task instruction files tell the agent how to perform a specific task correctly. The primary task is `text-to-sql`. Task instructions answer: for this entity and this task, what SQL patterns apply? What should always be filtered? What should never be done?
 
+{% hint style="info" %}
 Task instructions are the only context that directly shapes SQL generation. Knowledge files and glossary files inform how the agent interprets the question — what a term means, what the business rules are — but they do not produce SQL patterns. If you want the agent to apply a specific filter, use a specific field, or follow a specific query convention when writing SQL, it must be in a task instructions file, not a knowledge file.
+{% endhint %}
 
 Task instructions are loaded only when the agent is performing that specific task — they do not add overhead to queries where they are irrelevant.
 

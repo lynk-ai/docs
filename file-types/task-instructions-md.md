@@ -158,6 +158,10 @@ LIMIT 10
 
 ## Common Pitfalls
 
+{% hint style="danger" %}
+Avoid these common pitfalls when writing task instructions.
+{% endhint %}
+
 **Putting SQL guidance in knowledge files**
 SQL guidance in knowledge files may not be applied when the agent is writing SQL. Put SQL guidance in task instructions.
 

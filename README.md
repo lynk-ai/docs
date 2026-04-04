@@ -142,7 +142,9 @@ A user asks: *"Which customers spent more than $10k last quarter?"*
 
 Every step is driven by context you defined. Nothing is guessed. That's the control.
 
-> **Note on query syntax:** Throughout the docs, examples show queries like `FROM entity('customer')` and `metric(count_orders)`. This is Lynk SQL — the syntax the agent uses when querying your semantic layer, and the syntax you write when authoring evaluation test cases. See [Lynk SQL API](concepts/lynk-sql-api.md) for the full reference.
+{% hint style="info" %}
+**Note on query syntax:** Throughout the docs, examples show queries like `FROM entity('customer')` and `metric(count_orders)`. This is Lynk SQL — the syntax the agent uses when querying your semantic layer, and the syntax you write when authoring evaluation test cases. See [Lynk SQL API](concepts/lynk-sql-api.md) for the full reference.
+{% endhint %}
 
 ---
 

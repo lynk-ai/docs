@@ -413,6 +413,10 @@ Add or update a relationship when a situation meets one of these conditions:
 
 ## Common Pitfalls
 
+{% hint style="danger" %}
+Avoid these common pitfalls when defining entity relationships.
+{% endhint %}
+
 **Wrong key order for `{source}` and `{destination}`**
 
 The first entity in the key is always `{source}`, the second is always `{destination}`. If you write `order-customer` when you meant `customer-order`, `{source}` will resolve to `order` and `{destination}` to `customer` — the join condition will be backwards.
