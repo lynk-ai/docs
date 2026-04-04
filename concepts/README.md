@@ -29,13 +29,27 @@ These are the terms used throughout the product and these docs.
 | `first_last` | Retrieves the first or last value from a source, ordered by a field | `first_order_date` (first by `created_at`) |
 | `formula` | A derived value computed from other features on the same entity | `days_since_signup` from `signup_date` |
 
-**Metrics and Feature Chaining** — Entity metrics are aggregation expressions defined on an entity (e.g., `SUM({amount})` on `order`). Feature chaining surfaces that aggregation on a related entity — a `customer` entity defines a `total_revenue` feature of type `metric` pointing to `order.sum_amount`. Aggregation logic lives once, on the fact entity, and is reused by any entity that relates to it.
+**Metric** — An aggregation expression defined on a fact entity (e.g., `SUM({amount})` on `order`). Metrics are a central concept in the semantic graph — the primary mechanism for computing quantities across rows. All aggregation logic lives on the entity that owns the data: revenue totals, order counts, averages, and ratios are all defined as entity metrics. The agent uses metrics to answer any question that requires aggregation.
+
+**Metric Feature** — A feature of type `metric` on a dimension entity that pulls an aggregated value from a metric on a related entity. A `customer` entity can define a `total_revenue` feature pointing to `order.sum_net_revenue` — surfacing the aggregated value as a queryable attribute of each customer. Aggregation logic lives once, on the fact entity, and is reused by any entity that relates to it.
 
 **Relationship** — A connection between two entities that enables joins and feature chaining. Defined in `entities_relationships.yml`. Defined once, works in both directions.
 
 **Context** — The collection of Markdown files that teach the agent what things mean and how to work with your data. Five types: `knowledge`, `task-instructions`, `glossary`, `output_format` behavior, and `clarification_policy` behavior. Context compounds — the agent loads all applicable files together, from broadest to most specific scope.
 
 **Agent and Tasks** — The agent is the reasoning layer. It reads the user's request, selects relevant context, and decides what to do. When it needs to produce output it performs a task (e.g., `text-to-sql`). Each task has its own task instructions file that tells the agent how to execute that task correctly.
+
+---
+
+## Advanced Data Modeling
+
+These capabilities build on the core vocabulary above. They are not required to get started, but they unlock more expressive models as your semantic layer matures.
+
+**Feature Chaining** — The mechanism that lets you build features on top of metrics from the same or a different entity. A `customer` entity defines `total_revenue` by pointing to `order.sum_net_revenue`. A `player` entity defines `spend_last_30_days_usd` by pointing to `purchase.sum_net_revenue_usd` with a date filter applied. The aggregation logic stays on the fact entity; the dimension entity just references it.
+
+Because these chains can span entity relationships — and because metric features can themselves be inputs to formula features — feature chaining enables building a full data pipeline inside Lynk. Derived features depend on other derived features, across entities, without duplicating SQL. The semantic graph stays the single source of truth.
+
+All three parts are required for feature chaining to work: a metric defined on the fact entity, a relationship connecting the two entities, and a metric feature on the dimension entity referencing that metric. See [Entities](entities.md) for the full mechanics, and [Data Modeling](data-modeling.md) for a worked multi-entity example.
 
 ---
 
@@ -49,6 +63,7 @@ These are the terms used throughout the product and these docs.
 | [Agent](agent.md) | How the agent works — the 6-step question-to-answer lifecycle, dynamic context loading, text-to-sql, debugging wrong answers |
 | [Evaluations](evaluations.md) | How evaluations work — test case structure, running evaluations in the UI, the branch-to-main workflow |
 | [Lynk SQL API](lynk-sql-api.md) | Lynk SQL syntax — `entity()`, `metric()`, joining entities with named join paths, supported statements |
+| [Data Modeling](data-modeling.md) | **Advanced.** Feature chaining across multiple entities — linear chains, direct chains, and how to build a data pipeline in the semantic graph |
 
 ---
 
@@ -56,7 +71,8 @@ These are the terms used throughout the product and these docs.
 
 After reading this section, you will understand:
 - Why `domain: "*"` and `domain: "default"` behave differently — and when to use each
-- How metric features, entity metrics, and relationships connect into feature chaining
+- How entity metrics work — and why they are the central aggregation primitive in the semantic graph
+- How metric features surface those aggregations on dimension entities, and how feature chaining extends that into a full data pipeline
 - How context compounding works — which files load when, and in what order
 - What the agent does step-by-step when it receives a question
 - How to write Lynk SQL for evaluation test cases
