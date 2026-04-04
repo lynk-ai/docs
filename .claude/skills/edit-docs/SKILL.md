@@ -29,10 +29,11 @@ Before anything else, read these files:
 2. Load additional references from the References table above only when relevant to the task.
 
 This is a standalone docs repository. All documentation lives at the root level in topic folders:
-- `concepts/` — deep-dive references: domains, entities, context, agent, evaluations, Lynk SQL
+- `concepts/` — deep-dive references: domains, entities, context, agent, evaluations
 - `file-types/` — field-by-field reference for every file type (YAML and Markdown)
 - `guides/` — task-focused how-to guides
 - `project/` — step-by-step walkthrough using a real example
+- `api/` — query interfaces: Lynk SQL syntax and REST API
 
 Writing style: write like an engineer talking to engineers — direct, precise, honest, no hype. No buzzwords, no vague claims, no marketing language.
 
@@ -90,7 +91,7 @@ After updating `README.md`, edit `summary.md` to reflect the same structural cha
 
 ## Step 9: Suggest skill updates if folder structure changed
 
-If this edit added or removed a top-level documentation folder (beyond `concepts/`, `guides/`, `project/`, `file-types/`), suggest — but do not make — an update to the `edit-docs` skill itself.
+If this edit added or removed a top-level documentation folder (beyond `concepts/`, `guides/`, `project/`, `file-types/`, `api/`), suggest — but do not make — an update to the `edit-docs` skill itself.
 
 Specifically: each top-level folder needs its own `###` section in the **Docs Sections** part of the skill explaining the folder's purpose, page structure, tone, and conventions for editing and adding pages. Without that, future edits to the new folder will lack the guidance needed to stay consistent.
 
@@ -123,17 +124,15 @@ The docs have four distinct sections. Each has its own purpose, structure, and c
 
 **Tone:** Narrative and instructional together. Always explain *why* alongside *what*. "Write the glossary first, because without it the agent has to guess what 'churned customer' filters on."
 
-**Editing an existing page:** Update examples, file paths, or guidance bullets. If the build sequence changes, update `project/index.md` step list and `README.md`.
+**Editing an existing page:** Update examples, file paths, or guidance bullets. If the build sequence changes, update `project/README.md` step list and `README.md`.
 
-**Adding a new step:** Only if the build sequence genuinely changes. Add the step file, add it to `project/index.md`'s numbered list, and add a row to the Project Walkthrough table in `README.md`.
+**Adding a new step:** Only if the build sequence genuinely changes. Add the step file, add it to `project/README.md`'s numbered list, and add a row to the Project Walkthrough table in `README.md`.
 
 ---
 
 ### Concepts (`concepts/`)
 
 **Purpose:** Deep-dive reference for how specific systems behave across the platform. These pages explain cross-cutting behavior that affects multiple file types or the agent as a whole — not tied to any single file type or build step.
-
-**Existing pages:** `concepts/domains.md`, `concepts/entities.md`, `concepts/context.md`, `concepts/agent.md`, `concepts/evaluations.md`, `concepts/lynk-sql-api.md`
 
 **Page structure:**
 - `# H1` title — the concept name, short
@@ -215,9 +214,30 @@ The docs have four distinct sections. Each has its own purpose, structure, and c
 
 ---
 
+### API Reference (`api/`)
+
+**Purpose:** Documents the interfaces for querying the Lynk semantic layer — how to write queries and how to call Lynk programmatically. Distinct from Concepts (which explains how systems work) and File-Types Reference (which documents what you write).
+
+**Page structure:**
+- `# H1` title — the interface name
+- 2–3 sentence intro: what this interface is, who uses it, and when
+- Named `##` sections for each major capability or syntax element, each with:
+  - A short explanation of what it does
+  - A realistic code example (not `{placeholders}`)
+  - A field or statement reference table where relevant
+- A `## Related Reference` section linking to the Concepts or File-Types pages that provide deeper context
+
+**Tone:** Reference-first. Assume the reader knows what they want to do and needs the exact syntax. Explain behavior where it's non-obvious; skip motivation.
+
+**Editing an existing page:** Update syntax, examples, or supported statement tables to match current system behavior.
+
+**Adding a new page:** Only when a new query interface is introduced. Propose the title, intro, and `##` section outline — get confirmation before writing. Then add a row to the API Reference table in `README.md` and an entry in `SUMMARY.md`.
+
+---
+
 ## Constraints
 
-- Only edit documentation files in the topic folders (`concepts/`, `file-types/`, `guides/`, `project/`) and `README.md`. Do not edit `.claude/` or tooling files unless the user explicitly asks.
+- Only edit documentation files in the topic folders (`concepts/`, `file-types/`, `guides/`, `project/`, `api/`) and `README.md`. Do not edit `.claude/` or tooling files unless the user explicitly asks.
 - Always read before writing.
 - Always update `README.md` after changes.
 - If you find yourself writing "leverage", "revolutionary", or "game-changing", stop and rewrite.

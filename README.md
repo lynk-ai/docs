@@ -1,6 +1,26 @@
 # Overview
 
-Lynk gives data teams a framework to teach an AI agent their data and business rules. There are two file types — YAML for data modeling, Markdown for business context — and everything the agent knows comes from files you control.
+Data teams carry a lot of knowledge that lives nowhere in the database: what a "churned customer" actually means, which revenue column to trust, why the orders table has duplicates before a certain date, what "monthly active user" counts vs. excludes. When an AI agent queries your data without that context, it makes assumptions — and those assumptions produce wrong answers.
+
+Lynk is a semantic layer for AI. It gives data teams a structured way to encode their data model and institutional knowledge into files the agent reads before every query. The agent learns your entities, your metrics, your business rules, your vocabulary — and uses them to generate accurate SQL and reliable answers.
+
+The result: an AI analyst that works the way your best analyst does, because you taught it everything your best analyst knows.
+
+---
+
+## Product Philosophy
+
+Lynk is built on a few core ideas that shape how everything works:
+
+**You define everything in files.** The agent knows only what you've written. Nothing is inferred from table names or column patterns. If a rule isn't in a file, the agent doesn't know it — which means you can trust what it does know.
+
+**Files live in your Git repository.** Your semantic layer is version-controlled, reviewable, and editable in any IDE. It's not locked inside a SaaS UI. Teams treat it like code.
+
+**Two file types, two jobs.** YAML files define the structure of your data — what entities exist, what fields mean, how metrics are calculated. Markdown files teach the agent how to think — business definitions, vocabulary, SQL rules, behavior. YAML tells the agent *what your data is*. Markdown tells the agent *how to reason about it*.
+
+**Context compounds.** The agent loads all applicable context together at query time — domain-level rules, entity-specific knowledge, task-specific instructions. More context means more accuracy. Start with the basics and add depth over time.
+
+**One agent, one reasoning layer.** There is one agent. It reads context and produces output — text-to-SQL, answers, analysis. All agent behavior is driven by the files you define. No black boxes.
 
 ---
 
@@ -12,8 +32,6 @@ There are two types of files you manage in Lynk:
 |---|---|---|
 | **Data model** | YAML | Defines your data schema — entities (each entity is a level of granularity) and its features, metrics and relationships |
 | **Context** | Markdown | Teaches the agent about your tribal knowledge — knowledge, glossary, task instructions, behavior |
-
-YAML files tell her *what your data is*. Markdown files tell her *how to think about it*.
 
 ---
 
