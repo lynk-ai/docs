@@ -12,6 +12,9 @@ Use this section when you already have a working semantic layer and need to add 
 |---|---|
 | [Adding an Entity](adding-an-entity.md) | You're modeling a new business concept the agent should be able to query — from YAML through relationships, context files, and evaluations |
 | [Adding a Feature](adding-a-feature.md) | You're adding a new attribute to an existing entity — includes a decision tree to pick the right feature type (field / first_last / formula / metric) |
+| [Writing Evaluations](writing-evaluations.md) | You need to write regression test cases — covers what to test, how to write `expected_output`, and how to run evaluations in the UI |
+| [Writing Task Instructions](writing-task-instructions.md) | The agent is generating wrong SQL — covers how to identify the right rule, choose the right scope, and verify the fix |
+| [Troubleshooting](troubleshooting.md) | Agent returned a wrong answer, an evaluation failed, or context isn't loading — diagnostic steps for the most common problems |
 
 ---
 
