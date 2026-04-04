@@ -841,6 +841,13 @@ features:
       Pre-calculated at day 7 and never updated. Use player_cohort for cohort-level D7 rates.
     field: d7_retained
 
+  # Formula — active player flag based on session recency
+  - type: formula
+    name: is_active_7d
+    data_type: boolean
+    description: True if this player had a session in the last 7 days. Use this for all active player filters — do not recalculate inline.
+    sql: "{last_session_at} >= CURRENT_DATE - INTERVAL '7 days'"
+
   # Metric features — pulled from the purchase entity via feature chaining
   # Requires the player-purchase relationship to be defined in entities_relationships.yml
   - type: metric
