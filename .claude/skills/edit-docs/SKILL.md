@@ -15,7 +15,6 @@ Before anything else, read these files:
 2. **`references/gitbook.md`** — GitBook syntax rules and conventions. These docs are published on GitBook, so all Markdown must follow GitBook's syntax. Read this reference before writing or editing any content.
 
 This is a standalone docs repository. All documentation lives at the root level in topic folders:
-- `overview/` — getting started, main concepts, file types overview, project structure
 - `concepts/` — deep-dive references: domains, entities, context, agent, evaluations, Lynk SQL
 - `file-types/` — field-by-field reference for every file type (YAML and Markdown)
 - `guides/` — task-focused how-to guides
@@ -70,29 +69,6 @@ The readme is the index — keep it accurate.
 ## Docs Sections
 
 The docs have four distinct sections. Each has its own purpose, structure, and conventions. Match the section before writing anything.
-
----
-
-### Overview (`overview/`)
-
-**Purpose:** Introduce concepts to someone new. No step-by-step instructions, no implementation detail. Explain what things are and why they matter.
-
-**Existing pages:** `overview/README.md`, `overview/getting-started.md`, `overview/main-concepts.md`, `overview/file-types.md`, `overview/project-structure.md`
-
-**Page structure:**
-- `# H1` title — one short phrase, not a full sentence
-- 1–3 sentence intro framing what the page covers
-- Named `##` sections for each concept, with:
-  - 2–4 sentences of prose explaining what it is and why it exists
-  - A comparison or scope table where it helps clarity
-  - Short frontmatter code blocks if showing syntax — keep them minimal
-- A "Next Steps" or reference links table at the end pointing to related pages
-
-**Tone:** Explain, don't instruct. Write "the agent reads" not "you must configure." Use the analyst metaphor where it helps.
-
-**Editing an existing page:** Update prose and table rows. Do not add implementation detail that belongs in `file-types/` or `project/`.
-
-**Adding a new page:** Only if introducing a genuinely new concept cluster that doesn't fit existing pages. Propose the title, intro paragraph, and `##` section outline — get confirmation before writing. Then add a row to the Overview table in `README.md`.
 
 ---
 
@@ -207,7 +183,7 @@ The docs have four distinct sections. Each has its own purpose, structure, and c
 
 ## Constraints
 
-- Only edit documentation files in the topic folders (`overview/`, `concepts/`, `file-types/`, `guides/`, `project/`) and `README.md`. Do not edit `.claude/` or tooling files unless the user explicitly asks.
+- Only edit documentation files in the topic folders (`concepts/`, `file-types/`, `guides/`, `project/`) and `README.md`. Do not edit `.claude/` or tooling files unless the user explicitly asks.
 - Always read before writing.
 - Always update `README.md` after changes.
 - If you find yourself writing "leverage", "revolutionary", or "game-changing", stop and rewrite.
