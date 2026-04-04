@@ -64,6 +64,26 @@ After every change, update `README.md` (repo root) to reflect:
 
 The readme is the index — keep it accurate.
 
+## Step 8: Update summary.md
+
+After updating `README.md`, edit `summary.md` to reflect the same structural changes:
+- New files added (add the appropriate entry in the correct section)
+- Renamed or moved files (update the path)
+- Removed files (remove the entry)
+- New sections or folders (add a section header and entries)
+
+`summary.md` drives the GitBook sidebar — keep it in sync with `README.md`.
+
+## Step 9: Suggest skill updates if folder structure changed
+
+If this edit added or removed a top-level documentation folder (beyond `concepts/`, `guides/`, `project/`, `file-types/`), suggest — but do not make — an update to the `edit-docs` skill itself.
+
+Specifically: each top-level folder needs its own `###` section in the **Docs Sections** part of the skill explaining the folder's purpose, page structure, tone, and conventions for editing and adding pages. Without that, future edits to the new folder will lack the guidance needed to stay consistent.
+
+Tell the user: "You may want to add a section to the edit-docs skill for the new `<folder>/` folder covering its purpose, page structure, and editing conventions."
+
+Do not edit the skill file — only flag the need.
+
 ---
 
 ## Docs Sections
