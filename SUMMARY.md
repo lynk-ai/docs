@@ -2,7 +2,7 @@
 
 * [Introduction](README.md)
 
-## Project Walkthrough
+## Tutorial
 
 * [Building a Lynk Project](project/README.md)
   * [Step 1: Business Context](project/01-business-context.md)
@@ -19,7 +19,12 @@
   * [Context](concepts/context.md)
   * [Agent](concepts/agent.md)
   * [Evaluations](concepts/evaluations.md)
-  * [Lynk SQL API](concepts/lynk-sql-api.md)
+
+## API Reference
+
+* [API Reference](api/README.md)
+  * [Lynk SQL](api/lynk-sql.md)
+  * [REST API](api/rest-api.md)
 
 ## File-Types Reference
 

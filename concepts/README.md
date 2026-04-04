@@ -62,7 +62,6 @@ All three parts are required for feature chaining to work: a metric defined on t
 | [Context](context.md) | The semantic graph — how YAML (data model) and Markdown (context) work together, the five context file types, scoping, compounding |
 | [Agent](agent.md) | How the agent works — the 6-step question-to-answer lifecycle, dynamic context loading, text-to-sql, debugging wrong answers |
 | [Evaluations](evaluations.md) | How evaluations work — test case structure, running evaluations in the UI, the branch-to-main workflow |
-| [Lynk SQL API](lynk-sql-api.md) | Lynk SQL syntax — `entity()`, `metric()`, joining entities with named join paths, supported statements |
 | [Data Modeling](data-modeling.md) | **Advanced.** Feature chaining across multiple entities — linear chains, direct chains, and how to build a data pipeline in the semantic graph |
 
 ---
@@ -75,8 +74,7 @@ After reading this section, you will understand:
 - How metric features surface those aggregations on dimension entities, and how feature chaining extends that into a full data pipeline
 - How context compounding works — which files load when, and in what order
 - What the agent does step-by-step when it receives a question
-- How to write Lynk SQL for evaluation test cases
-
 **Where to go next:**
 - Need exact field-by-field documentation for a specific file? → [File-Types Reference](../file-types/README.md)
-- Want to see a complete working example? → [Project Walkthrough](../project/index.md)
+- Need the Lynk SQL query syntax? → [API Reference](../api/README.md)
+- Want to see a complete working example? → [Project Walkthrough](../project/README.md)

@@ -16,7 +16,6 @@ Starting with entity YAML produces technically valid files but semantically wron
 
 | Page | What you do | Time |
 |---|---|---|
-| [Building a Lynk Project](index.md) | Understand the approach and what you'll build | 2 min |
 | [Step 1: Business Context](01-business-context.md) | Write domain knowledge and glossary before touching any entity | 10–15 min |
 | [Step 2: Domains](02-domains.md) | Define audiences and when to create custom domains | 5 min |
 | [Step 3: Domain Context](03-domain-context.md) | Create domain-wide SQL rules, clarification policy, and output format | 10 min |

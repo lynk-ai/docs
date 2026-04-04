@@ -1,4 +1,4 @@
-# Lynk SQL API
+# Lynk SQL
 
 Lynk exposes a SQL interface for querying your semantic layer. The syntax is standard SQL with two additions: the `entity()` function for referencing entities, and the `metric()` function for applying predefined aggregation logic.
 
@@ -106,6 +106,6 @@ CTEs are not supported by design. Aggregation logic belongs in entity metrics, n
 
 ## Related Reference
 
-- [Entities](./entities.md) — how entity metrics are defined
+- [Entities](../concepts/entities.md) — how entity metrics are defined
 - [Relationships YAML Reference](../file-types/relationships-yaml.md) — how join paths are named and configured
-- [Evaluations](./evaluations.md) — where `expected_output` queries are used
+- [Evaluations](../concepts/evaluations.md) — where `expected_output` queries are used

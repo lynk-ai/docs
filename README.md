@@ -109,6 +109,22 @@ How the agent interacts with users. Two types, set via the `kind` field:
 
 ---
 
+## How It Works
+
+A user asks: *"Which customers spent more than $10k last quarter?"*
+
+1. **Agent reads context** — loads domain knowledge, the `customer` entity YAML, glossary, behavior files
+2. **Agent reasons** — identifies the right entity, metric, and time filter based on the question
+3. **Agent performs text-to-SQL** — loads entity YAML and task instructions, generates the query
+4. **SQL is generated** — the agent writes a query using Lynk's entity syntax, executed against your warehouse
+5. **Agent formats the response** — applies output format rules, returns the answer
+
+Every step is driven by context you defined. Nothing is guessed. That's the control.
+
+→ See [Agent](concepts/agent.md) for the full step-by-step lifecycle and how to debug wrong answers.
+
+---
+
 ## Getting Started
 
 **What you need:**
@@ -128,22 +144,8 @@ No local installation required.
 
 **After setup:** Your repo has a `.lynk/default/` folder — your main domain, where all entity definitions live. The agent can answer questions immediately, but accuracy depends on context. The more you teach it — entity definitions, business rules, glossary terms, SQL patterns — the better it performs. Most teams reach their first trusted production answers within 1–2 days.
 
----
-
-## How It Works
-
-A user asks: *"Which customers spent more than $10k last quarter?"*
-
-1. **Agent reads context** — loads domain knowledge, the `customer` entity YAML, glossary, behavior files
-2. **Agent reasons** — identifies the right entity, metric, and time filter based on the question
-3. **Agent performs text-to-SQL** — loads entity YAML and task instructions, generates the query
-4. **SQL is generated** — the agent writes a query using Lynk's entity syntax, executed against your warehouse
-5. **Agent formats the response** — applies output format rules, returns the answer
-
-Every step is driven by context you defined. Nothing is guessed. That's the control.
-
 {% hint style="info" %}
-**Note on query syntax:** Throughout the docs, examples show queries like `FROM entity('customer')` and `metric(count_orders)`. This is Lynk SQL — the syntax the agent uses when querying your semantic layer, and the syntax you write when authoring evaluation test cases. See [Lynk SQL API](concepts/lynk-sql-api.md) for the full reference.
+**Note on query syntax:** Throughout the docs, examples show queries like `FROM entity('customer')` and `metric(count_orders)`. This is Lynk SQL — the syntax the agent uses when querying your semantic layer, and the syntax you write when authoring evaluation test cases. See [Lynk SQL](api/lynk-sql.md) for the full reference.
 {% endhint %}
 
 ---
@@ -154,5 +156,6 @@ Every step is driven by context you defined. Nothing is guessed. That's the cont
 |---|---|
 | Understand the vocabulary (Entity, Feature, Metric, etc.) | [Concepts](concepts/README.md) |
 | See every file type and what it does | [File-Types Reference](file-types/README.md) |
-| Build a project from scratch | [Project Walkthrough](project/index.md) |
+| Query the semantic layer via SQL or REST | [API Reference](api/README.md) |
+| Build a project from scratch | [Project Walkthrough](project/README.md) |
 | Add a new entity to an existing project | [Adding an Entity](guides/adding-an-entity.md) |
