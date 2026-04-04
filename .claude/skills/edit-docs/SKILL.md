@@ -1,18 +1,26 @@
 ---
 name: edit-docs
-description: Edit, update, or make changes to Lynk's documentation in docs/src/. Use this skill whenever the user asks to update docs, edit documentation, add content to docs, rewrite a doc page, fix something in the docs, or make any changes to files in docs/src/. Also trigger when the user asks to add a new guide, update an overview page, or change how something is explained in the docs. Even if the user doesn't say "docs" explicitly — if they're describing a change to written documentation or reference material in this project, use this skill.
+description: Edit, update, or make changes to Lynk's documentation. Use this skill whenever the user asks to update docs, edit documentation, add content to docs, rewrite a doc page, fix something in the docs, or make any changes to documentation files. Also trigger when the user asks to add a new guide, update an overview page, or change how something is explained in the docs. Even if the user doesn't say "docs" explicitly — if they're describing a change to written documentation or reference material in this project, use this skill.
 ---
 
 # Edit Docs Skill
 
-You're helping maintain Lynk's technical documentation — a set of Markdown files in `docs/src/` that explain how to use Lynk to data engineers and technical users.
+You're helping maintain Lynk's technical documentation — a standalone docs repository of Markdown files that explain how to use Lynk to data engineers and technical users.
 
 ## Step 1: Load structure and style
 
-Before anything else, read these two files:
+Before anything else, read this file:
 
-1. **`docs/src/readme.md`** — The index of all documentation files. This tells you what sections exist, what each file covers, and how the docs are organized.
-2. **`core/tone-and-voice.md`** — Lynk's writing style guide. Every edit must follow this. The short version: write like an engineer talking to engineers — direct, precise, honest, no hype.
+1. **`README.md`** (repo root) — The index of all documentation files. This tells you what sections exist, what each file covers, and how the docs are organized.
+
+This is a standalone docs repository. All documentation lives at the root level in topic folders:
+- `overview/` — getting started, main concepts, file types overview, project structure
+- `concepts/` — deep-dive references: domains, entities, context, agent, evaluations, Lynk SQL
+- `file-types/` — field-by-field reference for every file type (YAML and Markdown)
+- `guides/` — task-focused how-to guides
+- `project/` — step-by-step walkthrough using a real example
+
+Writing style: write like an engineer talking to engineers — direct, precise, honest, no hype. No buzzwords, no vague claims, no marketing language.
 
 ## Step 2: Understand the request
 
@@ -49,7 +57,7 @@ Write the changes. Follow the style guide:
 
 ## Step 7: Update the readme
 
-After every change, update `docs/src/readme.md` to reflect:
+After every change, update `README.md` (repo root) to reflect:
 - New files added (add a row to the relevant table)
 - Changed file purposes (update the description)
 - New sections or structural changes
@@ -68,7 +76,7 @@ The docs have four distinct sections. Each has its own purpose, structure, and c
 
 **Purpose:** Introduce concepts to someone new. No step-by-step instructions, no implementation detail. Explain what things are and why they matter.
 
-**Existing pages:** `overview.md`, `main-concepts.md`, `file-types.md`, `project-structure.md`
+**Existing pages:** `overview/README.md`, `overview/getting-started.md`, `overview/main-concepts.md`, `overview/file-types.md`, `overview/project-structure.md`
 
 **Page structure:**
 - `# H1` title — one short phrase, not a full sentence
@@ -83,13 +91,13 @@ The docs have four distinct sections. Each has its own purpose, structure, and c
 
 **Editing an existing page:** Update prose and table rows. Do not add implementation detail that belongs in `file-types/` or `project/`.
 
-**Adding a new page:** Only if introducing a genuinely new concept cluster that doesn't fit existing pages. Propose the title, intro paragraph, and `##` section outline — get confirmation before writing. Then add a row to the Overview table in `docs/src/readme.md`.
+**Adding a new page:** Only if introducing a genuinely new concept cluster that doesn't fit existing pages. Propose the title, intro paragraph, and `##` section outline — get confirmation before writing. Then add a row to the Overview table in `README.md`.
 
 ---
 
 ### Project Walkthrough (`project/`)
 
-**Purpose:** A top-down narrative guide for building a complete semantic layer from scratch. Pages follow a prescribed build sequence and tell a story using the NBA dataset as a running example.
+**Purpose:** A top-down narrative guide for building a complete semantic layer from scratch. Pages follow a prescribed build sequence and tell a story using Grove (a B2B SaaS company) as the running example.
 
 **Page structure:**
 - `# Step N: [Step Name]` title
@@ -98,15 +106,15 @@ The docs have four distinct sections. Each has its own purpose, structure, and c
 - `## [Substep Name]` for each file or action in this step:
   - **Location:** exact file path
   - A "This file answers: *...*" line stating what question the file is written to resolve
-  - A fenced code block with a complete, realistic NBA example (not a skeleton with `{placeholders}`)
+  - A fenced code block with a complete, realistic Grove example (not a skeleton with `{placeholders}`)
   - A `**What to include:**` bullet list and a `**What to leave out:**` bullet list
 - A `## Key Point` section tying the step back to the build sequence rationale
 
-**Tone:** Narrative and instructional together. Always explain *why* alongside *what*. "Write the glossary first, because without it the agent has to guess what 'playoff games' filters on."
+**Tone:** Narrative and instructional together. Always explain *why* alongside *what*. "Write the glossary first, because without it the agent has to guess what 'churned customer' filters on."
 
-**Editing an existing page:** Update examples, file paths, or guidance bullets. If the build sequence changes, update `project/index.md` step list and `docs/src/readme.md`.
+**Editing an existing page:** Update examples, file paths, or guidance bullets. If the build sequence changes, update `project/index.md` step list and `README.md`.
 
-**Adding a new step:** Only if the build sequence genuinely changes. Add the step file, add it to `project/index.md`'s numbered list, and add a row to the Project Walkthrough table in `docs/src/readme.md`.
+**Adding a new step:** Only if the build sequence genuinely changes. Add the step file, add it to `project/index.md`'s numbered list, and add a row to the Project Walkthrough table in `README.md`.
 
 ---
 
@@ -114,9 +122,7 @@ The docs have four distinct sections. Each has its own purpose, structure, and c
 
 **Purpose:** Deep-dive reference for how specific systems behave across the platform. These pages explain cross-cutting behavior that affects multiple file types or the agent as a whole — not tied to any single file type or build step.
 
-**Existing pages:** `concepts/domains.md`
-
-**Planned pages:** entities, metrics, agent behavior, data stories (future)
+**Existing pages:** `concepts/domains.md`, `concepts/entities.md`, `concepts/context.md`, `concepts/agent.md`, `concepts/evaluations.md`, `concepts/lynk-sql-api.md`
 
 **Page structure:**
 - `# H1` title — the concept name, short
@@ -131,7 +137,7 @@ The docs have four distinct sections. Each has its own purpose, structure, and c
 
 **Editing an existing page:** Update prose, examples, or tables to reflect current system behavior. Do not add file-type-specific detail that belongs in `file-types/`.
 
-**Adding a new page:** Propose the title, intro, and `##` section outline — get confirmation before writing. Then add a row to the Concepts table in `docs/src/readme.md`.
+**Adding a new page:** Propose the title, intro, and `##` section outline — get confirmation before writing. Then add a row to the Concepts table in `README.md`.
 
 ---
 
@@ -172,7 +178,7 @@ The docs have four distinct sections. Each has its own purpose, structure, and c
 - Do not add sections outside this structure without explicit user approval.
 - Full Examples must use realistic data — no `{placeholder}` values in examples.
 
-**Adding a new file-type page:** Rare — only when a new file type is introduced to the product. Use the appropriate template in full, then add a row to the File-Types Reference table in `docs/src/readme.md`.
+**Adding a new file-type page:** Rare — only when a new file type is introduced to the product. Use the appropriate template in full, then add a row to the File-Types Reference table in `README.md`.
 
 ---
 
@@ -194,16 +200,16 @@ The docs have four distinct sections. Each has its own purpose, structure, and c
 
 **Editing an existing guide:** Update file paths, code snippets, or checklist items. Keep step numbering stable — renaming a step number ripples into any doc that links to it.
 
-**Adding a new guide:** Follow the structure above exactly. Before writing, propose the title, "Before You Start" questions, and numbered step list — get confirmation. Then add a row to the Guides table in `docs/src/readme.md`.
+**Adding a new guide:** Follow the structure above exactly. Before writing, propose the title, "Before You Start" questions, and numbered step list — get confirmation. Then add a row to the Guides table in `README.md`.
 
 ---
 
 ## Constraints
 
-- Only edit files inside `docs/src/`. The `docs/references/` folder contains reference material — read it for reference when helpful, but don't edit it unless the user explicitly asks.
+- Only edit documentation files in the topic folders (`overview/`, `concepts/`, `file-types/`, `guides/`, `project/`) and `README.md`. Do not edit `.claude/` or tooling files unless the user explicitly asks.
 - Always read before writing.
-- Always update `docs/src/readme.md` after changes.
-- Match the tone in `core/tone-and-voice.md` — if you find yourself writing "leverage", "revolutionary", or "game-changing", stop and rewrite.
+- Always update `README.md` after changes.
+- If you find yourself writing "leverage", "revolutionary", or "game-changing", stop and rewrite.
 
 ---
 

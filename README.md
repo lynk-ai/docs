@@ -1,119 +1,135 @@
-# Lynk — Documentation
+# Overview
 
-This documentation covers the Lynk framework: how to model your data and teach an AI agent everything it needs to know about your company — so it gives accurate, trusted results.
+Lynk gives data teams a framework to teach an AI agent their data and business rules. There are two file types — YAML for data modeling, Markdown for business context — and everything the agent knows comes from files you control.
 
 ---
 
-## How to Use These Docs
+## Two File Types
 
-The docs are organized into five sections. Depending on what you need, start in a different place:
+There are two types of files you manage in Lynk:
+
+| Type | Format | What it does |
+|---|---|---|
+| **Data model** | YAML | Defines your data schema — entities (each entity is a level of granularity) and its features, metrics and relationships |
+| **Context** | Markdown | Teaches the agent about your tribal knowledge — knowledge, glossary, task instructions, behavior |
+
+YAML files tell her *what your data is*. Markdown files tell her *how to think about it*.
+
+---
+
+## What Connects to Lynk
+
+Lynk connects to your data warehouse with read-only access. Supported warehouses: **Snowflake**, **BigQuery**, **Postgres**, **Clickhouse** and **Trino**. New data warehouse connections are being  added constantly.
+
+Entity `key_source` fields point to any table or view in your warehouse — including dbt models. If a dbt model is materialized as a table or view, you can use it as an entity source directly.
+
+---
+
+## Your Data Model — YAML Files
+
+These files define the structure of your data. The agent uses them to know what tables exist, what fields mean, and how to calculate metrics.
+
+**Entity YAML** (`<entity>.yml`)
+An entity represents a level of granularity in your data — a real-world thing like `player`, `order`, or `customer`. Each entity has one definition as the source of truth. It defines features (columns), metrics (aggregations), and which source tables to pull from.
+
+**Relationships YAML** (`entities_relationships.yml`)
+Defines how entities connect to each other. Enables the agent to join across entities without guessing.
+
+---
+
+## Your Context — Markdown Files
+
+These files teach the agent how to behave and interpret your data. They live alongside your YAML files and are loaded at query time.
+
+Each markdown file has frontmatter that controls its scope — how broadly it applies:
+
+```yaml
+---
+type: knowledge
+domain: "*"           # applies to all domains (wildcard)
+# or
+domain: "default"    # applies to a specific domain
+# optionally add:
+entity: player        # scopes further to a single entity
+---
+```
+
+The same file type can exist at multiple levels. Context compounds — the agent loads all applicable levels together. There are two independent dimensions that control when a file loads.
+
+**Domain and entity scope** — applies to all context file types:
+
+| Frontmatter | When the agent loads it |
+|---|---|
+| `domain: "*"` | Every query in every domain |
+| `domain: "default"` | Every query in the main domain |
+| `domain: "marketing"` | Every query in the marketing domain |
+| `domain: "default"` + `entity: player` | When the `player` entity is relevant in the main domain |
+
+**Task scope** — applies only to task-instructions files:
+
+| Frontmatter | When the agent loads it |
+|---|---|
+| `tasks: "text-to-sql"` | Only when the agent is generating SQL |
+
+A task-instructions file uses both: it has a `domain` (or `domain` + `entity`) to control which queries it applies to, and a `tasks` field to ensure it only loads during SQL generation.
+
+---
+
+**Knowledge**
+What something *is*. Business definitions, data rules, caveats, context. Can be scoped to all domains, to a specific domain, or to a specific entity within a domain. Context compounds — when a query involves the `player` entity, the agent loads domain-level knowledge AND entity-level knowledge together.
+
+**Glossary**
+Your company's vocabulary. Terms, abbreviations, KPI names that only make sense inside your organization. 1–2 sentences per entry. Scoped to a domain.
+
+**Task Instructions**
+Instructions for a specific task. For text-to-SQL: which filters to always apply, edge cases, naming rules. Loaded only when the agent performs that task. Can be scoped to a domain (applies to all entities) or to a specific entity within a domain.
+
+**Behavior**
+How the agent interacts with users. Two types, set via the `kind` field:
+
+- `kind: output_format` — tone, table formatting, insights, data disclaimers, analysis best practices
+- `kind: clarification_policy` — when to ask clarifying questions and how to phrase them
+
+---
+
+## What Goes Where
+
+| I want to teach her... | Type | Frontmatter |
+|---|---|---|
+| What the `order` entity is and which tables it uses | Entity YAML | *(YAML file — no frontmatter)* |
+| How `player` and `game` relate to each other | Relationships YAML | *(YAML file — no frontmatter)* |
+| Context that applies across all domains | Knowledge | `type: knowledge` / `domain: "*"` |
+| Context specific to the default domain | Knowledge | `type: knowledge` / `domain: "default"` |
+| Everything about the `player` entity specifically | Knowledge | `type: knowledge` / `domain: "default"` / `entity: player` |
+| What "monthly active user" means in our company | Glossary | `type: glossary` / `domain: "default"` |
+| Always filter inactive accounts when querying orders | Task Instructions | `type: task-instructions` / `domain: "default"` / `entity: order` / `tasks: "text-to-sql"` |
+| Always filter inactive accounts across all entities | Task Instructions | `type: task-instructions` / `domain: "default"` / `tasks: "text-to-sql"` |
+| Always ask for a date range when it's not specified | Behavior | `type: behavior` / `kind: clarification_policy` / `domain: "*"` |
+| Control how the agent formats tables and insights | Behavior | `type: behavior` / `kind: output_format` / `domain: "*"` |
+
+---
+
+## How It Works
+
+A user asks: *"Which customers spent more than $10k last quarter?"*
+
+1. **Agent reads context** — loads domain knowledge, the `customer` entity YAML, glossary, behavior files
+2. **Agent reasons** — identifies the right entity, metric, and time filter based on the question
+3. **Agent performs text-to-SQL** — loads entity YAML and task instructions, generates the query
+4. **SQL is generated** — the agent writes a query using Lynk's entity syntax, executed against your warehouse
+5. **Agent formats the response** — applies output format rules, returns the answer
+
+Every step is driven by context you defined. Nothing is guessed. That's the control.
+
+> **Note on query syntax:** Throughout the docs, examples show queries like `FROM entity('customer')` and `metric(count_orders)`. This is Lynk SQL — the syntax the agent uses when querying your semantic layer, and the syntax you write when authoring evaluation test cases. See [Lynk SQL API](concepts/lynk-sql-api.md) for the full reference.
+
+---
+
+## Next Steps
 
 | If you want to... | Go to |
 |---|---|
-| Set up Lynk for the first time | [Getting Started](overview/getting-started.md) |
-| Understand the big picture first | [Overview](#overview) |
-| Build a semantic layer from scratch | [Project Walkthrough](#project-walkthrough) |
-| Understand how a specific system behaves | [Concepts](#concepts) |
-| Look up a specific file type | [File-Types Reference](#file-types-reference) |
-| Add a feature or entity to an existing project | [Guides](#guides) |
-
----
-
-## Overview
-
-**Path:** `overview/`
-
-Start here if you're new. These four files introduce the core concepts and structure without getting into implementation details.
-
-| File | What it covers |
-|---|---|
-| `overview/getting-started.md` | How to set up Lynk — connect your Git repo, connect your warehouse via the UI, what gets created |
-| `overview/overview.md` | The two file types (YAML + Markdown), supported warehouses and dbt compatibility, context scoping, what goes where, and the end-to-end flow |
-| `overview/main-concepts.md` | Vocabulary: Domain, Entity, Source, Feature, Metric, Relationship, Agent and Tasks |
-| `overview/file-types.md` | Quick-reference table of every file type — location, who reads it, and purpose |
-| `overview/project-structure.md` | Canonical folder layout, naming conventions (double underscore delimiter), and feature resolution rules for custom domains |
-
----
-
-## Project Walkthrough
-
-**Path:** `project/`
-
-A top-down narrative guide for building a complete semantic layer from scratch. Follows the recommended build order: business context first, entities last.
-
-| File | Step |
-|---|---|
-| `project/index.md` | Why top-down is better; overview of the 5-step process; time estimates |
-| `project/01-business-context.md` | Write domain knowledge and glossary before touching any entity |
-| `project/02-domains.md` | Define audiences (domains) and when to create custom ones |
-| `project/03-domain-context.md` | Create domain-wide task instructions and agent behavior files |
-| `project/04-entities.md` | Model entities — dimensions first, then facts, then relationships, then feature chaining |
-| `project/05-examples.md` | Add evaluation test cases to validate accuracy before going to production |
-
-Read these files in order if you're building something new.
-
----
-
-## Concepts
-
-**Path:** `concepts/`
-
-Deep-dive reference pages for how specific systems behave across the platform. These are not tied to a single file type — they explain cross-cutting behavior that affects multiple parts of the semantic layer.
-
-| File | What it covers |
-|---|---|
-| `concepts/domains.md` | Domain inheritance model — how domains are activated, `domain: "*"` vs named vs multi-domain list, override rules, multi-file merging, and conflict handling |
-| `concepts/entities.md` | Entities, features, and metrics — entity anatomy (key_source, keys, sources vs. entities), the four feature types, entity metrics, feature chaining, how context compounds on entities |
-| `concepts/context.md` | The semantic graph — how YAML (data model) and Markdown (context) work together; the five context file types, scoping by domain and entity, context compounding at query time |
-| `concepts/agent.md` | How the agent works — the 6-step question-to-answer lifecycle, dynamic context loading, text-to-sql tool, evaluations, transparency, debugging wrong answers |
-| `concepts/evaluations.md` | How evaluations work — test case structure (English question + expected SQL), running evaluations in the UI, the branch-to-main workflow, building your evaluation suite over time |
-| `concepts/lynk-sql-api.md` | Lynk SQL API reference — `entity()`, `metric()`, joining entities with named join paths, supported and unsupported statements |
-
----
-
-## File-Types Reference
-
-**Path:** `file-types/`
-
-Deep-dive reference for every file type in the semantic layer. Use these when you need to know the exact structure, allowed fields, or behavior of a specific file type.
-
-| File | Covers |
-|---|---|
-| `file-types/entity-yaml.md` | Entity YAML structure — features (field, first_last, formula, metric), entity metrics, related_sources, common pitfalls |
-| `file-types/relationships-yaml.md` | `entities_relationships.yml` — relationship types, join definitions (sql / fields / lookup), enabling feature chaining |
-| `file-types/knowledge-md.md` | Knowledge files — business definitions, data quality notes, context |
-| `file-types/task-instructions-md.md` | Task instruction files — SQL patterns, join guidance, naming rules |
-| `file-types/output-format-md.md` | Output format files — table structure, insights, tone, data notes |
-| `file-types/clarification-policy-md.md` | Clarification policy files — when to ask, when to proceed, when to redirect |
-| `file-types/glossary-md.md` | Glossary files — short term and abbreviation definitions. 1–2 sentences per entry |
-| `file-types/evaluations-yaml.md` | `evaluations.yml` — test cases for regression testing before production pushes |
-
----
-
-## Guides
-
-**Path:** `guides/`
-
-Task-focused how-to guides for the most common operations. Use these when you're extending an existing project.
-
-| File | Task |
-|---|---|
-| `guides/adding-an-entity.md` | 6-step checklist for adding a new entity (YAML → relationships → knowledge → task instructions → evaluations → verify) |
-| `guides/adding-a-feature.md` | Decision tree to pick the right feature type (field / first_last / formula / metric), then step-by-step instructions for each |
-
----
-
-## Key Concepts at a Glance
-
-**Feature types:**
-
-| Type | When to use |
-|---|---|
-| `field` | Direct column from a source table |
-| `first_last` | First or last value ordered by another field |
-| `formula` | Derived from other features on the same entity |
-| `metric` | Aggregated value pulled from a related entity (feature chaining) |
-
-**Naming convention:** File names are up to you — scoping is controlled by frontmatter, not file names.
-
-**Context compounding:** Context loads at multiple levels simultaneously. For a query about the `customer` entity in the `default` domain, domain-wide knowledge, entity knowledge, and domain-wide task instructions all load together.
+| Understand the vocabulary (Entity, Feature, Metric, etc.) | [Main Concepts](overview/main-concepts.md) |
+| See every file type and what it does | [File Types](overview/file-types.md) |
+| Build a project from scratch | [Project Walkthrough](project/index.md) |
+| Add a new entity to an existing project | [Adding an Entity](guides/adding-an-entity.md) |

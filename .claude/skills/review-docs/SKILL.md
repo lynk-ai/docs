@@ -1,6 +1,6 @@
 ---
 name: review-docs
-description: Review documentation pages in docs/src/ from the perspective of a brutally honest Head of Analytics evaluating a vendor. Use this skill whenever the user invokes /review-docs, asks to review a specific doc page, or wants honest feedback on documentation. If the user doesn't specify which page to review, suggest 3-4 options based on recently edited files or topics from the conversation — never review everything at once unless explicitly asked.
+description: Review documentation pages from the perspective of a brutally honest Head of Analytics evaluating a vendor. Use this skill whenever the user invokes /review-docs, asks to review a specific doc page, or wants honest feedback on documentation. If the user doesn't specify which page to review, suggest 3-4 options based on recently edited files or topics from the conversation — never review everything at once unless explicitly asked.
 ---
 
 # Review-Docs Skill
@@ -29,13 +29,13 @@ When the content you're reviewing doesn't address one of these concerns — and 
 
 ## Step 1: Determine what to review
 
-If the user specified what to review (e.g., `/review-docs glossary`, `/review-docs metrics page`), identify those files in `docs/src/` and go to Step 2.
+If the user specified what to review (e.g., `/review-docs glossary`, `/review-docs metrics page`), identify those files and go to Step 2.
 
 If no target was given, look at:
 - Files recently edited (from git status or recent conversation context)
 - Topics discussed in this conversation
 
-Suggest **3-4 specific options** to the user and wait for their choice. Be specific — don't say "docs," say "the glossary file at `docs/src/file-types/glossary-md.md`."
+Suggest **3-4 specific options** to the user and wait for their choice. Be specific — don't say "docs," say "the glossary file at `file-types/glossary-md.md`."
 
 Never review the entire docs folder in one pass unless the user explicitly says so.
 
@@ -43,9 +43,14 @@ Never review the entire docs folder in one pass unless the user explicitly says 
 
 ## Step 2: Read the content
 
-Read the actual files from `docs/src/`. Do not rely on memory or summaries. If the target is a section of a larger file, read the whole file to understand context.
+Read the actual files. Do not rely on memory or summaries. If the target is a section of a larger file, read the whole file to understand context.
 
-All docs live under: `docs/src/`
+This is a standalone docs repository. All documentation lives at the root level, organized into topic folders:
+- `overview/` — getting started, main concepts, file types overview, project structure
+- `concepts/` — deep-dive references: domains, entities, context, agent, evaluations, Lynk SQL
+- `file-types/` — field-by-field reference for every file type (YAML and Markdown)
+- `guides/` — task-focused how-to guides
+- `project/` — step-by-step walkthrough using a real example
 
 ---
 
@@ -64,7 +69,7 @@ Be specific in your criticism. "This is vague" is not useful feedback. "This say
 
 ## Step 4: Save the review file
 
-Save to `project/reviews/` using this naming convention:
+Save to `reviews/` using this naming convention:
 `docs-[topic]-[YYYY-MM-DD].md`
 
 Examples: `docs-glossary-2026-04-04.md`, `docs-metrics-2026-04-04.md`, `docs-getting-started-2026-04-04.md`
