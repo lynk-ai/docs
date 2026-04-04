@@ -293,6 +293,25 @@ In both cases, the metric ends up on an entity — which is the only place the a
 
 Declares secondary warehouse tables used by `field` and `first_last` features. Each entry defines the join condition from the entity's `key_source` to the secondary table.
 
+**When should a warehouse table become an entity vs. a `related_source`?**
+
+Start with the question: *what level of granularity does this table represent?*
+
+**Create a new entity** if:
+- The table represents a business concept at its own level of granularity — something with real business meaning that you'd want to ask questions about on its own (e.g., `order`, `subscription`, `session`)
+- You need to aggregate rows from it — metrics can only be defined on entities, not on raw sources. If you're counting rows, summing a value, or computing an average from this table, it needs to be an entity
+- Other entities need to relate to it via the relationship graph
+
+**Use `related_sources`** if:
+- The table is an enrichment — it adds columns to an existing entity but doesn't represent a different level of granularity
+- It contains no business logic of its own that you'd aggregate or query independently
+- You only need `field` or `first_last` features from it — no metrics
+
+**How to pick the `key_source` for an entity:**
+
+A table is the right `key_source` for an entity if it contains *all* instances of the concept and each instance appears exactly once. For a `customer` entity, the `customers` table where every customer has exactly one row is the right `key_source`. Other tables at the same customer level (e.g., a CRM enrichment table with one row per customer) connect as `related_sources`. Tables at a finer granularity (e.g., orders, one row per order per customer) connect as relationships — they can be aggregated up to the customer level via metric features.
+
+
 ```yaml
 related_sources:
   db_prod.public.customer_details:
