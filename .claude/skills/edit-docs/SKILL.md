@@ -9,9 +9,10 @@ You're helping maintain Lynk's technical documentation — a standalone docs rep
 
 ## Step 1: Load structure and style
 
-Before anything else, read this file:
+Before anything else, read these files:
 
 1. **`README.md`** (repo root) — The index of all documentation files. This tells you what sections exist, what each file covers, and how the docs are organized.
+2. **`references/gitbook.md`** — GitBook syntax rules and conventions. These docs are published on GitBook, so all Markdown must follow GitBook's syntax. Read this reference before writing or editing any content.
 
 This is a standalone docs repository. All documentation lives at the root level in topic folders:
 - `overview/` — getting started, main concepts, file types overview, project structure
