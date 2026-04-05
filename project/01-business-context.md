@@ -8,9 +8,7 @@ This step produces two files: a knowledge file that describes the business and i
 
 ## Why Start with Business Context?
 
-Skipping this step produces a semantic layer that generates correct SQL and wrong answers. The agent may know that `status` is a string field on the `customer` entity — but without context it does not know that `'trial'` accounts should be excluded from revenue analysis, that "ARR" means the `arr` field and not `total_paid`, or what "at-risk" means at your company specifically.
-
-Writing business context first forces you to think about the domain before getting lost in schema details. It also surfaces the exact terms users will type — which tells you what the glossary needs before the agent ever sees a real question.
+Starting here is a recommended best practice — not a requirement. Think of it the same way you would onboard a new analyst: you would not start by walking them through database tables and column names. You would first explain what the business does, what the key terms mean, and what the numbers represent. The same logic applies here. Start with the big picture — what the business is, what language it uses — and the entity YAML you write later will be grounded in that context from the beginning.
 
 ---
 
@@ -129,4 +127,4 @@ plan_type:
 
 The glossary is what prevents the agent from guessing. Without it, a question like "show me at-risk customers" requires the agent to infer what "at-risk" means from schema and column names alone. With a glossary entry that defines the threshold precisely — NPS below 6 or no login in 60 days — the agent applies your definition every time, consistently.
 
-Write these two files before touching entity YAML. If you cannot describe what the business is and what its terms mean in a few paragraphs, you are not ready to model entities.
+Writing these two files before touching entity YAML is the recommended starting point. If you find it difficult to describe what the business is and what its terms mean, that is a signal to work through the knowledge file and glossary first before modeling entities.

@@ -1,14 +1,8 @@
 # Project Walkthrough
 
-**Build a complete Lynk semantic layer from scratch — in the right order.**
+**Build a complete Lynk semantic layer from scratch.**
 
-This walkthrough takes you from a blank project to a working, queryable, accurate semantic layer. It follows a top-down approach: business understanding first, entities last. Every file is complete and uses a real running example — no placeholders.
-
----
-
-## Why top-down?
-
-Starting with entity YAML produces technically valid files but semantically wrong answers — the agent knows your schema but not your business. Starting with business context means every entity you model is grounded in the right definitions, filters, and language from the beginning.
+This walkthrough takes you from a blank project to a working, queryable, accurate semantic layer. It follows a recommended top-down approach: start with the big picture — what the business is and what its terms mean — then work down to the technical details of entity YAML. Every file is complete and uses a real running example — no placeholders.
 
 ---
 
@@ -16,9 +10,9 @@ Starting with entity YAML produces technically valid files but semantically wron
 
 | Page | What you do | Time |
 |---|---|---|
-| [Step 1: Business Context](01-business-context.md) | Write domain knowledge and glossary before touching any entity | 10–15 min |
+| [Step 1: Business Context](01-business-context.md) | Write domain knowledge and glossary | 10–15 min |
 | [Step 2: Domains](02-domains.md) | Define audiences and when to create custom domains | 5 min |
-| [Step 3: Domain Context](03-domain-context.md) | Create domain-wide SQL rules, clarification policy, and output format | 10 min |
+| [Step 3: Domain Context](03-domain-context.md) | Write domain-wide SQL rules (task instructions), clarification policy, and output format | 10 min |
 | [Step 4: Entities](04-entities.md) | Model a dimension entity, a fact entity, relationships, and feature chaining | 20–25 min |
 | [Step 5: Examples and Evaluations](05-examples.md) | Add evaluation test cases to validate accuracy before going to production | 5–10 min |
 
@@ -34,7 +28,6 @@ The running example is **Grove** — a B2B SaaS company. By the end you will hav
 - Two entities (`customer` and `subscription`) connected by a relationship with feature chaining
 - Evaluation test cases that validate agent accuracy before going live
 
-The structure is directly transferable: replace `customer` with `user`, `subscription` with `order`, `arr` with `gmv` — the pattern is the same.
 
 **Where to go next:**
 - Adding to an existing project instead of starting fresh? → [Guides](../guides/README.md)
@@ -75,7 +68,9 @@ The canonical folder layout for a Lynk semantic layer project.
 
 ### Naming Conventions
 
-Double underscore (`__`) is the delimiter for all context file names.
+Lynk does not enforce file names — scoping is controlled by frontmatter fields, not paths or names. The patterns below are a recommended convention to keep context files predictable and easy to navigate. You can use different names as long as the frontmatter is correct.
+
+We recommend using double underscore (`__`) as the delimiter in context file names.
 
 | Pattern | Meaning |
 |---|---|
