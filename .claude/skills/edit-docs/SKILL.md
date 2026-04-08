@@ -19,6 +19,10 @@ These reference files are available to you, load them when relevant to the task 
 | GitBook structure & navigation | `references/gitbook_structure.md` | When modifying SUMMARY.md, .gitbook.yaml, understanding file organization, or working with Git Sync |
 | Canonical example companies | `references/canonical-companies.md` | When writing or editing Full Examples sections in `file-types/` docs — contains exact entity names, feature names, metrics, and glossary terms for Grove (B2B SaaS), Bly (E-commerce), and Arcadia (Mobile gaming) |
 
+## Your mission
+
+When the user asks you to edit or update documentation, follow these steps:
+
 ---
 
 ## Step 1: Load structure and style
