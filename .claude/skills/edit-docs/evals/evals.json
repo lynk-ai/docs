@@ -1,0 +1,23 @@
+{
+  "skill_name": "edit-docs",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Update the overview page to clarify that the semantic layer supports both Snowflake and BigQuery — I don't think we mention that anywhere in the overview section.",
+      "expected_output": "Reads docs/src/readme.md and core/tone-and-voice.md first, reads the existing overview file(s), identifies the right place to add the integration info, presents a plan, makes the edit in the correct file, and updates docs/src/readme.md if needed.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Add a new guide called 'adding-a-metric.md' that explains how to add a metric to an existing entity. It should follow the same pattern as the adding-a-feature guide.",
+      "expected_output": "Reads docs/src/readme.md, reads docs/src/guides/adding-a-feature.md to understand the pattern, creates the new guide file following the same structure and tone, then updates docs/src/readme.md to add the new guide to the Guides section table.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "The explanation of task instructions in the file-types section is confusing. Can you rewrite it to be clearer about the difference between task instructions and knowledge files?",
+      "expected_output": "Reads docs/src/readme.md and core/tone-and-voice.md, reads docs/src/file-types/task-instructions-md.md and docs/src/file-types/knowledge-md.md to understand the current content and difference, asks clarifying questions if needed, presents a rewrite plan, rewrites the task instructions file with clearer differentiation, and updates readme if needed.",
+      "files": []
+    }
+  ]
+}
