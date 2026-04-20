@@ -193,6 +193,7 @@ Add a relationship when:
 - You want to define a metric feature that aggregates from a different entity.
 - You want to use a `first_last` feature that reaches across entities.
 - You need to join two entities in a query that would otherwise require manual SQL.
+- Two entities are only connected through an intermediate entity — the agent joins entities using relationships defined directly in this file, one pair at a time. It does not chain separate relationship entries to traverse a multi-hop path. Define a direct relationship (using a `lookup` join if needed) to make the pair joinable.
 
 Do not add a relationship:
 - Between an entity and a raw source table (use `related_sources` in the entity YAML instead).
@@ -430,3 +431,27 @@ If `customer` has a metric feature with `source: order` but no `customer-order` 
 **Using a raw table name as a relationship key**
 
 Relationship keys must be entity names, not raw table names. `db_prod.core.orders` is a source table; `order` is the entity. The relationship is `customer-order`, not `customer-db_prod.core.orders`.
+
+**Assuming indirect paths work automatically**
+
+The agent joins entities using relationships defined directly in this file, one pair at a time — it does not chain separate relationship entries to traverse a multi-hop path. If `game` connects to `team` only through `team_game` — with `game → team_game` and `team → team_game` defined as separate relationships — there is no direct `game-team` relationship for the agent to use, so that join is unavailable.
+
+To make `game` and `team` joinable, add a `game-team` relationship directly. If there is no shared foreign key, use a `lookup` join that navigates through the `team_game` bridge:
+
+```yaml
+game-team:
+  relationship: many_to_many
+  description: Games are related to teams through the team_game bridge table.
+  joins:
+    - name: game_to_team_via_team_game
+      default: true
+      join_type: left
+      type: lookup
+      lookup:
+        - destination: db_prod.core.team_game
+          type: sql
+          sql: '{source}.{game_id} = {destination}.{game_id}'
+        - destination: team
+          type: sql
+          sql: '{source}.{full_name} = {destination}.{full_name}'
+```
