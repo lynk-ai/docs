@@ -393,6 +393,9 @@ Formula features can only reference features that are already computed at the sa
 **Missing relationship for a metric feature**
 Metric features require a relationship between the two entities in `entities_relationships.yml`. If the relationship does not exist, the metric feature cannot be resolved.
 
+**Defining entity aliases in the entity YAML**
+Aliases — the different names business users use to refer to an entity — belong in the entity knowledge file, not here. The entity YAML defines schema, features, and metrics. The knowledge file is where the agent learns how users naturally refer to this entity in questions.
+
 ---
 
 ## Full Examples

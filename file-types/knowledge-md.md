@@ -105,6 +105,7 @@ Entity knowledge loads when the agent identifies the query involves a specific e
 The signal for needing entity knowledge: the agent correctly chose this entity but misunderstood how to use it, or misinterpreted the data it returned.
 
 Good entity knowledge covers:
+- **Aliases** — all the alternative names business users use to refer to this entity (e.g., 'account', 'client', 'company' for a customer entity)
 - What the entity represents and when to use it vs. a related entity
 - Cross-feature business rules — which metric to use for which type of question, and why the alternatives are wrong
 - Non-obvious behavioral implications — e.g. "churned accounts are included by default, which is intentional"
@@ -119,6 +120,9 @@ type: knowledge
 domain: "default"
 entity: customer
 ---
+
+## Aliases
+Business users refer to this entity as: account, client, company.
 
 ## What a Customer Is
 A customer is any account with at least one completed paid transaction (`first_paid_at` is not null).
@@ -175,6 +179,8 @@ Avoid these common pitfalls when creating knowledge files.
 **Missing documentation for complex entities.** If an entity has non-obvious fields, known data quality issues, or business rules that affect interpretation, those belong in entity knowledge — not left undocumented and discovered through wrong answers.
 
 **Defining a metric in prose instead of the entity YAML.** Writing "ARPDAU is total daily net revenue divided by DAU" in a knowledge file describes the term — but doesn't ground it. If `arpdau` is defined as an entity metric in the YAML, the agent queries the pre-built metric directly. Prose descriptions inform the agent's reasoning; YAML metrics are what it actually queries against.
+
+**Putting entity aliases in the entity YAML.** Aliases — the different names business users use to refer to an entity — belong in the entity knowledge file, not in the entity YAML. The entity YAML defines schema and calculation logic; the knowledge file is where the agent learns how users actually refer to entities in natural language.
 
 ---
 
@@ -328,6 +334,9 @@ type: knowledge
 domain: "default"
 entity: player
 ---
+
+## Aliases
+Business users refer to this entity as: user, gamer, account.
 
 ## What a Player Is
 A player is any registered account that has completed at least one game session.
