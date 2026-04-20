@@ -92,6 +92,12 @@ description: >
   engagement, retention, feature usage, and user behavior.
 ```
 
+{% hint style="warning" %}
+**What not to put in `description`**
+
+The description should only explain what this entity represents and what questions it answers. Do not include filtering rules, SQL hints, or behavioral instructions — for example, "always exclude `is_inactive = true` records when analyzing performance" does not belong here. Instructions like that go in [task instructions](./task-instructions-md.md), where the agent loads them during query execution.
+{% endhint %}
+
 If your project has multiple entities that could answer similar questions (e.g., `order` and `order_item`), the description is how the agent chooses between them. Be explicit about what the entity represents and what questions it answers.
 
 ---
@@ -395,6 +401,9 @@ Metric features require a relationship between the two entities in `entities_rel
 
 **Defining entity aliases in the entity YAML**
 Aliases — the different names business users use to refer to an entity — belong in the entity knowledge file, not here. The entity YAML defines schema, features, and metrics. The knowledge file is where the agent learns how users naturally refer to this entity in questions.
+
+**Putting filtering rules or SQL instructions in the entity `description`**
+The `description` field is for what the entity represents and what questions it answers — nothing more. Rules like "always exclude `is_inactive = true` records when analyzing performance" belong in [task instructions](./task-instructions-md.md). Putting them in the description pollutes the entity selection signal and puts operational logic in the wrong layer.
 
 ---
 
