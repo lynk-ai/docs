@@ -44,6 +44,7 @@
 * [Guides](guides/README.md)
   * [Adding an Entity](guides/adding-an-entity.md)
   * [Adding a Feature](guides/adding-a-feature.md)
+  * [Adding a Metric](guides/adding-a-metric.md)
   * [Writing Evaluations](guides/writing-evaluations.md)
   * [Writing Task Instructions](guides/writing-task-instructions.md)
   * [Troubleshooting](guides/troubleshooting.md)
