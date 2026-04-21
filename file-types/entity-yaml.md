@@ -126,9 +126,17 @@ When `source` is an entity (for `field` and `first_last` features), the join bet
 
 ### `field` — Direct Column
 
-Pulls a column from a source table without aggregation.
+Pulls a column from a source without aggregation. A source can be one of two things:
+
+1. **A warehouse table or view** where each row on this entity maps to at most one source row. For example: enriching the `customer` entity with `customer_last_signup_date` from a warehouse table that is not the customer's `key_source`.
+2. **A Lynk entity** where each row on this entity maps to at most one source row. For example: enriching the `order` entity with the customer name from the `customer` entity (each order has exactly one customer).
+
+{% hint style="warning" %}
+Declare the `related_source` or the entity relationship before defining the field feature. If the source isn't declared first, the feature won't resolve.
+{% endhint %}
 
 ```yaml
+# Defined on the customer entity — pulls directly from the key_source table
 - type: field
   name: full_name
   data_type: string
@@ -138,27 +146,15 @@ Pulls a column from a source table without aggregation.
 ```
 
 ```yaml
+# Defined on the order entity — pulls the customer name from the related customer entity
 - type: field
-  name: status
+  name: customer_name
   data_type: string
-  source: db_prod.public.customer_info
-  description: Current account status — 'active', 'churned', or 'trial'
-  field: account_status
-  join_name: account_id     # use when source is a related_source, not the key_source
+  source: customer              # entity name, not a table path
+  description: Name of the customer who placed this order
+  field: company_name
+  join_name: null               # null = use the default join from entities_relationships.yml
 ```
-
-**Pulling a field from a related entity** — `source` can also be an entity name. The field is resolved via the relationship between this entity and the source entity (defined in `entities_relationships.yml`):
-
-```yaml
-- type: field
-  name: aff_system
-  data_type: string
-  source: brand              # entity name — not a table path
-  field: aff_system
-  join_name: null            # null = use the default join from entities_relationships.yml
-```
-
-When `source` is an entity name, the target entity must exist and a relationship between the current entity and the source entity must be defined in `entities_relationships.yml`. Use `join_name` to pick a non-default join when the relationship defines more than one.
 
 | Field | Description |
 |---|---|

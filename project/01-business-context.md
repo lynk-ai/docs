@@ -18,10 +18,6 @@ Starting here is a recommended best practice — not a requirement. Think of it 
 
 This file answers: *What is this business? What data does the semantic layer cover? What rules always apply?*
 
-{% hint style="info" %}
-**Frontmatter, not folder, controls scope.** This file has `domain: "*"` — it loads on every query across every domain. Do not place `domain: "*"` content inside `domain_context/` — that folder is for domain-specific knowledge (`domain: "marketing"`, `domain: "default"`, etc.). The file name itself is up to you; keep business-scope files at the domain root.
-{% endhint %}
-
 ```markdown
 ---
 type: knowledge

@@ -2,7 +2,9 @@
 
 `entities_relationships.yml` defines all entity-to-entity connections. It is the map that enables feature chaining and cross-entity joins.
 
+{% hint style="warning" %}
 All joins between entities live in this file. Do not define entity-to-entity joins in task instructions, knowledge files, or as raw SQL inside metric or feature definitions. Task instructions may reference a relationship by name — they must not redefine the join.
+{% endhint %}
 
 ---
 
@@ -96,7 +98,7 @@ sql: '{source}.{id} = {destination}.{customer_id}'
 
 Field names must match feature names on the entity — not raw column names from the warehouse table.
 
-**Composite keys.** When the join requires matching more than one field, combine the conditions with `AND` in a single `sql` expression:
+**Composite keys.** When the join requires matching more than one field, combine the conditions with logical operators (`AND`, `OR`) in a single `sql` expression:
 
 ```yaml
 type: sql
@@ -105,7 +107,7 @@ sql: >
   AND {source}.{brand} = {destination}.{brand}
 ```
 
-Common case: a users-to-affiliate mapping where a user is only unique within a `brand` + `aff_system` scope. All the key conditions belong in one `sql` expression on a single join — not split across multiple joins or pushed into task instructions.
+Common case: a users-to-affiliate mapping where a user is only unique within a `brand` + `aff_system` scope. All the join conditions belong in one `sql` expression on a single join — not split across multiple joins or pushed into task instructions.
 
 ---
 
