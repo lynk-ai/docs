@@ -178,6 +178,6 @@ No local installation required.
 |---|---|
 | Understand the vocabulary (Entity, Feature, Metric, etc.) | [Concepts](concepts/README.md) |
 | See every file type and what it does | [File-Types Reference](file-types/README.md) |
-| Query the semantic layer via SQL or REST | [API Reference](api/README.md) |
+| Query the semantic layer, or validate / manage it programmatically | [API Reference](api/README.md) |
 | Build a project from scratch | [Project Walkthrough](project/README.md) |
 | Add a new entity to an existing project | [Adding an Entity](guides/adding-an-entity.md) |
