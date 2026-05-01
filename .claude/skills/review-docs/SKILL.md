@@ -65,6 +65,8 @@ Think like the Head of Analytics persona throughout. Ask yourself:
 
 Be specific in your criticism. "This is vague" is not useful feedback. "This says 'complete control' but never explains what you actually control or how" is useful feedback.
 
+**Hard rule — flag any customer name as a critical issue.** Database names, schema names, table names, column names, or any other identifier in the docs that looks like a real Lynk customer's tenant, schema, or product terminology must be flagged as a P0 finding. Public docs use only generic placeholders (`MAINDB`, `PUBLIC`, `ORDERS`, `CUSTOMERS`) and the canonical example companies (Grove / Bly / Arcadia). When you see a proper-noun token that looks like a real organization, raise it in the review under a dedicated **Confidentiality** heading — separate from clarity/completeness/etc. — so it cannot be missed.
+
 ---
 
 ## Step 4: Save the review file

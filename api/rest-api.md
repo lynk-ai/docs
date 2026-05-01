@@ -10,10 +10,9 @@ This reference is a work in progress. Endpoints, request/response shapes, and fi
 
 ## Base URL
 
-| Environment | Base URL |
-|---|---|
-| Production (default) | `https://app.getlynk.ai/api` |
-| Development | `https://dev.app.getlynk.ai/api` |
+```
+https://app.getlynk.ai/api
+```
 
 All paths in this reference are relative to the base URL.
 
@@ -39,7 +38,7 @@ Most endpoints accept (and several require) two additional headers that scope th
 
 ## Response shape
 
-Successful responses return JSON unless otherwise stated. Errors follow standard HTTP semantics:
+Successful responses return JSON. The exception is `204 No Content` mutations (e.g. `PUT /integrations/data/schemas`), which return an empty body. Errors follow standard HTTP semantics:
 
 | Status | Meaning |
 |---|---|
@@ -92,15 +91,15 @@ Validates the semantic layer on a committed branch against the Lynk backend. Sur
     "warning_count": 0,
     "issues": [
       {
-        "entity_name": "sale",
+        "entity_name": "order",
         "related_entities": [],
         "scope": "entity",
         "category": "semantic",
         "severity": "error",
-        "message": "Entity 'sale': Feature 'cac' sources from 'inquiry' but it is not reachable.",
-        "suggestion": "Available sources: NETWORX_PROD.REPORTS.SALES_CLIENTS_STORY_VIEW, cost_and_revenue_log, sale.",
+        "message": "Entity 'order': Feature 'lifetime_value' sources from 'lead' but it is not reachable.",
+        "suggestion": "Available sources: MAINDB.PUBLIC.ORDERS, MAINDB.PUBLIC.CUSTOMERS, customer.",
         "location": {
-          "file_path": ".lynk/default/entities/sale.yml",
+          "file_path": ".lynk/default/entities/order.yml",
           "line_number": null
         }
       }
@@ -127,7 +126,7 @@ Validates the semantic layer on a committed branch against the Lynk backend. Sur
 
 ## Integrations — Schemas
 
-A *schema* in this API is a `DB.SCHEMA` scope that the data catalog tracks (for example, `MAINDB.PUBLIC` or `NETWORX_PROD.REPORTS`). Adding a schema makes its tables available as sources to model entities against.
+A *schema* in this API is a `DB.SCHEMA` scope that the data catalog tracks (for example, `MAINDB.PUBLIC` or `MAINDB.SALES`). Adding a schema makes its tables available as sources to model entities against.
 
 ### `GET /integrations/data/schemas`
 
@@ -146,7 +145,7 @@ Lists every `DB.SCHEMA` scope currently registered for the tenant.
   "schemas": [
     "DBT_DB.PUBLIC",
     "MAINDB.PUBLIC",
-    "NETWORX_PROD.REPORTS",
+    "MAINDB.SALES",
     "SNOWFLAKE.CORE"
   ]
 }
@@ -162,7 +161,7 @@ Registers one or more `DB.SCHEMA` scopes. Idempotent — re-adding an existing s
 
 ```json
 {
-  "schemas": ["MAINDB.PUBLIC", "NETWORX_PROD.MARKETING"]
+  "schemas": ["MAINDB.PUBLIC", "MAINDB.MARKETING"]
 }
 ```
 
@@ -209,12 +208,11 @@ Lists every source (table) the catalog currently tracks. Paginated.
   "current_page": 1,
   "assets": [
     {
-      "id": "NETWORX_PROD.REPORTS.ACTIONS_ON_LEADS",
-      "name": "ACTIONS_ON_LEADS",
-      "db": "NETWORX_PROD",
-      "schema": "REPORTS",
+      "id": "MAINDB.PUBLIC.ORDERS",
+      "name": "ORDERS",
+      "db": "MAINDB",
+      "schema": "PUBLIC",
       "keys": [],
-      "businessKeys": [],
       "description": "",
       "sourceType": "asset"
     }
@@ -231,7 +229,6 @@ Lists every source (table) the catalog currently tracks. Paginated.
 | `db` | string | Database name. |
 | `schema` | string | Schema name (within `db`). |
 | `keys` | string[] | Primary key columns, when known. |
-| `businessKeys` | string[] | Business-key columns, when defined. |
 | `description` | string | Free-text description of the table. |
 | `sourceType` | string | Catalog source type (`asset` for warehouse tables). |
 
@@ -254,25 +251,24 @@ Fetches the full column list and metadata for a single source.
 ```json
 {
   "source": {
-    "id": "NETWORX_PROD.REPORTS.ACTIONS_ON_LEADS",
-    "name": "ACTIONS_ON_LEADS",
-    "db": "NETWORX_PROD",
-    "schema": "REPORTS",
+    "id": "MAINDB.PUBLIC.ORDERS",
+    "name": "ORDERS",
+    "db": "MAINDB",
+    "schema": "PUBLIC",
     "keys": [],
-    "businessKeys": [],
     "description": "",
     "sourceType": "asset",
     "columns": [
       {
-        "name": "Action",
+        "name": "OrderId",
         "description": null,
         "type": "string",
         "dataType": "TEXT",
-        "nullable": true,
+        "nullable": false,
         "defaultValue": null
       },
       {
-        "name": "ActionTakenAt",
+        "name": "PlacedAt",
         "description": null,
         "type": "datetime",
         "dataType": "TIMESTAMP_NTZ",

@@ -98,7 +98,9 @@ sql: '{source}.{id} = {destination}.{customer_id}'
 
 Field names must match feature names on the entity — not raw column names from the warehouse table.
 
-**Composite keys.** When the join requires matching more than one field, combine the conditions with `AND` in a single `sql` expression:
+**Composite keys.** When the join requires matching more than one field, combine the conditions with logical operators (`AND`, `OR`) in a single `sql` expression — not split across multiple joins or pushed into task instructions.
+
+`AND` — every condition must hold. Use it when a row is only unique within a composite scope (e.g. an `account_id` is only unique within a `brand`):
 
 ```yaml
 type: sql
@@ -107,7 +109,14 @@ sql: >
   AND {source}.{brand} = {destination}.{brand}
 ```
 
-Common case: a relationship where the matching key is composite — e.g. a record is only unique within an `account_id` + `brand` scope. All the join conditions belong in one `sql` expression on a single join — not split across multiple joins or pushed into task instructions.
+`OR` — any condition can match. Use it when the relationship has alternative match paths (e.g. an order can match a customer by either the placing identifier or a legacy identifier kept for migrated records):
+
+```yaml
+type: sql
+sql: >
+  {source}.{customer_id} = {destination}.{id}
+  OR {source}.{legacy_customer_id} = {destination}.{id}
+```
 
 ---
 
