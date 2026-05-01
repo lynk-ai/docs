@@ -98,7 +98,7 @@ sql: '{source}.{id} = {destination}.{customer_id}'
 
 Field names must match feature names on the entity — not raw column names from the warehouse table.
 
-**Composite keys.** When the join requires matching more than one field, combine the conditions with logical operators (`AND`, `OR`) in a single `sql` expression:
+**Composite keys.** When the join requires matching more than one field, combine the conditions with `AND` in a single `sql` expression:
 
 ```yaml
 type: sql
@@ -107,7 +107,7 @@ sql: >
   AND {source}.{brand} = {destination}.{brand}
 ```
 
-Common case: a users-to-affiliate mapping where a user is only unique within a `brand` + `aff_system` scope. All the join conditions belong in one `sql` expression on a single join — not split across multiple joins or pushed into task instructions.
+Common case: a relationship where the matching key is composite — e.g. a record is only unique within an `account_id` + `brand` scope. All the join conditions belong in one `sql` expression on a single join — not split across multiple joins or pushed into task instructions.
 
 ---
 

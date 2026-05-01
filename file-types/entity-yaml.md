@@ -152,7 +152,7 @@ Declare the `related_source` or the entity relationship before defining the fiel
   data_type: string
   source: customer              # entity name, not a table path
   description: Name of the customer who placed this order
-  field: company_name
+  field: full_name              # same column as example 1 — only the source path differs
   join_name: null               # null = use the default join from entities_relationships.yml
 ```
 
