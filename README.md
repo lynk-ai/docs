@@ -167,7 +167,7 @@ No local installation required.
 **After setup:** Your repo has a `.lynk/default/` folder — your main domain, where all entity definitions live. The agent can answer questions immediately, but accuracy depends on context. The more you teach it — entity definitions, business rules, glossary terms, SQL patterns — the better it performs. Most teams reach their first trusted production answers within 1–2 days.
 
 {% hint style="info" %}
-**Note on query syntax:** Throughout the docs, examples show queries like `FROM entity('customer')` and `metric(count_orders)`. This is Lynk SQL — the syntax the agent uses when querying your semantic layer, and the syntax you write when authoring evaluation test cases. See [Lynk SQL](api/lynk-sql.md) for the full reference.
+**Note on query syntax:** Throughout the docs, examples show queries like `FROM entity('customer')` and `metric('count_orders')`. This is Lynk SQL — the syntax the agent uses when querying your semantic layer, and the syntax you write when authoring evaluation test cases. See [Lynk SQL](api/lynk-sql.md) for the full reference.
 {% endhint %}
 
 ---

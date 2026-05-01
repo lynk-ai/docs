@@ -24,7 +24,15 @@ entity: customer         # optional — omit for domain-wide knowledge
 
 ## Scoping
 
-Knowledge files are scoped by domain and optionally by entity — context compounds across levels. For the full inheritance model and override rules, see the [Domains reference](../concepts/domains.md).
+Knowledge files are scoped by domain and optionally by entity — context compounds across levels. Scope is controlled by frontmatter, not by file name or folder. The same frontmatter values produce the same scope regardless of where the file lives.
+
+| Scope | Frontmatter | When the agent loads it |
+|---|---|---|
+| Business (company-wide) | `domain: "*"` | Every query in every domain |
+| Domain | `domain: "{domain}"` (e.g. `"default"`, `"marketing"`) | Every query in that domain |
+| Entity | `domain: "{domain}"` + `entity: {entity}` | Every query involving that entity in that domain |
+
+For the full inheritance model and override rules, see the [Domains reference](../concepts/domains.md).
 
 ---
 

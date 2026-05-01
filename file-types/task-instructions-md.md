@@ -99,6 +99,16 @@ Good entity task instructions cover:
 
 ---
 
+## What Does NOT Belong Here
+
+**Join SQL.** All joins between entities live in `entities_relationships.yml`. All joins from an entity to a non-entity lookup table live in `related_sources:` on the entity YAML. Task instructions may reference a relationship or join by name, but must not redefine the join SQL.
+
+If you find yourself writing `JOIN ... ON ...` inside a task instruction, stop and put the join in the right file instead:
+- Joining two entities (e.g. `customer` and `order`) → add or update the relationship in `entities_relationships.yml`.
+- Joining an entity to a non-entity enrichment table (e.g. a CRM lookup table with no entity of its own) → add it under `related_sources:` in the entity YAML.
+
+---
+
 ## Lynk SQL Syntax Reference
 
 Task instructions are where you put Lynk SQL patterns the agent should follow for this entity.
@@ -112,7 +122,7 @@ FROM entity('customer')
 ```sql
 SELECT
   plan_type,
-  metric(count_customers) as total_customers
+  metric('count_customers') as total_customers
 FROM entity('customer')
 GROUP BY plan_type
 ```
@@ -121,8 +131,8 @@ GROUP BY plan_type
 ```sql
 SELECT
   country,
-  metric(avg_revenue_per_customer) as avg_revenue,
-  metric(count_customers) as customer_count
+  metric('avg_revenue_per_customer') as avg_revenue,
+  metric('count_customers') as customer_count
 FROM entity('customer')
 WHERE status = 'active'
 GROUP BY country
