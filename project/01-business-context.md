@@ -12,9 +12,9 @@ Starting here is a recommended best practice — not a requirement. Think of it 
 
 ---
 
-## 1a: Domain Knowledge File
+## 1a: Business Knowledge File
 
-**Location:** `.lynk/default/domain_context/grove_knowledge.md`
+**Location:** `.lynk/default/grove_knowledge.md`
 
 This file answers: *What is this business? What data does the semantic layer cover? What rules always apply?*
 

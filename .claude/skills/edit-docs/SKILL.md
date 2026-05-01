@@ -245,6 +245,7 @@ The docs have the following distinct sections. Each has its own purpose, structu
 - Always read before writing.
 - Always update `README.md` after changes.
 - If you find yourself writing "leverage", "revolutionary", or "game-changing", stop and rewrite.
+- **Never use customer names in examples.** Database names, schema names, table names, column names, entity names, and field values shown in code blocks or prose must be generic. Use `MAINDB`, `PUBLIC`, `ORDERS`, `CUSTOMERS` and the canonical example companies (Grove / Bly / Arcadia) — never a real Lynk customer's tenant, schema, or product terminology. Before saving any edit, scan your additions for proper-noun strings that look like a real organization (uppercase company-like tokens, product code names) and replace them with generic equivalents.
 
 ---
 

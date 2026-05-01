@@ -1,8 +1,8 @@
 # API Reference
 
-**Interfaces for querying your Lynk semantic layer.**
+**Interfaces for querying and managing your Lynk semantic layer.**
 
-This section documents the query interfaces exposed by Lynk — how to write queries against your semantic layer and how to call Lynk programmatically.
+This section documents the programmatic interfaces exposed by Lynk — how to write queries against your semantic layer, and how to call Lynk's HTTP endpoints to validate semantics, manage schemas, and inspect the data catalog.
 
 ---
 
@@ -11,7 +11,7 @@ This section documents the query interfaces exposed by Lynk — how to write que
 | Page | What it covers |
 |---|---|
 | [Lynk SQL](lynk-sql.md) | The SQL dialect the agent uses internally and you use when writing evaluation test cases — `entity()`, `metric()`, joins, supported statements |
-| [REST API](rest-api.md) | HTTP endpoints for querying the semantic layer programmatically |
+| [REST API](rest-api.md) | HTTP endpoints for validating the semantic layer, managing schemas, and inspecting the data catalog (sources and columns) |
 
 ---
 

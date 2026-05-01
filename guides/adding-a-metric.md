@@ -80,7 +80,7 @@ metrics:
 
 | Field | Requirement |
 |---|---|
-| `name` | Unique on this entity. Lowercase, underscore-separated. Referenced by `metric(name)` in queries. |
+| `name` | Unique on this entity. Lowercase, underscore-separated. Referenced by `metric('name')` in queries. |
 | `description` | Required. Explains what the metric measures, the unit (e.g., USD, count), and any non-obvious scope. |
 | `sql` | Aggregation expression. Reference entity features with `{feature_name}`. Standard SQL aggregation functions: `SUM`, `COUNT`, `AVG`, `MIN`, `MAX`, `COUNT DISTINCT`. |
 

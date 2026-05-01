@@ -29,11 +29,13 @@ One row is returned per entity instance — one row per customer in the example 
 
 `metric()` applies a predefined metric from the entity's `metrics:` section. Use it like any aggregate function — `SUM()`, `COUNT()`, `AVG()` — but instead of writing the aggregation expression yourself, you reference the metric by name.
 
+Metric names are passed as single-quoted strings, consistent with `entity('name')`.
+
 ```sql
 SELECT
   plan_type,
-  metric(count_customers) AS customers,
-  metric(total_arr)       AS arr
+  metric('count_customers') AS customers,
+  metric('total_arr')       AS arr
 FROM entity('customer')
 WHERE status = 'active'
   AND is_test_account = false
@@ -41,7 +43,7 @@ GROUP BY plan_type
 ORDER BY arr DESC
 ```
 
-`metric(total_arr)` here resolves to `SUM({arr})` as defined on the `customer` entity. The aggregation logic lives once in the entity definition and is reused in every query that references it.
+`metric('total_arr')` here resolves to `SUM({arr})` as defined on the `customer` entity. The aggregation logic lives once in the entity definition and is reused in every query that references it.
 
 When using `metric()`, apply `GROUP BY` to any non-aggregated features in the `SELECT` clause — same rule as standard SQL aggregate functions.
 
@@ -71,7 +73,7 @@ WHERE c.status = 'active'
 SELECT
   c.company_name,
   c.arr,
-  metric(total_mrr) AS mrr_active
+  metric('total_mrr') AS mrr_active
 FROM entity('customer') c
 JOIN entity('subscription') s ON customer_to_active_subscription
 WHERE c.status = 'active'

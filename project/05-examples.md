@@ -35,7 +35,7 @@ test_cases:
     input: How many active customers do we have?
     expected_output: |-
       SELECT
-        metric(count_customers) AS customer_count
+        metric('count_customers') AS customer_count
       FROM entity('customer')
       WHERE status = 'active'
         AND is_test_account = false
@@ -56,8 +56,8 @@ test_cases:
     expected_output: |-
       SELECT
         plan_type,
-        metric(total_arr) AS arr,
-        metric(count_customers) AS customers
+        metric('total_arr') AS arr,
+        metric('count_customers') AS customers
       FROM entity('customer')
       WHERE status = 'active'
         AND is_test_account = false
@@ -80,7 +80,7 @@ test_cases:
     input: What is our logo churn rate this quarter?
     expected_output: |-
       SELECT
-        metric(churn_rate) AS logo_churn_rate
+        metric('churn_rate') AS logo_churn_rate
       FROM entity('customer')
       WHERE churn_date >= '2026-02-01'
         AND churn_date < '2026-05-01'
@@ -101,7 +101,7 @@ test_cases:
     input: How much MRR is at risk from pending cancellations?
     expected_output: |-
       SELECT
-        metric(mrr_at_risk) AS mrr_at_risk
+        metric('mrr_at_risk') AS mrr_at_risk
       FROM entity('subscription')
       WHERE status = 'active'
         AND is_pending_cancellation = true

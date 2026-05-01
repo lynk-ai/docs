@@ -18,7 +18,7 @@ test_cases:
     expected_output: |-
       SELECT
         country,
-        metric(count_customers) AS customer_count
+        metric('count_customers') AS customer_count
       FROM entity('customer')
       WHERE status = 'active'
       GROUP BY 1
@@ -92,7 +92,7 @@ input: Query customer entity grouped by country where status = active
 expected_output: |-
   SELECT
     country,
-    metric(count_customers) AS customer_count
+    metric('count_customers') AS customer_count
   FROM entity('customer')
   WHERE status = 'active'
   GROUP BY 1
@@ -107,7 +107,9 @@ expected_output: |-
 
 ## Common Pitfalls
 
-**Using raw table names in `expected_output`.** Evaluations test Lynk SQL — always use `FROM entity('customer')` and `metric(count_customers)`, not raw warehouse tables or SQL aggregations. Raw SQL will fail the evaluation even if logically correct.
+**Using raw table names in `expected_output`.** Evaluations test Lynk SQL — always use `FROM entity('customer')` and `metric('count_customers')`, not raw warehouse tables or SQL aggregations. Raw SQL will fail the evaluation even if logically correct.
+
+**Omitting the quotes in `metric()` calls.** `metric(count_customers)` is incorrect. Metric names are passed as single-quoted strings: `metric('count_customers')`, consistent with `entity('customer')`.
 
 **Writing `input` as a technical query.** The input should sound like a business user asking a question, not an engineer writing a spec. `"Query customer entity grouped by country where status = active"` is not how users ask questions.
 
@@ -148,7 +150,7 @@ test_cases:
     input: How many active customers do we have?
     expected_output: |-
       SELECT
-        metric(count_customers) AS customer_count
+        metric('count_customers') AS customer_count
       FROM entity('customer')
       WHERE status = 'active'
         AND is_test_account = false
@@ -169,8 +171,8 @@ test_cases:
     expected_output: |-
       SELECT
         customer_tier,
-        metric(total_arr) AS arr,
-        metric(count_customers) AS customers
+        metric('total_arr') AS arr,
+        metric('count_customers') AS customers
       FROM entity('customer')
       WHERE status = 'active'
         AND is_test_account = false
@@ -232,7 +234,7 @@ test_cases:
     input: What is our net revenue this month?
     expected_output: |-
       SELECT
-        metric(sum_net_revenue) AS net_revenue
+        metric('sum_net_revenue') AS net_revenue
       FROM entity('order')
       WHERE status = 'completed'
         AND is_test_order = false
@@ -253,8 +255,8 @@ test_cases:
     expected_output: |-
       SELECT
         channel,
-        metric(count_orders) AS order_count,
-        metric(sum_net_revenue) AS net_revenue
+        metric('count_orders') AS order_count,
+        metric('sum_net_revenue') AS net_revenue
       FROM entity('order')
       WHERE status = 'completed'
         AND is_test_order = false
@@ -277,8 +279,8 @@ test_cases:
     expected_output: |-
       SELECT
         primary_category,
-        metric(refund_rate) AS refund_rate_pct,
-        metric(count_orders) AS total_orders
+        metric('refund_rate') AS refund_rate_pct,
+        metric('count_orders') AS total_orders
       FROM entity('order')
       WHERE is_test_order = false
       GROUP BY 1
@@ -308,7 +310,7 @@ test_cases:
     input: How many players were active today?
     expected_output: |-
       SELECT
-        metric(count_players) AS dau
+        metric('count_players') AS dau
       FROM entity('player')
       WHERE last_session_at >= CURRENT_DATE
     tags:
@@ -329,7 +331,7 @@ test_cases:
     input: What is our ARPDAU for the last 7 days?
     expected_output: |-
       SELECT
-        metric(sum_net_revenue_usd) / NULLIF(metric(count_players), 0) AS arpdau
+        metric('sum_net_revenue_usd') / NULLIF(metric('count_players'), 0) AS arpdau
       FROM entity('player')
       WHERE last_session_at >= CURRENT_DATE - INTERVAL '7 days'
     tags:

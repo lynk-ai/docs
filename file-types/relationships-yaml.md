@@ -2,6 +2,10 @@
 
 `entities_relationships.yml` defines all entity-to-entity connections. It is the map that enables feature chaining and cross-entity joins.
 
+{% hint style="warning" %}
+All joins between entities live in this file. Do not define entity-to-entity joins in task instructions, knowledge files, or as raw SQL inside metric or feature definitions. Task instructions may reference a relationship by name — they must not redefine the join.
+{% endhint %}
+
 ---
 
 ## Top-Level Structure
@@ -72,9 +76,12 @@ joins:
 | Field | Description |
 |---|---|
 | `name` | Referenced by `join_name` in metric and first_last features |
-| `default` | `true` = used when `join_name` is omitted in a feature |
+| `default` | `true` = used when `join_name` is omitted in a feature. Exactly one join per relationship must be the default. |
+| `description` | Optional. Human-readable summary of what this join represents. |
 | `join_type` | SQL join type: `left`, `inner`, `right`, `full` |
 | `type` | Join implementation type: `sql` or `lookup` |
+| `sql` | Required when `type: sql`. Explicit join expression using `{source}` and `{destination}`. |
+| `lookup` | Required when `type: lookup`. Ordered list of steps through bridge tables or entities. |
 
 ---
 
@@ -90,6 +97,26 @@ sql: '{source}.{id} = {destination}.{customer_id}'
 ```
 
 Field names must match feature names on the entity — not raw column names from the warehouse table.
+
+**Composite keys.** When the join requires matching more than one field, combine the conditions with logical operators (`AND`, `OR`) in a single `sql` expression — not split across multiple joins or pushed into task instructions.
+
+`AND` — every condition must hold. Use it when a row is only unique within a composite scope (e.g. an `account_id` is only unique within a `brand`):
+
+```yaml
+type: sql
+sql: >
+  {source}.{account_id} = {destination}.{account_id}
+  AND {source}.{brand} = {destination}.{brand}
+```
+
+`OR` — any condition can match. Use it when the relationship has alternative match paths (e.g. an order can match a customer by either the placing identifier or a legacy identifier kept for migrated records):
+
+```yaml
+type: sql
+sql: >
+  {source}.{customer_id} = {destination}.{id}
+  OR {source}.{legacy_customer_id} = {destination}.{id}
+```
 
 ---
 

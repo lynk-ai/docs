@@ -126,9 +126,17 @@ When `source` is an entity (for `field` and `first_last` features), the join bet
 
 ### `field` — Direct Column
 
-Pulls a column from a source table without aggregation.
+Pulls a column from a source without aggregation. A source can be one of two things:
+
+1. **A warehouse table or view** where each row on this entity maps to at most one source row. For example: enriching the `customer` entity with `customer_last_signup_date` from a warehouse table that is not the customer's `key_source`.
+2. **A Lynk entity** where each row on this entity maps to at most one source row. For example: enriching the `order` entity with the customer name from the `customer` entity (each order has exactly one customer).
+
+{% hint style="warning" %}
+Declare the `related_source` or the entity relationship before defining the field feature. If the source isn't declared first, the feature won't resolve.
+{% endhint %}
 
 ```yaml
+# Defined on the customer entity — pulls directly from the key_source table
 - type: field
   name: full_name
   data_type: string
@@ -138,22 +146,23 @@ Pulls a column from a source table without aggregation.
 ```
 
 ```yaml
+# Defined on the order entity — pulls the customer name from the related customer entity
 - type: field
-  name: status
+  name: customer_name
   data_type: string
-  source: db_prod.public.customer_info
-  description: Current account status — 'active', 'churned', or 'trial'
-  field: account_status
-  join_name: account_id     # use when source is a related_source, not the key_source
+  source: customer              # entity name, not a table path
+  description: Name of the customer who placed this order
+  field: full_name              # same column as example 1 — only the source path differs
+  join_name: null               # null = use the default join from entities_relationships.yml
 ```
 
 | Field | Description |
 |---|---|
 | `name` | Feature name — what users see and query |
 | `data_type` | `string`, `number`, `boolean`, `datetime` |
-| `source` | The source table this field comes from |
+| `source` | Where the field comes from. Either a warehouse table (`schema.db.table`) or an entity name. |
 | `field` | The column name in the source table (may differ from `name`) |
-| `join_name` | Which join to use when `source` is a `related_source`. Omit if using the key_source. |
+| `join_name` | Which join to use. For a `related_source` table, the join defined on that source; for an entity source, a named join on the relationship. Omit (or set `null`) to use the default. |
 | `filters` | Pre-filters applied to the source before retrieving the field. Omit if no filters. |
 
 ---
@@ -282,7 +291,7 @@ metrics:
 
 | Field | Description |
 |---|---|
-| `name` | Metric identifier — referenced by `metric(name)` in queries |
+| `name` | Metric identifier — referenced by `metric('name')` in queries |
 | `description` | Explains what it measures and how to use it |
 | `sql` | Aggregation SQL expression. References entity features with `{feature_name}`. |
 
@@ -300,21 +309,31 @@ In both cases, the metric ends up on an entity — which is the only place the a
 
 ## `related_sources`
 
-Declares secondary warehouse tables used by `field` and `first_last` features. Each entry defines the join condition from the entity's `key_source` to the secondary table.
+A `related_source` is a secondary warehouse table bolted onto an entity to enrich it with additional columns. The table is not an entity itself — it feeds columns into one. Each entry in `related_sources:` defines the join from the entity's `key_source` to the secondary table.
 
-**When should a warehouse table become an entity vs. a `related_source`?**
+**Why define one:**
+- Pull dimension or lookup columns from a separate table (e.g. a country name from a country reference table).
+- Enrich an entity with CRM, billing, or third-party columns that don't warrant their own entity.
+- Bring in flat reference tables (mapping tables, code-to-label lookups) whose rows have no independent business meaning.
 
-Start with the question: *what level of granularity does this table represent?*
+**What features you can build from a `related_source`:**
 
-**Create a new entity** if:
-- The table represents a business concept at its own level of granularity — something with real business meaning that you'd want to ask questions about on its own (e.g., `order`, `subscription`, `session`)
-- You need to aggregate rows from it — metrics can only be defined on entities, not on raw sources. If you're counting rows, summing a value, or computing an average from this table, it needs to be an entity
-- Other entities need to relate to it via the relationship graph
+| Feature type | Supported | Why |
+|---|---|---|
+| `field` | Yes | Pulls a single column through the defined join |
+| `first_last` | Yes | Picks one row from the related table ordered by a field |
+| `metric` | No | Aggregations require the data to live in an entity — promote the table to an entity instead |
+| `formula` | No | Formulas reference features on the same entity, never tables |
 
-**Use `related_sources`** if:
-- The table is an enrichment — it adds columns to an existing entity but doesn't represent a different level of granularity
-- It contains no business logic of its own that you'd aggregate or query independently
-- You only need `field` or `first_last` features from it — no metrics
+If you need to count, sum, or average rows from this table, do not use `related_sources` — promote it to an entity.
+
+{% hint style="warning" %}
+**Only use `related_sources` for tables that are NOT the `key_source` of any entity.** If the table already has its own entity, define the join in `entities_relationships.yml` instead — not here. `related_sources` is strictly for enrichment tables without their own entity representation.
+{% endhint %}
+
+**Entity vs. `related_source` — the granularity test:**
+
+The decision rule above is about features. This one is about the table itself: *what level of granularity does this table represent?* Create a new entity if the table represents a business concept at its own level of granularity (something you'd ask questions about on its own — e.g. `order`, `subscription`, `session`) or if other entities need to relate to it via the relationship graph. Otherwise — if it's flat enrichment with no independent business meaning — use `related_sources`.
 
 **How to pick the `key_source` for an entity:**
 
@@ -568,8 +587,8 @@ examples:
     expected_output: |
       SELECT
         customer_tier,
-        metric(total_arr) as arr,
-        metric(count_customers) as customers
+        metric('total_arr') as arr,
+        metric('count_customers') as customers
       FROM entity('customer')
       WHERE status = 'active'
         AND is_test_account = false
@@ -747,9 +766,9 @@ examples:
     expected_output: |
       SELECT
         channel,
-        metric(sum_net_revenue) as net_revenue,
-        metric(count_orders) as order_count,
-        metric(avg_order_value) as aov
+        metric('sum_net_revenue') as net_revenue,
+        metric('count_orders') as order_count,
+        metric('avg_order_value') as aov
       FROM entity('order')
       WHERE status = 'completed'
         AND is_test_order = false
@@ -768,8 +787,8 @@ examples:
     expected_output: |
       SELECT
         channel,
-        metric(refund_rate) as refund_rate_pct,
-        metric(count_orders) as total_orders
+        metric('refund_rate') as refund_rate_pct,
+        metric('count_orders') as total_orders
       FROM entity('order')
       WHERE status IN ('completed', 'refunded')
         AND is_test_order = false
@@ -926,7 +945,7 @@ examples:
     expected_output: |
       SELECT
         device_type,
-        metric(count_players) as active_players
+        metric('count_players') as active_players
       FROM entity('player')
       WHERE last_session_at >= CURRENT_DATE - INTERVAL '7 days'
       GROUP BY device_type
