@@ -99,6 +99,12 @@ expected_output: |-
   ORDER BY 2 DESC
 ```
 
+**Reference features by bare name in `expected_output` — never with `{feature_name}` curly braces.** The curly-brace `{feature}` syntax is reserved for *feature-definition* SQL (formula `sql:`, entity-metric `sql:`, metric/first_last filter `sql:`, and join `sql:`) — those expressions reference other features defined on the same entity, and Lynk resolves them at compile time. Inside `expected_output`, the SQL is what the agent should *generate*, so features are accessed by bare name exactly as in any feature read (e.g., `WHERE status = 'active'`, `WHERE player_segment = 'whale'` — even when `player_segment` is a formula).
+
+Table aliases are optional in `expected_output`. Both `WHERE status = 'active'` and `FROM entity('customer') t WHERE t.status = 'active'` are valid Lynk SQL — pick one and stay consistent within a project.
+
+`metric()` calls take a quoted string name (single or double quotes both valid; this guide uses single throughout): `metric('count_customers')`, not `METRIC(count_customers)`. `entity()` accepts either single- or double-quoted names — pick one and stay consistent within a project.
+
 **Apply the domain's default filters** in the expected output — season type exclusions, soft-delete filters, etc. The evaluation tests whether the agent applies them correctly.
 
 **Use verified feature names** from the entity YAML. Do not guess.
@@ -110,6 +116,8 @@ expected_output: |-
 **Using raw table names in `expected_output`.** Evaluations test Lynk SQL — always use `FROM entity('customer')` and `metric('count_customers')`, not raw warehouse tables or SQL aggregations. Raw SQL will fail the evaluation even if logically correct.
 
 **Omitting the quotes in `metric()` calls.** `metric(count_customers)` is incorrect. Metric names are passed as single-quoted strings: `metric('count_customers')`, consistent with `entity('customer')`.
+
+**Using `{feature_name}` curly braces in `expected_output`.** That syntax is for *feature-definition* SQL only (formula `sql:`, entity-metric `sql:`, filter `sql:`, join `sql:`). In `expected_output`, reference features by bare name: `WHERE status = 'active'`, not `WHERE {status} = 'active'`. The same rule applies to formulas (`WHERE customer_tier = 'Enterprise'`, not `WHERE {customer_tier} = 'Enterprise'`).
 
 **Writing `input` as a technical query.** The input should sound like a business user asking a question, not an engineer writing a spec. `"Query customer entity grouped by country where status = active"` is not how users ask questions.
 

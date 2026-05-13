@@ -148,6 +148,8 @@ ORDER BY total_revenue DESC
 LIMIT 10
 ```
 
+**Do not use `{feature_name}` curly braces in SQL examples or expected outputs.** The `{feature}` syntax is reserved for *feature-definition* SQL (formula `sql:`, entity-metric `sql:`, metric/first_last filter `sql:`, and join `sql:` in [entity YAML](./entity-yaml.md) and [relationships YAML](./relationships-yaml.md)). Anywhere else — task-instruction SQL examples, evaluation `expected_output`, knowledge files showing the agent how a query should look — features are accessed by bare name. This applies to formulas too: `WHERE customer_tier = 'Enterprise'`, not `WHERE {customer_tier} = 'Enterprise'`. Table aliases (`FROM entity('customer') t WHERE t.status = 'active'`) are optional but allowed. `metric()` calls take a quoted string name: `metric('count_customers')`, not `METRIC(count_customers)`. `entity()` accepts either single- or double-quoted names — pick one and stay consistent within a project.
+
 ---
 
 ## Best Practices

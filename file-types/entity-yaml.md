@@ -424,6 +424,9 @@ Metric features require a relationship between the two entities in `entities_rel
 **Defining entity aliases in the entity YAML**
 Aliases — the different names business users use to refer to an entity — belong in the entity knowledge file, not here. The entity YAML defines schema, features, and metrics. The knowledge file is where the agent learns how users naturally refer to this entity in questions.
 
+**Using `{feature_name}` curly braces in the `examples:` section's `expected_output`**
+The curly-brace `{feature_name}` syntax is *required* in feature-definition SQL — `formula sql:`, entity-metric `sql:`, metric/first_last filter `sql:`, and any join `sql:` — because those expressions reference other features on the entity that Lynk resolves at compile time. The same syntax is *not allowed* in the `examples:` section's `expected_output` (or in any task-instruction SQL example), because that block represents the SQL the agent should *generate* — features there are accessed by bare name (e.g., `WHERE status = 'active'`, `WHERE customer_tier = 'Enterprise'`). Table aliases (`FROM entity('customer') t WHERE t.status = 'active'`) are optional but allowed. Use `metric('name')` (quoted, lowercase) — never `METRIC(name)`. `entity()` accepts either single- or double-quoted names — pick one and stay consistent within a project.
+
 **Putting filtering rules, SQL instructions, or cross-entity references in the entity `description`**
 The `description` field is for what the entity represents and what questions it answers — nothing more. Filtering rules like "always exclude `is_inactive = true`" belong in [task instructions](./task-instructions-md.md). Cross-entity pointers like "use the `player` entity for career aggregates" don't belong here either — the agent selects entities based on question relevance, not navigation hints embedded in descriptions.
 
