@@ -115,15 +115,15 @@ Task instructions are where you put Lynk SQL patterns the agent should follow fo
 
 **Querying an entity:**
 ```sql
-FROM entity('customer')
+FROM customer
 ```
 
 **Using an entity metric:**
 ```sql
 SELECT
   plan_type,
-  metric('count_customers') as total_customers
-FROM entity('customer')
+  METRIC('count_customers') AS total_customers
+FROM customer
 GROUP BY plan_type
 ```
 
@@ -131,9 +131,9 @@ GROUP BY plan_type
 ```sql
 SELECT
   country,
-  metric('avg_revenue_per_customer') as avg_revenue,
-  metric('count_customers') as customer_count
-FROM entity('customer')
+  METRIC('avg_revenue_per_customer') AS avg_revenue,
+  METRIC('count_customers')          AS customer_count
+FROM customer
 WHERE status = 'active'
 GROUP BY country
 ORDER BY avg_revenue DESC
@@ -142,13 +142,18 @@ ORDER BY avg_revenue DESC
 **Feature access** — features are accessed directly by name, no table prefix needed:
 ```sql
 SELECT email, plan_type, total_revenue
-FROM entity('customer')
+FROM customer
 WHERE status = 'active'
 ORDER BY total_revenue DESC
 LIMIT 10
 ```
 
-**Do not use `{feature_name}` curly braces in SQL examples or expected outputs.** The `{feature}` syntax is reserved for *feature-definition* SQL (formula `sql:`, entity-metric `sql:`, metric/first_last filter `sql:`, and join `sql:` in [entity YAML](./entity-yaml.md) and [relationships YAML](./relationships-yaml.md)). Anywhere else — task-instruction SQL examples, evaluation `expected_output`, knowledge files showing the agent how a query should look — features are accessed by bare name. This applies to formulas too: `WHERE customer_tier = 'Enterprise'`, not `WHERE {customer_tier} = 'Enterprise'`. Table aliases (`FROM entity('customer') t WHERE t.status = 'active'`) are optional but allowed. `metric()` calls take a quoted string name: `metric('count_customers')`, not `METRIC(count_customers)`. `entity()` accepts either single- or double-quoted names — pick one and stay consistent within a project.
+**Syntax rules for SQL examples in this file:**
+
+- Reference entities bare in `FROM` and `JOIN`: `FROM customer`, `JOIN order o` — never `entity('customer')`.
+- Write `METRIC()` uppercase with a single-quoted string literal and an alias: `METRIC('count_customers') AS count_customers`. Lowercase `metric(...)`, unquoted `METRIC(count_customers)`, and unaliased calls all fail.
+- Joins: bare `JOIN <entity>` uses the default relationship from `entities_relationships.yml`; `JOIN <entity> USING('relationship_name')` picks a named one; `JOIN <entity> ON <expr>` is for everything else (extra predicates, CTEs, subqueries).
+- Do not use `{feature_name}` curly braces. That syntax is reserved for *feature-definition* SQL (formula `sql:`, entity-metric `sql:`, metric/first_last filter `sql:`, and join `sql:` in [entity YAML](./entity-yaml.md) and [relationships YAML](./relationships-yaml.md)). In task-instruction SQL examples, features are accessed by bare name — `WHERE status = 'active'`, `WHERE customer_tier = 'Enterprise'`. See [Lynk SQL](../api/lynk-sql.md) for the full reference.
 
 ---
 

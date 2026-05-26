@@ -28,7 +28,7 @@ These two layers load together. When the agent identifies that a question is abo
 
 Every entity has a `name` and a `description`. These are the two fields the agent reads first — before looking at features or metrics.
 
-**`name`** is the entity identifier. It appears in queries (`entity('order')`), in relationship keys (`customer-order`), and in metric feature references. Keep it short, lowercase, and unambiguous.
+**`name`** is the entity identifier. It appears in queries (`FROM order`), in relationship keys (`customer-order`), and in metric feature references. Keep it short, lowercase, and unambiguous.
 
 **`description`** is what the agent uses to decide whether this entity is relevant to a question. Vague descriptions cause the agent to miss the entity or pick the wrong one.
 
@@ -234,6 +234,8 @@ metrics:
 Entity metrics define *how* to aggregate — not which rows to aggregate. Filtering happens at query time, not in the metric definition.
 
 Entity metrics exist on fact entities — `order`, `session`, `purchase`. They are the aggregation primitives that metric features reference from other entities.
+
+A metric's `sql:` field can also reference other metrics on the same entity via `METRIC('name')`. This is **metric-over-metric composition** — define ratios, sums, and differences in one place rather than repeating the underlying aggregation logic across queries. See [Entity YAML Reference](../file-types/entity-yaml.md) for the full pattern.
 
 ### Metric Features
 

@@ -18,8 +18,8 @@ test_cases:
     expected_output: |-
       SELECT
         country,
-        metric('count_customers') AS customer_count
-      FROM entity('customer')
+        METRIC('count_customers') AS customer_count
+      FROM customer
       WHERE status = 'active'
       GROUP BY 1
       ORDER BY 2 DESC
@@ -92,8 +92,8 @@ input: Query customer entity grouped by country where status = active
 expected_output: |-
   SELECT
     country,
-    metric('count_customers') AS customer_count
-  FROM entity('customer')
+    METRIC('count_customers') AS customer_count
+  FROM customer
   WHERE status = 'active'
   GROUP BY 1
   ORDER BY 2 DESC
@@ -101,9 +101,11 @@ expected_output: |-
 
 **Reference features by bare name in `expected_output` — never with `{feature_name}` curly braces.** The curly-brace `{feature}` syntax is reserved for *feature-definition* SQL (formula `sql:`, entity-metric `sql:`, metric/first_last filter `sql:`, and join `sql:`) — those expressions reference other features defined on the same entity, and Lynk resolves them at compile time. Inside `expected_output`, the SQL is what the agent should *generate*, so features are accessed by bare name exactly as in any feature read (e.g., `WHERE status = 'active'`, `WHERE player_segment = 'whale'` — even when `player_segment` is a formula).
 
-Table aliases are optional in `expected_output`. Both `WHERE status = 'active'` and `FROM entity('customer') t WHERE t.status = 'active'` are valid Lynk SQL — pick one and stay consistent within a project.
+**Reference entities bare in `FROM` and `JOIN`.** Use `FROM customer` (with an optional alias: `FROM customer c`) — never `FROM entity('customer')`. The `entity()` wrapper is not part of Lynk SQL.
 
-`metric()` calls take a quoted string name (single or double quotes both valid; this guide uses single throughout): `metric('count_customers')`, not `METRIC(count_customers)`. `entity()` accepts either single- or double-quoted names — pick one and stay consistent within a project.
+**`METRIC()` is uppercase, single-quoted, and always aliased.** Write `METRIC('count_customers') AS count_customers` — not `METRIC(count_customers)` (missing quotes) and not `metric('count_customers')` (lowercase). The metric name is a single-quoted string literal; the alias is required.
+
+**Joins.** When a relationship is defined in `entities_relationships.yml`, join entities bare (uses the default relationship) or with `USING('relationship_name')` (a named one). For everything else — extra predicates, CTEs, subqueries — use a manual `ON` clause. See [Lynk SQL](../api/lynk-sql.md) for the full join reference.
 
 **Apply the domain's default filters** in the expected output — season type exclusions, soft-delete filters, etc. The evaluation tests whether the agent applies them correctly.
 
@@ -113,9 +115,11 @@ Table aliases are optional in `expected_output`. Both `WHERE status = 'active'` 
 
 ## Common Pitfalls
 
-**Using raw table names in `expected_output`.** Evaluations test Lynk SQL — always use `FROM entity('customer')` and `metric('count_customers')`, not raw warehouse tables or SQL aggregations. Raw SQL will fail the evaluation even if logically correct.
+**Using raw table names in `expected_output`.** Evaluations test Lynk SQL — always use `FROM customer` and `METRIC('count_customers')`, not raw warehouse tables or SQL aggregations. Raw SQL will fail the evaluation even if logically correct.
 
-**Omitting the quotes in `metric()` calls.** `metric(count_customers)` is incorrect. Metric names are passed as single-quoted strings: `metric('count_customers')`, consistent with `entity('customer')`.
+**Wrapping entities in `entity('...')`.** Entities are bare identifiers in `FROM` and `JOIN`. `FROM entity('customer')` is not valid Lynk SQL — write `FROM customer`.
+
+**Writing `METRIC()` without quotes, without an alias, or in lowercase.** `METRIC(count_customers)` (missing quotes), `METRIC('count_customers')` without an `AS` alias, and `metric('count_customers')` (lowercase) all fail. The canonical form is `METRIC('count_customers') AS count_customers`.
 
 **Using `{feature_name}` curly braces in `expected_output`.** That syntax is for *feature-definition* SQL only (formula `sql:`, entity-metric `sql:`, filter `sql:`, join `sql:`). In `expected_output`, reference features by bare name: `WHERE status = 'active'`, not `WHERE {status} = 'active'`. The same rule applies to formulas (`WHERE customer_tier = 'Enterprise'`, not `WHERE {customer_tier} = 'Enterprise'`).
 
@@ -158,8 +162,8 @@ test_cases:
     input: How many active customers do we have?
     expected_output: |-
       SELECT
-        metric('count_customers') AS customer_count
-      FROM entity('customer')
+        METRIC('count_customers') AS customer_count
+      FROM customer
       WHERE status = 'active'
         AND is_test_account = false
         AND is_deleted = false
@@ -179,9 +183,9 @@ test_cases:
     expected_output: |-
       SELECT
         customer_tier,
-        metric('total_arr') AS arr,
-        metric('count_customers') AS customers
-      FROM entity('customer')
+        METRIC('total_arr')       AS arr,
+        METRIC('count_customers') AS customers
+      FROM customer
       WHERE status = 'active'
         AND is_test_account = false
         AND is_deleted = false
@@ -209,7 +213,7 @@ test_cases:
         nps_score,
         active_subscription_count,
         total_mrr
-      FROM entity('customer')
+      FROM customer
       WHERE status = 'active'
         AND plan_type = 'enterprise'
         AND nps_score < 6
@@ -242,8 +246,8 @@ test_cases:
     input: What is our net revenue this month?
     expected_output: |-
       SELECT
-        metric('sum_net_revenue') AS net_revenue
-      FROM entity('order')
+        METRIC('sum_net_revenue') AS net_revenue
+      FROM order
       WHERE status = 'completed'
         AND is_test_order = false
         AND order_date >= DATE_TRUNC('month', CURRENT_DATE)
@@ -263,9 +267,9 @@ test_cases:
     expected_output: |-
       SELECT
         channel,
-        metric('count_orders') AS order_count,
-        metric('sum_net_revenue') AS net_revenue
-      FROM entity('order')
+        METRIC('count_orders')    AS order_count,
+        METRIC('sum_net_revenue') AS net_revenue
+      FROM order
       WHERE status = 'completed'
         AND is_test_order = false
       GROUP BY 1
@@ -287,9 +291,9 @@ test_cases:
     expected_output: |-
       SELECT
         primary_category,
-        metric('refund_rate') AS refund_rate_pct,
-        metric('count_orders') AS total_orders
-      FROM entity('order')
+        METRIC('refund_rate')  AS refund_rate_pct,
+        METRIC('count_orders') AS total_orders
+      FROM order
       WHERE is_test_order = false
       GROUP BY 1
       ORDER BY 2 DESC
@@ -318,8 +322,8 @@ test_cases:
     input: How many players were active today?
     expected_output: |-
       SELECT
-        metric('count_players') AS dau
-      FROM entity('player')
+        METRIC('count_players') AS dau
+      FROM player
       WHERE last_session_at >= CURRENT_DATE
     tags:
       difficulty: EASY
@@ -339,8 +343,8 @@ test_cases:
     input: What is our ARPDAU for the last 7 days?
     expected_output: |-
       SELECT
-        metric('sum_net_revenue_usd') / NULLIF(metric('count_players'), 0) AS arpdau
-      FROM entity('player')
+        METRIC('sum_net_revenue_usd') / NULLIF(METRIC('count_players'), 0) AS arpdau
+      FROM player
       WHERE last_session_at >= CURRENT_DATE - INTERVAL '7 days'
     tags:
       difficulty: MEDIUM
@@ -366,7 +370,7 @@ test_cases:
         total_spend_usd,
         spend_last_30_days_usd,
         last_session_at
-      FROM entity('player')
+      FROM player
       WHERE player_segment = 'whale'
         AND last_session_at < CURRENT_DATE - INTERVAL '14 days'
       ORDER BY total_spend_usd DESC

@@ -35,8 +35,8 @@ test_cases:
     input: How many active customers do we have?
     expected_output: |-
       SELECT
-        metric('count_customers') AS customer_count
-      FROM entity('customer')
+        METRIC('count_customers') AS customer_count
+      FROM customer
       WHERE status = 'active'
         AND is_test_account = false
         AND is_deleted = false
@@ -56,9 +56,9 @@ test_cases:
     expected_output: |-
       SELECT
         plan_type,
-        metric('total_arr') AS arr,
-        metric('count_customers') AS customers
-      FROM entity('customer')
+        METRIC('total_arr')       AS arr,
+        METRIC('count_customers') AS customers
+      FROM customer
       WHERE status = 'active'
         AND is_test_account = false
         AND is_deleted = false
@@ -80,8 +80,8 @@ test_cases:
     input: What is our logo churn rate this quarter?
     expected_output: |-
       SELECT
-        metric('churn_rate') AS logo_churn_rate
-      FROM entity('customer')
+        METRIC('churn_rate') AS logo_churn_rate
+      FROM customer
       WHERE churn_date >= '2026-02-01'
         AND churn_date < '2026-05-01'
         AND is_test_account = false
@@ -101,8 +101,8 @@ test_cases:
     input: How much MRR is at risk from pending cancellations?
     expected_output: |-
       SELECT
-        metric('mrr_at_risk') AS mrr_at_risk
-      FROM entity('subscription')
+        METRIC('mrr_at_risk') AS mrr_at_risk
+      FROM subscription
       WHERE status = 'active'
         AND is_pending_cancellation = true
     tags:
@@ -113,7 +113,7 @@ test_cases:
 
 **What makes a good test case:**
 - `input` is a question a real user would type — business language, not field names
-- `expected_output` uses `FROM entity()` and `metric()` — never raw warehouse table names
+- `expected_output` uses bare entity references in `FROM` (`FROM customer`) and `METRIC('name')` for aggregations — never raw warehouse table names, never the obsolete `entity(...)` wrapper
 - The `description` field names what the evaluation is testing — which rule, which field, which definition from the glossary
 - Cover the questions most likely to produce wrong answers: multi-condition definitions, metric selection (arr vs total_paid), fiscal calendar edge cases, and filters that must always apply
 

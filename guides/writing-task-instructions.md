@@ -111,7 +111,7 @@ test_cases:
     input: {A question where the rule must apply}
     expected_output: |-
       SELECT ...
-      FROM entity('{entity}')
+      FROM {entity}
       WHERE {filter_from_your_new_rule}
     tags:
       difficulty: EASY

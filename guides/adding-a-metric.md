@@ -80,9 +80,9 @@ metrics:
 
 | Field | Requirement |
 |---|---|
-| `name` | Unique on this entity. Lowercase, underscore-separated. Referenced by `metric('name')` in queries. |
+| `name` | Unique on this entity. Lowercase, underscore-separated. Referenced by `METRIC('name')` in queries. |
 | `description` | Required. Explains what the metric measures, the unit (e.g., USD, count), and any non-obvious scope. |
-| `sql` | Aggregation expression. Reference entity features with `{feature_name}`. Standard SQL aggregation functions: `SUM`, `COUNT`, `AVG`, `MIN`, `MAX`, `COUNT DISTINCT`. |
+| `sql` | Any aggregation expression your warehouse SQL dialect accepts. Reference entity features with `{feature_name}`. Supports plain aggregates (`SUM`, `COUNT`, `COUNT(DISTINCT)`, `AVG`, `MIN`, `MAX`), conditional aggregation (`SUM(CASE WHEN ... THEN ... END)`), arithmetic between aggregates with `NULLIF` denominators, and metric-over-metric composition via `METRIC('other_metric')`. Dialect-specific constructs pass through to the warehouse — `FILTER (WHERE ...)` works on Postgres, `PERCENTILE_CONT(...) WITHIN GROUP (...)` and `IFF(...)` work on Snowflake, etc. Scalar functions (`CASE`, `COALESCE`, `ROUND`, `EXTRACT`, …) work inside aggregates if your dialect supports them. |
 
 **Example — adding a revenue metric to `order`:**
 ```yaml

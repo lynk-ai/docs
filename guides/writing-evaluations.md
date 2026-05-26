@@ -43,8 +43,8 @@ test_cases:
     expected_output: |-
       SELECT
         {feature_name},
-        metric({metric_name}) AS {alias}
-      FROM entity('{entity}')
+        METRIC('{metric_name}') AS {alias}
+      FROM {entity}
       WHERE {default_filter_1} = {value}
         AND {default_filter_2} = {value}
       GROUP BY 1
@@ -57,7 +57,7 @@ test_cases:
 
 **Checklist:**
 - [ ] `input` is written in business language — not field names or SQL fragments
-- [ ] `expected_output` uses `FROM entity('{entity}')` and `metric()` — not raw table names
+- [ ] `expected_output` uses bare entity references (`FROM {entity}`) and `METRIC('name') AS alias` — not raw table names, not the `entity(...)` wrapper, not lowercase `metric()`
 - [ ] All feature and metric names are verified against the entity YAML
 - [ ] All default filters your task instructions require are present in `expected_output`
 - [ ] `tags.domain` matches the domain where the question would be asked
