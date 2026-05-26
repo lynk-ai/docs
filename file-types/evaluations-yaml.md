@@ -86,7 +86,7 @@ input: How many active customers do we have per country?
 input: Query customer entity grouped by country where status = active
 ```
 
-**Write `expected_output` as clean Lynk SQL.** Use entity references and metric functions — never raw table names.
+**Write `expected_output` in valid Lynk SQL.** See [Lynk SQL](../api/lynk-sql.md) for the full syntax reference.
 
 ```yaml
 expected_output: |-
@@ -98,8 +98,6 @@ expected_output: |-
   GROUP BY 1
   ORDER BY 2 DESC
 ```
-
-**Write `expected_output` in valid Lynk SQL.** See [Lynk SQL](../api/lynk-sql.md) for the full syntax reference.
 
 **Apply the domain's default filters** in the expected output — season type exclusions, soft-delete filters, etc. The evaluation tests whether the agent applies them correctly.
 
