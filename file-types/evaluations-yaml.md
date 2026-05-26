@@ -99,13 +99,7 @@ expected_output: |-
   ORDER BY 2 DESC
 ```
 
-**Reference features by bare name in `expected_output` — never with `{feature_name}` curly braces.** The curly-brace `{feature}` syntax is reserved for *feature-definition* SQL (formula `sql:`, entity-metric `sql:`, metric/first_last filter `sql:`, and join `sql:`) — those expressions reference other features defined on the same entity, and Lynk resolves them at compile time. Inside `expected_output`, the SQL is what the agent should *generate*, so features are accessed by bare name exactly as in any feature read (e.g., `WHERE status = 'active'`, `WHERE player_segment = 'whale'` — even when `player_segment` is a formula).
-
-**Reference entities bare in `FROM` and `JOIN`.** Use `FROM customer` (with an optional alias: `FROM customer c`) — never `FROM entity('customer')`. The `entity()` wrapper is not part of Lynk SQL.
-
-**`METRIC()` is uppercase, single-quoted, and always aliased.** Write `METRIC('count_customers') AS count_customers` — not `METRIC(count_customers)` (missing quotes) and not `metric('count_customers')` (lowercase). The metric name is a single-quoted string literal; the alias is required.
-
-**Joins.** When a relationship is defined in `entities_relationships.yml`, join entities bare (uses the default relationship) or with `USING('relationship_name')` (a named one). For everything else — extra predicates, CTEs, subqueries — use a manual `ON` clause. See [Lynk SQL](../api/lynk-sql.md) for the full join reference.
+**Write `expected_output` in valid Lynk SQL.** See [Lynk SQL](../api/lynk-sql.md) for the full syntax reference — entity references, `METRIC()`, join forms, and the common pitfalls (wrapping entities in `entity('...')`, lowercase `metric()`, missing aliases, curly braces in queries) all live there.
 
 **Apply the domain's default filters** in the expected output — season type exclusions, soft-delete filters, etc. The evaluation tests whether the agent applies them correctly.
 
@@ -114,14 +108,6 @@ expected_output: |-
 ---
 
 ## Common Pitfalls
-
-**Using raw table names in `expected_output`.** Evaluations test Lynk SQL — always use `FROM customer` and `METRIC('count_customers')`, not raw warehouse tables or SQL aggregations. Raw SQL will fail the evaluation even if logically correct.
-
-**Wrapping entities in `entity('...')`.** Entities are bare identifiers in `FROM` and `JOIN`. `FROM entity('customer')` is not valid Lynk SQL — write `FROM customer`.
-
-**Writing `METRIC()` without quotes, without an alias, or in lowercase.** `METRIC(count_customers)` (missing quotes), `METRIC('count_customers')` without an `AS` alias, and `metric('count_customers')` (lowercase) all fail. The canonical form is `METRIC('count_customers') AS count_customers`.
-
-**Using `{feature_name}` curly braces in `expected_output`.** That syntax is for *feature-definition* SQL only (formula `sql:`, entity-metric `sql:`, filter `sql:`, join `sql:`). In `expected_output`, reference features by bare name: `WHERE status = 'active'`, not `WHERE {status} = 'active'`. The same rule applies to formulas (`WHERE customer_tier = 'Enterprise'`, not `WHERE {customer_tier} = 'Enterprise'`).
 
 **Writing `input` as a technical query.** The input should sound like a business user asking a question, not an engineer writing a spec. `"Query customer entity grouped by country where status = active"` is not how users ask questions.
 

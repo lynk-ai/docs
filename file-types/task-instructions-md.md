@@ -150,10 +150,10 @@ LIMIT 10
 
 **Syntax rules for SQL examples in this file:**
 
-- Reference entities bare in `FROM` and `JOIN`: `FROM customer`, `JOIN order o` — never `entity('customer')`.
+- Reference entities directly in `FROM` and `JOIN`: `FROM customer`, `JOIN order o` — never `entity('customer')`.
 - Write `METRIC()` uppercase with a single-quoted string literal and an alias: `METRIC('count_customers') AS count_customers`. Lowercase `metric(...)`, unquoted `METRIC(count_customers)`, and unaliased calls all fail.
-- Joins: bare `JOIN <entity>` uses the default relationship from `entities_relationships.yml`; `JOIN <entity> USING('relationship_name')` picks a named one; `JOIN <entity> ON <expr>` is for everything else (extra predicates, CTEs, subqueries).
-- Do not use `{feature_name}` curly braces. That syntax is reserved for *feature-definition* SQL (formula `sql:`, entity-metric `sql:`, metric/first_last filter `sql:`, and join `sql:` in [entity YAML](./entity-yaml.md) and [relationships YAML](./relationships-yaml.md)). In task-instruction SQL examples, features are accessed by bare name — `WHERE status = 'active'`, `WHERE customer_tier = 'Enterprise'`. See [Lynk SQL](../api/lynk-sql.md) for the full reference.
+- Joins: `JOIN <entity>` with no clause uses the default relationship from `entities_relationships.yml`; `JOIN <entity> USING('relationship_name')` picks a named one; `JOIN <entity> USING(<column>)` joins on a shared column; `JOIN <entity> ON <expr>` is for everything else (extra predicates, CTEs, subqueries).
+- Do not use `{feature_name}` curly braces. That syntax is reserved for *feature-definition* SQL (formula `sql:`, entity-metric `sql:`, metric/first_last filter `sql:`, and join `sql:` in [entity YAML](./entity-yaml.md) and [relationships YAML](./relationships-yaml.md)). In task-instruction SQL examples, features are accessed by name without braces — `WHERE status = 'active'`, `WHERE customer_tier = 'Enterprise'`. See [Lynk SQL](../api/lynk-sql.md) for the full reference.
 
 ---
 

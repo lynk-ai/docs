@@ -6,25 +6,38 @@ The agent uses this syntax internally when generating queries. As an engineer, y
 
 ---
 
-## Entity references
+## How it works
 
-Entities appear as bare identifiers in `FROM` and `JOIN`. The engine resolves the entity to its underlying source table.
+Lynk SQL is compiled into your warehouse's native SQL before execution. The engine resolves `METRIC()` calls to their aggregation expressions, expands `USING('relationship_name')` into the relationship's `ON` clause from `entities_relationships.yml`, and rewrites entity references to the underlying source tables. Everything else passes through to the warehouse.
 
-```sql
-SELECT
-  id,
-  status,
-  total_amount
-FROM order
-WHERE status = 'completed'
-ORDER BY created_at DESC
-```
+Two consequences worth knowing:
 
-One row is returned per entity instance — one row per order in the example above. Field names in `SELECT` and `WHERE` are feature names as defined in the entity YAML, not raw warehouse column names. Use aliases as you would for any SQL table (`FROM order o`).
+- **The dialect is your warehouse's.** `FILTER (WHERE ...)` works on Postgres; `IFF()` and `QUALIFY` work on Snowflake; `PERCENTILE_CONT(...) WITHIN GROUP (...)` works on most modern warehouses. If your warehouse doesn't expose a function, neither does Lynk SQL.
+- **Some constructs depend on how the engine emits SQL.** `WITH RECURSIVE`, for example, isn't supported on every engine because of how Lynk generates CTEs. If a construct fails compilation, fall back to a form the engine can express.
+
+**Read-only.** Lynk SQL compiles to a single `SELECT` statement. `CREATE`, `INSERT`, `UPDATE`, `DELETE`, `DROP`, `ALTER`, and other DDL/DML are not supported.
 
 ---
 
-## `METRIC()`
+## Entity references
+
+Entities appear as identifiers in `FROM` and `JOIN` — no wrapper, no quoting. The engine resolves the entity to its underlying source table.
+
+```sql
+SELECT
+  o.id,
+  o.status,
+  o.total_amount
+FROM order o
+WHERE o.status = 'completed'
+ORDER BY o.created_at DESC
+```
+
+One row is returned per entity instance — one row per order in the example above. Field names in `SELECT` and `WHERE` are feature names as defined in the entity YAML, not raw warehouse column names. Aliases (`FROM order o`) work as in any SQL query.
+
+---
+
+## `METRIC('<metric_name>')`
 
 `METRIC('name')` applies a pre-defined metric from the entity's `metrics:` section. Use it anywhere a standard aggregate (`SUM`, `COUNT`, `AVG`) is legal — `SELECT`, `HAVING`, arithmetic expressions, CTEs, subqueries, window aggregates.
 
@@ -52,17 +65,20 @@ When the question needs the metric's logic applied to a filtered subset, or comb
 
 ## Joins
 
-Lynk SQL supports the full set of standard SQL join types — `INNER JOIN`, `LEFT JOIN`, `RIGHT JOIN`, `FULL OUTER JOIN`, `CROSS JOIN`. Pick whichever the question requires. The join *condition* can be expressed in three forms:
+Lynk SQL supports the full set of standard SQL join types — `INNER JOIN`, `LEFT JOIN`, `RIGHT JOIN`, `FULL OUTER JOIN`, `CROSS JOIN`. Pick whichever the question requires. The join *condition* can be expressed in four forms:
 
 | Form | Use when |
 |---|---|
 | `JOIN <entity>` (no `ON`, no `USING`) | The default relationship between the two entities in `entities_relationships.yml` is what you want. The engine uses the join marked `default: true` for that entity pair. |
 | `JOIN <entity> USING('relationship_name')` | A named relationship exists in `entities_relationships.yml` and you want that specific one — typically because the entity pair has more than one defined join. |
+| `JOIN <entity> USING(<common_feature_name>)` | Standard SQL: the two sides share a column/feature name and you want a join on equality of that column. The argument is an unquoted identifier, not a string literal. |
 | `JOIN <entity> ON <expr>` | No relationship matches, you need extra predicates beyond the relationship's keys, or you're joining a CTE or subquery (where relationships don't apply). |
+
+The two `USING` forms are distinguished by the argument: a **single-quoted string literal** names a relationship from `entities_relationships.yml`; an **unquoted identifier** names a common column.
 
 ### Default join — no `ON`, no `USING`
 
-When two entities have a single join defined in `entities_relationships.yml` (or one of multiple is marked `default: true`), you can join them by name alone. The engine fills in the `ON` clause from the default relationship.
+When two entities have a single join defined in `entities_relationships.yml` (or one of multiple is marked `default: true`), join them by name alone. The engine fills in the `ON` clause from the default relationship.
 
 ```sql
 SELECT
@@ -76,7 +92,7 @@ WHERE o.status = 'completed'
 
 ### `USING('relationship_name')`
 
-When the entity pair has more than one relationship defined, name the one you want with `USING()`. The engine looks up the relationship and expands its `ON` clause at compile time.
+When the entity pair has more than one relationship defined, name the one you want with `USING()` and a string literal. The engine looks up the relationship and expands its `ON` clause at compile time.
 
 ```sql
 SELECT
@@ -91,8 +107,24 @@ WHERE o.status = 'completed'
 **Rules:**
 
 - The relationship name is a single-quoted string literal.
-- `USING()` is only valid for joins **predefined in `entities_relationships.yml`**. It is not a substitute for `ON` on arbitrary joins.
+- `USING()` in this form is only valid for joins **predefined in `entities_relationships.yml`**.
 - `USING()` cannot be combined with additional predicates. `USING('rel') AND extra_predicate` is invalid — switch to a manual `ON` clause when you need extra filters baked into the join.
+
+### `USING(<common_feature_name>)`
+
+Standard SQL `USING` — the unquoted identifier names a column/feature that exists on both sides of the join, and the engine joins on equality of that column.
+
+```sql
+SELECT
+  o.id,
+  o.total_amount,
+  c.email
+FROM order o
+LEFT JOIN customer c USING(customer_id)
+WHERE o.status = 'completed'
+```
+
+Use this when the two entities (or an entity and a CTE) share a column name and you don't need or want to reference a named relationship.
 
 ### `ON <expr>`
 
@@ -110,7 +142,7 @@ LEFT JOIN customer c
 WHERE o.status = 'completed'
 ```
 
-The `ON` expression is standard SQL — any boolean expression valid in your warehouse works. `ON` is the only join form available when one side is a CTE or subquery, since relationships are defined between entities, not against derived tables.
+The `ON` expression is standard SQL — any boolean expression valid in your warehouse works. `ON` (or column-based `USING`) is the only join form available when one side is a CTE or subquery, since named relationships are defined between entities, not against derived tables.
 
 ---
 
@@ -141,7 +173,7 @@ LEFT JOIN refunded_totals r
 GROUP BY c.id, c.email, r.sum_refund_amount
 ```
 
-Joins to a CTE or subquery use a manual `ON` clause — `USING()` and the bare default-join form apply only to entities defined in `entities_relationships.yml`.
+Joins to a CTE or subquery use a manual `ON` clause (or a column-based `USING(<column>)`) — the relationship-name `USING('rel')` and the no-clause default-join form apply only to entities defined in `entities_relationships.yml`.
 
 Reach for a CTE when it earns its place — clearer expression of grain transitions, isolating a filtered metric scope, or splitting a query into named stages. A CTE that exists because you *could* write one is just noise.
 
@@ -185,6 +217,7 @@ Every scalar, aggregate, and window function your warehouse supports is availabl
 | `FROM <entity>` | Yes |
 | `JOIN <entity>` (default relationship) | Yes |
 | `JOIN <entity> USING('relationship_name')` | Yes |
+| `JOIN <entity> USING(<common_feature_name>)` | Yes |
 | `JOIN <entity> ON <expr>` | Yes |
 | `INNER` / `LEFT` / `RIGHT` / `FULL OUTER` / `CROSS JOIN` | Yes |
 | `WHERE` | Yes |
@@ -199,6 +232,20 @@ Every scalar, aggregate, and window function your warehouse supports is availabl
 | Set operations (`UNION`, `UNION ALL`, `INTERSECT`, `EXCEPT`) | Yes |
 | Casts (`CAST`, `::`, `TRY_CAST`) | Yes |
 | DDL / DML | No |
+
+---
+
+## Common pitfalls
+
+**Wrapping entities in `entity('...')`.** Entities are identifiers in `FROM` and `JOIN` — no wrapper. `FROM entity('customer')` is not valid Lynk SQL; write `FROM customer`.
+
+**Writing `METRIC()` without quotes, without an alias, or in lowercase.** `METRIC(count_customers)` (missing quotes), `METRIC('count_customers')` without an `AS` alias, and `metric('count_customers')` (lowercase) all fail. The canonical form is `METRIC('count_customers') AS count_customers`.
+
+**Using raw warehouse table names.** Lynk SQL operates on entities. `FROM db_prod.core.orders` bypasses the semantic layer — write `FROM order` and let the engine resolve the table.
+
+**Using `{feature_name}` curly braces in a query.** That syntax is reserved for *feature-definition* SQL (formula `sql:`, entity-metric `sql:`, filter `sql:`, join `sql:`). In a Lynk SQL query, reference features by name without braces: `WHERE status = 'active'`, not `WHERE {status} = 'active'`. The same rule applies to formula features (`WHERE customer_tier = 'Enterprise'`, not `WHERE {customer_tier} = 'Enterprise'`).
+
+**Combining `USING('rel')` with extra predicates.** `USING('rel') AND extra_predicate` is invalid. Switch to a manual `ON` clause when you need extra filters baked into the join.
 
 ---
 

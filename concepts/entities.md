@@ -235,7 +235,44 @@ Entity metrics define *how* to aggregate — not which rows to aggregate. Filter
 
 Entity metrics exist on fact entities — `order`, `session`, `purchase`. They are the aggregation primitives that metric features reference from other entities.
 
-A metric's `sql:` field can also reference other metrics on the same entity via `METRIC('name')`. This is **metric-over-metric composition** — define ratios, sums, and differences in one place rather than repeating the underlying aggregation logic across queries. See [Entity YAML Reference](../file-types/entity-yaml.md) for the full pattern.
+#### What's allowed in `sql:`
+
+The `sql:` field accepts any aggregation expression your warehouse SQL dialect accepts. The engine passes it through to the warehouse after substituting `{feature_name}` references and resolving any nested `METRIC()` calls.
+
+Always available across dialects:
+
+- Plain aggregates — `SUM`, `COUNT`, `COUNT(DISTINCT)`, `AVG`, `MIN`, `MAX`.
+- Conditional aggregation — `SUM(CASE WHEN {is_completed} = 1 THEN {net_amount} ELSE 0 END)`, `COUNT(DISTINCT CASE WHEN {is_active} = 1 THEN {customer_id} END)`.
+- Arithmetic between aggregates, typically with a `NULLIF` denominator — `SUM({net_amount}) / NULLIF(COUNT({order_id}), 0)`.
+- Metric-over-metric composition — `METRIC('sum_net_revenue') / NULLIF(METRIC('count_orders'), 0)` (see below).
+- Scalar wrappers like `CASE`, `COALESCE`, `ROUND`, `CAST` inside the aggregate.
+
+Dialect-specific constructs pass through if your warehouse supports them:
+
+- `FILTER (WHERE ...)` clauses — Postgres.
+- `PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY {net_amount})` — most modern warehouses.
+- `IFF(...)`, `APPROX_PERCENTILE(...)` — Snowflake.
+
+#### Metric-over-Metric Composition
+
+A metric's `sql:` can reference other metrics on the same entity via `METRIC('name')`. Use it to compose ratios, sums, and differences once — instead of repeating the underlying aggregation in every query that needs the derived value.
+
+```yaml
+metrics:
+  - name: count_orders
+    sql: COUNT({order_id})
+
+  - name: sum_net_revenue
+    sql: SUM({net_amount})
+
+  # Composed from the metrics above
+  - name: avg_revenue_per_order
+    sql: "METRIC('sum_net_revenue') / NULLIF(METRIC('count_orders'), 0)"
+```
+
+Nested `METRIC()` calls resolve against the same entity that defines them. To combine metrics across entities, use a `metric` feature on the destination entity.
+
+See [Entity YAML Reference](../file-types/entity-yaml.md) for the full reference.
 
 ### Metric Features
 

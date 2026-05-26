@@ -113,7 +113,7 @@ test_cases:
 
 **What makes a good test case:**
 - `input` is a question a real user would type — business language, not field names
-- `expected_output` uses bare entity references in `FROM` (`FROM customer`) and `METRIC('name')` for aggregations — never raw warehouse table names, never the obsolete `entity(...)` wrapper
+- `expected_output` uses entity references in `FROM` (`FROM customer`) and `METRIC('name')` for aggregations — never raw warehouse table names, never the obsolete `entity(...)` wrapper
 - The `description` field names what the evaluation is testing — which rule, which field, which definition from the glossary
 - Cover the questions most likely to produce wrong answers: multi-condition definitions, metric selection (arr vs total_paid), fiscal calendar edge cases, and filters that must always apply
 

@@ -82,7 +82,7 @@ metrics:
 |---|---|
 | `name` | Unique on this entity. Lowercase, underscore-separated. Referenced by `METRIC('name')` in queries. |
 | `description` | Required. Explains what the metric measures, the unit (e.g., USD, count), and any non-obvious scope. |
-| `sql` | Any aggregation expression your warehouse SQL dialect accepts. Reference entity features with `{feature_name}`. Supports plain aggregates (`SUM`, `COUNT`, `COUNT(DISTINCT)`, `AVG`, `MIN`, `MAX`), conditional aggregation (`SUM(CASE WHEN ... THEN ... END)`), arithmetic between aggregates with `NULLIF` denominators, and metric-over-metric composition via `METRIC('other_metric')`. Dialect-specific constructs pass through to the warehouse — `FILTER (WHERE ...)` works on Postgres, `PERCENTILE_CONT(...) WITHIN GROUP (...)` and `IFF(...)` work on Snowflake, etc. Scalar functions (`CASE`, `COALESCE`, `ROUND`, `EXTRACT`, …) work inside aggregates if your dialect supports them. |
+| `sql` | Aggregation expression. Reference entity features with `{feature_name}` and other metrics on the same entity with `METRIC('name')`. See [Metrics in concepts/entities.md](../concepts/entities.md#whats-allowed-in-sql) for the full list of allowed patterns and dialect notes. |
 
 **Example — adding a revenue metric to `order`:**
 ```yaml
