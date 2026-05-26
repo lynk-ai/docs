@@ -1,6 +1,6 @@
 # Data Modeling
 
-> **Advanced concept.** This page assumes familiarity with entities, features, metrics, and relationships. If you're just getting started, read [Entities](entities.md) first.
+> **Advanced concept.** This page assumes familiarity with entities, features, metrics, and relationships. If you're just getting started, read [Entities](entities.md) first. For the basic feature-chaining mechanic (single metric feature pulling from a related entity), see [Metrics](metrics.md). This page covers what happens when chains span multiple entities.
 
 Feature chaining is Lynk's mechanism for building features on top of features from other entities. When used across multiple entities, it creates a full data pipeline — values that flow through layers of your semantic graph, each layer building on the one before it.
 
@@ -8,7 +8,7 @@ This page explains how that works and when to use each pattern.
 
 ---
 
-## How Feature Chaining Works
+## Chain Links Across Entities
 
 Any feature type that sources from another entity is a chain link. That includes:
 

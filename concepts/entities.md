@@ -176,18 +176,7 @@ Formula features have no `source` field — they operate entirely on the entity'
 
 ### `metric` — Aggregated Value from a Related Entity
 
-Pulls an aggregated value from a metric defined on a different entity. This is **feature chaining** — the mechanism that makes cross-entity totals available as attributes on a dimension entity.
-
-```yaml
-- type: metric
-  name: total_revenue
-  description: Total net revenue from all completed orders placed by this customer
-  data_type: number
-  source: order
-  metric: sum_net_amount
-```
-
-`source` must be an entity name — not a raw table name. The relationship between the two entities must be defined in `entities_relationships.yml`. Without it, the metric feature cannot be resolved.
+Pulls an aggregated value from a metric defined on a different entity — the mechanism that surfaces cross-entity totals as attributes on a dimension entity. The `source` is the related entity, and `metric` is the name of an entity metric defined on that entity. See [Metrics](./metrics.md) for the full mechanic — entity metrics, metric features, feature chaining, filtered metric features, and which join is used.
 
 ### The `source` Field
 

@@ -182,40 +182,12 @@ Pulls an aggregated value from a metric defined on a **related entity**. This is
 
 | Field | Description |
 |---|---|
-| `source` | The related entity whose metric to use (entity name, not a raw table) |
+| `source` | The related entity whose metric to use. Must be an entity name (e.g., `order`), not a raw table name — `metric:` is only defined on entities. |
 | `metric` | The metric name from the related entity's `metrics:` section |
 | `join_name` | Which relationship join to use. Omit to use the default join for this entity pair. |
-| `filters` | Pre-filters applied to the related entity before aggregating. Omit if no filters. |
+| `filters` | Pre-filters applied to the related entity before aggregating. Use a `sql` expression with `{source}.{field_name}` references. Omit if no filters. |
 
-**With filters:**
-
-```yaml
-- type: metric
-  name: revenue_2025
-  description: Total revenue from orders placed in 2025
-  data_type: number
-  source: order
-  filters:
-    - type: sql
-      sql: "{source}.{order_date} >= '2025-01-01' and {source}.{order_date} <= '2025-12-31'"
-  metric: sum_amount
-```
-
-```yaml
-- type: metric
-  name: enterprise_orders_count
-  description: Number of orders from enterprise-tier customers
-  data_type: number
-  source: order
-  filters:
-    - type: sql
-      sql: "{source}.{customer_tier} = 'enterprise'"
-  metric: count_orders
-```
-
-Filters use a `sql` expression. Reference the entity's fields with `{source}.{field_name}`.
-
-**Important:** For `metric` features, `source` must be an entity name (e.g., `order`), not a raw table name (e.g., `db_prod.core.orders`). The `metric:` you reference is defined in that entity's `metrics:` section — raw tables don't have metrics.
+For the full mechanic — feature chaining, filtered metric features, which join is used, and metric-over-metric composition — see [Metrics](../concepts/metrics.md).
 
 ---
 

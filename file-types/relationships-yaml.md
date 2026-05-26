@@ -195,22 +195,9 @@ A metric feature that needs to aggregate orders by billing customer (rather than
 
 ## Feature Chaining via Relationships
 
-The relationship file is what makes metric features work. When `customer` defines:
+The relationship file is what makes metric features work. A metric feature on `customer` that pulls from `order` is only resolvable if a `customer-order` relationship is defined here — the engine uses the relationship's default join to aggregate `order` rows up to each customer.
 
-```yaml
-- type: metric
-  name: total_revenue
-  source: order
-  metric: sum_net_amount
-```
-
-The system:
-1. Looks up the `customer-order` relationship.
-2. Uses the join with `default: true` (`customer_to_order`).
-3. Applies `{source}.{id} = {destination}.{customer_id}`.
-4. Computes `SUM({net_amount})` from `order`, grouped by the customer key.
-
-Without the relationship entry, the metric feature cannot be resolved.
+For the full feature-chaining mechanic and the three components it requires, see [Metrics](../concepts/metrics.md#how-feature-chaining-works).
 
 ---
 
