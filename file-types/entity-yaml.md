@@ -293,7 +293,7 @@ metrics:
 |---|---|
 | `name` | Metric identifier — referenced by `METRIC('name')` in queries |
 | `description` | Explains what it measures and how to use it |
-| `sql` | Aggregation expression. References entity features with `{feature_name}` and can reference other metrics on the same entity via `METRIC('name')` (metric-over-metric composition). See [Metrics in concepts/entities.md](../concepts/entities.md#whats-allowed-in-sql) for the full list of allowed patterns and dialect notes. |
+| `sql` | Aggregation expression. References entity features with `{feature_name}` and can reference other metrics on the same entity via `METRIC('name')` (metric-over-metric composition). See [Metrics](../concepts/metrics.md#whats-allowed-in-sql) for the full list of allowed patterns and dialect notes. |
 
 **Entities are the source of truth.** Raw warehouse tables are inputs — they exist to enrich entities, not to be queried directly. Metrics are defined on entities because entities are where business meaning lives. A raw table has columns; an entity has features, definitions, and metrics that the agent can reason about.
 
@@ -305,7 +305,7 @@ If you need a metric on data that currently lives only in a raw table, you have 
 
 In both cases, the metric ends up on an entity — which is the only place the agent can find and use it.
 
-For what's allowed inside a metric's `sql:` — including conditional aggregation, dialect-specific constructs, and metric-over-metric composition via `METRIC('name')` — see [Metrics in concepts/entities.md](../concepts/entities.md#whats-allowed-in-sql).
+For what's allowed inside a metric's `sql:` — including conditional aggregation, dialect-specific constructs, and metric-over-metric composition via `METRIC('name')` — see [Metrics](../concepts/metrics.md#whats-allowed-in-sql).
 
 ---
 

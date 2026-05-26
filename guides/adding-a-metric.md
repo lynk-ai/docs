@@ -82,7 +82,7 @@ metrics:
 |---|---|
 | `name` | Unique on this entity. Lowercase, underscore-separated. Referenced by `METRIC('name')` in queries. |
 | `description` | Required. Explains what the metric measures, the unit (e.g., USD, count), and any non-obvious scope. |
-| `sql` | Aggregation expression. Reference entity features with `{feature_name}` and other metrics on the same entity with `METRIC('name')`. See [Metrics in concepts/entities.md](../concepts/entities.md#whats-allowed-in-sql) for the full list of allowed patterns and dialect notes. |
+| `sql` | Aggregation expression. Reference entity features with `{feature_name}` and other metrics on the same entity with `METRIC('name')`. See [Metrics](../concepts/metrics.md#whats-allowed-in-sql) for the full list of allowed patterns and dialect notes. |
 
 **Example — adding a revenue metric to `order`:**
 ```yaml

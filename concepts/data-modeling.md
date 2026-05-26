@@ -176,6 +176,7 @@ Both patterns can coexist on the same entity. `player_cohort` in the example abo
 
 ## Related Reference
 
-- [Entities](entities.md) — entity metrics, metric features, and the full feature type reference
+- [Metrics](metrics.md) — entity metrics, metric features, what `sql:` accepts, metric-over-metric composition
+- [Entities](entities.md) — entity anatomy and the full feature type reference
 - [Relationships YAML Reference](../file-types/relationships-yaml.md) — how to define joins and named join paths
 - [Entity YAML Reference](../file-types/entity-yaml.md) — full field reference for defining features and metrics

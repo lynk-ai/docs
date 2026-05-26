@@ -99,7 +99,7 @@ expected_output: |-
   ORDER BY 2 DESC
 ```
 
-**Write `expected_output` in valid Lynk SQL.** See [Lynk SQL](../api/lynk-sql.md) for the full syntax reference — entity references, `METRIC()`, join forms, and the common pitfalls (wrapping entities in `entity('...')`, lowercase `metric()`, missing aliases, curly braces in queries) all live there.
+**Write `expected_output` in valid Lynk SQL.** See [Lynk SQL](../api/lynk-sql.md) for the full syntax reference.
 
 **Apply the domain's default filters** in the expected output — season type exclusions, soft-delete filters, etc. The evaluation tests whether the agent applies them correctly.
 

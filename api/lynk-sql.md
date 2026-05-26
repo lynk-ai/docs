@@ -251,6 +251,7 @@ Every scalar, aggregate, and window function your warehouse supports is availabl
 
 ## Related reference
 
-- [Entities](../concepts/entities.md) — how entity metrics are defined, including metric-over-metric composition
+- [Metrics](../concepts/metrics.md) — how entity metrics are defined, what `sql:` accepts, metric-over-metric composition
+- [Entities](../concepts/entities.md) — entity anatomy and feature types
 - [Relationships YAML Reference](../file-types/relationships-yaml.md) — how join paths are named, defaulted, and configured
 - [Evaluations](../concepts/evaluations.md) — where `expected_output` queries are used

@@ -109,51 +109,9 @@ If you find yourself writing `JOIN ... ON ...` inside a task instruction, stop a
 
 ---
 
-## Lynk SQL Syntax Reference
+## Lynk SQL Snippets
 
-Task instructions are where you put Lynk SQL patterns the agent should follow for this entity.
-
-**Querying an entity:**
-```sql
-FROM customer
-```
-
-**Using an entity metric:**
-```sql
-SELECT
-  plan_type,
-  METRIC('count_customers') AS total_customers
-FROM customer
-GROUP BY plan_type
-```
-
-**Filtering and grouping:**
-```sql
-SELECT
-  country,
-  METRIC('avg_revenue_per_customer') AS avg_revenue,
-  METRIC('count_customers')          AS customer_count
-FROM customer
-WHERE status = 'active'
-GROUP BY country
-ORDER BY avg_revenue DESC
-```
-
-**Feature access** — features are accessed directly by name, no table prefix needed:
-```sql
-SELECT email, plan_type, total_revenue
-FROM customer
-WHERE status = 'active'
-ORDER BY total_revenue DESC
-LIMIT 10
-```
-
-**Syntax rules for SQL examples in this file:**
-
-- Reference entities directly in `FROM` and `JOIN`: `FROM customer`, `JOIN order o` — never `entity('customer')`.
-- Write `METRIC()` uppercase with a single-quoted string literal and an alias: `METRIC('count_customers') AS count_customers`. Lowercase `metric(...)`, unquoted `METRIC(count_customers)`, and unaliased calls all fail.
-- Joins: `JOIN <entity>` with no clause uses the default relationship from `entities_relationships.yml`; `JOIN <entity> USING('relationship_name')` picks a named one; `JOIN <entity> USING(<column>)` joins on a shared column; `JOIN <entity> ON <expr>` is for everything else (extra predicates, CTEs, subqueries).
-- Do not use `{feature_name}` curly braces. That syntax is reserved for *feature-definition* SQL (formula `sql:`, entity-metric `sql:`, metric/first_last filter `sql:`, and join `sql:` in [entity YAML](./entity-yaml.md) and [relationships YAML](./relationships-yaml.md)). In task-instruction SQL examples, features are accessed by name without braces — `WHERE status = 'active'`, `WHERE customer_tier = 'Enterprise'`. See [Lynk SQL](../api/lynk-sql.md) for the full reference.
+Task instructions often include Lynk SQL snippets that show how the agent should query this entity. See [Lynk SQL](../api/lynk-sql.md) for the full syntax reference — entity references, `METRIC()`, join forms, CTEs, and the common pitfalls.
 
 ---
 

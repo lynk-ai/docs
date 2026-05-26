@@ -178,7 +178,7 @@ test_cases:
 
 **Checklist for evaluations:**
 - [ ] Input is written in natural business language — not field names or SQL
-- [ ] Expected output uses entity references (`FROM {entity}`) and `METRIC('name') AS alias` — not the obsolete `entity(...)` wrapper, not lowercase `metric()`
+- [ ] Expected output uses valid Lynk SQL — see [Lynk SQL](../api/lynk-sql.md)
 - [ ] SQL is verified to match actual feature and metric names in the entity YAML
 - [ ] At least one easy evaluation (simple attribute lookup or count)
 - [ ] At least one medium evaluation (filtering, grouping, or a metric that requires the right join)
