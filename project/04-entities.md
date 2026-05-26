@@ -301,7 +301,7 @@ relationships:
 
 ## 4d: Feature Chaining — Enrich `customer` with Metrics from `subscription`
 
-With the relationship defined, add metric features to `customer.yml` that aggregate from `subscription`.
+With the relationship defined, add metric features to `customer.yml` that aggregate from `subscription`. For the concept — what feature chaining is and what makes it work — see [Metrics](../concepts/metrics.md).
 
 Add these to the `features` block in `customer.yml`:
 

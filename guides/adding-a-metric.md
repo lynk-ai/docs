@@ -80,9 +80,9 @@ metrics:
 
 | Field | Requirement |
 |---|---|
-| `name` | Unique on this entity. Lowercase, underscore-separated. Referenced by `metric('name')` in queries. |
+| `name` | Unique on this entity. Lowercase, underscore-separated. Referenced by `METRIC('name')` in queries. |
 | `description` | Required. Explains what the metric measures, the unit (e.g., USD, count), and any non-obvious scope. |
-| `sql` | Aggregation expression. Reference entity features with `{feature_name}`. Standard SQL aggregation functions: `SUM`, `COUNT`, `AVG`, `MIN`, `MAX`, `COUNT DISTINCT`. |
+| `sql` | Aggregation expression. Reference entity features with `{feature_name}` and other metrics on the same entity with `METRIC('name')`. See [Metrics](../concepts/metrics.md#whats-allowed-in-sql) for the full list of allowed patterns and dialect notes. |
 
 **Example — adding a revenue metric to `order`:**
 ```yaml

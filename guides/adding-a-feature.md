@@ -153,6 +153,8 @@ Is the value aggregated from multiple rows?
 
 **Use when:** You need an aggregated value from a related entity's metrics.
 
+For the underlying concept — what feature chaining is and what it requires — see [Metrics](../concepts/metrics.md). This section covers the steps to add one.
+
 ```yaml
 - type: metric
   name: {feature_name}

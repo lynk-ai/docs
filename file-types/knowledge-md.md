@@ -75,7 +75,15 @@ Business-level knowledge loads on every query across every domain — keep it fo
 
 ### Level 2: Domain Knowledge (`domain: "marketing"`)
 
-Domain knowledge loads for every query in the named domain. Use it to expand on the parts of the business that matter to this domain — specific products, business models, or company context that users in this domain reason about every day. Describe who uses this domain, what they care about, what business concepts are relevant to them and why, and how the agent should interact with them.
+Domain knowledge loads for every query in the named domain. It covers two kinds of content:
+
+1. **The domain description** — who uses this domain, what they care about, what's in scope, and what's out of scope. This must come first in every domain knowledge file. Without it the agent has no anchor for what the domain *is*, and downstream content drifts off-topic without a reference point. The Bly example below opens with "Bly's Marketing Model" — that opening is not optional copy; that's the shape every domain knowledge file should take.
+
+2. **Multi-entity rules and conventions** — content that applies to two or more entities in this domain, or that any entity in the domain inherits. Cross-entity attribution rules, default filters that span entities, redirect rules ("retention questions go to the analytics domain"), and audience conventions all live here. Single-entity rules belong in entity knowledge — even when the entity is used in this domain.
+
+The multi-entity test: if a rule *names* two or more entities, applies *across* entities (e.g. "joins between customer and order use last-touch attribution"), or is a convention every entity in the domain inherits, it belongs here. If it's about one entity only, push it down to entity knowledge.
+
+Keep domain knowledge **on-topic for the named domain**. A marketing domain knowledge file should not carry finance content, even if some queries touch both. Cross-domain content belongs in `domain: "*"` (business level) so every domain inherits it. The check: read each section and ask "would the audience for this domain — per the description above — actually care about this?" If no, move it.
 
 ```markdown
 ---
@@ -154,19 +162,15 @@ it overstates recurring revenue and breaks ARR-based analysis.
 
 ## Best Practices
 
-**Be specific, not vague.** "Filter by `status = 'active'` for current customers" is specific. "Consider account status" is vague.
+**Be specific, and explain the why for non-obvious decisions.** "Filter by `status = 'active'` for current customers" is specific; "consider account status" is vague. When a rule has a non-obvious reason — revenue includes refunds, a field isn't real-time, churned accounts are included by default — say so and explain the implication. The agent reasons better when it knows the *why*, not just the *what*.
 
-**Explain the why for non-obvious decisions.** If revenue includes refunds by default, say so and explain why. If a field is not real-time, say so and explain the implication.
-
-**Match the level to the scope.** Business-level (`domain: "*"`) is for facts true everywhere. Domain-level is for audience and conventions. Entity-level is for data semantics. Don't put entity-specific rules in business knowledge or domain conventions in entity files.
+**Match the level to the scope.** Business-level (`domain: "*"`) is for facts true everywhere. Domain-level is for the audience, conventions, and rules that span two or more entities in the domain — and always opens with a description of who uses the domain and what's in scope. Entity-level is for data semantics on a single entity. Rules that name or apply to two or more entities go in domain knowledge; rules about one entity only stay in entity knowledge, and the same rule should never appear in two entity files. Content in a named-domain file stays on-topic to that domain — cross-domain content moves to `domain: "*"`, off-topic content moves to the domain it actually belongs to.
 
 **Treat business-level knowledge as the most carefully curated level.** It loads on every query in every domain. Every line you add is loaded unconditionally — keep it to facts that genuinely apply everywhere.
 
-**Do not duplicate what is in the YAML.** The entity YAML has `description` fields on every feature — including what each field value means. Entity knowledge adds context that spans multiple features or explains how the entity behaves as a whole: cross-feature rules, non-obvious defaults, business rationale. If it's about one field, it probably belongs in the YAML.
+**Do not duplicate what is in the YAML.** The entity YAML has `description` fields on every feature — including what each field value means — and defines metrics and formulas with their calculation logic. Entity knowledge adds context that spans multiple features or explains how the entity behaves as a whole: cross-feature rules, non-obvious defaults, business rationale. If a concept has a calculation, define it in the YAML and reference it by name in knowledge; if it's about one field's values, it belongs in the YAML.
 
 **Short paragraphs, not walls of text.** The agent reads this to orient itself. Three focused bullet points outperform a five-paragraph essay.
-
-**If a concept has a calculation, define it in the entity YAML.** Knowledge files explain what something means. The entity YAML defines how it's calculated. If a concept only exists in prose, the agent re-derives the SQL each time and may get it wrong. Define the metric or formula feature in the YAML first, then reference it by name in context files.
 
 ---
 
@@ -176,17 +180,13 @@ it overstates recurring revenue and breaks ARR-based analysis.
 Avoid these common pitfalls when creating knowledge files.
 {% endhint %}
 
-**Putting SQL patterns in knowledge files.** SQL guidance belongs in task instructions — the agent does not apply knowledge file content when generating SQL. If you write "always filter deleted accounts" in a knowledge file, it may be ignored at query time.
+**Defining SQL, metrics, or calculations in prose instead of the right file.** SQL guidance belongs in task instructions — the agent does not apply knowledge content when generating SQL, so a rule like "always filter deleted accounts" written here may be ignored at query time. Metric definitions belong in the entity YAML — writing "ARPDAU is total daily net revenue divided by DAU" only in prose leaves the agent re-deriving the calculation each time and possibly getting it wrong. Knowledge files explain what concepts *mean*; the YAML defines how they're calculated and task instructions describe how the agent should query them.
 
 **Writing vague statements.** "Consider account status" does not help. "Filter by `status = 'active'` to include only current paying customers" does. Be specific about field names, values, and conditions.
 
 **Listing field value definitions in entity knowledge.** Documenting what `status = 'active'` or `status = 'churned'` means belongs in the feature's `description` in the entity YAML — not in an entity knowledge file. Entity knowledge is for cross-feature rules and entity-level business context. If the rule concerns a single field's values or definition, it belongs in the YAML.
 
-**Domain-wide or business-level knowledge that's too long.** Domain knowledge (`domain: "default"`) loads on every query in that domain. Business knowledge (`domain: "*"`) loads on every query across every domain. If either grows into a wall of text, the agent's ability to extract relevant context degrades. Keep them lean — move entity-specific content into entity knowledge files.
-
-**Missing documentation for complex entities.** If an entity has non-obvious fields, known data quality issues, or business rules that affect interpretation, those belong in entity knowledge — not left undocumented and discovered through wrong answers.
-
-**Defining a metric in prose instead of the entity YAML.** Writing "ARPDAU is total daily net revenue divided by DAU" in a knowledge file describes the term — but doesn't ground it. If `arpdau` is defined as an entity metric in the YAML, the agent queries the pre-built metric directly. Prose descriptions inform the agent's reasoning; YAML metrics are what it actually queries against.
+**Off-topic or misplaced content in a named-domain file.** A `domain: "marketing"` knowledge file should hold marketing-team content — not finance rules, not single-entity rules, not content that applies across every domain. Cross-domain content goes to `domain: "*"`. Single-entity content (e.g. "always exclude `is_test_order = true` on order revenue queries") goes to that entity's knowledge file. And every named-domain knowledge file should open with a description of who uses the domain and what's in scope — without it the agent has no anchor for what fits, and the file drifts off-topic over time.
 
 **Putting entity aliases in the entity YAML.** Aliases — the different names business users use to refer to an entity — belong in the entity knowledge file, not in the entity YAML. The entity YAML defines schema and calculation logic; the knowledge file is where the agent learns how users actually refer to entities in natural language.
 

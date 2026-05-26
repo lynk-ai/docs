@@ -28,7 +28,7 @@ These two layers load together. When the agent identifies that a question is abo
 
 Every entity has a `name` and a `description`. These are the two fields the agent reads first — before looking at features or metrics.
 
-**`name`** is the entity identifier. It appears in queries (`entity('order')`), in relationship keys (`customer-order`), and in metric feature references. Keep it short, lowercase, and unambiguous.
+**`name`** is the entity identifier. It appears in queries (`FROM order`), in relationship keys (`customer-order`), and in metric feature references. Keep it short, lowercase, and unambiguous.
 
 **`description`** is what the agent uses to decide whether this entity is relevant to a question. Vague descriptions cause the agent to miss the entity or pick the wrong one.
 
@@ -176,18 +176,7 @@ Formula features have no `source` field — they operate entirely on the entity'
 
 ### `metric` — Aggregated Value from a Related Entity
 
-Pulls an aggregated value from a metric defined on a different entity. This is **feature chaining** — the mechanism that makes cross-entity totals available as attributes on a dimension entity.
-
-```yaml
-- type: metric
-  name: total_revenue
-  description: Total net revenue from all completed orders placed by this customer
-  data_type: number
-  source: order
-  metric: sum_net_amount
-```
-
-`source` must be an entity name — not a raw table name. The relationship between the two entities must be defined in `entities_relationships.yml`. Without it, the metric feature cannot be resolved.
+Pulls an aggregated value from a metric defined on a different entity — the mechanism that surfaces cross-entity totals as attributes on a dimension entity. The `source` is the related entity, and `metric` is the name of an entity metric defined on that entity. See [Metrics](./metrics.md) for the full mechanic — entity metrics, metric features, feature chaining, filtered metric features, and which join is used.
 
 ### The `source` Field
 
@@ -208,96 +197,9 @@ For the full feature field reference and examples, see [Entity YAML Reference](.
 
 ## Metrics
 
-Metrics are how the agent aggregates data. There are two kinds: **entity metrics**, which define aggregation logic on a fact entity, and **metric features**, which surface that aggregated value as an attribute of a related entity. The two work together through feature chaining.
+Metrics — how the agent aggregates data — are a dedicated concept. There are two surfaces: **entity metrics** defined in the `metrics:` section of an entity YAML, and **metric features** that surface those aggregated values on related entities via feature chaining.
 
-### Entity Metrics
-
-Entity metrics are defined in the `metrics:` section of an entity YAML. Each metric is an aggregation expression — a SQL aggregate function over the entity's features.
-
-```yaml
-metrics:
-  - name: count_orders
-    description: Total number of orders
-    sql: COUNT({order_id})
-
-  - name: sum_net_revenue
-    description: Total net revenue across orders, in USD
-    sql: SUM({net_amount})
-
-  - name: avg_order_value
-    description: Average net order value, in USD
-    sql: AVG({net_amount})
-```
-
-`sql` is a SQL aggregate expression. Feature names inside `{...}` reference features defined on the same entity.
-
-Entity metrics define *how* to aggregate — not which rows to aggregate. Filtering happens at query time, not in the metric definition.
-
-Entity metrics exist on fact entities — `order`, `session`, `purchase`. They are the aggregation primitives that metric features reference from other entities.
-
-### Metric Features
-
-A metric feature is a feature of type `metric` on one entity that pulls an aggregated value from a metric on a related entity.
-
-The `customer` entity below surfaces revenue from the `order` entity:
-
-```yaml
-# On the customer entity
-features:
-  - type: metric
-    name: total_revenue
-    description: Total net revenue from all completed orders placed by this customer
-    data_type: number
-    source: order
-    metric: sum_net_revenue
-```
-
-The `source` field points to the entity whose metrics you want to use. The `metric` field names the specific metric on that entity.
-
-This makes `total_revenue` queryable as an attribute of every customer — without duplicating the aggregation logic. The SQL for `SUM({net_amount})` lives once, on the `order` entity. Any entity that relates to `order` can surface it via a metric feature.
-
-### How Feature Chaining Works
-
-Feature chaining requires three parts:
-
-1. **A fact entity** defines a metric. `order` defines `sum_net_revenue` as `SUM({net_amount})`.
-2. **A relationship** connects the two entities. `customer-order` is defined in `entities_relationships.yml`.
-3. **A metric feature** on the dimension entity references the fact entity's metric. `customer` defines `total_revenue` pointing to `order.sum_net_revenue`.
-
-When the agent resolves `total_revenue` on `customer`, it:
-1. Looks up the `customer-order` relationship
-2. Uses the default join (`customer_to_order`)
-3. Aggregates `SUM({net_amount})` from `order`, grouped by the customer key
-
-All three parts are required. If the relationship does not exist, the metric feature fails to resolve.
-
-### Filtered Metric Features
-
-Metric features can include filters that narrow the rows before aggregating. This lets you define multiple scoped metrics from the same fact entity without creating separate entity metrics for each.
-
-```yaml
-- type: metric
-  name: spend_last_30_days_usd
-  description: Net revenue from purchases in the last 30 days, in USD
-  data_type: number
-  source: purchase
-  filters:
-    - type: sql
-      sql: >
-        {source}.{purchase_currency} = 'USD'
-        AND {source}.{purchase_date} >= CURRENT_DATE - INTERVAL '30 days'
-  metric: sum_net_revenue_usd
-```
-
-`{source}` in filter expressions refers to the source entity, and `{feature_name}` references features defined on that entity. Filters are applied before aggregation.
-
-Filtered metric features are how you express business-specific aggregations — revenue in a fiscal quarter, active subscriptions, spend from a specific channel — without modifying the underlying entity metric.
-
-### Which Join is Used
-
-By default, metric features use the default join on the relationship between the two entities. To use a non-default join, specify `join_name` on the metric feature. Multiple named joins on a relationship let you compute different metrics through different join paths.
-
-For how joins are defined and named, see [Relationships YAML Reference](../file-types/relationships-yaml.md).
+See [Metrics](./metrics.md) for the full reference: what `sql:` accepts, metric-over-metric composition, metric features, feature chaining, filtered metric features, and which join is used.
 
 ---
 

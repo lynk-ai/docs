@@ -16,6 +16,7 @@
 * [Concepts](concepts/README.md)
   * [Domains](concepts/domains.md)
   * [Entities](concepts/entities.md)
+  * [Metrics](concepts/metrics.md)
   * [Context](concepts/context.md)
   * [Agent](concepts/agent.md)
   * [Evaluations](concepts/evaluations.md)

@@ -47,7 +47,7 @@ examples:                        # entity-level query examples
 
 | Field | Required | Description |
 |---|---|---|
-| `name` | Yes | Entity identifier — used in `entity('name')` queries |
+| `name` | Yes | Entity identifier — referenced in queries as `FROM <name>` |
 | `description` | Yes | Human-readable summary for agent context |
 | `key_source` | Yes | The primary warehouse table (schema.db.table format) |
 | `keys` | Yes | List of fields that form the primary key |
@@ -62,7 +62,7 @@ examples:                        # entity-level query examples
 
 When a user asks a question, the agent decides which entities are relevant based on their `name` and `description`. These are the two fields the agent reads first — before looking at features or metrics.
 
-**`name`** is the entity identifier. It appears in queries (`entity('order')`), in relationships, and in metric feature references. Keep it short, lowercase, and unambiguous.
+**`name`** is the entity identifier. It appears in queries (`FROM order`), in relationships, and in metric feature references. Keep it short, lowercase, and unambiguous.
 
 **`description`** is what the agent uses to decide whether this entity is relevant to the question. A vague description means the agent may miss the entity entirely or pick the wrong one. A good description answers:
 - What does this entity represent?
@@ -182,40 +182,12 @@ Pulls an aggregated value from a metric defined on a **related entity**. This is
 
 | Field | Description |
 |---|---|
-| `source` | The related entity whose metric to use (entity name, not a raw table) |
+| `source` | The related entity whose metric to use. Must be an entity name (e.g., `order`), not a raw table name — `metric:` is only defined on entities. |
 | `metric` | The metric name from the related entity's `metrics:` section |
 | `join_name` | Which relationship join to use. Omit to use the default join for this entity pair. |
-| `filters` | Pre-filters applied to the related entity before aggregating. Omit if no filters. |
+| `filters` | Pre-filters applied to the related entity before aggregating. Use a `sql` expression with `{source}.{field_name}` references. Omit if no filters. |
 
-**With filters:**
-
-```yaml
-- type: metric
-  name: revenue_2025
-  description: Total revenue from orders placed in 2025
-  data_type: number
-  source: order
-  filters:
-    - type: sql
-      sql: "{source}.{order_date} >= '2025-01-01' and {source}.{order_date} <= '2025-12-31'"
-  metric: sum_amount
-```
-
-```yaml
-- type: metric
-  name: enterprise_orders_count
-  description: Number of orders from enterprise-tier customers
-  data_type: number
-  source: order
-  filters:
-    - type: sql
-      sql: "{source}.{customer_tier} = 'enterprise'"
-  metric: count_orders
-```
-
-Filters use a `sql` expression. Reference the entity's fields with `{source}.{field_name}`.
-
-**Important:** For `metric` features, `source` must be an entity name (e.g., `order`), not a raw table name (e.g., `db_prod.core.orders`). The `metric:` you reference is defined in that entity's `metrics:` section — raw tables don't have metrics.
+For the full mechanic — feature chaining, filtered metric features, which join is used, and metric-over-metric composition — see [Metrics](../concepts/metrics.md).
 
 ---
 
@@ -291,9 +263,9 @@ metrics:
 
 | Field | Description |
 |---|---|
-| `name` | Metric identifier — referenced by `metric('name')` in queries |
+| `name` | Metric identifier — referenced by `METRIC('name')` in queries |
 | `description` | Explains what it measures and how to use it |
-| `sql` | Aggregation SQL expression. References entity features with `{feature_name}`. |
+| `sql` | Aggregation expression. References entity features with `{feature_name}` and can reference other metrics on the same entity via `METRIC('name')` (metric-over-metric composition). See [Metrics](../concepts/metrics.md#whats-allowed-in-sql) for the full list of allowed patterns and dialect notes. |
 
 **Entities are the source of truth.** Raw warehouse tables are inputs — they exist to enrich entities, not to be queried directly. Metrics are defined on entities because entities are where business meaning lives. A raw table has columns; an entity has features, definitions, and metrics that the agent can reason about.
 
@@ -304,6 +276,8 @@ If you need a metric on data that currently lives only in a raw table, you have 
 2. **Use an existing entity** — if an entity already exists at the same level of granularity, create a relationship between that entity and the raw table, bring the fields in as features via `related_sources`, and define the metric as a rollup on those features.
 
 In both cases, the metric ends up on an entity — which is the only place the agent can find and use it.
+
+For what's allowed inside a metric's `sql:` — including conditional aggregation, dialect-specific constructs, and metric-over-metric composition via `METRIC('name')` — see [Metrics](../concepts/metrics.md#whats-allowed-in-sql).
 
 ---
 
@@ -423,6 +397,9 @@ Metric features require a relationship between the two entities in `entities_rel
 
 **Defining entity aliases in the entity YAML**
 Aliases — the different names business users use to refer to an entity — belong in the entity knowledge file, not here. The entity YAML defines schema, features, and metrics. The knowledge file is where the agent learns how users naturally refer to this entity in questions.
+
+**Using `{feature_name}` curly braces in the `examples:` section's `expected_output`**
+Curly-brace `{feature_name}` is *required* in feature-definition SQL — `formula sql:`, entity-metric `sql:`, metric/first_last filter `sql:`, and join `sql:` — because Lynk resolves those references at compile time. But the `examples:` section's `expected_output` is a Lynk SQL query, not feature-definition SQL, so features are referenced by name without braces. See [Lynk SQL](../api/lynk-sql.md) for the full query-side rules.
 
 **Putting filtering rules, SQL instructions, or cross-entity references in the entity `description`**
 The `description` field is for what the entity represents and what questions it answers — nothing more. Filtering rules like "always exclude `is_inactive = true`" belong in [task instructions](./task-instructions-md.md). Cross-entity pointers like "use the `player` entity for career aggregates" don't belong here either — the agent selects entities based on question relevance, not navigation hints embedded in descriptions.
@@ -587,9 +564,9 @@ examples:
     expected_output: |
       SELECT
         customer_tier,
-        metric('total_arr') as arr,
-        metric('count_customers') as customers
-      FROM entity('customer')
+        METRIC('total_arr') AS arr,
+        METRIC('count_customers') AS customers
+      FROM customer
       WHERE status = 'active'
         AND is_test_account = false
         AND is_deleted = false
@@ -612,7 +589,7 @@ examples:
         nps_score,
         active_subscription_count,
         total_mrr
-      FROM entity('customer')
+      FROM customer
       WHERE status = 'active'
         AND nps_score < 6
         AND active_subscription_count = 0
@@ -766,10 +743,10 @@ examples:
     expected_output: |
       SELECT
         channel,
-        metric('sum_net_revenue') as net_revenue,
-        metric('count_orders') as order_count,
-        metric('avg_order_value') as aov
-      FROM entity('order')
+        METRIC('sum_net_revenue') AS net_revenue,
+        METRIC('count_orders')    AS order_count,
+        METRIC('avg_order_value') AS aov
+      FROM order
       WHERE status = 'completed'
         AND is_test_order = false
         AND order_date >= DATE_TRUNC('month', CURRENT_DATE)
@@ -787,9 +764,9 @@ examples:
     expected_output: |
       SELECT
         channel,
-        metric('refund_rate') as refund_rate_pct,
-        metric('count_orders') as total_orders
-      FROM entity('order')
+        METRIC('refund_rate') AS refund_rate_pct,
+        METRIC('count_orders') AS total_orders
+      FROM order
       WHERE status IN ('completed', 'refunded')
         AND is_test_order = false
       GROUP BY channel
@@ -945,8 +922,8 @@ examples:
     expected_output: |
       SELECT
         device_type,
-        metric('count_players') as active_players
-      FROM entity('player')
+        METRIC('count_players') AS active_players
+      FROM player
       WHERE last_session_at >= CURRENT_DATE - INTERVAL '7 days'
       GROUP BY device_type
       ORDER BY active_players DESC;
@@ -968,7 +945,7 @@ examples:
         total_spend_usd,
         spend_last_30_days_usd,
         last_session_at
-      FROM entity('player')
+      FROM player
       WHERE player_segment = 'whale'
         AND last_session_at < CURRENT_DATE - INTERVAL '14 days'
       ORDER BY total_spend_usd DESC;

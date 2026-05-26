@@ -49,7 +49,7 @@ These capabilities build on the core vocabulary above. They are not required to 
 
 Because these chains can span entity relationships — and because metric features can themselves be inputs to formula features — feature chaining enables building a full data pipeline inside Lynk. Derived features depend on other derived features, across entities, without duplicating SQL. The semantic graph stays the single source of truth.
 
-All three parts are required for feature chaining to work: a metric defined on the fact entity, a relationship connecting the two entities, and a metric feature on the dimension entity referencing that metric. See [Entities](entities.md) for the full mechanics, and [Data Modeling](data-modeling.md) for a worked multi-entity example.
+All three parts are required for feature chaining to work: a metric defined on the fact entity, a relationship connecting the two entities, and a metric feature on the dimension entity referencing that metric. See [Metrics](metrics.md) for the full mechanics, and [Data Modeling](data-modeling.md) for a worked multi-entity example.
 
 ---
 
@@ -58,7 +58,8 @@ All three parts are required for feature chaining to work: a metric defined on t
 | Page | What it covers |
 |---|---|
 | [Domains](domains.md) | How domains scope context to specific audiences — inheritance, overrides, `domain: "*"` vs named domains, conflict handling |
-| [Entities](entities.md) | Entity anatomy — key_source, keys, the four feature types, entity metrics, feature chaining, how context compounds |
+| [Entities](entities.md) | Entity anatomy — key_source, keys, the four feature types, how context compounds |
+| [Metrics](metrics.md) | Entity metrics and metric features — what `sql:` accepts, metric-over-metric composition, feature chaining, filtered metric features, which join is used |
 | [Context](context.md) | The semantic graph — how YAML (data model) and Markdown (context) work together, the five context file types, scoping, compounding |
 | [Agent](agent.md) | How the agent works — the 6-step question-to-answer lifecycle, dynamic context loading, text-to-sql, debugging wrong answers |
 | [Evaluations](evaluations.md) | How evaluations work — test case structure, running evaluations in the UI, the branch-to-main workflow |

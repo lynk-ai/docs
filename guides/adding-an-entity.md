@@ -168,7 +168,7 @@ test_cases:
     input: {natural language question as a user would ask it}
     expected_output: |-
       SELECT ...
-      FROM entity('{entity}')
+      FROM {entity}
       ...
     tags:
       difficulty: EASY
@@ -178,7 +178,7 @@ test_cases:
 
 **Checklist for evaluations:**
 - [ ] Input is written in natural business language — not field names or SQL
-- [ ] Expected output uses `FROM entity('{entity}')` and `metric()` function
+- [ ] Expected output uses valid Lynk SQL — see [Lynk SQL](../api/lynk-sql.md)
 - [ ] SQL is verified to match actual feature and metric names in the entity YAML
 - [ ] At least one easy evaluation (simple attribute lookup or count)
 - [ ] At least one medium evaluation (filtering, grouping, or a metric that requires the right join)

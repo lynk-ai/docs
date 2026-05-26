@@ -109,44 +109,9 @@ If you find yourself writing `JOIN ... ON ...` inside a task instruction, stop a
 
 ---
 
-## Lynk SQL Syntax Reference
+## Lynk SQL Snippets
 
-Task instructions are where you put Lynk SQL patterns the agent should follow for this entity.
-
-**Querying an entity:**
-```sql
-FROM entity('customer')
-```
-
-**Using an entity metric:**
-```sql
-SELECT
-  plan_type,
-  metric('count_customers') as total_customers
-FROM entity('customer')
-GROUP BY plan_type
-```
-
-**Filtering and grouping:**
-```sql
-SELECT
-  country,
-  metric('avg_revenue_per_customer') as avg_revenue,
-  metric('count_customers') as customer_count
-FROM entity('customer')
-WHERE status = 'active'
-GROUP BY country
-ORDER BY avg_revenue DESC
-```
-
-**Feature access** — features are accessed directly by name, no table prefix needed:
-```sql
-SELECT email, plan_type, total_revenue
-FROM entity('customer')
-WHERE status = 'active'
-ORDER BY total_revenue DESC
-LIMIT 10
-```
+Task instructions often include Lynk SQL snippets that show how the agent should query this entity. See [Lynk SQL](../api/lynk-sql.md) for the full syntax reference — entity references, `METRIC()`, join forms, CTEs, and the common pitfalls.
 
 ---
 
