@@ -56,7 +56,7 @@ Dialect-specific constructs pass through if your warehouse supports them:
 - `PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY {net_amount})` — most modern warehouses.
 - `IFF(...)`, `APPROX_PERCENTILE(...)` — Snowflake.
 
-Window functions are not supported inside a metric definition's `sql:`. They are supported in queries — see [Lynk SQL](../api/lynk-sql.md).
+Window functions are not supported inside a metric definition's `sql:`. They **are** supported in `formula` feature `sql:` (a window produces a per-row value, which is what a formula is) and in queries — see [Lynk SQL](../api/lynk-sql.md) and the [formula section of the entity YAML reference](../file-types/entity-yaml.md#formula--derived-value).
 
 ---
 

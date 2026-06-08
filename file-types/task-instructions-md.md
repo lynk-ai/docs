@@ -11,7 +11,7 @@ Task instruction files tell the agent how to execute a specific task — SQL pat
 type: task-instructions
 domain: "default"        # or "*" for all domains
 tasks: "text-to-sql"     # which task this applies to
-entity: customer         # optional — omit for domain-wide instructions
+entity: customer         # optional — a single entity, or a list [a, b, c]; omit for domain-wide instructions
 ---
 ```
 
@@ -20,7 +20,7 @@ entity: customer         # optional — omit for domain-wide instructions
 | `type` | `task-instructions` | Note: hyphen, not underscore |
 | `domain` | `"*"`, `"default"`, `"marketing"`, etc. | Which domain this applies to |
 | `tasks` | `"text-to-sql"` | Which task this file applies to |
-| `entity` | entity name | Optional. Scopes to a specific entity. Omit for domain-wide instructions. |
+| `entity` | entity name, or a list of names (`[a, b, c]`) | Optional. Scopes to a specific entity — or, with a list, to a set of entities (loads when **any** is queried). Omit for domain-wide instructions. |
 
 ---
 
@@ -33,6 +33,7 @@ Task instructions scope by domain and optionally by entity, just like knowledge 
 | All entities in all domains | `domain: "*"` / `tasks: "text-to-sql"` | Any text-to-sql task |
 | All entities in one domain | `domain: "default"` / `tasks: "text-to-sql"` | Any text-to-sql task in this domain |
 | Specific entity | `domain: "default"` / `entity: customer` / `tasks: "text-to-sql"` | text-to-sql on the `customer` entity |
+| A set of entities | `domain: "default"` / `entity: [a, b, c]` / `tasks: "text-to-sql"` | text-to-sql on **any** of the listed entities — for SQL rules shared by several entities, without per-entity duplication |
 
 ---
 

@@ -10,7 +10,7 @@ Knowledge files teach the agent what things mean — definitions, business rules
 ---
 type: knowledge
 domain: "default"        # required — "*", a domain name, or a list of domain names
-entity: customer         # optional — omit for domain-wide knowledge
+entity: customer         # optional — a single entity, or a list [a, b, c]; omit for domain-wide knowledge
 ---
 ```
 
@@ -18,7 +18,7 @@ entity: customer         # optional — omit for domain-wide knowledge
 |---|---|---|
 | `type` | `knowledge` | Identifies this as a knowledge file |
 | `domain` | `"*"`, `"default"`, `"marketing"`, or a list | Which domain(s) this file applies to |
-| `entity` | entity name | Scopes to a specific entity. Omit for domain-wide files. |
+| `entity` | entity name, or a list of names (`[a, b, c]`) | Scopes to a specific entity — or, with a list, to a set of entities (loads when **any** is queried). Omit for domain-wide files. |
 
 ---
 
@@ -31,6 +31,7 @@ Knowledge files are scoped by domain and optionally by entity — context compou
 | Business (company-wide) | `domain: "*"` | Every query in every domain |
 | Domain | `domain: "{domain}"` (e.g. `"default"`, `"marketing"`) | Every query in that domain |
 | Entity | `domain: "{domain}"` + `entity: {entity}` | Every query involving that entity in that domain |
+| Entity set | `domain: "{domain}"` + `entity: [a, b, c]` | Every query involving **any** of the listed entities in that domain — for context shared by several entities, without per-entity duplication |
 
 For the full inheritance model and override rules, see the [Domains reference](../concepts/domains.md).
 

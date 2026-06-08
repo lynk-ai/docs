@@ -28,8 +28,8 @@ name: {entity_name}
 description: {one or two sentence description}
 
 key_source: {warehouse_table}    # primary table — defines entity identity
-keys:                            # fields that uniquely identify a row
-  - {field_name}
+keys:                            # FEATURE names (not raw columns) that uniquely identify a row
+  - {feature_name}
 
 features:                        # attributes — see Feature Types below
   - ...
@@ -50,11 +50,15 @@ examples:                        # entity-level query examples
 | `name` | Yes | Entity identifier — referenced in queries as `FROM <name>` |
 | `description` | Yes | Human-readable summary for agent context |
 | `key_source` | Yes | The primary warehouse table (schema.db.table format) |
-| `keys` | Yes | List of fields that form the primary key |
+| `keys` | Yes | List of **feature names** (not raw column names) that form the primary key. Each entry must match the `name:` of a feature in `features:`. |
 | `features` | Yes | List of feature definitions |
 | `metrics` | No | List of entity metric definitions |
 | `related_sources` | No | Secondary tables for enrichment |
 | `examples` | No | Entity-scoped query examples |
+
+{% hint style="warning" %}
+**`keys` must reference feature names, not raw columns.** Each entry in `keys:` is the `name:` of a feature in `features:` — e.g. `vertical`, not the warehouse column `VERTICAL`. If a key lists a raw column that also has a feature of the same name, the generated SQL projects the column twice and fails at query time with `ambiguous column name`. (So every key column needs a feature, and the key lists that feature's name.)
+{% endhint %}
 
 ---
 
@@ -165,6 +169,10 @@ Declare the `related_source` or the entity relationship before defining the fiel
 | `join_name` | Which join to use. For a `related_source` table, the join defined on that source; for an entity source, a named join on the relationship. Omit (or set `null`) to use the default. |
 | `filters` | Pre-filters applied to the source before retrieving the field. Omit if no filters. |
 
+{% hint style="warning" %}
+**Quote reserved-word source columns.** If a source column's name is a SQL reserved word (e.g. `ORDER`, `ROW`, `VALUE`), quote it in `field:` — `field: '"ORDER"'`. Column identifiers are passed through to the warehouse without auto-quoting, so an unquoted reserved word produces a SQL compile error at query time (which `validate` does not catch).
+{% endhint %}
+
 ---
 
 ### `metric` — Aggregated Value from a Related Entity
@@ -239,6 +247,16 @@ Computes a value from other features on the same entity. References other featur
 ```
 
 Formula features can reference any feature on the same entity — `field`, `first_last`, `formula`, or `metric`. They cannot reference features on other entities.
+
+**Window functions are allowed in a formula's `sql:`.** `ROW_NUMBER()`, `RANK()`, `LAG()`, `OVER (PARTITION BY … ORDER BY …)`, etc. each produce a per-row value, which is exactly what a formula computes — so they belong here. (They are **not** allowed in a *metric*'s `sql:`; see [Metrics](../concepts/metrics.md).) For example, an `order_sequence` formula can rank rows within a group:
+
+```yaml
+- type: formula
+  name: order_sequence
+  data_type: number
+  description: Sequence of this order among the customer's orders (first = 1)
+  sql: ROW_NUMBER() OVER (PARTITION BY {customer_id} ORDER BY {order_date} ASC)
+```
 
 ---
 
