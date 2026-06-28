@@ -1,183 +1,121 @@
+---
+description: Lynk is a semantic layer for AI — a brain organized by concept that teaches an agent how your business thinks.
+icon: brain-circuit
+layout:
+  width: default
+---
+
 # Overview
 
-Data teams carry a lot of knowledge that lives nowhere in the database: what a "churned customer" actually means, which revenue column to trust, why the orders table has duplicates before a certain date, what "monthly active user" counts vs. excludes. When an AI agent queries your data without that context, it makes assumptions — and those assumptions produce wrong answers.
+A Lynk project is the business context an AI agent needs to answer data questions the way a senior insider would — your entities, metrics, vocabulary, and rules, encoded as files and organized by concept.
 
-Lynk is a semantic layer for AI. It gives data teams a structured way to encode their data model and institutional knowledge into files the agent reads before every query. The agent learns your entities, your metrics, your business rules, your vocabulary — and uses them to generate accurate SQL and reliable answers.
-
-The result: an AI analyst that works the way your best analyst does, because you taught it everything your best analyst knows.
+You are not configuring a system; you are teaching an agent how your business thinks. Lynk gives every piece of that knowledge one obvious home, so a builder opening a project recognizes the structure before reading a single file.
 
 ---
 
-## Product Philosophy
+## The mental model
 
-Lynk is built on a few core ideas that shape how everything works:
+A Lynk project is **a brain organized by concept**. Six concept-shaped drawers hold what the agent needs:
 
-**You define everything in files.** The agent knows only what you've written. Nothing is inferred from table names or column patterns. If a rule isn't in a file, the agent doesn't know it — which means you can trust what it does know.
+| Drawer | What it holds |
+|---|---|
+| [`LYNK.md`](concepts/lynk-md.md) | **Orientation.** Who the business is, who a team is, how they think. |
+| [`GLOSSARY.yml`](concepts/glossary.md) | **Vocabulary.** The terms a team uses and what they refer to. |
+| [Domains](concepts/domain/README.md) | **The agents themselves.** One per team, one per audience. |
+| [Entities](concepts/entity/README.md) | **What exists.** Customers, orders, campaigns. Each entity owns everything true about itself. |
+| [Skills](concepts/skill.md) | **How to reason.** Procedures for recurring kinds of analysis. |
+| [Policies](concepts/policy.md) | **Protocol.** How the agent operates and presents. |
 
-**Files live in your Git repository.** Your semantic layer is version-controlled, reviewable, and editable in any IDE. It's not locked inside a SaaS UI. Teams treat it like code.
+Four ideas hold it together:
 
-**Two file types, two jobs.** YAML files define the structure of your data — what entities exist, what fields mean, how metrics are calculated. Markdown files teach the agent how to think — business definitions, vocabulary, SQL rules, behavior. YAML tells the agent *what your data is*. Markdown tells the agent *how to reason about it*.
+**Domains are agents.** Each domain is one team's analytical agent — marketing's agent, sales' agent, finance's agent. Each speaks that team's language and answers in that team's voice. A user always talks to one agent at a time. Designing a domain *is* designing an agent.
 
-**Context compounds.** The agent loads all applicable context together at query time — domain-level rules, entity-specific knowledge, task-specific instructions. More context means more accuracy. Start with the basics and add depth over time.
+**Concepts are the unit of organization, not forms.** Everything true about orders — its definitions, its quirks, its conventions, its analytical patterns — lives in the orders entity. Not split across a knowledge file and an instructions file and a metrics file. One concept, one home.
 
-**One agent, one reasoning layer.** There is one agent. It reads context and produces output — text-to-SQL, answers, analysis. All agent behavior is driven by the files you define. No black boxes.
+**Some content is always loaded; some is loaded on demand.** Orientation, vocabulary, and policies are always in the agent's context. Entities and skills are lazy — the agent indexes them by description and loads only what a question needs.
 
----
-
-## Two File Types
-
-There are two types of files you manage in Lynk:
-
-| Type | Format | What it does |
-|---|---|---|
-| **Data model** | YAML | Defines your data schema — entities (each entity is a level of granularity) and its features, metrics and relationships |
-| **Context** | Markdown | Teaches the agent about your tribal knowledge — knowledge, glossary, task instructions, behavior |
+**The shape never changes.** A project with one domain has the same shape as a project with twelve. Adding a domain is adding a folder, not a restructure.
 
 ---
 
-## What Connects to Lynk
+## The `.lynk/` tree
 
-Lynk connects to your data warehouse with read-only access. Supported warehouses: **Snowflake**, **BigQuery**, **Postgres**, **Clickhouse** and **Trino**. New data warehouse connections are being  added constantly.
+The whole semantic layer lives under a `.lynk/` directory at your repo root. Up to three files sit at the root — `lynk.yml` is required; root `LYNK.md` and `GLOSSARY.yml` are optional. Domains hang off `domains/`, and shared [reference files](concepts/reference-files.md) can sit at the root alongside them.
 
-Entity `key_source` fields point to any table or view in your warehouse — including dbt models. If a dbt model is materialized as a table or view, you can use it as an entity source directly.
-
----
-
-## Your Data Model — YAML Files
-
-These files define the structure of your data. The agent uses them to know what tables exist, what fields mean, and how to calculate metrics.
-
-**Entity YAML** (`<entity>.yml`)
-An entity represents a level of granularity in your data — a real-world thing like `player`, `order`, or `customer`. Each entity has one definition as the source of truth. It defines features (columns), metrics (aggregations), and which source tables to pull from.
-
-**Relationships YAML** (`entities_relationships.yml`)
-Defines how entities connect to each other. Enables the agent to join across entities without guessing.
-
----
-
-## Your Context — Markdown Files
-
-These files teach the agent how to behave and interpret your data. They live alongside your YAML files and are loaded at query time.
-
-Each markdown file has frontmatter that controls its scope — how broadly it applies:
-
-```yaml
----
-type: knowledge
-domain: "*"           # applies to every domain — default, marketing, finance, all of them
-# or
-domain: "default"    # applies ONLY to the main domain — does NOT apply to custom domains like "marketing"
-# optionally add:
-entity: player        # scopes further to a single entity within the domain
----
+```
+.lynk/
+├── lynk.yml            # project settings
+├── LYNK.md             # who the business is
+├── GLOSSARY.yml        # shared vocabulary
+└── domains/
+    ├── core/           # the shared domain others build on (set shared_domain in lynk.yml)
+    │   ├── LYNK.md
+    │   ├── GLOSSARY.yml
+    │   ├── entities/
+    │   │   └── customer/
+    │   │       ├── ENTITY.md      # prose: quirks, conventions
+    │   │       └── schema.yml     # structure: features, metrics, relationships
+    │   ├── skills/
+    │   └── policies/
+    └── marketing/      # one team's agent
+        ├── LYNK.md
+        ├── entities/
+        └── skills/
+            └── attribution-analysis/
+                └── SKILL.md
 ```
 
-{% hint style="warning" %}
-`domain: "default"` does **not** mean "applies everywhere by default." It scopes content to the main domain only. Use `domain: "*"` for content that should apply across all domains. See [Domains](concepts/domains.md) for the full model.
-{% endhint %}
+The smallest project worth querying is one domain with one entity and a `LYNK.md`. See [Layout and naming](reference/layout-and-naming.md) for the full tree and the rules.
 
-The same file type can exist at multiple levels. Context compounds — the agent loads all applicable levels together. There are two independent dimensions that control when a file loads.
+---
 
-**Domain and entity scope** — applies to all context file types:
+## How a project is consumed
 
-| Frontmatter | When the agent loads it |
+A Lynk project is a self-contained git repository — version-controlled, reviewable, editable in any IDE. Agents don't reason against in-progress edits. You push to a branch, the push triggers a build, the build validates the whole layer, and if it passes it deploys and becomes queryable. If it fails, the build is rejected and the last good build keeps serving. Answers are reproducible because they are bound to a specific build of a specific branch and domain.
+
+See [Project](concepts/project.md) for the full lifecycle.
+
+---
+
+## Find your way
+
+<table data-view="cards">
+  <thead>
+    <tr>
+      <th>Start here</th>
+      <th></th>
+      <th data-card-target data-type="content-ref">Target</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>The project</strong></td>
+      <td>The repo, the build lifecycle, branches</td>
+      <td><a href="concepts/project.md">Project</a></td>
+    </tr>
+    <tr>
+      <td><strong>Domains</strong></td>
+      <td>Designing an agent for a team</td>
+      <td><a href="concepts/domain/README.md">Domain</a></td>
+    </tr>
+    <tr>
+      <td><strong>Entities</strong></td>
+      <td>Modeling what exists — ENTITY.md + schema.yml</td>
+      <td><a href="concepts/entity/README.md">Entity</a></td>
+    </tr>
+    <tr>
+      <td><strong>Querying</strong></td>
+      <td>The Lynk SQL dialect</td>
+      <td><a href="api/lynk-sql.md">Lynk SQL</a></td>
+    </tr>
+  </tbody>
+</table>
+
+**Reference** — the shared mechanics every concept relies on:
+
+| If you need… | Go to |
 |---|---|
-| `domain: "*"` | Every query in every domain |
-| `domain: "default"` | Every query in the main domain |
-| `domain: "marketing"` | Every query in the marketing domain |
-| `domain: "default"` + `entity: player` | When the `player` entity is relevant in the main domain |
-
-**Task scope** — applies only to task-instructions files:
-
-| Frontmatter | When the agent loads it |
-|---|---|
-| `tasks: "text-to-sql"` | Only when the agent is generating SQL |
-
-A task-instructions file uses both: it has a `domain` (or `domain` + `entity`) to control which queries it applies to, and a `tasks` field to ensure it only loads during SQL generation.
-
----
-
-**Knowledge**
-What something *is*. Business definitions, data rules, caveats, context. Can be scoped to all domains, to a specific domain, or to a specific entity within a domain. Context compounds — when a query involves the `player` entity, the agent loads domain-level knowledge AND entity-level knowledge together.
-
-**Glossary**
-Your company's vocabulary. Terms, abbreviations, KPI names that only make sense inside your organization. 1–2 sentences per entry. Scoped to a domain.
-
-**Task Instructions**
-Instructions for a specific task. For text-to-SQL: which filters to always apply, edge cases, naming rules. Loaded only when the agent performs that task. Can be scoped to a domain (applies to all entities) or to a specific entity within a domain.
-
-**Behavior**
-How the agent interacts with users. Two types, set via the `kind` field:
-
-- `kind: output_format` — tone, table formatting, insights, data disclaimers, analysis best practices
-- `kind: clarification_policy` — when to ask clarifying questions and how to phrase them
-
----
-
-## What Goes Where
-
-| I want to teach her... | Type | Frontmatter |
-|---|---|---|
-| What the `order` entity is and which tables it uses | Entity YAML | *(YAML file — no frontmatter)* |
-| How `player` and `game` relate to each other | Relationships YAML | *(YAML file — no frontmatter)* |
-| Context that applies across all domains | Knowledge | `type: knowledge` / `domain: "*"` |
-| Context specific to the default domain | Knowledge | `type: knowledge` / `domain: "default"` |
-| Everything about the `player` entity specifically | Knowledge | `type: knowledge` / `domain: "default"` / `entity: player` |
-| What "monthly active user" means in our company | Glossary | `type: glossary` / `domain: "default"` |
-| Always filter inactive accounts when querying orders | Task Instructions | `type: task-instructions` / `domain: "default"` / `entity: order` / `tasks: "text-to-sql"` |
-| Always filter inactive accounts across all entities | Task Instructions | `type: task-instructions` / `domain: "default"` / `tasks: "text-to-sql"` |
-| Always ask for a date range when it's not specified | Behavior | `type: behavior` / `kind: clarification_policy` / `domain: "*"` |
-| Control how the agent formats tables and insights | Behavior | `type: behavior` / `kind: output_format` / `domain: "*"` |
-
----
-
-## How It Works
-
-A user asks: *"Which customers spent more than $10k last quarter?"*
-
-1. **Agent reads context** — loads domain knowledge, the `customer` entity YAML, glossary, behavior files
-2. **Agent reasons** — identifies the right entity, metric, and time filter based on the question
-3. **Agent performs text-to-SQL** — loads entity YAML and task instructions, generates the query
-4. **SQL is generated** — the agent writes a query using Lynk's entity syntax, executed against your warehouse
-5. **Agent formats the response** — applies output format rules, returns the answer
-
-Every step is driven by context you defined. Nothing is guessed. That's the control.
-
-→ See [Agent](concepts/agent.md) for the full step-by-step lifecycle and how to debug wrong answers.
-
----
-
-## Getting Started
-
-**What you need:**
-- A Git repository (GitHub, GitLab, Bitbucket, or any hosted Git service)
-- Read-only credentials for the database schemas you want to connect — Snowflake, BigQuery, Postgres, Clickhouse, or Trino
-
-No local installation required.
-
-**Setup:**
-
-1. Go to [app.getlynk.ai](https://app.getlynk.ai) and create your account.
-2. Run the onboarding flow at [app.getlynk.ai/onboarding](https://app.getlynk.ai/onboarding) — it walks through connecting your Git repository and data warehouse in one flow.
-
-**Connecting your Git repository:** Provide your repository URL and grant Lynk access. Lynk creates a `.lynk/` folder at the root of your repo. This is where your entire semantic layer lives — entity definitions, context files, relationships, evaluations. You can edit files in the Lynk UI or directly in your editor (VS Code, Cursor, or any IDE). Both write to the same repository.
-
-**Connecting your data warehouse:** Provide read-only credentials to the schemas you want Lynk to query. Lynk never writes to your warehouse.
-
-**After setup:** Your repo has a `.lynk/default/` folder — your main domain, where all entity definitions live. The agent can answer questions immediately, but accuracy depends on context. The more you teach it — entity definitions, business rules, glossary terms, SQL patterns — the better it performs. Most teams reach their first trusted production answers within 1–2 days.
-
-{% hint style="info" %}
-**Note on query syntax:** Throughout the docs, examples show queries like `FROM customer` and `METRIC('count_orders')`. This is Lynk SQL — the syntax the agent uses when querying your semantic layer, and the syntax you write when authoring evaluation test cases. See [Lynk SQL](api/lynk-sql.md) for the full reference.
-{% endhint %}
-
----
-
-## Next Steps
-
-| If you want to... | Go to |
-|---|---|
-| Understand the vocabulary (Entity, Feature, Metric, etc.) | [Concepts](concepts/README.md) |
-| See every file type and what it does | [File-Types Reference](file-types/README.md) |
-| Query the semantic layer, or validate / manage it programmatically | [API Reference](api/README.md) |
-| Build a project from scratch | [Project Walkthrough](project/README.md) |
-| Add a new entity to an existing project | [Adding an Entity](guides/adding-an-entity.md) |
+| The directory tree and naming rules | [Layout and naming](reference/layout-and-naming.md) |
+| Frontmatter and the `@` injection operator | [Markdown format](reference/markdown-format.md) |
+| The `sql:` grammar inside `schema.yml` | [SQL expressions](reference/sql-expressions.md) |
+| The query dialect | [Lynk SQL](api/lynk-sql.md) |
