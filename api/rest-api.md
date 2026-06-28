@@ -1,6 +1,6 @@
 # REST API
 
-The Lynk REST API provides HTTP endpoints for querying your semantic layer programmatically — submitting natural language questions and retrieving results without using the Lynk UI.
+The Lynk REST API provides HTTP endpoints for working with your semantic layer programmatically — validating a build and inspecting the data catalog (the warehouse tables and columns the layer points at) without using the Lynk UI. Schemas themselves are authored in the `.lynk/` git repository and deployed through the [build](../concepts/project.md), not edited over the API.
 
 {% hint style="info" %}
 Full REST API documentation is in progress. For current API access and endpoint details, contact your Lynk account team or visit [app.getlynk.ai](https://app.getlynk.ai).
@@ -8,7 +8,7 @@ Full REST API documentation is in progress. For current API access and endpoint 
 
 ---
 
-## Related Reference
+## Related reference
 
 - [Lynk SQL](./lynk-sql.md) — the query syntax the agent uses, which you can also use directly
-- [Evaluations](../concepts/evaluations.md) — test cases that validate agent accuracy before pushing to production
+- [Project](../concepts/project.md) — how a build is validated and deployed before it serves queries
