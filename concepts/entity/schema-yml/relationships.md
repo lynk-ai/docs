@@ -132,7 +132,6 @@ table_relationships:
 - In an `entity_relationship`, **every step target is an entity** — a physical-table intermediate fails the build (model the bridge as its own entity). In a `table_relationship`, every step target is a physical table.
 - An **entity-relationship** step's `sql` references only entities and their features (the owning entity by name, e.g. `player.player_id`) — a physical-table column (`db.schema.table.col`) in an entity relationship fails the build. A **table-relationship** step references physical table columns. In both, the first step's source is the owning entity (resolved from [`identity`](identity-and-imports.md)) — its features in an entity relationship, its identity-table columns in a table relationship; each subsequent step's source is the previous step's target; the final step's target matches the relationship's `table:` / `entity:`.
 - All referenced columns exist on their respective tables/entities.
-- The feature/metric dependency graph is **acyclic** — no feature or metric may transitively depend on itself. A feature on entity A can pull a value across a relationship from B, and a definition on B can pull one back from A — that's fine; only a chain where the *same* definition reappears is illegal (`a.feature_a → b.feature_a → a.feature_a`). Break such a loop by sourcing the looping value from the entity's own columns.
 - At most one relationship per target pair is marked `default: true`.
 
 ## Related

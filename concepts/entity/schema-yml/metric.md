@@ -94,6 +94,7 @@ Two mistakes pass every structural check but still produce the wrong number, so 
 ## Validation
 
 - `name` is unique within the entity (features, metrics, and relationships share one namespace).
+- `name` is unique across the **whole domain**, not just within its entity — a `player_game` and a `team_game` cannot both define a metric named `total_points`. References are always entity-qualified (`player_game.total_points`), so you'd expect that to disambiguate, but the domain's metric namespace is flat: the bare `name` must be globally unique. Give each a distinct name by prefixing its subject — `player_total_points`, `team_total_points`.
 - Two metrics the agent must choose between are **distinguishable** — distinct `name` *and* distinct `description`. Near-identical descriptions are ambiguous even when the names differ.
 - The `sql` computes what the `description` says, and the metric **compiles and field-probes at the Lynk build** — the authoritative surface where every column must resolve to real data. A raw-warehouse check alone is a proxy that can pass while the build fails; fabricated values or columns fail the build.
 - `sql` references only this entity's own features (entity-qualified); cross-entity references and `join_name` are not allowed on a metric.
