@@ -95,7 +95,7 @@ metrics:
 - Both `ENTITY.md` and `schema.yml` are present, and `ENTITY.md` carries valid [frontmatter](../../reference/markdown-format.md#frontmatter-contract).
 - `schema.yml` declares a valid `identity` (see [identity and imports](schema-yml/identity-and-imports.md#validation)).
 - If `ENTITY.md` is marked `enabled: false`, the whole entity is disabled — `schema.yml` included — and can't be queried, referenced, or imported; a reference to it fails the build like a reference to a missing entity.
-- **One concept, one home.** A fact lives on the entity it belongs to and nowhere else — a quirk about orders is not also restated in [`LYNK.md`](../lynk-md.md), a policy, or another entity; everything else points to that single home. When an entity's inline prose grows large, split it into [supporting files](../../reference/markdown-format.md#supporting-files) the body injects on demand, rather than inlining it.
+- **One concept, one home.** A fact lives on the entity it belongs to and nowhere else — a quirk about orders is not also restated in [`LYNK.md`](../lynk-md.md), a policy, or another entity; everything else points to that single home.
 - A domain with no entities passes with a [warning](../domain/README.md#validation).
 
 ## Related

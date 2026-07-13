@@ -32,7 +32,7 @@ To use an aggregate across an entity boundary — `customer` wanting total reven
 
 | Field | Required | Type | Notes |
 |---|---|---|---|
-| `name` | ✓ | string | Unique within the entity across features, metrics, and relationships — **and unique across the whole domain** (see [Validation](#validation)). |
+| `name` | ✓ | string | Unique within the entity across features, metrics, and relationships. |
 | `description` | ✓ | string | What the metric represents. The `sql` must compute **exactly** this — the agent reasons from the description, so a mismatch misleads every query. State the scale (e.g. `0–1` vs `0–100`) for any ratio. |
 | `sql` | ✓ | aggregation expression | References this entity's features, entity-qualified. No cross-entity references. [SQL expressions](../../../reference/sql-expressions.md) grammar. |
 | `data_type` | ✓ | `number` \| `string` \| `datetime` \| `boolean` | The type of the aggregated value. |
@@ -45,7 +45,7 @@ A metric is invoked with `metric(<entity>.<metric_name>)`:
 - **Inside `schema.yml`** — a feature's `sql` can call `metric()` to compose with an aggregate (see [SQL expressions](../../../reference/sql-expressions.md#functions)).
 - **At query time** — the agent writes `metric(<entity>.<metric_name>)` in Lynk SQL; when the entity is aliased, it uses the alias. Full rules in [Lynk SQL](../../../api/lynk-sql.md#metricentitymetric_name).
 
-### Aggregation correctness
+### Computing the right value
 
 Two mistakes pass every structural check but still produce the wrong number, so they are called out here:
 
@@ -94,7 +94,6 @@ Two mistakes pass every structural check but still produce the wrong number, so 
 ## Validation
 
 - `name` is unique within the entity (features, metrics, and relationships share one namespace).
-- `name` is unique across the **whole domain** — two entities in one domain cannot define the same metric name (e.g. a `player_game` and a `team_game` both named `total_points`). Qualify them (`player_total_points`, `team_total_points`); the build rejects the collision even though references are entity-qualified.
 - Two metrics the agent must choose between are **distinguishable** — distinct `name` *and* distinct `description`. Near-identical descriptions are ambiguous even when the names differ.
 - The `sql` computes what the `description` says, and the metric **compiles and field-probes at the Lynk build** — the authoritative surface where every column must resolve to real data. A raw-warehouse check alone is a proxy that can pass while the build fails; fabricated values or columns fail the build.
 - `sql` references only this entity's own features (entity-qualified); cross-entity references and `join_name` are not allowed on a metric.
