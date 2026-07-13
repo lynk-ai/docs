@@ -56,7 +56,7 @@ imports: [...]                    # only when identity points at another entity
 | `table_relationships` | – | list | [relationships](relationships.md) |
 | `entity_relationships` | – | list | [relationships](relationships.md) |
 
-**One namespace.** Feature, metric, and relationship `name`s are unique within an entity, combined — a feature and a metric can't both be called `total_points`. The single namespace makes every reference unambiguous.
+**One namespace.** Feature, metric, and relationship `name`s are unique within an entity, combined — a feature and a metric can't both be called `total_points`. The single namespace makes every reference unambiguous. **Metric names are also unique across the whole domain** — two entities in one domain can't both define `total_points`; qualify them (`player_total_points`, `team_total_points`).
 
 Expressions inside `sql:` and `filter:` follow the [SQL expressions](../../../reference/sql-expressions.md) grammar.
 
@@ -128,7 +128,10 @@ entity_relationships:
 ## Validation
 
 - `identity` is present and valid; `keys` are authored when `identity` is a physical table — see [identity and imports](identity-and-imports.md#validation).
-- `name`s are unique across features, metrics, and relationships combined.
+- `name`s are unique across features, metrics, and relationships combined (within the entity); **metric names are additionally unique across the whole domain**.
+- Every feature and metric `sql` resolves to real columns **and compiles at the Lynk build** — the authoritative surface, not a raw-warehouse check (which is only a proxy and can be false-green). Unbacked columns or fabricated values fail the build.
+- The feature/metric reference graph across entities is **acyclic** — if entity A pulls a value from B and B pulls one back from A, neither can compile; source the value from the entity's own columns to break the loop.
+- Each fact has **one home** — define it on the entity it belongs to and reference it elsewhere rather than restating it; when inline content grows large, move it to a [supporting file](../../../reference/markdown-format.md#supporting-files) loaded on demand.
 - Each sub-definition validates per its own page: [feature](feature.md#validation), [metric](metric.md#validation), [relationships](relationships.md#validation).
 
 ## Related

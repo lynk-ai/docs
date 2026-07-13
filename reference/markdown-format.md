@@ -57,6 +57,8 @@ enabled: true               # optional — defaults to true
 - An [entity](../concepts/entity/README.md) is disabled entirely. `enabled: false` on its `ENTITY.md` disables the **whole entity** — its `schema.yml` included — so it can't be queried, referenced, or imported. A reference to a disabled entity fails the build, exactly like a reference to one that doesn't exist.
 - A [policy](../concepts/policy.md) that overrides a Lynk default falls back to Lynk's default.
 
+When `enabled: false` marks something **deprecated** (rather than in-progress or experimental), leave a one-line pointer to its replacement in the primitive's `description` or body, and keep it discoverable for one release cycle before removing it — so nothing references a primitive that vanishes without warning. The full lifecycle is in [maintaining a layer](./maintaining-a-layer.md#deprecation-lifecycle).
+
 ### References
 
 Files reference each other in three forms. All **file** paths are **absolute from the repo root, beginning `/.lynk/`** — there are no relative reference paths.
