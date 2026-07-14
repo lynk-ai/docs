@@ -129,6 +129,9 @@ entity_relationships:
 
 - `identity` is present and valid; `keys` are authored when `identity` is a physical table — see [identity and imports](identity-and-imports.md#validation).
 - `name`s are unique across features, metrics, and relationships combined.
+- Every feature and metric `sql` resolves to real columns **and compiles at the Lynk build** — the authoritative surface, not a raw-warehouse check (which is only a proxy and can be false-green). Unbacked columns or fabricated values fail the build.
+- The feature/metric dependency graph is **acyclic** — no feature or metric may transitively depend on itself. A definition on entity A can reference one on B, and a definition on B can reference back into A — that's fine, as long as the *same* definition never reappears in the chain (`a.feature_a → b.feature_a → a.feature_a` is the illegal case). Break a cycle by sourcing the looping value from the entity's own columns.
+- Each fact has **one home** — define it on the entity it belongs to and reference it elsewhere rather than restating it.
 - Each sub-definition validates per its own page: [feature](feature.md#validation), [metric](metric.md#validation), [relationships](relationships.md#validation).
 
 ## Related

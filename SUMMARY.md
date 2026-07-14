@@ -28,6 +28,7 @@
 * [Layout and Naming](reference/layout-and-naming.md)
 * [Markdown Format](reference/markdown-format.md)
 * [SQL Expressions](reference/sql-expressions.md)
+* [Best Practices](reference/best-practices.md)
 
 ## API Reference
 

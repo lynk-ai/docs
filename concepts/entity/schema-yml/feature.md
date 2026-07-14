@@ -31,7 +31,7 @@ A feature's `sql` can be a direct column read, a formula over other features, a 
 | Field | Required | Type | Notes |
 |---|---|---|---|
 | `name` | ✓ | string | Unique within the entity across features, metrics, and relationships. |
-| `description` | ✓ | string | Load-bearing — the agent reasons from it. |
+| `description` | ✓ | string | Load-bearing — the agent reasons from it, so the `sql` must produce **exactly** what it describes. State the scale (e.g. `0–1` vs `0–100`) for any ratio. |
 | `sql` | ✓ | SQL expression | The expression after `SELECT` that produces this value. [SQL expressions](../../../reference/sql-expressions.md) grammar. |
 | `data_type` | ✓ | `number` \| `string` \| `datetime` \| `boolean` | The type of the resulting value. |
 | `join_name` | conditional | string | A [relationship](relationships.md) name. Required unless `sql`/`filter` reference only the entity's own identity source and/or its own features — you never need a `join_name` to "join" an entity to itself. Anything reached through a relationship needs one. |
@@ -96,6 +96,7 @@ A few more shapes, for reference:
 ## Validation
 
 - `name` is unique within the entity (features, metrics, and relationships share one namespace).
+- The `sql` computes what the `description` says, and the feature **compiles and field-probes at the Lynk build** — the authoritative surface where every column must resolve to real data. A raw-warehouse check alone is a proxy; fabricated values or columns fail the build.
 - `data_type` is one of `number`, `string`, `datetime`, `boolean`.
 - `join_name` is required unless `sql`/`filter` reference only the entity's own identity source and/or own features; a missing required `join_name` fails.
 - Every reference in `sql`/`filter` is reachable through the declared `join_name` (the local entity plus the join's steps); what each relationship type exposes is the [SQL expressions → join binding](../../../reference/sql-expressions.md#join-binding) rule.
