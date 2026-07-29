@@ -1,0 +1,925 @@
+# ask-docs eval suite — the whole answer key in one reviewable file.
+# Dataset v2 (2026-07-20): v1's 9 cases + 15 new + 5 hold-outs, built from the
+# coverage matrix in reviews/retrieval-eval-loop.md §4. Every case names its
+# band; hold-outs (h001–h005) are scored every round but never diagnosed.
+#
+# Per case:
+#   band          which stretch of the question spectrum this covers
+#   question      what gets asked in a fresh session at docs/
+#   sources       the docs a grounded answer requires; each entry is one need —
+#                 a path, or a nested list of alternatives (any one satisfies)
+#   expect        claims a correct answer makes — each is classified
+#                 happened / didn't happen by the judge, with quoted evidence.
+#                 Write claims positively and independently gradeable; for trap
+#                 cases, the claim IS the refusal ("states the docs don't cover X").
+#   optimal_hops  includes the 2 protocol reads (SUMMARY.md + concepts/README.md)
+#
+# Write expectations FROM the docs and put the why in comments — which page
+# owns each fact. The comments are what keeps this key reviewable later.
+#
+# Case-edit log:
+#   2026-07-19 q006: removed over-strict no-templating claim (irrelevant to the
+#              question; run answered correctly and failed on it).
+#   2026-07-20 v2: band tags added to v1 cases; q010–q024 + h001–h005 written
+#              from the matrix (no case is a pasted failing transcript).
+#   2026-07-20 q014: relaxed the field-enumeration claim (was: lists all six
+#              fields incl. filter). ALL FOUR arms read feature.md, listed
+#              five fields, omitted `filter` — which is not load-bearing for
+#              "add a calculated column". Universal failure + irrelevant
+#              claim = key bug (q006 precedent). The complete-enumeration
+#              behavior is now tested where it IS load-bearing: q009's skill
+#              frontmatter list and q013's metric fields.
+#   2026-07-21 v3: hold-out rotation — h003→q025 (flip-prone, diagnosed as
+#              variance) and h005→q026 (near-miss; the "evaluations planned"
+#              fact got a findable home in project.md, so q026's sources
+#              gained that alternative). q027–q033 wired from
+#              candidates-v3.md (stress tests for the promoted constraints,
+#              incl. q032 as the over-correction NEGATIVE CONTROL, and q033
+#              as a near-miss refusal). Fresh hold-outs h006–h010, unseen
+#              shapes, spread across bands.
+
+cases:
+  # ---------------------------------------------------------------- v1 cases
+
+  # The skill's reason to exist: vocabulary that general analytics blurs.
+  - id: q001
+    band: mechanics
+    question: What's the difference between a feature and a metric in Lynk?
+    # Either page grounds the contrast — each states it in its "What it is" section.
+    sources:
+      - - concepts/entity/schema-yml/metric.md
+        - concepts/entity/schema-yml/feature.md
+    expect:
+      # feature.md "What it is" / metric.md "What it is"
+      - A feature is a row-grain attribute of an entity (one value per entity
+        instance), while a metric is an aggregation across many rows.
+      # metric.md: "A metric is entity-local … cannot reference other entities;
+      # there is no join_name on a metric."
+      - A metric is entity-local — defined on the entity whose rows it
+        aggregates — and its sql cannot reference other entities (no join_name).
+      # metric.md: "you define a feature … whose sql references the cross-entity
+      # metric path through a relationship"
+      - A cross-entity aggregate is exposed as a feature that calls metric()
+        through a relationship (join_name), not as a metric on the other entity.
+      # the skill's output spec requires citing the anchoring page
+      - The answer cites a doc page under concepts/entity/schema-yml/.
+    # SUMMARY.md -> concepts/README.md (protocol) -> either leaf = 3.
+    optimal_hops: 3
+
+  # Converted from lynk-build PR #4, case "domain-glossary-merge" (human-reviewed).
+  - id: q002
+    band: mechanics
+    question: >-
+      Where do domain-level glossaries live in a Lynk project, and what happens
+      when a domain defines a term that already exists in the root glossary?
+    # concepts/domain/glossary.md owns the scope/merge behavior.
+    sources:
+      - concepts/domain/glossary.md
+    expect:
+      # "Where it lives": .lynk/domains/<domain>/GLOSSARY.yml, optionally one per domain
+      - Domain glossaries live at .lynk/domains/<domain>/GLOSSARY.yml, one
+        optional glossary per domain.
+      # "On a key collision, the domain entry wins"
+      - The domain glossary merges with the root glossary, and on a key
+        collision the domain entry wins.
+      # Validation: "expected, not an error"
+      - A collision is expected behavior, not an error.
+      # "Terms the domain doesn't redefine are inherited from the root unchanged"
+      - Terms the domain doesn't redefine are inherited from the root unchanged.
+      # the skill's output spec requires citing the anchoring page
+      - The answer cites concepts/domain/glossary.md.
+    # SUMMARY.md -> concepts/README.md (protocol) -> domain/glossary.md = 3.
+    optimal_hops: 3
+
+  # Pins the s03 simulation failure: "our Lynk agent" must route to policies,
+  # not hijack into modifying the retrieval skill / session / CLAUDE.md.
+  - id: q003
+    band: vocabulary
+    question: >-
+      I want our Lynk agent to always answer in Hebrew and keep answers under
+      100 words. How do I set that up?
+    # policy.md owns runtime-agent behavior; output-format is a shipped Lynk type.
+    sources:
+      - concepts/policy.md
+    expect:
+      # policy.md: "eager, always-apply behavioral commitment"; output-format type
+      - The answer says this is done with a policy (a POLICY.md file), naming
+        the output-format policy type or the policies folder.
+      # "Where it lives": .lynk/domains/<domain>/policies/<name>/POLICY.md
+      - The answer gives the policy file location under
+        .lynk/domains/<domain>/policies/.
+      # overriding a Lynk default: the file fully replaces the default
+      - The answer notes that overriding a Lynk default policy type fully
+        replaces the default.
+      # the s03 failure mode, stated as a negative claim for the judge
+      - The answer does NOT suggest editing the ask-docs skill, the session
+        configuration, or a CLAUDE.md file to change the agent's behavior.
+      # the skill's output spec requires citing the anchoring page
+      - The answer cites concepts/policy.md.
+    # SUMMARY.md -> concepts/README.md (protocol) -> policy.md = 3.
+    optimal_hops: 3
+
+  # Trap E1: Postgres/BQ 2-part table-name prior. 2 segments = domain.entity, always.
+  - id: q004
+    band: limits
+    question: >-
+      My warehouse addresses tables as analytics.customers (schema.table).
+      Write the identity block for a customer entity rooted in that table.
+    sources:
+      - concepts/entity/schema-yml/identity-and-imports.md
+    expect:
+      - The answer says a physical-table identity is always 3 segments
+        (database.schema.table) and tells the user to prefix the database.
+      - The answer warns that a 2-segment identity like analytics.customers
+        would be read as domain.entity (an extension), not as a table.
+      - The answer includes authored keys alongside the identity.
+      - The answer cites concepts/entity/schema-yml/identity-and-imports.md.
+    optimal_hops: 3
+
+  # Trap E2: dbt MetricFlow prior — time grains and tags don't exist.
+  - id: q005
+    band: limits
+    question: >-
+      Add a metric for monthly revenue with a month time grain, tagged
+      finance, to my order entity.
+    sources:
+      - - concepts/entity/schema-yml/metric.md
+        - concepts/entity/schema-yml/README.md
+    expect:
+      - The answer says there is no time grain on a metric — time grouping
+        happens at query time via GROUP BY or WHERE.
+      - The answer says tags (or unknown keys generally) don't exist in
+        schema.yml and would fail the build; the field tables are exhaustive.
+      - The answer gives a valid metric using only name, description, sql,
+        data_type, and optionally filter.
+      - The answer cites a doc page under concepts/entity/schema-yml/.
+    optimal_hops: 3
+
+  # Trap E3: metric parameterization doesn't exist.
+  - id: q006
+    band: limits
+    question: >-
+      How do I parameterize a metric so users can pass a date range — like
+      revenue(start_date, end_date)?
+    sources:
+      - - concepts/entity/schema-yml/metric.md
+        - reference/sql-expressions.md
+    expect:
+      - The answer says a metric takes no arguments or parameters —
+        metric(entity.metric_name) is the entire call.
+      - The answer offers the doc-grounded alternatives — query-time WHERE
+        for parameter-like ranges, or a second metric with a baked filter
+        when the boundary is a business definition.
+      - The answer does NOT invent a parameterized call syntax as valid.
+      - The answer cites a real doc page.
+    optimal_hops: 3
+
+  # Judgment (the s11/s17 simulation gap, now owned by the metrics guide).
+  - id: q007
+    band: debugging
+    question: >-
+      When I ask for total MRR I get a number about 12x too high — the
+      subscription entity has one row per subscription per month. What's
+      wrong with my model and how should this be modeled in Lynk?
+    sources:
+      - guides/metrics-time-and-state.md
+    expect:
+      - The answer names the problem — a balance is semi-additive and the
+        metric is summing across months (periods), not within one.
+      - The answer describes the snapshot-grain pattern with the period
+        constrained at query time (WHERE on the month).
+      - The answer notes the snapshot grain is materialized upstream —
+        an entity's identity cannot be a query.
+      - The answer cites guides/metrics-time-and-state.md.
+    optimal_hops: 3
+
+  # Judgment + routing: verb-shaped placement question -> the guide.
+  - id: q008
+    band: judgment
+    question: >-
+      I have notes about how our team analyzes churn, and they mention
+      specific customer fields. Should this be a skill or should it go in
+      the customer entity's ENTITY.md?
+    sources:
+      - guides/where-knowledge-goes.md
+    expect:
+      - The answer applies the fact-versus-reasoning test — a way of
+        reasoning (a multi-step procedure) becomes a skill; facts about the
+        entity's data stay on the entity.
+      - The answer says the skill references the entity's features (for
+        example via @ injection) rather than restating facts.
+      - The answer cites guides/where-knowledge-goes.md.
+    optimal_hops: 3
+
+  # Contrast partner for q008: fact-shaped question must route to the spec page.
+  - id: q009
+    band: mechanics
+    question: What fields does a skill's SKILL.md frontmatter have?
+    sources:
+      - - concepts/skill.md
+        - reference/markdown-format.md
+    expect:
+      - The answer lists name, description, and the optional enabled flag.
+      - The answer says name must match the folder name.
+      - The answer notes the description is load-bearing — the agent indexes
+        skills by it to decide what to load.
+      - The answer cites concepts/skill.md or reference/markdown-format.md.
+    optimal_hops: 3
+
+  # ------------------------------------------------- v2 dev cases (q010–q024)
+
+  # Orientation: no leaf answers this; the entry points must carry it.
+  - id: q010
+    band: orientation
+    question: >-
+      What is Lynk, and what does a project actually contain? We haven't used
+      a semantic layer before.
+    # README.md is the landing page that owns the mental model.
+    sources:
+      - README.md
+    expect:
+      # README: "the business context an AI agent needs to answer data
+      # questions the way a senior insider would"
+      - The answer says a Lynk project is the business context an AI agent
+        uses to answer data questions — entities, metrics, vocabulary, and
+        rules encoded as files.
+      # README "The mental model": six drawers
+      - The answer names the main kinds of content — orientation (LYNK.md),
+        vocabulary (glossary), domains, entities, skills, and policies.
+      # README: "Domains are agents ... one team's analytical agent"
+      - The answer says domains are agents — one per team or audience.
+      # README "How a project is consumed"
+      - The answer says the project is a git repository consumed as
+        versioned, validated builds.
+      - The answer cites a doc page.
+    optimal_hops: 3
+
+  # First build: the productive minimum, owned by project.md.
+  - id: q011
+    band: first-build
+    question: >-
+      What's the minimum a Lynk project needs before the agent can usefully
+      answer anything?
+    sources:
+      - concepts/project.md
+    expect:
+      # project.md "The minimum project"
+      - The answer says the minimum is one domain with at least one entity,
+        plus a LYNK.md with basic orientation.
+      # project.md: below-minimum passes with warnings
+      - The answer notes a below-minimum project passes validation with
+        warnings — it just can't be queried usefully.
+      # project.md Format: lynk.yml with schema_version is required
+      - The answer mentions lynk.yml (with schema_version) at the .lynk/ root.
+      - The answer cites concepts/project.md.
+    optimal_hops: 3
+
+  # First build: end-to-end walkthrough phrased by a newcomer with a table.
+  - id: q012
+    band: first-build
+    question: >-
+      I have a customers table in Snowflake. Walk me through modeling it in
+      Lynk from scratch.
+    # Any of these grounds the walkthrough: the worked example, the identity
+    # spec, or the schema.yml overview.
+    sources:
+      - - guides/complete-example.md
+        - concepts/entity/schema-yml/identity-and-imports.md
+        - concepts/entity/schema-yml/README.md
+    expect:
+      # entity = folder with ENTITY.md + schema.yml (entity/README, schema README)
+      - The answer creates an entity folder holding ENTITY.md (prose) and
+        schema.yml (structure) under a domain's entities/.
+      # identity-and-imports: 3-segment table identity + authored keys
+      - The answer roots the entity with a 3-segment identity
+        (database.schema.table) and authored keys.
+      # identity-and-imports: "Keys are not features"
+      - The answer declares features for the columns to expose — including
+        any key column that queries or joins need, because keys are not
+        features.
+      - The answer cites a doc page.
+    optimal_hops: 3
+
+  # Vocabulary: dbt/LookML "measure" must land on metric.md.
+  - id: q013
+    band: vocabulary
+    question: Where do I define a measure like total revenue?
+    sources:
+      - concepts/entity/schema-yml/metric.md
+    expect:
+      # metric.md: metrics live under the metrics section of schema.yml
+      - The answer says this is a metric, defined in the metrics section of
+        the schema.yml of the entity whose rows it aggregates (e.g. order).
+      # metric.md Format: name/description/sql/data_type (+ optional filter)
+      - The answer shows or lists the metric fields — name, description,
+        sql, data_type, optionally filter.
+      # metric.md: entity-local
+      - The answer notes a metric is entity-local — it aggregates only its
+        own entity's rows.
+      - The answer cites concepts/entity/schema-yml/metric.md.
+    optimal_hops: 3
+
+  # Vocabulary: "calculated column" must land on feature.md.
+  - id: q014
+    band: vocabulary
+    question: How do I add a calculated column to customers?
+    sources:
+      - concepts/entity/schema-yml/feature.md
+    expect:
+      # feature.md: a feature is the row-grain attribute; sql can be a formula
+      - The answer says this is a feature in the features section of the
+        customer entity's schema.yml, whose sql can be a formula over other
+        features or columns.
+      # feature.md Format: the fields the task needs (see case-edit log —
+      # demanding the full six incl. filter was a key bug, not a model miss)
+      - The answer shows or lists the feature fields needed here — name,
+        description, sql, and data_type.
+      # feature.md: join_name not needed for local references
+      - The answer notes no join_name is needed when the expression only
+        references the entity's own columns or features.
+      - The answer cites concepts/entity/schema-yml/feature.md.
+    optimal_hops: 3
+
+  # Vocabulary, wrong-prior: dbt models are not a Lynk input format.
+  - id: q015
+    band: vocabulary
+    question: >-
+      We already use dbt — do I import our dbt models into Lynk, or how do
+      they fit together?
+    sources:
+      - - concepts/project.md
+        - concepts/entity/schema-yml/identity-and-imports.md
+    expect:
+      # project.md "A project is not": "the data warehouse — the layer points
+      # at tables, it doesn't contain them"
+      - The answer says the layer points at warehouse tables — it doesn't
+        contain or ingest them.
+      # identity-and-imports: entities root in physical tables
+      - The answer says entities are rooted in physical tables via a
+        3-segment identity — so Lynk sits on top of the tables dbt
+        materializes.
+      # negative space: no dbt-import mechanism exists in the docs
+      - The answer does NOT claim Lynk has a dbt-model import or sync
+        mechanism.
+      - The answer cites a doc page.
+    optimal_hops: 3
+
+  # Mechanics, multi-leaf: the canonical cross-entity aggregate, end to end.
+  - id: q016
+    band: mechanics
+    question: >-
+      How do I connect customers to their orders so I can get total order
+      revenue per customer?
+    # Genuinely needs the relationship spec AND the metric/feature pattern.
+    sources:
+      - concepts/entity/schema-yml/relationships.md
+      - - concepts/entity/schema-yml/metric.md
+        - concepts/entity/schema-yml/feature.md
+    expect:
+      # relationships.md: entity_relationships with per-step sql
+      - The answer declares an entity relationship (e.g. customer_to_order)
+        with cardinality and a step whose sql joins on entity.feature paths.
+      # relationships.md: "Join columns must be declared features" + keys rule
+      - The answer says the join columns must be declared as features on
+        both entities — keys alone are not enough.
+      # metric.md: the aggregate is a metric on order, exposed on customer
+      # as a feature wrapping metric() with join_name
+      - The answer defines the revenue aggregate as a metric on the order
+        entity and exposes it on customer as a feature whose sql is
+        metric(order.<name>) with join_name.
+      - The answer cites a doc page under concepts/entity/schema-yml/.
+    # protocol (2) + relationships + metric/feature = 4.
+    optimal_hops: 4
+
+  # Debugging: inconsistent numbers — the computation has no validated home.
+  - id: q017
+    band: debugging
+    question: >-
+      Two people ask our agent for churn rate and get different numbers.
+      How do we make it consistent?
+    sources:
+      - - guides/where-knowledge-goes.md
+        - guides/metrics-time-and-state.md
+    expect:
+      # where-knowledge-goes "glossary shadow metric store" / metrics guide
+      # "glossary-as-computation": prose formulas get re-derived differently
+      - The answer diagnoses that the definition lives only in prose (or
+        nowhere), so the agent re-derives it slightly differently each time.
+      # both guides: define it once where it's validated
+      - The answer says to define the computation once in validated schema —
+        a metric (or a skill holding the canonical query if it's multi-step).
+      # computed-term rule: glossary defines the word and points at it
+      - The answer says the glossary entry defines the word and points at
+        the defined computation, never carries the formula.
+      - The answer cites a guides/ page.
+    optimal_hops: 3
+
+  # Debugging: measure explosion — symptom names no primitive.
+  - id: q018
+    band: debugging
+    question: >-
+      We have revenue_7d, revenue_30d, revenue_mtd and revenue_ytd, and the
+      agent keeps picking the wrong one. What should we do instead?
+    sources:
+      - guides/metrics-time-and-state.md
+    expect:
+      # "Measure explosion" anti-pattern: the window is a parameter
+      - The answer says the time window is a parameter, not a definition —
+        keep one canonical revenue metric and put the window in query-time
+        WHERE.
+      # the mechanism: near-duplicate descriptions make routing a coin flip
+      - The answer explains the failure — near-duplicate metrics with
+        indistinguishable descriptions make the agent's choice arbitrary.
+      - The answer cites guides/metrics-time-and-state.md.
+    optimal_hops: 3
+
+  # Judgment: domain layout for a multi-team rollout.
+  - id: q019
+    band: judgment
+    question: >-
+      We're rolling Lynk out to marketing, finance, and product. Should we
+      make one domain or one per team?
+    sources:
+      - guides/designing-domains.md
+    expect:
+      # "domains map to audiences, never to data ... you merely anticipate"
+      - The answer says domains map to audiences — create one per team only
+        when that team actually arrives with questions, not in anticipation.
+      # "Start with one domain" / ghost-domain anti-pattern
+      - The answer warns against empty placeholder domains (a domain with no
+        audience, entities, or skills behind it).
+      # "What lives in the shared domain": two-consumers + one agreed description
+      - The answer says the shared domain holds only definitions that at
+        least two domains consume and describe the same way.
+      - The answer cites guides/designing-domains.md.
+    optimal_hops: 3
+
+  # Judgment: bake vs parameterize — the boundary-ownership rule.
+  - id: q020
+    band: judgment
+    question: >-
+      Should I bake "last 30 days" into the metric's filter, or leave it to
+      the query?
+    sources:
+      - guides/metrics-time-and-state.md
+    expect:
+      # "Bake a time boundary only when it is a business definition"
+      - The answer says "last 30 days" is a parameter of the question and
+        belongs in query-time WHERE, not in the definition.
+      # the litmus: bake when removing the filter changes what the word means
+      - The answer gives the rule — bake a filter only when it is part of
+        the business definition (removing it would change what the word
+        means).
+      - The answer cites guides/metrics-time-and-state.md.
+    optimal_hops: 3
+
+  # Context engineering: the growing-ENTITY.md question, in the user's words.
+  - id: q021
+    band: context-engineering
+    question: >-
+      Our customer ENTITY.md is 400 lines and every question about customers
+      loads all of it. How should we restructure it?
+    sources:
+      - guides/context-engineering.md
+    expect:
+      # "The three-tier entity split"
+      - The answer gives the three-tier split — a one-line routing
+        description, a body holding only what every analysis needs, and
+        supporting files (instructions/, examples/) linked for on-demand
+        loading.
+      # the bar: body ~150 words / activation cost drops
+      - The answer says the body should shrink to the always-needed core
+        (the guide's bar is ~150 words) so situational detail stops taxing
+        every activation.
+      # link vs @: situational content is linked, not injected
+      - The answer says situational content is linked rather than
+        @-injected, because @ loads eagerly on every activation.
+      - The answer cites guides/context-engineering.md.
+    optimal_hops: 3
+
+  # Context engineering: the @ vs link decision.
+  - id: q022
+    band: context-engineering
+    question: >-
+      In these markdown files, when should I use @ injection versus a plain
+      link?
+    sources:
+      - - guides/context-engineering.md
+        - reference/markdown-format.md
+    expect:
+      # "@ vs link": eager vs on-demand
+      - The answer says @ injects eagerly — the content loads on every load
+        of the host file — while a link is followed only on demand.
+      # the rule: @ for short + needed by most loads; link for situational/long
+      - The answer gives the rule — inject only what is short and needed by
+        most loads of the host; link anything situational or long.
+      # prefer conceptual paths over whole files
+      - The answer prefers a conceptual path (e.g.
+        @glossary.<term>.description) over injecting a whole file.
+      - The answer cites a doc page.
+    optimal_hops: 3
+
+  # Context engineering: the load model, asked without Lynk vocabulary.
+  - id: q023
+    band: context-engineering
+    question: >-
+      What does the agent have in its context all the time, versus what gets
+      pulled in only when a question needs it?
+    sources:
+      - - guides/context-engineering.md
+        - README.md
+    expect:
+      # README mental model / guide's load classes: the always tier
+      - The answer says orientation (LYNK.md), the glossary, and policies
+        are always loaded.
+      # the lazy tier: entities and skills indexed by description
+      - The answer says entities and skills are lazy — the agent indexes
+        them by their descriptions and loads only what a question needs.
+      # guide: linked supporting files are free until summoned
+      - The answer mentions linked supporting files load only on demand.
+      - The answer cites a doc page.
+    optimal_hops: 3
+
+  # Limits: identity cannot be an inline query (but a view works —
+  # product-confirmed 2026-07-21; the old key called view answers
+  # "inventions" and penalized two CORRECT runs. Negative-space keys must
+  # be product-verified, not docs-inferred.)
+  - id: q024
+    band: limits
+    question: >-
+      Can I define an entity on top of a SQL query instead of a table?
+    sources:
+      - - concepts/entity/schema-yml/identity-and-imports.md
+        - guides/metrics-time-and-state.md
+    expect:
+      # identity-and-imports: a warehouse relation (table or view) or an
+      # entity — never an inline query
+      - The answer says an identity is never an inline SQL query — it must
+        be a 3-segment warehouse relation or a 2-segment entity.
+      - The answer gives the doc-grounded alternative — create a view or
+        materialize a table in the warehouse for the query's result, and
+        root the entity's identity in that.
+      - The answer cites a doc page.
+    optimal_hops: 3
+
+  # ---------------------------------- hold-outs (h001/h002/h004, h006–h010)
+  # Scored every round; NEVER read during diagnosis. If dev scores climb and
+  # these don't, the skill is being tuned to the cases. (q025/q026 below are
+  # ex-hold-outs rotated to dev in v3; kept in place for diff-friendliness.)
+
+  # Orientation, fully naive: the value question with zero Lynk vocabulary.
+  - id: h001
+    band: orientation
+    holdout: true
+    question: >-
+      Our dashboards disagree with each other and every analyst writes their
+      own SQL. What would Lynk actually change about how we work?
+    sources:
+      - README.md
+    expect:
+      # README: one home per concept; encoded as files
+      - The answer says business definitions get one home each — entities,
+        metrics, vocabulary, and rules encoded as files instead of scattered
+        SQL.
+      # README "How a project is consumed": validated builds, reproducible
+      - The answer says agents answer against versioned, validated builds,
+        which is what makes answers reproducible and consistent.
+      - The answer cites a doc page.
+    optimal_hops: 3
+
+  # First build / extension: reuse without duplication.
+  - id: h002
+    band: first-build
+    holdout: true
+    question: >-
+      Marketing wants their own view of customers without copying what the
+      core team already built. How do we set that up?
+    sources:
+      - concepts/entity/schema-yml/identity-and-imports.md
+    expect:
+      # identity: core.customer — the extending case
+      - The answer declares marketing's customer with identity pointing at
+        the core entity (a 2-segment core.customer identity) rather than a
+        table.
+      # imports are explicit cherry-picks, by reference
+      - The answer says imports are explicit cherry-picks and are by
+        reference — parent changes propagate, nothing is copied.
+      # local additions on top
+      - The answer says marketing can add its own features on top of the
+        imports.
+      - The answer cites concepts/entity/schema-yml/identity-and-imports.md.
+    optimal_hops: 3
+
+  # Debugging via vocabulary: teach the agent a term. Ex-h003, rotated to
+  # dev in v3 after flipping both ways across rounds (variance case).
+  - id: q025
+    band: debugging
+    question: >-
+      The agent doesn't know what "active user" means for us. Where do I
+      teach it that?
+    sources:
+      - concepts/glossary.md
+    expect:
+      # glossary.md: a term the team uses -> GLOSSARY.yml entry
+      - The answer adds a GLOSSARY.yml entry — a snake_case key with name
+        and description.
+      # always loaded; the agent resolves terms against it
+      - The answer says the glossary is always loaded and the agent resolves
+        the user's terms against it.
+      # scope: root vs domain glossary, domain wins on collision
+      - The answer mentions the term can live in the root glossary or a
+        domain's, with the domain winning on a collision.
+      - The answer cites concepts/glossary.md.
+    optimal_hops: 3
+
+  # Judgment / context engineering: eager rule vs lazy recipe.
+  - id: h004
+    band: judgment
+    holdout: true
+    question: >-
+      Some SQL style rules should apply to every answer the agent gives.
+      Other query recipes only matter for specific analyses. Where does each
+      go?
+    sources:
+      - - guides/where-knowledge-goes.md
+        - guides/context-engineering.md
+    expect:
+      # placement table: always-apply behavioral rule -> policy
+      - The answer puts the always-apply rules in a policy, because policies
+        are eager, always-loaded behavioral commitments.
+      # verb-shaped, situational -> skill (lazy)
+      - The answer puts the situational recipes in skills, which load only
+        when a matching question arrives.
+      # policy-creep warning: situational rules must not become policies
+      - The answer warns against making situational rules policies — the
+        always-loaded tier taxes every question and only ever grows.
+      - The answer cites a guides/ page.
+    optimal_hops: 3
+
+  # Limits: metric testing tooling is negative space (planned, not shipped).
+  # Ex-h005, rotated to dev in v3. Five independent failures showed the fact
+  # was findable only via one parenthetical in api/lynk-sql.md; project.md's
+  # Lifecycle now carries it too (the page that owns what the build checks).
+  - id: q026
+    band: limits
+    question: >-
+      Where do I write tests that assert my metrics return the right
+      numbers?
+    # v3.1: the boundary index (reference/what-lynk-does-not-do.md) is now
+    # the intended first stop for "does Lynk support X" — added as an
+    # alternative.
+    sources:
+      - - api/lynk-sql.md
+        - concepts/project.md
+        - reference/what-lynk-does-not-do.md
+    expect:
+      # 2026-07-21: dropped "notes what the build DOES validate" — that fact
+      # is groundable only from project.md, but the sources accept
+      # api/lynk-sql.md alone (a run legitimately answered from it and
+      # failed). Rule: every claim must be groundable from EVERY source
+      # alternative, or the alternatives are wrong.
+      - The answer says evaluation/testing tooling for expected query
+        results is planned but not yet available.
+      - The answer does NOT invent a test framework, assertion syntax, or
+        testing folder as an existing Lynk capability.
+      - The answer cites a real doc page.
+    optimal_hops: 3
+
+  # -------------------------------- v3 dev cases (q027–q033, from candidates)
+  # Stress tests for the constraint-prominence sweep: each tempts the
+  # compressed, wrong answer. Score constraint-presence, not phrasing.
+
+  # Cross-page confusion: transfers LYNK.md's additive model to policies.
+  - id: q027
+    band: limits
+    question: >-
+      LYNK.md composition is additive — the domain file extends the root
+      file. Policies work the same way, so my clarification override just
+      extends Lynk's defaults, right?
+    sources:
+      - concepts/policy.md
+    expect:
+      # policy.md (promoted): "Overriding a Lynk default fully replaces it
+      # — it does not merge."
+      - The answer says no — overriding a Lynk default policy fully
+        replaces it; the default bullets are gone, not extended.
+      # "Composition is per domain. Policies don't merge across scopes."
+      - The answer says policies don't merge across scopes, unlike
+        LYNK.md's additive composition.
+      - The answer does NOT confirm the additive analogy for policies.
+      - The answer cites concepts/policy.md.
+    optimal_hops: 3
+
+  # Debugging framing, no constraint keyword: the topology-default trap.
+  - id: q028
+    band: debugging
+    question: >-
+      I have two domains, core and marketing. In marketing's customer
+      schema I wrote identity pointing at core.customer and the build
+      fails with a topology error. Why?
+    sources:
+      - - concepts/lynk-yml.md
+        - concepts/entity/schema-yml/identity-and-imports.md
+    expect:
+      # lynk-yml.md (promoted): "By default there is no shared domain..."
+      - The answer says there is no shared domain by default — cross-domain
+        references require shared_domain to be set in lynk.yml's topology.
+      # identity-and-imports (promoted): extension requires shared_domain
+      - The answer gives the fix — declare the shared domain (e.g.
+        shared_domain set to core) under topology in lynk.yml.
+      - The answer cites concepts/lynk-yml.md or
+        concepts/entity/schema-yml/identity-and-imports.md.
+    optimal_hops: 3
+
+  # Half-true adversarial: two true clauses, wrong conclusion.
+  - id: q029
+    band: limits
+    question: >-
+      Medallion is the default topology, and medallion lets a domain
+      reference the shared domain — so cross-domain imports work out of
+      the box on a new project, correct?
+    sources:
+      - concepts/lynk-yml.md
+    expect:
+      - The answer says no — until shared_domain is explicitly set, a
+        domain may reference only its own files and the root reference
+        files.
+      - The answer acknowledges the true parts — medallion is the default
+        pattern — while rejecting the conclusion.
+      - The answer cites concepts/lynk-yml.md.
+    optimal_hops: 3
+
+  # Invent-a-field temptation: no structured pointer exists.
+  - id: q030
+    band: limits
+    question: >-
+      I want the glossary term active_customer to resolve to the customer
+      entity's metric. What field links a term to its entity or metric?
+    sources:
+      - concepts/glossary.md
+    expect:
+      # glossary.md (promoted): "no structured pointer ... prose must stand
+      # on its own"
+      - The answer says no such field exists — a glossary entry has no
+        structured pointer to an entity or metric.
+      - The answer says the resolution lives in the description prose,
+        which must stand on its own (it may name the metric in prose).
+      - The answer does NOT invent a linking field or reference syntax.
+      - The answer cites concepts/glossary.md.
+    optimal_hops: 3
+
+  # Multi-hop: policy composition + the shared-domain gate together.
+  - id: q031
+    band: judgment
+    question: >-
+      Marketing and sales should share the same disclaimer behavior in
+      every answer. Can I put a policy in core and have both domains
+      inherit it?
+    sources:
+      - concepts/policy.md
+    expect:
+      # policy.md: "Composition is per domain. Policies don't merge across
+      # scopes." + the reference-file @ injection pattern
+      - The answer says policies are per-domain and don't merge across
+        scopes — there is no inheritance from core.
+      - The answer gives the doc-grounded pattern — shared prose in a
+        reference file (or the shared domain) injected into each domain's
+        policy with an @ reference.
+      - The answer cites concepts/policy.md.
+    optimal_hops: 3
+
+  # NEGATIVE CONTROL — over-correction tripwire: composition still composes.
+  - id: q032
+    band: mechanics
+    question: >-
+      Do domain glossaries and domain LYNK.md fully replace the root ones,
+      the way a policy override replaces the Lynk default?
+    sources:
+      - - concepts/lynk-md.md
+        - concepts/domain/lynk-md.md
+      - - concepts/glossary.md
+        - concepts/domain/glossary.md
+    expect:
+      # lynk-md.md: composition is additive; domain glossary merges,
+      # domain wins — the model must NOT over-generalize "replacement".
+      - The answer says no — a domain LYNK.md composes additively with the
+        root (extends, never replaces).
+      - The answer says the domain glossary merges with the root, with the
+        domain winning only on a key collision and other terms inherited.
+      - The answer confirms the contrast — full replacement is policy
+        override behavior, not how LYNK.md or glossaries compose.
+      - The answer cites a doc page.
+    optimal_hops: 4
+
+  # Near-miss refusal: plausible leaf, absent fact.
+  - id: q033
+    band: limits
+    question: >-
+      Is there a maximum length for a feature's description in schema.yml?
+    sources:
+      - concepts/entity/schema-yml/feature.md
+    expect:
+      - The answer says the docs don't specify a length limit for
+        descriptions.
+      - The answer does NOT invent a character or word limit.
+      # feature.md: description is required and load-bearing
+      - The answer notes what the docs DO say — the description is
+        required and load-bearing (the agent reasons from it).
+      - The answer cites concepts/entity/schema-yml/feature.md.
+    optimal_hops: 3
+
+  # ------------------------------------------ v3 fresh hold-outs (h006–h010)
+
+  # Mechanics: multiple relationships to one target + the default flag.
+  - id: h006
+    band: mechanics
+    holdout: true
+    question: >-
+      Our players connect to sessions two different ways — all sessions,
+      and only real play sessions. How do I model both, and which one does
+      the agent use by default?
+    sources:
+      - concepts/entity/schema-yml/relationships.md
+    expect:
+      - The answer declares two entity relationships to the same target,
+        each with its own name and description.
+      - The answer marks exactly one default true — the agent's
+        query-time navigation hint when a pair has several relationships.
+      - The answer says the non-default one is reached by naming it with
+        USING('<join_name>') at query time.
+      - The answer cites concepts/entity/schema-yml/relationships.md.
+    optimal_hops: 3
+
+  # Context engineering: routing is controlled by descriptions.
+  - id: h007
+    band: context-engineering
+    holdout: true
+    question: >-
+      The agent keeps loading our huge order entity for questions that
+      have nothing to do with orders. What controls that?
+    sources:
+      - guides/context-engineering.md
+    expect:
+      - The answer says the entity's description controls routing — it is
+        what the agent reads when deciding whether to load the entity.
+      - The answer prescribes the fix — a description stating what-it-is,
+        grain, and use-for, discriminating against sibling entities.
+      - The answer cites guides/context-engineering.md.
+    optimal_hops: 3
+
+  # First build / lifecycle: what happens after a push.
+  - id: h008
+    band: first-build
+    holdout: true
+    question: >-
+      After I push my changes, how long until the agent answers from
+      them? Do I need to deploy something?
+    sources:
+      - concepts/project.md
+    expect:
+      - The answer says the push itself triggers a build that validates
+        the whole layer and deploys automatically if validation passes.
+      - The answer says a failed build doesn't deploy — the previous good
+        build keeps serving.
+      - The answer says agents never reason against in-progress or
+        unvalidated edits.
+      - The answer cites concepts/project.md.
+    optimal_hops: 3
+
+  # Vocabulary, wrong prior: LookML explores/joins.
+  - id: h009
+    band: vocabulary
+    holdout: true
+    question: >-
+      Where do I set up joins? In LookML I'd define an explore with join
+      blocks.
+    sources:
+      - concepts/entity/schema-yml/relationships.md
+    expect:
+      - The answer routes to relationships in the entity's schema.yml —
+        entity_relationships with cardinality and per-step join sql.
+      - The answer says relationships are directional — each side declares
+        its own, in its own vocabulary.
+      - The answer says the join columns must be declared as features on
+        both entities.
+      - The answer cites concepts/entity/schema-yml/relationships.md.
+    optimal_hops: 3
+
+  # Limits near-miss: no refresh/materialization scheduling exists.
+  - id: h010
+    band: limits
+    holdout: true
+    question: >-
+      Can I schedule a metric to refresh or materialize nightly?
+    sources:
+      - - concepts/entity/schema-yml/metric.md
+        - api/lynk-sql.md
+        - reference/what-lynk-does-not-do.md
+    expect:
+      - The answer says the docs have no refresh or materialization
+        scheduling for metrics — a metric is a definition evaluated at
+        query time against a deployed build.
+      - The answer does NOT invent a schedule, refresh, or materialization
+        setting.
+      - The answer cites a real doc page.
+    optimal_hops: 3

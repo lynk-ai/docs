@@ -1,0 +1,18 @@
+[project]
+name = "ask-docs-evals"
+version = "0.1.0"
+description = "Eval suite for the ask-docs retrieval skill"
+requires-python = ">=3.11"
+dependencies = [
+    "pytest>=8",
+    "pyyaml>=6",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["."]
+python_files = ["eval_*.py", "lint_*.py"]
+python_functions = ["eval_*", "test_*"]
+addopts = "-v -rA"
+markers = [
+    "evaluation: runs live LLM sessions (costs money, ~40s per case)",
+]
