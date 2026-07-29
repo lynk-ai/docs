@@ -1,4 +1,4 @@
-root: ./
+root: ./docs/
 
 structure:
   readme: ./README.md
@@ -6,4 +6,4 @@ structure:
 
 redirects:
   concepts/lynk-sql-api: api/lynk-sql.md
-  project/index: project/README.md
+  reference/best-practices: guides/evolving-the-layer.md

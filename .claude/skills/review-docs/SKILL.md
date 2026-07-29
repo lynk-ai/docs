@@ -22,6 +22,8 @@ As you review, keep these standing concerns in the back of your mind — the que
 - **Trust and accuracy:** How do I know the answers are right? What's the failure mode when they're wrong?
 - **Integration reality:** Does the doc acknowledge real-world setup complexity — dbt, Snowflake, BI tools — or does it pretend everything just works?
 - **Security and compliance:** If this doc touches data access, does it address data residency, access controls, and audit trails?
+- **Placement:** Is this content in the right genre? Judgment prose padding a spec page, or spec mechanics restated inside a guide, is a structure bug — flag it against the placement cascade in the edit-docs skill.
+- **Constraint prominence:** Is every act-on-it-now constraint (precondition, prohibition, irreversible behavior) a bolded standalone sentence opening its section — or is it hiding mid-paragraph, in a code comment, or in a parenthetical? Buried preconditions get compressed out of agent answers (measured at 75% drop rate); flag each one against the constraint-prominence rule in the edit-docs skill.
 
 When the content you're reviewing doesn't address one of these concerns — and it should — flag it.
 
@@ -35,7 +37,7 @@ If no target was given, look at:
 - Files recently edited (from git status or recent conversation context)
 - Topics discussed in this conversation
 
-Suggest **3-4 specific options** to the user and wait for their choice. Be specific — don't say "docs," say "the glossary file at `file-types/glossary-md.md`."
+Suggest **3-4 specific options** to the user and wait for their choice. Be specific — don't say "docs," say "the glossary page at `docs/concepts/glossary.md`."
 
 Never review the entire docs folder in one pass unless the user explicitly says so.
 
@@ -45,12 +47,18 @@ Never review the entire docs folder in one pass unless the user explicitly says 
 
 Read the actual files. Do not rely on memory or summaries. If the target is a section of a larger file, read the whole file to understand context.
 
-This is a standalone docs repository. All documentation lives at the root level, organized into topic folders:
-- `overview/` — getting started, main concepts, file types overview, project structure
-- `concepts/` — deep-dive references: domains, entities, context, agent, evaluations, Lynk SQL
-- `file-types/` — field-by-field reference for every file type (YAML and Markdown)
-- `guides/` — task-focused how-to guides
-- `project/` — step-by-step walkthrough using a real example
+This is a standalone docs repository. All documentation lives under `docs/` in four folders — `concepts/` (spec pages per primitive), `reference/` (cross-cutting mechanics), `guides/` (verb-shaped judgment pages), `api/` (query interfaces) — plus `docs/README.md` and `docs/SUMMARY.md`. Read `docs/SUMMARY.md` for the authoritative page list; do not rely on a memorized tree.
+
+---
+
+## Step 2.5: Identify the genre
+
+Each genre has its own failure mode — review against the right one:
+
+- **Concept page** (`concepts/`): does `## What it is` say *why this primitive exists*, or does it only categorize? Does every `## Validation` bullet correspond to a possible build failure (quality bars belong in guides)? Are examples correct-only, labeled, canonical-company?
+- **Reference page** (`reference/`): is this one mechanic, documented once, or has concept content leaked in?
+- **Guide** (`guides/`): does it give *decision criteria you could apply to your own case*, or platitudes? Do anti-patterns name real failure mechanisms with observable consequences (wrong number, build error) — not just "don't"? Does it restate spec that should be a link? Are wrong examples labeled?
+- **API page** (`api/`): could you write the call from this page alone?
 
 ---
 

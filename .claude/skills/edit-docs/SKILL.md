@@ -5,19 +5,29 @@ description: Edit, update, or make changes to Lynk's documentation. Use this ski
 
 # Edit Docs Skill
 
-You're helping maintain Lynk's technical documentation — a standalone docs repository of Markdown files that explain how to use Lynk to data engineers and technical users.
+You're helping maintain Lynk's technical documentation — a standalone docs repository of Markdown files that explain how to use Lynk. The docs describe the **Semantics v2** model: a `.lynk/` repository organized **by concept**, where domains are agents, entities own everything true about themselves, and a small set of primitives share one uniform shape.
+
+## The mental model — why the docs are built this way
+
+Every rule in this skill derives from five principles. When a case isn't covered, derive the answer from these:
+
+1. **Context, not content.** The reader is an AI agent mid-task, loading a few pages into a bounded window. Every token on a page taxes every answer that loads it. Pages are lean, self-contained, token-bounded; depth is lazy. The GitBook site is a projection, never the design target.
+2. **The delta over the model's priors.** The consumer already knows analytics, dbt, SQL. Document only what it cannot infer: where Lynk differs, what the build enforces, the judgment seniors carry. Restating general knowledge is negative value. **Negative space is content** — what doesn't exist must be said, or the prior fills the gap with invented syntax.
+3. **A navigable typed graph.** Titles + frontmatter descriptions are the routing layer (the generated router in `concepts/README.md` surfaces them); fixed page anatomy gives predictable anchors; the mesh keeps every fact one hop from any mention; four genres hold four kinds of knowledge; every sentence has exactly one home.
+4. **The docs obey the physics they teach.** Concept pages ≈ entities (lazy, one home), descriptions ≈ the lazy-load index, guides ≈ skills (verb-shaped, JIT), this contract ≈ a policy, lint + evals ≈ the build. When unsure how to structure something, ask: *how would Lynk model this?*
+5. **Correct is behavioral.** A doc is right when a fresh agent session, given the docs alone, answers or acts correctly. Docs quality is measured by the eval suite (`evals/ask-docs/`), not judged editorially; a doc change without a guarding eval case is unverified.
 
 ## References
 
-These reference files are available to you, load them when relevant to the task — do not load all of them by default.
+Load when relevant to the task — not by default.
 
 | Reference | File | When to load |
 |---|---|---|
-| GitBook custom blocks | `references/gitbook_blocks.md` | When adding or editing GitBook-specific components: hints, tabs, steppers, expandable sections, columns, cards, embeds, buttons, or any `{% %}` block syntax |
-| GitBook frontmatter | `references/gitbook_frontmatter.md` | When configuring page-level settings: description, icon, hidden, layout width, sidebar visibility, or page-level variables |
-| GitBook variables & expressions | `references/gitbook_variables.md` | When working with dynamic content — space or page variables, or `<code class="expression">` inline expressions |
-| GitBook structure & navigation | `references/gitbook_structure.md` | When modifying SUMMARY.md, .gitbook.yaml, understanding file organization, or working with Git Sync |
-| Canonical example companies | `references/canonical-companies.md` | When writing or editing Full Examples sections in `file-types/` docs — contains exact entity names, feature names, metrics, and glossary terms for Grove (B2B SaaS), Bly (E-commerce), and Arcadia (Mobile gaming) |
+| GitBook custom blocks | `references/gitbook_blocks.md` | Adding/editing hints, tabs, steppers, cards, or any `{% %}` block |
+| GitBook frontmatter | `references/gitbook_frontmatter.md` | Page-level settings: description, icon, hidden, layout |
+| GitBook variables & expressions | `references/gitbook_variables.md` | Dynamic content |
+| GitBook structure & navigation | `references/gitbook_structure.md` | Modifying SUMMARY.md, .gitbook.yaml, redirects, Git Sync |
+| Canonical example companies | `references/canonical-companies.md` | Writing/editing any `## Examples` section, any guide's Patterns/Anti-patterns, or the complete-example page |
 
 ## Your mission
 
@@ -27,246 +37,164 @@ When the user asks you to edit or update documentation, follow these steps:
 
 ## Step 1: Load structure and style
 
-Before anything else, read these files:
+Read **`docs/README.md`** (the mental model) and **`docs/SUMMARY.md`** — the authoritative list of every page. Do not rely on any inlined tree; SUMMARY.md is the single page registry, and the generated router in `docs/concepts/README.md` carries each page's one-line description.
 
-1. **`README.md`** (repo root) — The index of all documentation files. This tells you what sections exist, what each file covers, and how the docs are organized.
-2. Load additional references from the References table above only when relevant to the task.
+The four content folders under `docs/`:
 
-This is a standalone docs repository. All documentation lives at the root level in topic folders:
-- `concepts/` — deep-dive references: domains, entities, context, agent, evaluations
-- `file-types/` — field-by-field reference for every file type (YAML and Markdown)
-- `guides/` — task-focused how-to guides
-- `project/` — step-by-step walkthrough using a real example
-- `api/` — query interfaces: Lynk SQL syntax and REST API
+- `docs/concepts/` — one spec page per primitive, mirroring the `.lynk/` tree.
+- `docs/reference/` — cross-cutting mechanics, documented once.
+- `docs/guides/` — verb-shaped judgment and methodology pages; lazy-loaded, linked from the concepts they advise.
+- `docs/api/` — query interfaces.
 
-Writing style: write like an engineer talking to engineers — direct, precise, honest, no hype. No buzzwords, no vague claims, no marketing language.
+Writing style: an engineer talking to engineers — direct, precise, honest, no hype.
 
 ## Step 2: Understand the request
 
-If the request is clear, proceed. If anything is ambiguous — which section is affected, what exactly should change, whether new content should live in an existing file or a new one — ask before touching files. One clarifying question is better than making the wrong edit.
+If anything is ambiguous — which page, what exactly changes, existing page vs new — ask one clarifying question before touching files.
 
-## Step 3: Identify affected files
+## Step 3: Place the content (the cascade)
 
-Docs changes often ripple. Think about:
-- The primary file where the change belongs
-- Any files that reference the changed concept (e.g., `readme.md` table of contents, overview pages that summarize detail pages)
-- Whether the change introduces new content that should be reflected in the index
+Classify what you're about to write, in this order:
 
-List all the files you plan to touch and explain why each one is affected.
+1. **A new primitive or file type in the product?** → new `concepts/` page at the position mirroring the `.lynk/` tree.
+2. **A fact about one existing primitive** (field, behavior, build rule)? → the narrowest *slice* of that primitive's page: a Format row, a Validation bullet, an Example. Never a new page.
+3. **A mechanic shared by ≥2 concepts?** → the owning `reference/` page; a new one only for a genuinely new mechanic.
+4. **A query-interface capability?** → `api/`.
+5. **Judgment** — how to choose, size, name, write well; a pattern, anti-pattern, quality bar? → the existing `guides/` page whose job matches. A *new* guide only for a new decision class (test: verb-shaped title + at least two patterns or anti-patterns to say). One stray observation is a bullet in an existing guide.
+6. **One-sentence judgment bound to a specific field?** → that field's Format Notes cell, linking to the guide.
+
+If you're writing "it depends" or "prefer X when…", you're writing a guide. Then list all files the change touches (the home, the pages that should link instead of restate, the indexes) and why.
 
 ## Step 4: Read existing content
 
-Read every file you plan to edit before writing anything. Don't overwrite blindly — understand what's already there, what the structure is, and how your change fits.
+Read every file you plan to edit before writing anything.
 
 ## Step 5: Show a plan and get confirmation
 
-**For minor edits** (fixing a single sentence, correcting a value, updating one field): describe what you'll change in one sentence, then proceed.
-
-**For significant changes** (rewrites, new sections, new pages, structural changes): present the proposed structure first and wait for confirmation before writing. If the user wants adjustments, update the plan first.
+**Minor edits** (a sentence, a value, a field): describe the change in one sentence, then proceed. **Significant changes** (rewrites, new sections, new pages, structural changes): present the proposed structure first and wait for confirmation.
 
 ## Step 6: Make the edits
 
-Write the changes. Follow the style guide:
-- Short sentences, active voice, specific over vague
-- One idea per paragraph, whitespace between sections
-- Technical but not academic — explain how things work, not just that they work
-- No buzzwords, no hype, no vague claims
-- Tables and bullet lists for reference content; prose for explanations
-- Apply the Terminology Rules at the end of this skill.
+Follow the templates and rules below.
 
-## Step 7: Update the readme
+## Step 7: Update the indexes
 
-After every change, update `README.md` (repo root) to reflect:
-- New files added (add a row to the relevant table)
-- Changed file purposes (update the description)
-- New sections or structural changes
+- **`SUMMARY.md`** — the sidebar matches the filesystem exactly; no orphans, no dangling entries. Guides live in the `## Guides` section. A new guide is added there **and** to the Related section of each concept it advises (every page needs in-degree ≥ 2: SUMMARY plus at least one content page).
+- **`README.md`** — update the mental-model tables or navigation cards if a page was added, removed, or repurposed.
+- **Run `python3 scripts/generate_router.py`** after adding, moving, retiring, or re-describing any page — the router in `concepts/README.md` is generated from frontmatter and must not go stale.
+- **Retired or moved pages get a `redirects:` entry** in `.gitbook.yaml` — published URLs must not break.
 
-The readme is the index — keep it accurate.
+## Step 8: Keep links and reference topology intact
 
-## Step 8: Update summary.md
+Every cross-topic mention is a link; every link resolves; nothing restates content that has a home elsewhere. Then run the static lint: `cd evals/ask-docs && uv run pytest -m "not evaluation"`.
 
-After updating `README.md`, edit `summary.md` to reflect the same structural changes:
-- New files added (add the appropriate entry in the correct section)
-- Renamed or moved files (update the path)
-- Removed files (remove the entry)
-- New sections or folders (add a section header and entries)
+## Step 9: Guard the change
 
-`summary.md` drives the GitBook sidebar — keep it in sync with `README.md`.
-
-## Step 9: Suggest skill updates if folder structure changed
-
-If this edit added or removed a top-level documentation folder (beyond `concepts/`, `guides/`, `project/`, `file-types/`, `api/`), suggest — but do not make — an update to the `edit-docs` skill itself.
-
-Specifically: each top-level folder needs its own `###` section in the **Docs Sections** part of the skill explaining the folder's purpose, page structure, tone, and conventions for editing and adding pages. Without that, future edits to the new folder will lack the guidance needed to stay consistent.
-
-Tell the user: "You may want to add a section to the edit-docs skill for the new `<folder>/` folder covering its purpose, page structure, and editing conventions."
-
-Do not edit the skill file — only flag the need.
+Per principle 5: a consequential content change should have an eval case in `evals/ask-docs/datasets/questions.yaml` that would fail without it. Add one (or flag that one is needed) for anything an agent could previously get wrong.
 
 ---
 
-## Docs Sections
+## The spec page template (`concepts/` and `reference/`)
 
-The docs have the following distinct sections. Each has its own purpose, structure, and conventions. Match the section before writing anything.
+GitBook frontmatter (`description`, `icon`) above the title. The `description` is routing-load-bearing — it appears verbatim in the router.
 
----
+```
+# <Topic>                ← one-line definition directly under the title
+## What it is            ← three moves, ≤150 words total (see below)
+## Where it lives        ← path(s) in the .lynk/ tree
+## Format                ← contract only: field/grammar tables with required/optional + types
+## Examples              ← two examples, labeled by what they show
+## Validation            ← machine-enforced rules ONLY
+## Related               ← parent · sub-concepts · reference pages · Guides: line
+```
 
-### Project Walkthrough (`project/`)
+**Rules:**
 
-**Purpose:** A top-down narrative guide for building a complete semantic layer from scratch. Pages follow a prescribed build sequence and tell a story using Grove (a B2B SaaS company) as the running example.
+- **All six sections, in this order.** No `## Contents` section — GitBook renders its own ToC, and the block is dead tokens for the agent. For **container concepts** (project, domain, entity), `## Format` is the folder-contract table — containers follow the same template; there are no exempt pages.
+- **`## What it is` makes exactly three moves:** (a) role + the delta from the nearest confusable primitive; (b) *why the model shapes it this way* — 1–3 sentences of rationale; (c) use-when / don't-when one-liners, linking to the governing guide for the long form. A What-it-is that only categorizes fails review.
+- **`## Format`** carries contracts. A Notes cell may hold ONE sentence of field-bound judgment ("state the scale"); anything needing a paragraph goes to a guide.
+- **`## Validation` litmus: every bullet corresponds to a possible build failure.** Quality bars ("descriptions should be distinguishable") live in guides. **A rule that contradicts the reader's prior carries its why inline** — one sentence of mechanism, so the agent can generalize it.
+- **Constraint prominence.** A constraint the reader must act on *while applying* the page — a precondition ("X must already exist"), a prohibition ("never X"), an irreversible behavior — opens its section or paragraph as a **bolded standalone sentence**. Never mid-paragraph, never only in a code comment or parenthetical: agents synthesizing a page compress out non-prominent preconditions (measured: a mid-paragraph "identity is never a query" was dropped from 75% of answers; the same rule bolded at the pattern's start survived).
+- **`## Related`** ends with a `Guides:` line when a guide governs this concept.
 
-**Page structure:**
-- `# Step N: [Step Name]` title
-- 1–2 sentence framing of what this step produces and why it precedes the next step
-- `## Why [This Step]?` — explain the reasoning using contrast: what goes wrong if skipped vs. what you gain
-- `## [Substep Name]` for each file or action in this step:
-  - **Location:** exact file path
-  - A "This file answers: *...*" line stating what question the file is written to resolve
-  - A fenced code block with a complete, realistic Grove example (not a skeleton with `{placeholders}`)
-  - A `**What to include:**` bullet list and a `**What to leave out:**` bullet list
-- A `## Key Point` section tying the step back to the build sequence rationale
+## The guide template (`guides/`)
 
-**Tone:** Narrative and instructional together. Always explain *why* alongside *what*. "Write the glossary first, because without it the agent has to guess what 'churned customer' filters on."
+```
+# <Verb-shaped title>    ← one line: the decision this guide produces
+## When you need this    ← 3–5 trigger situations (mirror them in the frontmatter description)
+## The principle         ← the one rule that generates the patterns; ≤100 words
+## Patterns              ← ### per named pattern: situation → ONE recommended move (+ named deviation conditions; never a menu) → canonical-company example
+## Anti-patterns         ← ### per named anti-pattern, as a TRIPLE: wrong form (real syntax, labeled) → why it fails (the observable mechanism) → the fix
+## The bar               ← checklist of testable statements defining a good X
+## Related               ← the concept pages this guide governs (bidirectional)
+```
 
-**Editing an existing page:** Update examples, file paths, or guidance bullets. If the build sequence changes, update `project/README.md` step list and `README.md`.
+**Rules:** verb-shaped title and description ("Choosing…", "How to decide…"); a guide quotes at most **one line** of spec — anything more is a link; guides never restate field tables or mechanics; each guide is bounded by a nameable decision question and capped at ~1,200 words — split by task, never grow past it; the **constraint-prominence rule** (spec Rules above) applies to every Pattern — a precondition the reader must satisfy before the pattern works opens the pattern as a bolded sentence, never mid-paragraph or in a code comment.
 
-**Adding a new step:** Only if the build sequence genuinely changes. Add the step file, add it to `project/README.md`'s numbered list, and add a row to the Project Walkthrough table in `README.md`.
+## The example policy
 
----
+- Spec pages are **correct-only**: two examples, one minimal + one realistic, each labeled in bold by *what it shows* (never "Minimal"/"Realistic"), structurally different from each other, using canonical-company data — no placeholders.
+- **Wrong examples exist only in guides' Anti-patterns**, always inline-labeled ("wrong — double-counts"). Deprecated/legacy forms (e.g. `METRIC('name')`) appear only as explicit, labeled anti-examples.
+- Every schema example obeys the build rules: keys declared as features where joined or queried, no templating, metrics take no arguments, cross-entity aggregates as features wrapping `metric()`.
 
-### Concepts (`concepts/`)
+### No duplication — one concept, one home
 
-**Purpose:** Deep-dive reference for how specific systems behave across the platform. These pages explain cross-cutting behavior that affects multiple file types or the agent as a whole — not tied to any single file type or build step.
+A topic is documented in one place; every other page links to it. When about to explain something, check whether it already has a home:
 
-**Page structure:**
-- `# H1` title — the concept name, short
-- 2–3 sentence intro explaining what the concept is and why it matters
-- Named `##` sections for each distinct aspect of the behavior, each with:
-  - Prose explanation of how the system works
-  - Code examples showing real behavior (not `{placeholders}`)
-  - Field reference tables where relevant
-- No "When to Use" or "When NOT to Use" sections — concepts pages explain behavior, not when to create a file
+| Topic | Home |
+|---|---|
+| The `.lynk/` tree, folder & naming rules | `reference/layout-and-naming.md` |
+| Frontmatter contract and `@` injection | `reference/markdown-format.md` |
+| The `sql:` grammar (segment counts, functions, filter, join binding) | `reference/sql-expressions.md` |
+| `lynk.yml` settings incl. `topology` | `concepts/lynk-yml.md` |
+| Cross-domain reference rules | `concepts/lynk-yml.md#topology` |
+| Build lifecycle, the project minimum | `concepts/project.md` |
+| Capability boundaries ("Lynk doesn't do X" — by-design / planned / upstream) | `reference/what-lynk-does-not-do.md` — one line + link per boundary; the full rule stays on the owning spec page |
+| The query dialect | `api/lynk-sql.md` |
+| Placement judgment (what goes where) | `guides/where-knowledge-goes.md` |
+| Metrics/time/state judgment | `guides/metrics-time-and-state.md` |
+| Entity design judgment | `guides/designing-entities.md` |
+| Domain design judgment | `guides/designing-domains.md` |
+| Context budgeting (@ vs link, splitting files) | `guides/context-engineering.md` |
+| Change management (renames, deprecation, changelog) | `guides/evolving-the-layer.md` |
+| The complete worked example | `guides/complete-example.md` |
 
-**Tone:** Precise and explanatory. Describe what the system does, not what the user must do. "Named domains inherit from `domain: '*'`" not "you must configure inheritance."
+For anything not in this table, the router (`docs/concepts/README.md`) lists every page with its one-line description.
 
-**Editing an existing page:** Update prose, examples, or tables to reflect current system behavior. Do not add file-type-specific detail that belongs in `file-types/`.
+### Linking rules
 
-**Adding a new page:** Propose the title, intro, and `##` section outline — get confirmation before writing. Then add a row to the Concepts table in `README.md`.
-
----
-
-### File-Types Reference (`file-types/`)
-
-**Purpose:** Deep-dive reference for every file type. Used when someone needs exact structure, allowed fields, or to understand what content belongs where. Two sub-types: Markdown context files (Template A) and YAML reference files (Template B).
-
-#### Template A — Markdown Context Files
-
-1. **Title + description** — `# H1` title followed by 2–4 sentences: what this file type is, what it controls, and why it matters.
-
-2. **Frontmatter** — The YAML frontmatter block with a field reference table showing exact keys and allowed values.
-
-3. **File Body** — What goes into this file. Use a named `##` subsection for each distinct content area (e.g., "Domain-Wide Knowledge", "Entity Knowledge"). Within each subsection: one sentence explaining what belongs there, followed by a fenced code block with realistic field names and actual values (not `{placeholders}`). Add a callout note after the code block if there's a constraint or common mistake specific to that content area.
-
-4. **Best Practices** — 4–6 rules. Each is a bolded lead sentence + one sentence of explanation.
-
-5. **Common Pitfalls** — 3–5 anti-patterns. Each is bolded with an explanation of why it fails.
-
-6. **When to Use This File** — Lead with 2–3 numbered decision criteria (the actual rule for when to add an entry), then give 4–5 example trigger scenarios below as illustrations. Format for examples: `"trigger phrase"` → what to add/update. Decision criteria first, examples second — a data engineer setting up a new file needs the rule, not just pattern-matching.
-
-7. **When NOT to Use This File** — Redirects to the correct file for each common mistake. Format: "if X, use Y instead."
-
-8. **Full Examples** — Exactly 3 examples, one per canonical company (see **Canonical Example Companies** below). Always in this order: B2B SaaS → E-commerce → Mobile gaming. One-sentence intro per example explaining what it demonstrates. Use the exact entity names, feature names, metric names, and glossary terms from the canonical profiles — do not invent new ones. No placeholder text.
-
-#### Template B — YAML Reference Files
-
-1. **Title + description** — `# H1` followed by 2–4 sentences explaining what this YAML file is, what it defines, and why it exists.
-
-2. **Top-Level Structure** — A skeleton YAML with inline comments on all top-level keys. Followed by a field reference table.
-
-3. **Field Reference** — Each major YAML section in its own `##` subsection, with field tables, allowed values, and inline examples.
-
-4–8. Same as Template A (Best Practices, Common Pitfalls, When to Use, When NOT to Use, Full Examples — but Full Examples are complete YAML files).
-
-**Rules for both templates:**
-- All 8 sections must be present. Section order is fixed.
-- Do not add sections outside this structure without explicit user approval.
-- Full Examples must use realistic data — no `{placeholder}` values in examples.
-
-**Adding a new file-type page:** Rare — only when a new file type is introduced to the product. Use the appropriate template in full, then add a row to the File-Types Reference table in `README.md`.
-
----
-
-### Guides (`guides/`)
-
-**Purpose:** Task-focused how-to guides for specific operations. Each guide answers "how do I do X?" with a concrete, actionable checklist a developer can follow step by step.
-
-**Page structure:**
-- `# Guide: [Task Name]` title
-- `## Before You Start` — 2–4 decision questions to answer before beginning. Each is a bolded question + one sentence explaining why it matters (what goes wrong if you skip it).
-- Numbered steps (`### 1. [Step Name]`), each containing:
-  - **File:** exact file path with `{entity}` style placeholders for variable parts
-  - A minimum-viable code block (YAML or Markdown) using `{placeholder}` values to show structure
-  - A `**Checklist:**` with `- [ ]` items for that step
-  - A `→ See [Reference Page]` link to the relevant file-type reference
-- `## Quick Reference` table at the end: Step | File | Reference
-
-**Tone:** Direct and imperative. "Create the entity YAML." "Add relationships." "Verify." No padding, no explanation of why unless it prevents a common mistake.
-
-**Editing an existing guide:** Update file paths, code snippets, or checklist items. Keep step numbering stable — renaming a step number ripples into any doc that links to it.
-
-**Adding a new guide:** Follow the structure above exactly. Before writing, propose the title, "Before You Start" questions, and numbered step list — get confirmation. Then add a row to the Guides table in `README.md`.
-
----
-
-### API Reference (`api/`)
-
-**Purpose:** Documents the interfaces for querying the Lynk semantic layer — how to write queries and how to call Lynk programmatically. Distinct from Concepts (which explains how systems work) and File-Types Reference (which documents what you write).
-
-**Page structure:**
-- `# H1` title — the interface name
-- 2–3 sentence intro: what this interface is, who uses it, and when
-- Named `##` sections for each major capability or syntax element, each with:
-  - A short explanation of what it does
-  - A realistic code example (not `{placeholders}`)
-  - A field or statement reference table where relevant
-- A `## Related Reference` section linking to the Concepts or File-Types pages that provide deeper context
-
-**Tone:** Reference-first. Assume the reader knows what they want to do and needs the exact syntax. Explain behavior where it's non-obvious; skip motivation.
-
-**Editing an existing page:** Update syntax, examples, or supported statement tables to match current system behavior.
-
-**Adding a new page:** Only when a new query interface is introduced. Propose the title, intro, and `##` section outline — get confirmation before writing. Then add a row to the API Reference table in `README.md` and an entry in `SUMMARY.md`.
+- First mention of another concept links to it; parents link down, sub-concepts link up in their opening line.
+- Domain-scope pages (`domain/lynk-md.md`, `domain/glossary.md`) defer the shared definition to the root concept page and state only scope behavior.
+- Concept pages link to every reference page they rely on; guides link to every concept page they govern.
 
 ---
 
 ## Constraints
 
-- Only edit documentation files in the topic folders (`concepts/`, `file-types/`, `guides/`, `project/`, `api/`) and `README.md`. Do not edit `.claude/` or tooling files unless the user explicitly asks.
+- Only edit documentation files in `docs/concepts/`, `docs/reference/`, `docs/guides/`, `docs/api/`, `docs/README.md`, and `docs/SUMMARY.md`. Do not edit `.claude/`, `docs/.claude/`, `docs/CLAUDE.md`, or tooling files unless the user explicitly asks.
 - Always read before writing.
-- Always update `README.md` after changes.
+- Keep `README.md`, `SUMMARY.md`, and the generated router in sync with the filesystem.
 - If you find yourself writing "leverage", "revolutionary", or "game-changing", stop and rewrite.
-- **Never use customer names in examples.** Database names, schema names, table names, column names, entity names, and field values shown in code blocks or prose must be generic. Use `MAINDB`, `PUBLIC`, `ORDERS`, `CUSTOMERS` and the canonical example companies (Grove / Bly / Arcadia) — never a real Lynk customer's tenant, schema, or product terminology. Before saving any edit, scan your additions for proper-noun strings that look like a real organization (uppercase company-like tokens, product code names) and replace them with generic equivalents.
+- **Never use customer names in examples.** Use `maindb`, `public`, generic table names, and the canonical companies (Grove / Bly / Arcadia). Before saving, scan additions for proper nouns that look like a real organization.
 
----
+## Writing style
 
-## Canonical Example Companies
+- Short sentences, active voice, specific over vague. One idea per paragraph.
+- Tables and bullet lists for reference content; prose for explanations.
+- Apply the Terminology Rules below.
 
-All Full Examples sections across all file-type docs use three canonical companies. When writing examples, load `references/canonical-companies.md` and use the exact names, entity names, feature names, metrics, and glossary terms defined there. Never invent alternatives.
+## Terminology Rules
 
-**Framing**
-- Lynk is the best analyst in the world. We give you the framework to teach her about your business and your data.
+Apply these to every edit.
 
-**The agent**
-- There is one agent. It performs tasks (like `text-to-sql`). Do not refer to "task executors" or split the agent into multiple personas. The agent is the single reasoning layer that reads context and produces output.
-- Context is loaded by the agent at different points. Describe *when* it's loaded, not *who* reads it.
+**The model.** A Lynk project is a `.lynk/` git repository, consumed as versioned, validated **builds**. Agents reason against a deployed build of a branch, scoped to one domain. Never describe live-edit querying.
 
-**Context scoping**
-- Context **compounds** — the agent loads all applicable levels together. 
-- Scoping is controlled by frontmatter, not file names. File names are up to the user. When explaining scoping, reference frontmatter fields, not file paths.
+**Domains are agents.** Each domain is one team's analytical agent; a user talks to one at a time. The domain is derived **from the path** — no `domain:` field exists. Cross-domain references are governed by `topology` (medallion only), declared in `lynk.yml`.
 
-**Domain naming**
-- The `default` domain is the **main domain**. Refer to it as "the main domain (`default`)" on first use.
+**Entities own what's true about them.** Facts go on entities (`ENTITY.md` prose + `schema.yml` structure); *ways of reasoning* in skills; *vocabulary* in the glossary; *behavior* in policies. An entity's `identity` roots it in a physical table or another entity; extension imports explicit definitions.
 
-**Domain sections in file-type docs**
-- When a file type supports a `domain` frontmatter field, keep the domain section in that file brief — one or two sentences explaining what scoping it applies and a link to the [Domains reference](../concepts/domains.md).
-- Do not document inheritance behavior, override rules, exclusion syntax, or multi-file merging in individual file-type docs. All of that belongs on the Domains reference page.
+**Features and metrics are uniform.** A feature has `name`, `description`, `sql`, `data_type`, optional `join_name`, optional `filter`. A metric is the same minus `join_name`, entity-local, and takes no arguments. There are no feature *types*. Cross-entity aggregates are features whose `sql` wraps `metric(entity.metric_name)`. **Keys are not features** — declare a feature for any joined or queried key column.
+
+**Lazy vs. eager loading.** Orientation, vocabulary, and policies always load. Entities and skills are lazy, indexed by `description`. Describe *when* content loads, not *who* reads it.
+
+**Query syntax.** Lynk SQL: entities as tables, features as columns, `metric(entity.metric_name)` (alias-aware), `USING('join_name')`. Queries are single-domain. `first()`/`last()` are authoring-only. The old `METRIC('name')` form appears only as a labeled anti-example.
