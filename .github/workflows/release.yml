@@ -59,6 +59,8 @@ jobs:
             echo "::error::tag $version already exists" >&2
             exit 1
           fi
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
           git tag -a "$version" -m "Lynk docs $version"
           git push origin "$version"
 

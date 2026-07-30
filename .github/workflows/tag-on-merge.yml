@@ -46,5 +46,7 @@ jobs:
 
       - name: Tag and push
         run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
           git tag -a "${{ steps.version.outputs.next }}" -m "Lynk docs ${{ steps.version.outputs.next }}"
           git push origin "${{ steps.version.outputs.next }}"
