@@ -9,31 +9,16 @@ permissions:
   contents: write
 
 jobs:
-  tag:
+  version:
     runs-on: ubuntu-latest
+    outputs:
+      next: ${{ steps.version.outputs.next }}
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - uses: astral-sh/setup-uv@v5
-        with:
-          python-version: "3.12"
-
-      - name: Check router is current
-        run: |
-          python3 scripts/generate_router.py
-          git diff --exit-code docs/concepts/README.md || {
-            echo "::error::docs/concepts/README.md router is stale — regenerate, commit, and merge before this can release" >&2
-            exit 1
-          }
-
-      - name: Lint docs
-        working-directory: evals/ask-docs
-        run: uv run pytest -m "not evaluation" -q
-
-      - name: Compute next version
-        id: version
+      - id: version
         run: |
           latest=$(git tag --list 'v*' --sort=-v:refname | head -1)
           if [ -z "$latest" ]; then
@@ -44,9 +29,10 @@ jobs:
           fi
           echo "next=$next" >> "$GITHUB_OUTPUT"
 
-      - name: Tag and push
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git tag -a "${{ steps.version.outputs.next }}" -m "Lynk docs ${{ steps.version.outputs.next }}"
-          git push origin "${{ steps.version.outputs.next }}"
+  release:
+    needs: version
+    permissions:
+      contents: write
+    uses: ./.github/workflows/release.yml
+    with:
+      version: ${{ needs.version.outputs.next }}
