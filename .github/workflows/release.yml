@@ -30,10 +30,10 @@ jobs:
       - name: Resolve version
         id: version
         run: |
-          if [ "${{ github.event_name }}" = "push" ]; then
-            version="$GITHUB_REF_NAME"
-          else
+          if [ -n "${{ inputs.version }}" ]; then
             version="${{ inputs.version }}"
+          else
+            version="$GITHUB_REF_NAME"
           fi
           if ! [[ "$version" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
             echo "::error::version must look like vX.Y.Z, got '$version'" >&2
@@ -58,7 +58,7 @@ jobs:
         run: uv run pytest -m "not evaluation" -q
 
       - name: Tag
-        if: github.event_name != 'push'
+        if: inputs.version != ''
         run: |
           version="${{ steps.version.outputs.version }}"
           if git rev-parse "$version" >/dev/null 2>&1; then
