@@ -2,7 +2,6 @@
 description: The evidence behind context rot — the study numbers behind the degradation claim, model by model.
 layer: deep
 concept: ../concepts/context-rot.md
-when: Sizing a real context budget; need the study numbers
 ---
 
 # Context rot — evidence & practice

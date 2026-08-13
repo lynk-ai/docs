@@ -2,7 +2,6 @@
 description: Nothing forces a cleanup on its own. How to assign a signal, a policy, and an owner so a layer stays clean instead of drifting until someone notices.
 layer: concept
 deep: ../deep/context-governance.md
-group: The guards
 ---
 
 # Context governance

@@ -2,7 +2,6 @@
 description: The evidence behind four operations — each operation in depth plus the two the taxonomy misses.
 layer: deep
 concept: ../concepts/four-operations.md
-when: Designing an agent's context flow end-to-end
 ---
 
 # The four operations — the full decision system

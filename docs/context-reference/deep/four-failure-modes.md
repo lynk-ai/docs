@@ -2,7 +2,6 @@
 description: The evidence behind four failure modes — measured onsets for each mode and how to tell them apart from a transcript.
 layer: deep
 concept: ../concepts/four-failure-modes.md
-when: An agent is misbehaving and you need the diagnostic + fix menu
 ---
 
 # The four failure modes — diagnosis & fixes

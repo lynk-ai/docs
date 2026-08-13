@@ -2,7 +2,6 @@
 description: The evidence behind living sources — split and merge signals with thresholds, and the cost of leaving them unattended.
 layer: deep
 concept: ../concepts/living-sources.md
-when: A doc feels overgrown; two docs overlap; planning maintenance
 ---
 
 # Living sources — evidence & practice

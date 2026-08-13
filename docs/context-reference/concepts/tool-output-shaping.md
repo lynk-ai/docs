@@ -2,7 +2,6 @@
 description: A tool returns far more than the agent needs, or truncates silently and the agent reports a partial result as complete. How to shape what comes back.
 layer: concept
 deep: ../deep/tool-output-shaping.md
-group: The levers
 ---
 
 # Tool output shaping

@@ -2,7 +2,6 @@
 description: The evidence behind caching economics — prefix discipline, breakeven maths, and where cache hits actually land.
 layer: deep
 concept: ../concepts/caching-economics.md
-when: Designing the message layout; cost/latency spikes
 ---
 
 # Caching economics — evidence & practice

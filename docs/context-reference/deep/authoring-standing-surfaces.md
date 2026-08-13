@@ -2,7 +2,6 @@
 description: The evidence behind authoring standing surfaces — the six rules for always-loaded files, with the studies behind each.
 layer: deep
 concept: ../concepts/authoring-standing-surfaces.md
-when: Writing/pruning a system prompt, SKILL.md, or CLAUDE.md; a skill won't trigger
 ---
 
 # Authoring standing surfaces — evidence & practice

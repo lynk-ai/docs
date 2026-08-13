@@ -2,7 +2,6 @@
 description: The evidence behind self compiled vs curated — both failure directions with evidence, and how to set merge rights.
 layer: deep
 concept: ../concepts/self-compiled-vs-curated.md
-when: Designing memory write paths; review policy; context files
 ---
 
 # Self-compiled vs. curated — evidence & practice

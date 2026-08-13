@@ -2,7 +2,6 @@
 description: Deciding what an agent may write down and when. Append-only memory reliably rots, so the write gate is the design.
 layer: concept
 deep: ../deep/memory-shapes.md
-group: The guards
 ---
 
 # Memory shapes

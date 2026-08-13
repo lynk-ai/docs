@@ -2,7 +2,6 @@
 description: The evidence behind position and ordering — the U-curve evidence and placement rules with numbers.
 layer: deep
 concept: ../concepts/position-and-ordering.md
-when: Laying out a prompt; "it was in context and it missed it"
 ---
 
 # Position and ordering — evidence & practice

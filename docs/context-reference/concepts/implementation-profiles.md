@@ -2,7 +2,6 @@
 description: Which context rule matters most depends on the workload — a chatbot, a long-running agent, a batch pipeline all fail on different axes. Read it before applying advice written for a different shape.
 layer: concept
 deep: ../deep/implementation-profiles.md
-group: The dispatch
 ---
 
 # Implementation profiles

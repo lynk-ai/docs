@@ -2,7 +2,6 @@
 description: You are writing a file that loads on every session — LYNK.md, a policy, a glossary — and need to know what earns permanent residence and what quietly taxes every request.
 layer: concept
 deep: ../deep/authoring-standing-surfaces.md
-group: The levers
 ---
 
 # Authoring standing surfaces (system prompts, skills, config files)

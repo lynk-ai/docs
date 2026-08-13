@@ -2,7 +2,6 @@
 description: Whether an ENTITY.md or any other file should become two. The test is which tasks need which parts, not how long the file got.
 layer: concept
 deep: ../deep/when-to-split.md
-group: The levers
 ---
 
 # When to split (and when to merge back)

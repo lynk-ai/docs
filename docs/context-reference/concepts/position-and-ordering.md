@@ -2,7 +2,6 @@
 description: Where to put the load-bearing part of a file. Content buried in the middle can score worse than leaving it out entirely.
 layer: concept
 deep: ../deep/position-and-ordering.md
-group: The levers
 ---
 
 # Position and ordering

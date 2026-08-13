@@ -2,7 +2,6 @@
 description: The evidence behind measuring context — the instrument kit — effective length, ablation, attribution.
 layer: deep
 concept: ../concepts/measuring-context.md
-when: Building the eval harness; arguing a change with numbers
 ---
 
 # Measuring context — the instruments, in full
