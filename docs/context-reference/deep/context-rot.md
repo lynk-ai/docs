@@ -1,5 +1,6 @@
 ---
 description: The evidence behind context rot — the study numbers behind the degradation claim, model by model.
+icon: magnifying-glass-chart
 layer: deep
 concept: ../concepts/context-rot.md
 ---

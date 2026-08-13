@@ -1,5 +1,6 @@
 ---
 description: The evidence behind tool output shaping — the four shapes for a large result and the truncation contract.
+icon: magnifying-glass-chart
 layer: deep
 concept: ../concepts/tool-output-shaping.md
 ---

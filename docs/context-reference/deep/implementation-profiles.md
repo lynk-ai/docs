@@ -1,5 +1,6 @@
 ---
 description: The evidence behind implementation profiles — the five profiles with their dominant failure and first-order levers.
+icon: magnifying-glass-chart
 layer: deep
 concept: ../concepts/implementation-profiles.md
 ---

@@ -1,5 +1,6 @@
 ---
 description: Deciding what an agent may write into the layer itself and what a person must approve first, set by how much damage a bad entry would do.
+icon: user-pen
 layer: concept
 deep: ../deep/self-compiled-vs-curated.md
 ---

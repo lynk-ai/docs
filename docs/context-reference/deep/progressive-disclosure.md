@@ -1,5 +1,6 @@
 ---
 description: The evidence behind progressive disclosure — the three stages, the economics per part, and where the pattern breaks.
+icon: magnifying-glass-chart
 layer: deep
 concept: ../concepts/progressive-disclosure.md
 ---

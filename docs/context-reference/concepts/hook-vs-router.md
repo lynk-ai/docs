@@ -1,5 +1,6 @@
 ---
 description: Whether a rule should be a passive instruction or something every path must pass through. Explains why an instruction like “always check X” silently never fires.
+icon: route
 layer: concept
 deep: ../deep/hook-vs-router.md
 ---

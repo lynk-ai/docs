@@ -1,5 +1,6 @@
 ---
 description: The evidence behind measuring context — the instrument kit — effective length, ablation, attribution.
+icon: magnifying-glass-chart
 layer: deep
 concept: ../concepts/measuring-context.md
 ---

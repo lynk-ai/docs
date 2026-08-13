@@ -1,5 +1,6 @@
 ---
 description: The evidence behind living sources — split and merge signals with thresholds, and the cost of leaving them unattended.
+icon: magnifying-glass-chart
 layer: deep
 concept: ../concepts/living-sources.md
 ---

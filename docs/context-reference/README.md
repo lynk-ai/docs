@@ -1,5 +1,6 @@
 ---
 description: Map of the context reference — how context behaves and how to write for it. Enter at a concept page, which is decision-ready on its own; open its deep page only on the trigger that page names.
+icon: compass-drafting
 ---
 
 # Context Reference

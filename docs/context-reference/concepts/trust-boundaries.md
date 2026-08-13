@@ -1,5 +1,6 @@
 ---
 description: Anything the agent reads can instruct it. What that means for a layer that pulls in warehouse data, documents, or tool results you do not control.
+icon: shield-halved
 layer: concept
 deep: ../deep/trust-boundaries.md
 ---

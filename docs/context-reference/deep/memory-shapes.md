@@ -1,5 +1,6 @@
 ---
 description: The evidence behind memory shapes — the four write-time decisions and what to steal from the systems that pioneered them.
+icon: magnifying-glass-chart
 layer: deep
 concept: ../concepts/memory-shapes.md
 ---

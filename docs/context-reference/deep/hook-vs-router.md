@@ -1,5 +1,6 @@
 ---
 description: The evidence behind hook vs router — where gates belong in a control flow and what fails open in practice.
+icon: magnifying-glass-chart
 layer: deep
 concept: ../concepts/hook-vs-router.md
 ---

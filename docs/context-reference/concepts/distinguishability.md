@@ -1,5 +1,6 @@
 ---
 description: Two entities, metrics, or pages look alike and the agent keeps choosing the wrong one. How to make the difference visible in the name and the one-line description, which is all a chooser reads.
+icon: clone
 layer: concept
 deep: ../deep/distinguishability.md
 ---

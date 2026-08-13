@@ -1,5 +1,6 @@
 ---
 description: The evidence behind position and ordering — the U-curve evidence and placement rules with numbers.
+icon: magnifying-glass-chart
 layer: deep
 concept: ../concepts/position-and-ordering.md
 ---

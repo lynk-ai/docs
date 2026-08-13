@@ -1,5 +1,6 @@
 ---
 description: A file grew until it blurs, or two files drifted until they disagree, and nothing in the build will ever tell you. The signals that say split, and the ones that say merge back.
+icon: seedling
 layer: concept
 deep: ../deep/living-sources.md
 ---

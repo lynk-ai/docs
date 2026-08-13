@@ -1,5 +1,6 @@
 ---
 description: The evidence behind four operations — each operation in depth plus the two the taxonomy misses.
+icon: magnifying-glass-chart
 layer: deep
 concept: ../concepts/four-operations.md
 ---

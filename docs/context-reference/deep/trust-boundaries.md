@@ -1,5 +1,6 @@
 ---
 description: The evidence behind trust boundaries — the lethal trifecta and what actually contains it. Open before connecting an agent to data it does not control.
+icon: magnifying-glass-chart
 layer: deep
 concept: ../concepts/trust-boundaries.md
 ---

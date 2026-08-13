@@ -1,5 +1,6 @@
 ---
 description: The evidence behind caching economics — prefix discipline, breakeven maths, and where cache hits actually land.
+icon: magnifying-glass-chart
 layer: deep
 concept: ../concepts/caching-economics.md
 ---

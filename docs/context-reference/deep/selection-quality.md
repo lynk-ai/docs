@@ -1,5 +1,6 @@
 ---
 description: The evidence behind selection quality — two-stage retrieval, reranking, and pruning with measured deltas.
+icon: magnifying-glass-chart
 layer: deep
 concept: ../concepts/selection-quality.md
 ---

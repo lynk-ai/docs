@@ -1,5 +1,6 @@
 ---
 description: The evidence behind self compiled vs curated — both failure directions with evidence, and how to set merge rights.
+icon: magnifying-glass-chart
 layer: deep
 concept: ../concepts/self-compiled-vs-curated.md
 ---

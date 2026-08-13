@@ -1,5 +1,6 @@
 ---
 description: The same fact is stated in two places and you need to know why that is a defect rather than helpful redundancy. Two copies eventually disagree, and the agent picks one without telling anyone.
+icon: house
 layer: concept
 deep: ../deep/one-concept-one-home.md
 ---

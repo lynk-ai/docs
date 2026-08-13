@@ -1,5 +1,6 @@
 ---
 description: The evidence behind authoring standing surfaces — the six rules for always-loaded files, with the studies behind each.
+icon: magnifying-glass-chart
 layer: deep
 concept: ../concepts/authoring-standing-surfaces.md
 ---

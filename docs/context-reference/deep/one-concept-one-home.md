@@ -1,5 +1,6 @@
 ---
 description: The evidence behind one concept one home — how duplication fails silently, with the contradiction studies.
+icon: magnifying-glass-chart
 layer: deep
 concept: ../concepts/one-concept-one-home.md
 ---

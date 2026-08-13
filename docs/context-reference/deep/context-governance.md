@@ -1,5 +1,6 @@
 ---
 description: The evidence behind context governance — the instrument-policy-owner-intervention loop in full, including compaction policy.
+icon: magnifying-glass-chart
 layer: deep
 concept: ../concepts/context-governance.md
 ---

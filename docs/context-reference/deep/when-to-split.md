@@ -1,5 +1,6 @@
 ---
 description: The evidence behind when to split — the five-question test with thresholds, and the retrieval research behind chunk sizing.
+icon: magnifying-glass-chart
 layer: deep
 concept: ../concepts/when-to-split.md
 ---

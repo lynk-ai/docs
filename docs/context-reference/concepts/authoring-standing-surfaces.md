@@ -1,5 +1,6 @@
 ---
 description: You are writing a file that loads on every session — LYNK.md, a policy, a glossary — and need to know what earns permanent residence and what quietly taxes every request.
+icon: pen-ruler
 layer: concept
 deep: ../deep/authoring-standing-surfaces.md
 ---
