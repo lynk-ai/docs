@@ -57,5 +57,45 @@ The building blocks of a `.lynk` project, and the map of every page in these doc
 ### Context Reference
 
 - [Overview](../context-reference/README.md) — Map of the context reference — how context behaves and how to write for it. Enter at a concept page, which is decision-ready on its own; open its deep page only on the trigger that page names.
+- [Context rot](../context-reference/concepts/context-rot.md) — How much an agent can actually hold before answers get worse, which is far below the window limit. The starting point for any argument about what a file costs.
+  - [Deep](../context-reference/deep/context-rot.md) — The evidence behind context rot — the study numbers behind the degradation claim, model by model.
+- [The four failure modes](../context-reference/concepts/four-failure-modes.md) — The agent got worse and you need to name which kind of broken — poisoned, distracted, confused, or holding two facts that disagree. Each has a different fix and the symptoms look identical.
+  - [Deep](../context-reference/deep/four-failure-modes.md) — The evidence behind four failure modes — measured onsets for each mode and how to tell them apart from a transcript.
+- [The four operations (and the two the taxonomy misses)](../context-reference/concepts/four-operations.md) — The vocabulary for what you can actually do about a crowded window — write, select, compress, isolate — and the two things that vocabulary leaves out.
+  - [Deep](../context-reference/deep/four-operations.md) — The evidence behind four operations — each operation in depth plus the two the taxonomy misses.
+- [Selection quality](../context-reference/concepts/selection-quality.md) — The agent retrieved something plausible but wrong. Why near-misses do more damage than obvious junk, and the retrieval shape that fixes it.
+  - [Deep](../context-reference/deep/selection-quality.md) — The evidence behind selection quality — two-stage retrieval, reranking, and pruning with measured deltas.
+- [Position and ordering](../context-reference/concepts/position-and-ordering.md) — Where to put the load-bearing part of a file. Content buried in the middle can score worse than leaving it out entirely.
+  - [Deep](../context-reference/deep/position-and-ordering.md) — The evidence behind position and ordering — the U-curve evidence and placement rules with numbers.
+- [Caching economics](../context-reference/concepts/caching-economics.md) — Why a lean layer can still be expensive — cached tokens cost about a tenth of fresh ones, so churn drives the bill rather than size. Read it when deciding what stays stable and what gets rewritten each turn.
+  - [Deep](../context-reference/deep/caching-economics.md) — The evidence behind caching economics — prefix discipline, breakeven maths, and where cache hits actually land.
+- [Tool output shaping](../context-reference/concepts/tool-output-shaping.md) — A tool returns far more than the agent needs, or truncates silently and the agent reports a partial result as complete. How to shape what comes back.
+  - [Deep](../context-reference/deep/tool-output-shaping.md) — The evidence behind tool output shaping — the four shapes for a large result and the truncation contract.
+- [Progressive disclosure](../context-reference/concepts/progressive-disclosure.md) — Deciding what loads every session versus what the agent fetches on demand, so a layer can keep growing without making every question heavier.
+  - [Deep](../context-reference/deep/progressive-disclosure.md) — The evidence behind progressive disclosure — the three stages, the economics per part, and where the pattern breaks.
+- [When to split (and when to merge back)](../context-reference/concepts/when-to-split.md) — Whether an ENTITY.md or any other file should become two. The test is which tasks need which parts, not how long the file got.
+  - [Deep](../context-reference/deep/when-to-split.md) — The evidence behind when to split — the five-question test with thresholds, and the retrieval research behind chunk sizing.
+- [Authoring standing surfaces (system prompts, skills, config files)](../context-reference/concepts/authoring-standing-surfaces.md) — You are writing a file that loads on every session — LYNK.md, a policy, a glossary — and need to know what earns permanent residence and what quietly taxes every request.
+  - [Deep](../context-reference/deep/authoring-standing-surfaces.md) — The evidence behind authoring standing surfaces — the six rules for always-loaded files, with the studies behind each.
+- [One concept, one home](../context-reference/concepts/one-concept-one-home.md) — The same fact is stated in two places and you need to know why that is a defect rather than helpful redundancy. Two copies eventually disagree, and the agent picks one without telling anyone.
+  - [Deep](../context-reference/deep/one-concept-one-home.md) — The evidence behind one concept one home — how duplication fails silently, with the contradiction studies.
+- [Distinguishability](../context-reference/concepts/distinguishability.md) — Two entities, metrics, or pages look alike and the agent keeps choosing the wrong one. How to make the difference visible in the name and the one-line description, which is all a chooser reads.
+  - [Deep](../context-reference/deep/distinguishability.md) — The evidence behind distinguishability — the measured cost of ambiguous names and the tests that catch a collision before it ships.
+- [Living sources](../context-reference/concepts/living-sources.md) — A file grew until it blurs, or two files drifted until they disagree, and nothing in the build will ever tell you. The signals that say split, and the ones that say merge back.
+  - [Deep](../context-reference/deep/living-sources.md) — The evidence behind living sources — split and merge signals with thresholds, and the cost of leaving them unattended.
+- [Self-compiled vs. curated knowledge](../context-reference/concepts/self-compiled-vs-curated.md) — Deciding what an agent may write into the layer itself and what a person must approve first, set by how much damage a bad entry would do.
+  - [Deep](../context-reference/deep/self-compiled-vs-curated.md) — The evidence behind self compiled vs curated — both failure directions with evidence, and how to set merge rights.
+- [Trust boundaries in context](../context-reference/concepts/trust-boundaries.md) — Anything the agent reads can instruct it. What that means for a layer that pulls in warehouse data, documents, or tool results you do not control.
+  - [Deep](../context-reference/deep/trust-boundaries.md) — The evidence behind trust boundaries — the lethal trifecta and what actually contains it. Open before connecting an agent to data it does not control.
+- [Hook vs. router](../context-reference/concepts/hook-vs-router.md) — Whether a rule should be a passive instruction or something every path must pass through. Explains why an instruction like “always check X” silently never fires.
+  - [Deep](../context-reference/deep/hook-vs-router.md) — The evidence behind hook vs router — where gates belong in a control flow and what fails open in practice.
+- [Context governance](../context-reference/concepts/context-governance.md) — Nothing forces a cleanup on its own. How to assign a signal, a policy, and an owner so a layer stays clean instead of drifting until someone notices.
+  - [Deep](../context-reference/deep/context-governance.md) — The evidence behind context governance — the instrument-policy-owner-intervention loop in full, including compaction policy.
+- [Memory shapes](../context-reference/concepts/memory-shapes.md) — Deciding what an agent may write down and when. Append-only memory reliably rots, so the write gate is the design.
+  - [Deep](../context-reference/deep/memory-shapes.md) — The evidence behind memory shapes — the four write-time decisions and what to steal from the systems that pioneered them.
+- [Measuring context](../context-reference/concepts/measuring-context.md) — Proving a change helped instead of asserting it — how to measure what your agent can actually hold and whether a page earns the tokens it costs.
+  - [Deep](../context-reference/deep/measuring-context.md) — The evidence behind measuring context — the instrument kit — effective length, ablation, attribution.
+- [Implementation profiles](../context-reference/concepts/implementation-profiles.md) — Which context rule matters most depends on the workload — a chatbot, a long-running agent, a batch pipeline all fail on different axes. Read it before applying advice written for a different shape.
+  - [Deep](../context-reference/deep/implementation-profiles.md) — The evidence behind implementation profiles — the five profiles with their dominant failure and first-order levers.
 
 <!-- router:end -->

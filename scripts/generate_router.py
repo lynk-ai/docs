@@ -49,14 +49,6 @@ def build_router() -> str:
         indent, title, path = m.groups()
         if path in ("README.md", "concepts/README.md"):
             continue
-        # The context reference is a second tier with an index of its own: its
-        # README maps all twenty concepts and names the trigger for each deep
-        # page — a third column this router has no room for. Listing the tree
-        # here costs ~5,100 characters against a 12,000 budget and leaves under
-        # half a page of headroom, so the next page added anywhere in the docs
-        # would fail the release. The router carries the entrance and stops.
-        if path.startswith("context-reference/") and path != "context-reference/README.md":
-            continue
         page = DOCS / path
         desc = frontmatter_description(page) if page.is_file() else None
         if desc is None:
