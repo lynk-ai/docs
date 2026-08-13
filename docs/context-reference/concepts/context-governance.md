@@ -8,6 +8,8 @@ deep: ../deep/context-governance.md
 
 **Claim** — clean context is a *control loop*, not a virtue: **instrument → policy → owner → intervention**, running continuously. The failure modes don't prevent themselves, and "everyone curates as they go" is how every corpus rots — governance means specific signals watched by a named owner empowered to intervene. What distinguishes this from vibes is that each piece is concrete: real metrics, written policies, assigned actors.
 
+**Go deeper** — [`deep/context-governance.md`](../deep/context-governance.md) has the instrument-policy-owner-intervention loop in full, including compaction policy. Read it when standing up maintenance for a corpus/agent fleet, choosing compaction policy, or assigning ownership of context health.
+
 **The loop** —
 
 | Stage | What it is | Examples |
@@ -27,9 +29,3 @@ Production systems need both: ongoing governors keep the *rate* of rot down; sta
 - Policy beats threshold: *decision-based* compaction (sub-task resolved? trajectory converged?) outperforms token-count triggers on cost and quality.
 - Govern writes hardest: admission is cheaper than cleanup (poisoning enters at write time).
 - The governance loop needs its own instrument: track intervention counts — zero interventions means the loop is dead, not that the corpus is clean.
-
-**Go deeper** (`../deep/context-governance.md`) when: standing up maintenance for a corpus/agent fleet, choosing compaction policy, or assigning ownership of context health.
-
-## Related
-
-- [Deep: the evidence behind this page](../deep/context-governance.md) — open it on the trigger named above.

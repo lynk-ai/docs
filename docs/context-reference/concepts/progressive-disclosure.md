@@ -8,6 +8,8 @@ deep: ../deep/progressive-disclosure.md
 
 **Claim** — load context lazily: a small always-present index of *pointers*, full content only when the task demands it. The point is the economics: cost scales with what's **used**, not what **exists** — so a knowledge base can grow without making every session heavier. This reference itself runs the pattern (concept cards always cheap; deep pages on demand).
 
+**Go deeper** — [`deep/progressive-disclosure.md`](../deep/progressive-disclosure.md) has the three stages, the economics per part, and where the pattern breaks. Read it when structuring a corpus/skill/tool surface for on-demand loading, or deciding what earns standing-context residence.
+
 **Why it matters** — the alternative is standing context, and standing context only accretes: every addition pays attention cost on *every* request forever (rot), while on-demand content pays once per actual use. The ETH Zurich AGENTS.md result is this economics enforced by measurement: standing context files tend to reduce task success while inflating inference cost >20%; only non-inferable, task-relevant content earns permanent residence.
 
 **The three stages** —
@@ -23,9 +25,3 @@ deep: ../deep/progressive-disclosure.md
 - **Break-even is measurable**: content used on fraction *f* of requests belongs standing only when *f* is high (with caching, roughly *f* > ~10% on price — and attention cost always votes for on-demand; see `caching-economics.md`).
 - **Grow sideways before deeper**: too-long-but-one-concept → sibling pages; a sub-part *readers cite independently* → its own index (a new disclosure level). The tell: you catch yourself wanting an index for it.
 - **Depth must be reachable**: lazy loading fails if the pointer layer can't route — invest in surfaces (names, descriptions, keywords) as retrieval infrastructure (`selection-quality.md`).
-
-**Go deeper** (`../deep/progressive-disclosure.md`) when: structuring a corpus/skill/tool surface for on-demand loading, or deciding what earns standing-context residence.
-
-## Related
-
-- [Deep: the evidence behind this page](../deep/progressive-disclosure.md) — open it on the trigger named above.

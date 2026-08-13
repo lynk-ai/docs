@@ -8,6 +8,8 @@ deep: ../deep/measuring-context.md
 
 **Claim** — every claim in this reference (rot, position penalties, selection failures) is *measurable in your own system*, and none of the fixes should be applied blind. A degradation claim without an instrument is a vibe; the instrument turns context engineering from folklore into tuning.
 
+**Go deeper** — [`deep/measuring-context.md`](../deep/measuring-context.md) has the instrument kit — effective length, ablation, attribution. Read it when building the eval harness, choosing benchmarks, or arguing a context change with numbers.
+
 **The core metric — effective length** (NoLiMa's method, portable to private evals): fix a task set; measure accuracy at short context (the *base score*); then increase context realistically. Your **effective length** = the longest context at which the model keeps ≥85% of its base score. That number — not the marketed window — is your budget. Most 128K-claiming models fall far short on non-literal tasks.
 
 **The instrument kit** —
@@ -28,9 +30,3 @@ deep: ../deep/measuring-context.md
 - **One run proves nothing**: agents decay ~⅓ from pass^1 to pass^4 (τ-bench: SOTA <50% single-run, pass^8 <25%). Run k trials before believing a context change "worked."
 - Trust *deltas* over absolutes: public-benchmark absolutes inflate as they age into training data (SWE-Bench+ measured ~3×); ablation deltas mostly cancel the inflation.
 - Re-run on every model swap: rot curves are model-specific and non-uniform; a budget tuned for one model silently misfits the next.
-
-**Go deeper** (`../deep/measuring-context.md`) when: building the eval harness, choosing benchmarks, or arguing a context change with numbers.
-
-## Related
-
-- [Deep: the evidence behind this page](../deep/measuring-context.md) — open it on the trigger named above.

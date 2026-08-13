@@ -8,6 +8,8 @@ deep: ../deep/four-operations.md
 
 **Claim** — WRITE / SELECT / COMPRESS / ISOLATE (Lance Martin's taxonomy, building on Karpathy's "LLM-as-OS" framing) are the four levers on *what is inside the context window right now*. They're a complete vocabulary for volume management — and an **incomplete** one for context quality, because they treat context as an unordered set.
 
+**Go deeper** — [`deep/four-operations.md`](../deep/four-operations.md) has each operation in depth plus the two the taxonomy misses. Read it when designing an agent's context flow end-to-end, mapping your architecture to the levers, or choosing which lever to pull for a given failure mode.
+
 **The four** —
 
 | Operation | Means | Example |
@@ -24,9 +26,3 @@ WRITE/SELECT trade on *time* (needed later vs. now); COMPRESS/ISOLATE trade on *
 - **CACHE** — token *economics* aren't uniform: a cached prefix token costs ~10% of a fresh one, which reshapes what COMPRESS is worth doing on. → `caching-economics.md`
 
 **Also note the blur** — SELECT and COMPRESS converge at the boundary (query-aware pruning like Provence is "select at sentence granularity"). Don't argue category membership; argue token budgets.
-
-**Go deeper** (`../deep/four-operations.md`) when: designing an agent's context flow end-to-end, mapping your architecture to the levers, or choosing which lever to pull for a given failure mode.
-
-## Related
-
-- [Deep: the evidence behind this page](../deep/four-operations.md) — open it on the trigger named above.

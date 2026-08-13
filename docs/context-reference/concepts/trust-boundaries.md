@@ -8,6 +8,8 @@ deep: ../deep/trust-boundaries.md
 
 **Claim** — every other page here treats context as *information*. The model treats it as **instructions**. Anything that enters the window — a retrieved document, a tool result, a web page, a filename, an MCP tool's description — can direct the agent, and no amount of prompting reliably teaches it to tell your instructions from text it merely read. Curation quality and trust are orthogonal: a perfectly curated context can be perfectly hostile.
 
+**Go deeper** — [`deep/trust-boundaries.md`](../deep/trust-boundaries.md) has the lethal trifecta and what actually contains it. Open before connecting an agent to data it does not control. Read it when designing an agent that reads anything you didn't write, choosing a defense pattern, wiring MCP servers, or auditing what could leave.
+
 **The structural rule — the lethal trifecta** (Willison, 2025). Risk is not a property of any one capability; it appears when an agent has **all three**:
 
 1. **Access to private data** (the point of most tools)
@@ -24,9 +26,3 @@ Any two are workable. All three is exploitable, and the exploit needs no code vu
 - **Cut one leg of the trifecta per workflow**: no private data in the same agent that reads the open web; or no external channel in the agent that reads untrusted text; or no untrusted text in the privileged one.
 - **Tool definitions are untrusted content too.** Descriptions and parameter schemas are read as instructions, and can change *after* you approved them (the MCP rug-pull class).
 - **The exfiltration channel is often invisible** — a rendered image URL, a markdown link, a redirect. Enumerate outbound paths, not just tools named "send".
-
-**Go deeper** (`../deep/trust-boundaries.md`) when: designing an agent that reads anything you didn't write, choosing a defense pattern, wiring MCP servers, or auditing what could leave.
-
-## Related
-
-- [Deep: the evidence behind this page](../deep/trust-boundaries.md) — open it on the trigger named above.

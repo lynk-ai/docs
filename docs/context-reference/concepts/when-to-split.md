@@ -8,6 +8,8 @@ deep: ../deep/when-to-split.md
 
 **Claim** — the split decision is not about **size**, it is about **trigger heterogeneity**: a file should be split when its parts are needed by *different tasks*, and kept whole when its parts are needed by *the same task*. Size is a symptom that makes you look; it is not the criterion. Splitting on size alone manufactures the opposite failure — a corpus of shallow fragments nobody can reassemble.
 
+**Go deeper** — [`deep/when-to-split.md`](../deep/when-to-split.md) has the five-question test with thresholds, and the retrieval research behind chunk sizing. Read it when judging a specific file, deriving a size bar for a file type nobody has a constant for, or auditing a corpus you suspect is over-fragmented.
+
 **The test — five questions, in order**
 
 1. **How many distinct triggers open this file?** More than one, with different needs → split along the trigger boundary. One trigger → leave it whole no matter how long.
@@ -29,9 +31,3 @@ deep: ../deep/when-to-split.md
 **Don't split at all when** the whole corpus fits comfortably in the window with room for the task — under roughly **200K tokens** Anthropic's own guidance is to skip retrieval and load the lot (attention cost still applies; see `context-rot.md`).
 
 **If you must split content that has cross-part dependencies**, don't leave the fragments bare — carry the context with them (parent-child retrieval, or prepend a situating line per fragment). Fragmentation without re-contextualisation is the single most measured failure of the pattern.
-
-**Go deeper** (`../deep/when-to-split.md`) when: judging a specific file, deriving a size bar for a file type nobody has a constant for, or auditing a corpus you suspect is over-fragmented.
-
-## Related
-
-- [Deep: the evidence behind this page](../deep/when-to-split.md) — open it on the trigger named above.

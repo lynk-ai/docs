@@ -8,6 +8,8 @@ deep: ../deep/context-rot.md
 
 **Claim** — answer quality degrades as input tokens grow, *even when every added token is relevant-looking*, and the degradation starts long before the window is full. This is the axiom the rest of this reference defends against.
 
+**Go deeper** — [`deep/context-rot.md`](../deep/context-rot.md) has the study numbers behind the degradation claim, model by model. Read it when sizing a context budget for a specific model/task, arguing volume vs. accuracy trade-offs with numbers, or you need the study citations.
+
 **Why it matters** — Chroma's 2025 study tested 18 frontier models (GPT-4.1, Claude Opus 4, Gemini 2.5, …): **every one degraded at every input-length increment tested**, non-uniformly. When the task can't be solved by literal string-matching, measured *effective* lengths collapse to a fraction of claims (NoLiMa, ≥85%-of-baseline bar): GPT-4.1 **1M → 16K**, GPT-4o **128K → 8K**, Claude 3.5 Sonnet **200K → 4K**, Gemini 1.5 Pro **2M → 2K**; at 32K most tested models fall below **half** their own baseline.
 
 **The mechanism (three compounding effects)** —
@@ -22,9 +24,3 @@ deep: ../deep/context-rot.md
 - Your effective context is what benchmarks measure at your accuracy bar — not the marketed window. Assume 25–50% of the advertised number for reasoning-heavy work.
 - Distractors are worse than noise: filtering *near-miss* content pays more than filtering junk.
 - Rot is continuous — there is no safe threshold below which tokens are free.
-
-**Go deeper** (`../deep/context-rot.md`) when: sizing a context budget for a specific model/task, arguing volume vs. accuracy trade-offs with numbers, or you need the study citations.
-
-## Related
-
-- [Deep: the evidence behind this page](../deep/context-rot.md) — open it on the trigger named above.

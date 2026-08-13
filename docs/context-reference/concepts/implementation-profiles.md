@@ -8,6 +8,8 @@ deep: ../deep/implementation-profiles.md
 
 **Claim** — "best context" is implementation-relative. The principles are constant (rot, selection, one-home, gates…), but *which lever dominates* flips with the workload's shape: how long it runs, who writes to context, how results merge, and how latency-bound it is. Applying a chatbot's context strategy to a long-horizon agent (or vice versa) fails on the axis that profile stresses most.
 
+**Go deeper** — [`deep/implementation-profiles.md`](../deep/implementation-profiles.md) has the five profiles with their dominant failure and first-order levers. Read it when starting a new system, auditing an existing one against its profile, or arbitrating which context investment comes first.
+
 **The five profiles and their dominant axis** —
 
 | Profile | Dominant failure | First-order levers |
@@ -23,9 +25,3 @@ deep: ../deep/implementation-profiles.md
 **The two discriminating questions when your system doesn't match a row** —
 1. *Who writes to context over time?* (nobody → selection problem; the agent → governance/memory problem; many agents → trust-boundary problem)
 2. *Do parallel results merge as facts or as decisions?* (facts → isolate freely; decisions → serialize or expect clash)
-
-**Go deeper** (`../deep/implementation-profiles.md`) when: starting a new system, auditing an existing one against its profile, or arbitrating which context investment comes first.
-
-## Related
-
-- [Deep: the evidence behind this page](../deep/implementation-profiles.md) — open it on the trigger named above.

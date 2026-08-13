@@ -8,6 +8,8 @@ deep: ../deep/distinguishability.md
 
 **Claim** — when a chooser (human, agent, router, text-to-SQL model) must pick between two legitimately-distinct items, the difference must be visible in **both the name and the one-line description** — because name + description is *all a chooser reads before committing*. Two items that share a name or carry near-identical descriptions force a coin-flip, and everything built on the wrong pick is silently wrong.
 
+**Go deeper** — [`deep/distinguishability.md`](../deep/distinguishability.md) has the measured cost of ambiguous names and the tests that catch a collision before it ships. Read it when naming tools/metrics/pages, designing MCP servers or routers, or debugging wrong-item selection.
+
 **Why it matters** — this is the dominant failure of tool/metric/page selection at scale: LLM tool-selection accuracy reported as low as **13% on large tool sets**; ambiguous names measurably increase wrong-tool invocation; identical tool names across MCP servers cause cross-server misrouting. The failure is silent — the wrong metric still returns numbers, the wrong tool still runs.
 
 **The complement of one-concept-one-home** — one-home kills *illegitimate* pairs (duplicates: merge them); distinguishability separates *legitimate* pairs (genuinely distinct things: make the difference visible). First ask "are these actually one concept?" — if yes, merge (one-home). Only if no, disambiguate (this rule).
@@ -18,9 +20,3 @@ deep: ../deep/distinguishability.md
 - Fixing only one surface fails: name-only leaves description-trusting choosers guessing; description-only leaves a name collision tools may not even be able to reference.
 - Write descriptions *contrastively* when siblings exist: say what this one does **and is not** ("returns per-player totals; for team totals use `team_total_points`").
 - Test: show a fresh model only the names + descriptions and ten realistic asks — if it can't route 10/10, the surfaces are the bug.
-
-**Go deeper** (`../deep/distinguishability.md`) when: naming tools/metrics/pages, designing MCP servers or routers, or debugging wrong-item selection.
-
-## Related
-
-- [Deep: the evidence behind this page](../deep/distinguishability.md) — open it on the trigger named above.

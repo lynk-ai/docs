@@ -8,6 +8,8 @@ deep: ../deep/authoring-standing-surfaces.md
 
 **Claim** — system prompts, skill instructions, and config files (CLAUDE.md/AGENTS.md) are one artifact class: **always-or-often-loaded instruction surfaces**. They share a failure profile — every token is paid on every load, instructions decay in use, and "helpful" content measurably hurts — so they share authoring rules.
 
+**Go deeper** — [`deep/authoring-standing-surfaces.md`](../deep/authoring-standing-surfaces.md) has the six rules for always-loaded files, with the studies behind each. Read it when writing or pruning a system prompt, SKILL.md, or CLAUDE.md; a skill won't trigger (or triggers wrongly); deciding instructions vs. scripts.
+
 **Why it matters** — the measured stakes: context files tend to reduce task success while inflating inference cost >20% (ETH Zurich); within-session compliance decays ~5.6% odds per generated function no matter how the file is structured (McMillan — size, position, and layout were all nulls); and Anthropic's guidance sets the bar as "the smallest possible set of high-signal tokens."
 
 **The six rules of the class** —
@@ -19,9 +21,3 @@ deep: ../deep/authoring-standing-surfaces.md
 6. **Match freedom to fragility.** High freedom (heuristics) where many paths work; medium (pseudocode/templates) where a pattern is preferred; low (exact scripts, "do not modify") where operations are fragile. Scripts beat instructions for anything deterministic — execution costs output tokens only.
 
 **The decay corollary** — a standing rule is *not enforced by residence*. Rules that must hold at step 20 need re-anchoring (recitation near the task) or a gate in the path (`hook-vs-router.md`).
-
-**Go deeper** (`../deep/authoring-standing-surfaces.md`) when: writing or pruning a system prompt, SKILL.md, or CLAUDE.md; a skill won't trigger (or triggers wrongly); deciding instructions vs. scripts.
-
-## Related
-
-- [Deep: the evidence behind this page](../deep/authoring-standing-surfaces.md) — open it on the trigger named above.

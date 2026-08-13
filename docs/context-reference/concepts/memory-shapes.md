@@ -8,6 +8,8 @@ deep: ../deep/memory-shapes.md
 
 **The principle** — memory doesn't stay true by being appended to. Every durable memory system earns its keep by **deciding, at write time, what a write is allowed to do** — the write-gate is the design, everything else is storage. Even the field's founders concede the failure mode: Letta on MemGPT — "incremental memory formation… may become messy and disorganized over time." Memory rot is real and append-only guarantees it.
 
+**Go deeper** — [`deep/memory-shapes.md`](../deep/memory-shapes.md) has the four write-time decisions and what to steal from the systems that pioneered them. Read it when designing an agent's memory architecture, evaluating memory frameworks, or fixing a memory store that's drifting.
+
 **Four write-time decisions, one steal each** (from the systems that pioneered them) —
 
 | Decision at write time | Pioneered by | The steal |
@@ -24,9 +26,3 @@ deep: ../deep/memory-shapes.md
 - Consolidation is a separate, idle-time job (sleep-time compute) — never mid-task, always review-shaped.
 - Prefer methods over facts where possible (checkable > assertable).
 - Score/provenance every entry at write; retrieval-time trust repair is the expensive fallback.
-
-**Go deeper** (`../deep/memory-shapes.md`) when: designing an agent's memory architecture, evaluating memory frameworks, or fixing a memory store that's drifting.
-
-## Related
-
-- [Deep: the evidence behind this page](../deep/memory-shapes.md) — open it on the trigger named above.

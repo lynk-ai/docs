@@ -8,6 +8,8 @@ deep: ../deep/selection-quality.md
 
 **Claim** — SELECT is the lever everything else depends on, and it fails in a specific, measurable way: retrievers return *plausible near-misses*, and near-misses hurt more than junk (distractor interference actively misleads; it doesn't just dilute). Curation advice is empty without a theory of how selection breaks.
 
+**Go deeper** — [`deep/selection-quality.md`](../deep/selection-quality.md) has two-stage retrieval, reranking, and pruning with measured deltas. Read it when building or tuning any retrieval pipeline, choosing hybrid vs. dense vs. agentic search, or diagnosing why the right page never arrives.
+
 **Why it matters** — two-stage retrieval (broad recall → precise rerank) beats every single-stage method: Recall@5 **0.816 vs 0.695** for hybrid fusion alone, 0.644 for BM25, 0.587 for dense-only. Query-aware pruning (Provence, ICLR 2025) then cuts retrieved content at high compression with little-to-no quality loss — the only pruner that's Pareto-dominant across domains — because the near-misses it deletes were *hurting*: Chroma measured distractors actively degrading answers, compounding with each one added.
 
 **The architecture that wins** —
@@ -21,9 +23,3 @@ deep: ../deep/selection-quality.md
 - The most dangerous retrieval result is rank-2-but-wrong, not rank-50.
 - Selection surfaces (names, descriptions, keywords) are part of retrieval quality — badly labeled corpus = unfixable retriever (see `distinguishability.md`).
 - Every SELECT should justify its tokens: "might be relevant" is how confusion enters.
-
-**Go deeper** (`../deep/selection-quality.md`) when: building or tuning any retrieval pipeline, choosing hybrid vs. dense vs. agentic search, or diagnosing why the right page never arrives.
-
-## Related
-
-- [Deep: the evidence behind this page](../deep/selection-quality.md) — open it on the trigger named above.
