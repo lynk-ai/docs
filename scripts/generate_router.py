@@ -82,6 +82,27 @@ def frontmatter_field(page: Path, field: str) -> str | None:
     return " ".join(f.group(1).split()) if f else None
 
 
+def reference_concepts_in_summary_order() -> list[Path]:
+    """Reference concept pages, in SUMMARY.md's order.
+
+    SUMMARY.md is the authoritative order for this repo, and the reference's
+    sequence is curated — the levers build on each other, so alphabetical would
+    read as noise. Taking the order from SUMMARY keeps one home for it and lets
+    a reordering there flow into the map without a second edit.
+    """
+    seen, out = set(), []
+    for m in re.finditer(r"\(context-reference/concepts/([a-z0-9-]+\.md)\)",
+                         (DOCS / "SUMMARY.md").read_text()):
+        page = REFERENCE / "concepts" / m.group(1)
+        if page.name not in seen and page.is_file():
+            seen.add(page.name)
+            out.append(page)
+    missing = sorted(p.name for p in (REFERENCE / "concepts").glob("*.md") if p.name not in seen)
+    if missing:
+        sys.exit(f"reference map: concept pages absent from SUMMARY.md: {missing}")
+    return out
+
+
 def build_reference_map() -> str:
     """The context reference's own map, from the same frontmatter the router reads.
 
@@ -94,7 +115,7 @@ def build_reference_map() -> str:
     """
     groups: dict[str, list[str]] = {}
     problems = []
-    for page in sorted((REFERENCE / "concepts").glob("*.md")):
+    for page in reference_concepts_in_summary_order():
         desc = frontmatter_description(page)
         group = frontmatter_field(page, "group")
         deep = REFERENCE / "deep" / page.name

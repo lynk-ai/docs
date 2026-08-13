@@ -28,31 +28,31 @@ Every card links its deep page and vice versa. Start from the map below, open th
 ### The levers
 | Concept | One line | Open the deep page when |
 |---|---|---|
-| [authoring-standing-surfaces](concepts/authoring-standing-surfaces.md) | You are writing a file that loads on every session — LYNK.md, a policy, a glossary — and need to know what earns permanent residence and what quietly taxes every request. | Writing/pruning a system prompt, SKILL.md, or CLAUDE.md; a skill won't trigger |
-| [caching-economics](concepts/caching-economics.md) | Why a lean layer can still be expensive — cached tokens cost about a tenth of fresh ones, so churn drives the bill rather than size. Read it when deciding what stays stable and what gets rewritten each turn. | Designing the message layout; cost/latency spikes |
 | [four-operations](concepts/four-operations.md) | The vocabulary for what you can actually do about a crowded window — write, select, compress, isolate — and the two things that vocabulary leaves out. | Designing an agent's context flow end-to-end |
-| [position-and-ordering](concepts/position-and-ordering.md) | Where to put the load-bearing part of a file. Content buried in the middle can score worse than leaving it out entirely. | Laying out a prompt; "it was in context and it missed it" |
-| [progressive-disclosure](concepts/progressive-disclosure.md) | Deciding what loads every session versus what the agent fetches on demand, so a layer can keep growing without making every question heavier. | Structuring a corpus/skill/tool surface |
 | [selection-quality](concepts/selection-quality.md) | The agent retrieved something plausible but wrong. Why near-misses do more damage than obvious junk, and the retrieval shape that fixes it. | Building or tuning any retrieval pipeline |
+| [position-and-ordering](concepts/position-and-ordering.md) | Where to put the load-bearing part of a file. Content buried in the middle can score worse than leaving it out entirely. | Laying out a prompt; "it was in context and it missed it" |
+| [caching-economics](concepts/caching-economics.md) | Why a lean layer can still be expensive — cached tokens cost about a tenth of fresh ones, so churn drives the bill rather than size. Read it when deciding what stays stable and what gets rewritten each turn. | Designing the message layout; cost/latency spikes |
 | [tool-output-shaping](concepts/tool-output-shaping.md) | A tool returns far more than the agent needs, or truncates silently and the agent reports a partial result as complete. How to shape what comes back. | Designing a tool's return contract; agent misreports data; trimming the loop's bill |
+| [progressive-disclosure](concepts/progressive-disclosure.md) | Deciding what loads every session versus what the agent fetches on demand, so a layer can keep growing without making every question heavier. | Structuring a corpus/skill/tool surface |
 | [when-to-split](concepts/when-to-split.md) | Whether an ENTITY.md or any other file should become two. The test is which tasks need which parts, not how long the file got. | Judging one file; auditing a corpus that feels fragmented |
+| [authoring-standing-surfaces](concepts/authoring-standing-surfaces.md) | You are writing a file that loads on every session — LYNK.md, a policy, a glossary — and need to know what earns permanent residence and what quietly taxes every request. | Writing/pruning a system prompt, SKILL.md, or CLAUDE.md; a skill won't trigger |
 
 ### The rules of truth
 | Concept | One line | Open the deep page when |
 |---|---|---|
+| [one-concept-one-home](concepts/one-concept-one-home.md) | The same fact is stated in two places and you need to know why that is a defect rather than helpful redundancy. Two copies eventually disagree, and the agent picks one without telling anyone. | Structuring a KB; a contradiction surfaced; handling mirrors |
 | [distinguishability](concepts/distinguishability.md) | Two entities, metrics, or pages look alike and the agent keeps choosing the wrong one. How to make the difference visible in the name and the one-line description, which is all a chooser reads. | Naming tools/metrics/pages; wrong-item selection |
 | [living-sources](concepts/living-sources.md) | A file grew until it blurs, or two files drifted until they disagree, and nothing in the build will ever tell you. The signals that say split, and the ones that say merge back. | A doc feels overgrown; two docs overlap; planning maintenance |
-| [one-concept-one-home](concepts/one-concept-one-home.md) | The same fact is stated in two places and you need to know why that is a defect rather than helpful redundancy. Two copies eventually disagree, and the agent picks one without telling anyone. | Structuring a KB; a contradiction surfaced; handling mirrors |
 | [self-compiled-vs-curated](concepts/self-compiled-vs-curated.md) | Deciding what an agent may write into the layer itself and what a person must approve first, set by how much damage a bad entry would do. | Designing memory write paths; review policy; context files |
 | [trust-boundaries](concepts/trust-boundaries.md) | Anything the agent reads can instruct it. What that means for a layer that pulls in warehouse data, documents, or tool results you do not control. | Any agent that reads something you didn't write; MCP wiring; audit what can leave |
 
 ### The guards
 | Concept | One line | Open the deep page when |
 |---|---|---|
-| [context-governance](concepts/context-governance.md) | Nothing forces a cleanup on its own. How to assign a signal, a policy, and an owner so a layer stays clean instead of drifting until someone notices. | Standing up maintenance; choosing compaction policy |
 | [hook-vs-router](concepts/hook-vs-router.md) | Whether a rule should be a passive instruction or something every path must pass through. Explains why an instruction like “always check X” silently never fires. | Placing validation/gates in a pipeline |
-| [measuring-context](concepts/measuring-context.md) | Proving a change helped instead of asserting it — how to measure what your agent can actually hold and whether a page earns the tokens it costs. | Building the eval harness; arguing a change with numbers |
+| [context-governance](concepts/context-governance.md) | Nothing forces a cleanup on its own. How to assign a signal, a policy, and an owner so a layer stays clean instead of drifting until someone notices. | Standing up maintenance; choosing compaction policy |
 | [memory-shapes](concepts/memory-shapes.md) | Deciding what an agent may write down and when. Append-only memory reliably rots, so the write gate is the design. | Designing/fixing an agent memory architecture |
+| [measuring-context](concepts/measuring-context.md) | Proving a change helped instead of asserting it — how to measure what your agent can actually hold and whether a page earns the tokens it costs. | Building the eval harness; arguing a change with numbers |
 
 ### The dispatch
 | Concept | One line | Open the deep page when |
