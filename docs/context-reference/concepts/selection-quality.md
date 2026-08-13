@@ -2,6 +2,7 @@
 description: The agent retrieved something plausible but wrong. Why near-misses do more damage than obvious junk, and the retrieval shape that fixes it.
 layer: concept
 deep: ../deep/selection-quality.md
+group: The levers
 ---
 
 # Selection quality

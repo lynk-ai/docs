@@ -1,7 +1,8 @@
 ---
-description: The evidence behind implementation profiles — the five profiles with their dominant failure and first-order levers. Open when your workload does not match the common case.
+description: The evidence behind implementation profiles — the five profiles with their dominant failure and first-order levers.
 layer: deep
 concept: ../concepts/implementation-profiles.md
+when: Starting or auditing a system; deciding what to fix first
 ---
 
 # Implementation profiles — the five workloads, in full

@@ -1,7 +1,8 @@
 ---
-description: The evidence behind hook vs router — where gates belong in a control flow and what fails open in practice. Open when placing an actual check.
+description: The evidence behind hook vs router — where gates belong in a control flow and what fails open in practice.
 layer: deep
 concept: ../concepts/hook-vs-router.md
+when: Placing validation/gates in a pipeline
 ---
 
 # Hook vs. router — evidence & practice

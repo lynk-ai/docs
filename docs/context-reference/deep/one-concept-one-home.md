@@ -1,7 +1,8 @@
 ---
-description: The evidence behind one concept one home — how duplication fails silently, with the contradiction studies. Open when someone argues a second copy is harmless.
+description: The evidence behind one concept one home — how duplication fails silently, with the contradiction studies.
 layer: deep
 concept: ../concepts/one-concept-one-home.md
+when: Structuring a KB; a contradiction surfaced; handling mirrors
 ---
 
 # One concept, one home — evidence & practice

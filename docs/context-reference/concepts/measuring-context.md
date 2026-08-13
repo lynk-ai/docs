@@ -2,6 +2,7 @@
 description: Proving a change helped instead of asserting it — how to measure what your agent can actually hold and whether a page earns the tokens it costs.
 layer: concept
 deep: ../deep/measuring-context.md
+group: The guards
 ---
 
 # Measuring context

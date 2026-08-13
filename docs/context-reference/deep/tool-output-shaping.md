@@ -1,7 +1,8 @@
 ---
-description: The evidence behind tool output shaping — the four shapes for a large result and the truncation contract. Open when designing a tool's return, not reading one.
+description: The evidence behind tool output shaping — the four shapes for a large result and the truncation contract.
 layer: deep
 concept: ../concepts/tool-output-shaping.md
+when: Designing a tool's return contract; agent misreports data; trimming the loop's bill
 ---
 
 # Tool output shaping — evidence & practice

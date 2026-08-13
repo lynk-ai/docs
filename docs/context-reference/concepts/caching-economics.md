@@ -2,6 +2,7 @@
 description: Why a lean layer can still be expensive — cached tokens cost about a tenth of fresh ones, so churn drives the bill rather than size. Read it when deciding what stays stable and what gets rewritten each turn.
 layer: concept
 deep: ../deep/caching-economics.md
+group: The levers
 ---
 
 # Caching economics

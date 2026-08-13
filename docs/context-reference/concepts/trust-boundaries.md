@@ -2,6 +2,7 @@
 description: Anything the agent reads can instruct it. What that means for a layer that pulls in warehouse data, documents, or tool results you do not control.
 layer: concept
 deep: ../deep/trust-boundaries.md
+group: The rules of truth
 ---
 
 # Trust boundaries in context

@@ -1,7 +1,8 @@
 ---
-description: The evidence behind memory shapes — the four write-time decisions and what to steal from the systems that pioneered them. Open when designing a memory, not using one.
+description: The evidence behind memory shapes — the four write-time decisions and what to steal from the systems that pioneered them.
 layer: deep
 concept: ../concepts/memory-shapes.md
+when: Designing/fixing an agent memory architecture
 ---
 
 # Memory shapes — the systems, the evidence, the survey

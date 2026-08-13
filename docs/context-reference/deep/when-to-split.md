@@ -1,7 +1,8 @@
 ---
-description: The evidence behind when to split — the five-question test with thresholds, and the retrieval research behind chunk sizing. Open when the split call is genuinely close.
+description: The evidence behind when to split — the five-question test with thresholds, and the retrieval research behind chunk sizing.
 layer: deep
 concept: ../concepts/when-to-split.md
+when: Judging one file; auditing a corpus that feels fragmented
 ---
 
 # When to split — evidence, procedure, and over-use detection

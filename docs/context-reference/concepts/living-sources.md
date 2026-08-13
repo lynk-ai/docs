@@ -2,6 +2,7 @@
 description: A file grew until it blurs, or two files drifted until they disagree, and nothing in the build will ever tell you. The signals that say split, and the ones that say merge back.
 layer: concept
 deep: ../deep/living-sources.md
+group: The rules of truth
 ---
 
 # Living sources

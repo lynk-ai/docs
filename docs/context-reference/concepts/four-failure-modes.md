@@ -2,6 +2,7 @@
 description: The agent got worse and you need to name which kind of broken — poisoned, distracted, confused, or holding two facts that disagree. Each has a different fix and the symptoms look identical.
 layer: concept
 deep: ../deep/four-failure-modes.md
+group: The problem
 ---
 
 # The four failure modes

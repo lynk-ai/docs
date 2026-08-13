@@ -2,6 +2,7 @@
 description: The vocabulary for what you can actually do about a crowded window — write, select, compress, isolate — and the two things that vocabulary leaves out.
 layer: concept
 deep: ../deep/four-operations.md
+group: The levers
 ---
 
 # The four operations (and the two the taxonomy misses)

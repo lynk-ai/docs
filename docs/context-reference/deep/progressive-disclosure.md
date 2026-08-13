@@ -1,7 +1,8 @@
 ---
-description: The evidence behind progressive disclosure — the three stages, the economics per part, and where the pattern breaks. Open when designing the disclosure layer itself.
+description: The evidence behind progressive disclosure — the three stages, the economics per part, and where the pattern breaks.
 layer: deep
 concept: ../concepts/progressive-disclosure.md
+when: Structuring a corpus/skill/tool surface
 ---
 
 # Progressive disclosure — evidence & practice

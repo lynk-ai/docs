@@ -2,6 +2,7 @@
 description: How much an agent can actually hold before answers get worse, which is far below the window limit. The starting point for any argument about what a file costs.
 layer: concept
 deep: ../deep/context-rot.md
+group: The problem
 ---
 
 # Context rot

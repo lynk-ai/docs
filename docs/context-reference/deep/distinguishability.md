@@ -1,7 +1,8 @@
 ---
-description: The evidence behind distinguishability — the measured cost of ambiguous names and the tests that catch a collision before it ships. Open when auditing a set of names rather than fixing one.
+description: The evidence behind distinguishability — the measured cost of ambiguous names and the tests that catch a collision before it ships.
 layer: deep
 concept: ../concepts/distinguishability.md
+when: Naming tools/metrics/pages; wrong-item selection
 ---
 
 # Distinguishability — evidence & practice

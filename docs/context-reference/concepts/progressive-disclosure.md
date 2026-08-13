@@ -2,6 +2,7 @@
 description: Deciding what loads every session versus what the agent fetches on demand, so a layer can keep growing without making every question heavier.
 layer: concept
 deep: ../deep/progressive-disclosure.md
+group: The levers
 ---
 
 # Progressive disclosure

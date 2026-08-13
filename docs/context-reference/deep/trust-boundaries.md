@@ -2,6 +2,7 @@
 description: The evidence behind trust boundaries — the lethal trifecta and what actually contains it. Open before connecting an agent to data it does not control.
 layer: deep
 concept: ../concepts/trust-boundaries.md
+when: Any agent that reads something you didn't write; MCP wiring; audit what can leave
 ---
 
 # Trust boundaries — evidence & defense patterns

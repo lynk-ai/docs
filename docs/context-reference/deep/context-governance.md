@@ -1,7 +1,8 @@
 ---
-description: The evidence behind context governance — the instrument-policy-owner-intervention loop in full, including compaction policy. Open when setting up ownership rather than deciding one file.
+description: The evidence behind context governance — the instrument-policy-owner-intervention loop in full, including compaction policy.
 layer: deep
 concept: ../concepts/context-governance.md
+when: Standing up maintenance; choosing compaction policy
 ---
 
 # Context governance — evidence & practice

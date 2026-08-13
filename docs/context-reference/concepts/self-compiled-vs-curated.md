@@ -2,6 +2,7 @@
 description: Deciding what an agent may write into the layer itself and what a person must approve first, set by how much damage a bad entry would do.
 layer: concept
 deep: ../deep/self-compiled-vs-curated.md
+group: The rules of truth
 ---
 
 # Self-compiled vs. curated knowledge
