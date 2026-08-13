@@ -54,4 +54,8 @@ The building blocks of a `.lynk` project, and the map of every page in these doc
   - [Lynk SQL](../api/lynk-sql.md) — The query dialect — warehouse SQL plus metric(<entity>.<name>) and USING('<join_name>'); entity references, joins, CTEs, windows, supported statements, pitfalls.
   - [REST API](../api/rest-api.md) — HTTP endpoints for validating the semantic layer and inspecting the data catalog — full documentation in progress.
 
+### Context Reference
+
+- [Overview](../context-reference/README.md) — Map of the context reference — how context behaves and how to write for it. Enter at a concept page, which is decision-ready on its own; open its deep page only on the trigger that page names.
+
 <!-- router:end -->

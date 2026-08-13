@@ -135,3 +135,4 @@ Grove: the fiscal year (starts February 1) is root `LYNK.md` — every domain re
 - [ENTITY.md](../concepts/entity/entity-md.md) · [LYNK.md](../concepts/lynk-md.md) · [GLOSSARY.yml](../concepts/glossary.md) · [Skill](../concepts/skill.md) · [Policy](../concepts/policy.md) — the primitives whose load behavior this guide budgets
 - [Reference files](../concepts/reference-files.md) — the on-demand tier's home for cross-cutting content
 - [Evolving a live layer](./evolving-the-layer.md) — changing what's already loaded without breaking consumers
+- [Context reference](../context-reference/README.md) — the measurements and studies behind the rules on this page. This guide states what to do in a Lynk layer; the reference explains why, and covers cases a layer inherits rather than sets. Read it when a rule here needs justifying or stops fitting.
