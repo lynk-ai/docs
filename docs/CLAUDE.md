@@ -27,7 +27,18 @@ primitive *is*, and what the build validates (each spec's Validation section);
 `reference/` holds cross-cutting rules (layout & naming, markdown format, SQL
 expressions) plus the capability-boundary index (`what-lynk-does-not-do.md`);
 `guides/` holds judgment — how to decide, what good looks like, anti-patterns;
-and `api/` holds the query interfaces (Lynk SQL, REST). Judgment-shaped questions
+`api/` holds the query interfaces (Lynk SQL, REST); and `context-reference/`
+holds how context behaves for the agent that reads it — what a page costs on
+every load, why a description isn't getting picked, when a file should become
+two, what will go stale or end up contradicting a neighbour. Reach for it when
+the question is about how well layer content is *written* rather than whether
+it is valid: the build accepts a description that routes nowhere and a body too
+heavy to earn its place, and the person pays for both. It runs two tiers —
+enter at a page under `context-reference/concepts/`, decision-ready on its own,
+and open its `context-reference/deep/` counterpart only on the trigger that
+page names. On a question about a `.lynk/` file, `guides/context-engineering.md`
+states the Lynk rule and the reference carries the measurement behind it.
+Judgment-shaped questions
 ("what makes a good X", "should I do A or B") are answered by `guides/`: the
 concept page defines the primitive, the guide carries the tradeoffs — and a
 guide's criteria are recommendations, never build-validated rules.
