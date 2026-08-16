@@ -30,10 +30,14 @@ expressions) plus the capability-boundary index (`what-lynk-does-not-do.md`);
 `api/` holds the query interfaces (Lynk SQL, REST); and `context-reference/`
 holds how context behaves for the agent that reads it — what a page costs on
 every load, why a description isn't getting picked, when a file should become
-two, what will go stale or end up contradicting a neighbour. Reach for it when
-the question is about how well layer content is *written* rather than whether
-it is valid: the build accepts a description that routes nowhere and a body too
-heavy to earn its place, and the person pays for both. It runs two tiers —
+two, what will go stale or end up contradicting a neighbour. Its rules are not
+tied to one file type: the same ones govern an `ENTITY.md`, a feature
+description, a skill, a glossary entry, a policy, and `LYNK.md`. Reach for it
+whenever content is being written or judged — drafting, editing, reviewing, or
+deciding where something belongs — not only when a question is asked about it,
+because the build sees none of this: a description that routes nowhere and a
+body too heavy to earn its place both pass, and the person pays for both. It
+runs two tiers —
 enter at a page under `context-reference/concepts/`, decision-ready on its own,
 and open its `context-reference/deep/` counterpart only on the trigger that
 page names. On a question about a `.lynk/` file, `guides/context-engineering.md`
