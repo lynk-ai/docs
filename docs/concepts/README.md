@@ -54,4 +54,28 @@ The building blocks of a `.lynk` project, and the map of every page in these doc
   - [Lynk SQL](../api/lynk-sql.md) — The query dialect — warehouse SQL plus metric(<entity>.<name>) and USING('<join_name>'); entity references, joins, CTEs, windows, supported statements, pitfalls.
   - [REST API](../api/rest-api.md) — HTTP endpoints for validating the semantic layer and inspecting the data catalog — full documentation in progress.
 
+### Context Reference
+
+- [Overview](../context-reference/README.md) — Map of the context reference — how context behaves and how to write for it. One page per principle; the decision-ready summary sits on top, the evidence and procedures below it.
+- [Context rot](../context-reference/context-rot.md) — How much an agent can actually hold before answers get worse, which is far below the window limit. The starting point for any argument about what a file costs.
+- [The four failure modes](../context-reference/four-failure-modes.md) — The agent got worse and you need to name which kind of broken — poisoned, distracted, confused, or holding two facts that disagree. Each has a different fix and the symptoms look identical.
+- [The four operations (and the two the taxonomy misses)](../context-reference/four-operations.md) — The vocabulary for what you can actually do about a crowded window — write, select, compress, isolate — and the two things that vocabulary leaves out.
+- [Selection quality](../context-reference/selection-quality.md) — The agent retrieved something plausible but wrong. Why near-misses do more damage than obvious junk, and the retrieval shape that fixes it.
+- [Position and ordering](../context-reference/position-and-ordering.md) — Where to put the load-bearing part of a file. Content buried in the middle can score worse than leaving it out entirely.
+- [Caching economics](../context-reference/caching-economics.md) — Why a lean layer can still be expensive — cached tokens cost about a tenth of fresh ones, so churn drives the bill rather than size. Read it when deciding what stays stable and what gets rewritten each turn.
+- [Tool output shaping](../context-reference/tool-output-shaping.md) — A tool returns far more than the agent needs, or truncates silently and the agent reports a partial result as complete. How to shape what comes back.
+- [Progressive disclosure](../context-reference/progressive-disclosure.md) — Deciding what loads every session versus what the agent fetches on demand, so a layer can keep growing without making every question heavier.
+- [When to split (and when to merge back)](../context-reference/when-to-split.md) — Whether an ENTITY.md or any other file should become two. The test is which tasks need which parts, not how long the file got.
+- [Authoring standing surfaces (system prompts, skills, config files)](../context-reference/authoring-standing-surfaces.md) — You are writing a file that loads on every session — LYNK.md, a policy, a glossary — and need to know what earns permanent residence and what quietly taxes every request.
+- [One concept, one home](../context-reference/one-concept-one-home.md) — The same fact is stated in two places and you need to know why that is a defect rather than helpful redundancy. Two copies eventually disagree, and the agent picks one without telling anyone.
+- [Distinguishability](../context-reference/distinguishability.md) — Two entities, metrics, or pages look alike and the agent keeps choosing the wrong one. How to make the difference visible in the name and the one-line description, which is all a chooser reads.
+- [Living sources](../context-reference/living-sources.md) — A file grew until it blurs, or two files drifted until they disagree, and nothing in the build will ever tell you. The signals that say split, and the ones that say merge back.
+- [Self-compiled vs. curated knowledge](../context-reference/self-compiled-vs-curated.md) — Deciding what an agent may write into the layer itself and what a person must approve first, set by how much damage a bad entry would do.
+- [Trust boundaries in context](../context-reference/trust-boundaries.md) — Anything the agent reads can instruct it. What that means for a layer that pulls in warehouse data, documents, or tool results you do not control.
+- [Hook vs. router](../context-reference/hook-vs-router.md) — Whether a rule should be a passive instruction or something every path must pass through. Explains why an instruction like “always check X” silently never fires.
+- [Context governance](../context-reference/context-governance.md) — Nothing forces a cleanup on its own. How to assign a signal, a policy, and an owner so a layer stays clean instead of drifting until someone notices.
+- [Memory shapes](../context-reference/memory-shapes.md) — Deciding what an agent may write down and when. Append-only memory reliably rots, so the write gate is the design.
+- [Measuring context](../context-reference/measuring-context.md) — Proving a change helped instead of asserting it — how to measure what your agent can actually hold and whether a page earns the tokens it costs.
+- [Implementation profiles](../context-reference/implementation-profiles.md) — Which context rule matters most depends on the workload — a chatbot, a long-running agent, a batch pipeline all fail on different axes. Read it before applying advice written for a different shape.
+
 <!-- router:end -->
