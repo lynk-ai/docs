@@ -1,15 +1,29 @@
 ---
-description: The evidence behind authoring standing surfaces — the six rules for always-loaded files, with the studies behind each.
-icon: magnifying-glass-chart
-layer: deep
-concept: ../concepts/authoring-standing-surfaces.md
+description: You are writing a file that loads on every session — LYNK.md, a policy, a glossary — and need to know what earns permanent residence and what quietly taxes every request.
+icon: pen-ruler
 ---
 
-# Authoring standing surfaces — evidence & practice
+# Authoring standing surfaces (system prompts, skills, config files)
+
+**Claim** — system prompts, skill instructions, and config files (CLAUDE.md/AGENTS.md) are one artifact class: **always-or-often-loaded instruction surfaces**. They share a failure profile — every token is paid on every load, instructions decay in use, and "helpful" content measurably hurts — so they share authoring rules.
+
+**Why it matters** — the measured stakes: context files tend to reduce task success while inflating inference cost >20% (ETH Zurich); within-session compliance decays ~5.6% odds per generated function no matter how the file is structured (McMillan — size, position, and layout were all nulls); and Anthropic's guidance sets the bar as "the smallest possible set of high-signal tokens."
+
+**The six rules of the class** —
+1. **Right container first.** Knowledge/procedure → skill (loads on match); isolated heavy work → subagent; a must-fire guarantee → hook. Procedures in a config file and guarantees in prose are placement bugs, not writing problems.
+2. **Admission before arrangement.** The default assumption is *the model is already very smart*: challenge every line with "would it get this wrong without this?" Only non-inferable content survives. Formatting a bloated surface is polishing a null variable (McMillan).
+3. **Ground in real expertise.** LLM-generated instructions from general knowledge yield "vague, generic procedures" — extract from tasks that actually ran (including the corrections), runbooks, incident reports. **Gotchas are the highest-value content**: environment facts that defy assumptions. No gotchas → probably no experience in it.
+4. **Altitude: the Goldilocks zone** (Anthropic). Two failure modes — brittle hardcoded if-then logic that breaks on novelty, and vague high-level guidance that assumes shared context. Aim between: specific enough to steer, heuristic enough to generalize. Moderate detail, not exhaustive — instructions that don't apply *misfire*, they don't sit idle.
+5. **Route on the surface, act on the body.** Name + description are the trigger interface (chosen among 100+ — third person, what it does *and when to use it*, key terms). **Tune the description like a classifier**: ~20 labeled queries with near-miss negatives, train/validation split, pick the wording on validation. Body under ~500 lines; depth in files **one level deep**, each reference carrying an explicit load trigger ("read X *if* Y").
+6. **Match freedom to fragility.** High freedom (heuristics) where many paths work; medium (pseudocode/templates) where a pattern is preferred; low (exact scripts, "do not modify") where operations are fragile. Scripts beat instructions for anything deterministic — execution costs output tokens only.
+
+**The decay corollary** — a standing rule is *not enforced by residence*. Rules that must hold at step 20 need re-anchoring (recitation near the task) or a gate in the path (`hook-vs-router.md`).
+
+## Evidence & practice
 
 One artifact class, three members: **system prompts** (always loaded), **skills** (metadata always, body on trigger), **config files** (loaded per session). All are instruction surfaces the model consults rather than data it processes — and the evidence for how to write them is now substantial. Primary sources: [Anthropic, effective context engineering](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents); [Anthropic, skill authoring best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices); [Agent Skills engineering post](https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills); McMillan ([arXiv 2605.10039](https://arxiv.org/pdf/2605.10039)); the ETH Zurich AGENTS.md evaluation.
 
-## What the evidence says about the whole class
+### What the evidence says about the whole class
 
 | Finding | Consequence for authoring |
 |---|---|
@@ -19,7 +33,7 @@ One artifact class, three members: **system prompts** (always loaded), **skills*
 | No config file → 0% compliance; with → 67.7% (McMillan) | The surface absolutely works — for behaviors the model can't infer; the question is only what earns a line |
 | Task identity swamps file structure (26.2pp between tasks) | Test your surface against your *hardest* task types, not an average |
 
-## System prompts: the altitude calibration
+### System prompts: the altitude calibration
 
 Anthropic's verified framing — system prompts fail at two altitudes:
 
@@ -29,7 +43,7 @@ Anthropic's verified framing — system prompts fail at two altitudes:
 
 Structure guidance (same source): organize into distinct sections (background, instructions, tool guidance, output description) with headers/XML tags; start minimal, test on the hardest tasks, add only against observed failures — the additive direction, never write-big-then-prune, because every speculative line is a measured liability (ETH).
 
-## Skills: the routing surface and the body
+### Skills: the routing surface and the body
 
 A skill is progressive disclosure productized (three levels: metadata always → SKILL.md on trigger → bundled files on demand; "the amount of context that can be bundled is effectively unbounded" since scripts execute without loading). The authoring rules, from the primary doc:
 
@@ -63,7 +77,7 @@ A skill is progressive disclosure productized (three levels: metadata always →
 
 **Evaluation-driven authoring** (the doc's strongest advice, and pure `measuring-context.md`): build ≥3 evaluations *before* writing extensive content — baseline the model without the skill, write the minimum that closes observed gaps, iterate against real trajectories. Watch how the agent actually navigates: files it never reads are dead weight; files it always reads belong in SKILL.md; unexpected read orders mean the structure isn't as intuitive as you thought. The two-instance loop: author with one Claude, test on a fresh one, feed observed failures back — refine from behavior, not assumption.
 
-## Before authoring: is this even the right container?
+### Before authoring: is this even the right container?
 
 The same capability can live in a skill, a subagent, or a hook — and the placement decides both how it fires and how far it travels across hosts (the portability ladder):
 
@@ -75,7 +89,7 @@ The same capability can live in a skill, a subagent, or a hook — and the place
 
 Two placement bugs this table catches: *procedures stuffed into config files* (they belong in a skill, where they load on match instead of always — the whole standing-surface cost problem disappears), and *guarantees stated as instructions* (a "must always" that lives in prose is a hook-shaped need implemented as a hope — `hook-vs-router.md`). Same logic as the disclosure layering stack (`progressive-disclosure.md`): each knowledge type has a surface built for it; the wrong surface pays the wrong price.
 
-## Config files (CLAUDE.md / AGENTS.md): the admission-only surface
+### Config files (CLAUDE.md / AGENTS.md): the admission-only surface
 
 Everything above applies, minus the routing layer (config files load unconditionally — which is exactly why they're the most dangerous member of the class):
 
@@ -84,7 +98,7 @@ Everything above applies, minus the routing layer (config files load uncondition
 3. **Durable rules get machinery.** The 5.6%/function decay means "always run the linter" belongs in a hook, not (only) in prose; `hook-vs-router.md` has the ladder (prompt ask < hook < in-path gate).
 4. **Agent-drafted lines pass the same review as agent-drafted memory** — "capture your learnings into the config" is a memory write with session-steering blast radius (`self-compiled-vs-curated.md`).
 
-## The class-level checklist
+### The class-level checklist
 
 Before shipping any standing surface:
 - [ ] Every line passes "would the model get this wrong without it?"
@@ -96,7 +110,7 @@ Before shipping any standing surface:
 - [ ] ≥3 evals existed before the content did; ablation re-run after every addition (`measuring-context.md`)
 - [ ] No timestamps/volatile content (cache churn — `caching-economics.md`)
 
-## By implementation type
+### By implementation type
 
 | Implementation | The standing surface that matters most | Its top rule |
 |---|---|---|

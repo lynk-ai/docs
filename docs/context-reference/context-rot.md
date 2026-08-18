@@ -1,13 +1,30 @@
 ---
-description: The evidence behind context rot — the study numbers behind the degradation claim, model by model.
-icon: magnifying-glass-chart
-layer: deep
-concept: ../concepts/context-rot.md
+description: How much an agent can actually hold before answers get worse, which is far below the window limit. The starting point for any argument about what a file costs.
+icon: hourglass-half
 ---
 
-# Context rot — evidence & practice
+# Context rot
 
-## What the research actually measured
+**Claim** — answer quality degrades as input tokens grow, *even when every added token is relevant-looking*, and the degradation starts long before the window is full. This is the axiom the rest of this reference defends against.
+
+**Why it matters** — Chroma's 2025 study tested 18 frontier models (GPT-4.1, Claude Opus 4, Gemini 2.5, …): **every one degraded at every input-length increment tested**, non-uniformly. When the task can't be solved by literal string-matching, measured *effective* lengths collapse to a fraction of claims (NoLiMa, ≥85%-of-baseline bar): GPT-4.1 **1M → 16K**, GPT-4o **128K → 8K**, Claude 3.5 Sonnet **200K → 4K**, Gemini 1.5 Pro **2M → 2K**; at 32K most tested models fall below **half** their own baseline.
+
+**The mechanism (three compounding effects)** —
+1. **Attention dilution** — softmax attention is a fixed budget spread over more pairwise relationships as tokens grow; per-token attention mass shrinks.
+2. **Position bias** — U-shaped attention: strong at the edges, weak in the middle ("lost in the middle").
+3. **Distractor interference** — semantically similar-but-wrong content doesn't just dilute, it *actively misleads*; distractors hurt more than random filler.
+
+**The resolution of the paradox** — "more context = better" and "more context = worse" are both true. Curated, task-scoped context **compounds**; raw volume **piles**. The discriminator is marginal signal per token, not size. Ask "does this token raise the probability of the right answer," never "is there room."
+
+**Rules** —
+- Treat the window as an attention budget, not a storage budget.
+- Your effective context is what benchmarks measure at your accuracy bar — not the marketed window. Assume 25–50% of the advertised number for reasoning-heavy work.
+- Distractors are worse than noise: filtering *near-miss* content pays more than filtering junk.
+- Rot is continuous — there is no safe threshold below which tokens are free.
+
+## Evidence & practice
+
+### What the research actually measured
 
 **Chroma, "Context Rot" (2025)** — the reference study. 18 models — Claude Opus 4/Sonnet 4/Sonnet 3.7/Sonnet 3.5/Haiku 3.5; o3, GPT-4.1 (+mini/nano), GPT-4o, GPT-4 Turbo, GPT-3.5 Turbo; Gemini 2.5 Pro/Flash, 2.0 Flash; Qwen3 235B/32B/8B — on controlled tasks where *only input length varies* and the needed information is held constant. Verified findings:
 
@@ -24,7 +41,7 @@ concept: ../concepts/context-rot.md
 
 **Mechanistic grounding** — "Lost in the Middle" (Liu et al., TACL 2024) established the U-shaped position curve; "Found in the Middle" (2024) showed the cause is **intrinsic positional attention bias** — edge tokens get outsized attention regardless of semantic relevance — and that calibrating it away recovers middle-position accuracy (exact numbers in `position-and-ordering.md`). Anthropic's engineering guidance (verified) grounds the *attention budget* framing in three architectural facts: n tokens ⇒ n² pairwise relationships to spread fixed attention over; models have **less training experience and fewer specialized parameters for context-wide dependencies** (long-sequence data is rare in training mixes); and the position-encoding interpolation used to extend windows itself degrades positional understanding. Rot is not a bug to be patched out — it falls out of how transformers are built and trained.
 
-## Numbers to plan with
+### Numbers to plan with
 
 | Fact | Number | Source (primary, verified) |
 |---|---|---|
@@ -37,7 +54,7 @@ concept: ../concepts/context-rot.md
 | Controlled ablation: less history beats more | SWE-agent: last-5-observations 18.0 vs full history 15.0 (SWE-bench Lite) | [arXiv 2405.15793](https://arxiv.org/abs/2405.15793), secondary source — not re-verified |
 | Multi-agent fan-out cost (for comparison) | ~15× chat token spend | Anthropic multi-agent research |
 
-## The compounding-vs-piling resolution, precisely
+### The compounding-vs-piling resolution, precisely
 
 Both of these are experimentally true:
 - Adding the *right* document to a small context raises accuracy (all of RAG rests on this).
@@ -47,7 +64,7 @@ So the marginal token has **two opposing effects**: its information gain vs. its
 
 **One necessary caveat (caching)**: cost and rot are different axes. A large *stable* prefix is cheap in dollars (90% cached-read discount) but still pays full attention cost. Caching changes the economics of *keeping* tokens, never the accuracy of *attending* to them — see `caching-economics.md`. Do not let a high cache-hit rate justify a bloated prefix.
 
-## How to apply, by implementation type
+### How to apply, by implementation type
 
 | Implementation | Where rot bites first | First move |
 |---|---|---|
@@ -57,11 +74,11 @@ So the marginal token has **two opposing effects**: its information gain vs. its
 | Multi-agent system | Sub-agent transcripts leaking upward | Return condensed, cited results only (ISOLATE) |
 | Text-to-SQL / semantic layer | Schema dump width | Route to relevant entities; never ship the whole catalog |
 
-## How to detect it in *your* system
+### How to detect it in *your* system
 
 Rot is measurable, not vibes — instrument before you optimize: fix a task set, vary only context length/composition, plot accuracy. The 85%-of-base-score effective-length method (NoLiMa) works on private evals too. Full procedure: `measuring-context.md`.
 
-## Sources
+### Sources
 
 - [Chroma Research — Context Rot: How Increasing Input Tokens Impacts LLM Performance](https://research.trychroma.com/context-rot)
 - [NoLiMa: Long-Context Evaluation Beyond Literal Matching](https://github.com/adobe-research/NoLiMa) (arXiv 2502.05167)

@@ -1,15 +1,31 @@
 ---
-description: The evidence behind four failure modes — measured onsets for each mode and how to tell them apart from a transcript.
-icon: magnifying-glass-chart
-layer: deep
-concept: ../concepts/four-failure-modes.md
+description: The agent got worse and you need to name which kind of broken — poisoned, distracted, confused, or holding two facts that disagree. Each has a different fix and the symptoms look identical.
+icon: triangle-exclamation
 ---
 
-# The four failure modes — diagnosis & fixes
+# The four failure modes
+
+**Claim** — context breaks agents in four distinguishable ways (Drew Breunig's taxonomy, 2025): **poisoning**, **distraction**, **confusion**, **clash**. They present as the same symptom — "the agent got dumb" — but each has a different mechanism and a different fix. Diagnosing the wrong mode means applying the wrong fix.
+
+**The four** —
+
+| Mode | Mechanism | Canonical fix |
+|---|---|---|
+| **Poisoning** | An error/hallucination enters context and gets *repeatedly referenced* as truth | Quarantine + validate before anything persists; make history auditable |
+| **Distraction** | Context grows so long the model over-attends to accumulated history instead of reasoning from training | Compact/summarize; reset at task boundaries |
+| **Confusion** | Superfluous (not wrong) content — extra docs, unused tools — degrades the answer | Curate harder; RAG over tool/doc loadout; prune near-misses |
+| **Clash** | Two pieces of in-context information contradict; the model silently picks one | Detect, then **escalate** — resolution needs an authority, not a coin-flip |
+
+**Three honest edges of the taxonomy** —
+- The modes *overlap in practice*: distraction and confusion co-occur; poisoning is clash with a time delay (the wrong fact eventually meets the right one). Use it as a diagnostic checklist, not a partition.
+- Three modes have mechanical fixes; **clash alone requires an authority decision** — an agent can notice a contradiction but has no standing to resolve one. Knowledge-conflict research backs the seriousness: ~70% of enterprise KBs contain directly contradictory article pairs (Gartner, via Fini Labs).
+- Diagnose by *what changed*: wrong fact repeating → poisoning; quality falling with length → distraction; quality falling with breadth → confusion; inconsistent answers to the same question → clash.
+
+## Evidence & practice
 
 Taxonomy: Drew Breunig, ["How Long Contexts Fail"](https://www.dbreunig.com/2025/06/22/how-contexts-fail-and-how-to-fix-them.html) (June 2025); fixes catalog from his companion ["How to Fix Your Context"](https://www.dbreunig.com/2025/06/26/how-to-fix-your-context.html), reproduced with runnable examples in LangChain's [`how_to_fix_your_context`](https://github.com/langchain-ai/how_to_fix_your_context).
 
-## Diagnostic procedure
+### Diagnostic procedure
 
 Work the symptoms in this order — cheapest test first. Each mode now has a *named, primary-sourced* exemplar:
 
@@ -18,7 +34,7 @@ Work the symptoms in this order — cheapest test first. Each mode now has a *na
 3. **Quality falls as you widen the payload (more docs, more tools), length modest?** → *Confusion.* Verified numbers: Berkeley Function-Calling Leaderboard — **every** model performs worse given more than one tool; the GeoEngine benchmark run — a quantized Llama 3.1 8B **fails with 46 tools, succeeds with 19**, both fitting in a 16K window: it's count/breadth, not length, that killed it.
 4. **Inconsistent answers to the same question within one session?** → *Clash.* Measured at conversation scale by ["LLMs Get Lost in Multi-Turn Conversation"](https://arxiv.org/abs/2505.06120) (Laban et al., 200,000+ simulated conversations): information arriving **sharded across turns** — each turn potentially conflicting with the model's premature assumptions — costs an average **−39% across six generation tasks** vs. the same information in one turn (o3: 98.1 → 64.1). Decomposition: minor capability loss + major *unreliability* spike; "when LLMs take a wrong turn, they get lost and do not recover." Diff the context for contradictions; check whether both entered legitimately (stale + fresh doc is the classic case).
 
-## The fix menu, mapped
+### The fix menu, mapped
 
 | Fix (Breunig/LangChain catalog) | Fixes | What it does |
 |---|---|---|
@@ -31,7 +47,7 @@ Work the symptoms in this order — cheapest test first. Each mode now has a *na
 | **Context offloading** | Distraction, confusion | Move working state to files/scratchpads; re-SELECT on demand. Anthropic's "think" tool (a designated scratch space) + domain prompts: up to **+54%** on specialized agent benchmarks (via Breunig) |
 | **Detect → classify → escalate** | Clash | ConflictRAG-style pipelines detect and classify conflicts before generation ([ConflictRAG](https://arxiv.org/pdf/2605.17301)); resolution policy is human-owned |
 
-## Clash deserves its own section
+### Clash deserves its own section
 
 The knowledge-conflicts literature ([survey, arXiv 2403.08319](https://arxiv.org/abs/2403.08319)) splits conflicts into **context–memory** (retrieved facts vs. the model's weights), **inter-context** (two retrieved sources disagree — Breunig's clash), and **intra-memory**. Two findings matter for builders:
 
@@ -41,7 +57,7 @@ The knowledge-conflicts literature ([survey, arXiv 2403.08319](https://arxiv.org
 
 Structural prevention beats detection: one home per fact (`one-concept-one-home.md`) makes inter-context clash impossible *within your own corpus*; detection pipelines then only have to cover external/uncontrolled sources.
 
-## The conversation as its own failure surface
+### The conversation as its own failure surface
 
 The four modes describe *what is in the window*. Multi-turn adds a dynamic they don't capture: **the wrong turn that never gets corrected.** Laban et al. ([arXiv 2505.06120](https://arxiv.org/abs/2505.06120), 200,000+ simulated conversations) decompose the −39% multi-turn penalty into *minor capability loss + a large instability spike*, and name the mechanism: models commit to an interpretation early on incomplete information, then defend it — "when LLMs take a wrong turn in a conversation, they get lost and do not recover."
 
@@ -53,13 +69,13 @@ What follows for managing a live conversation:
 - **Re-anchor the objective periodically.** The task statement ages into the dead zone as the transcript grows; recitation (`position-and-ordering.md`) is the counter.
 - **Instrument it**: a spike in turns-per-resolution, or repeated near-identical user rephrasings, is the observable signature of a session that has gotten lost.
 
-## Taxonomy limits — say them out loud
+### Taxonomy limits — say them out loud
 
 - **Poisoning ≈ delayed clash**: a poisoned fact eventually collides with the true one; the difference is whether the wrong fact had time to be built upon. Treat poisoning fixes as *earlier-in-time* clash fixes.
 - **Distraction vs. confusion** both reduce signal share; they differ on axis (length vs. breadth) and therefore on fix (compact vs. curate). If you can't tell which you have, measure both axes separately (`measuring-context.md`).
 - The taxonomy covers *in-window* failures only. Selection failures (retrieved the wrong thing) and position failures (right thing, wrong place) are upstream — see `selection-quality.md` and `position-and-ordering.md`.
 
-## By implementation type
+### By implementation type
 
 | Implementation | Dominant mode | Standing guard |
 |---|---|---|

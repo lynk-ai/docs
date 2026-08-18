@@ -1,15 +1,39 @@
 ---
-description: The evidence behind when to split — the five-question test with thresholds, and the retrieval research behind chunk sizing.
-icon: magnifying-glass-chart
-layer: deep
-concept: ../concepts/when-to-split.md
+description: Whether an ENTITY.md or any other file should become two. The test is which tasks need which parts, not how long the file got.
+icon: split
 ---
 
-# When to split — evidence, procedure, and over-use detection
+# When to split (and when to merge back)
+
+**Claim** — the split decision is not about **size**, it is about **trigger heterogeneity**: a file should be split when its parts are needed by *different tasks*, and kept whole when its parts are needed by *the same task*. Size is a symptom that makes you look; it is not the criterion. Splitting on size alone manufactures the opposite failure — a corpus of shallow fragments nobody can reassemble.
+
+**The test — five questions, in order**
+
+1. **How many distinct triggers open this file?** More than one, with different needs → split along the trigger boundary. One trigger → leave it whole no matter how long.
+2. **What fraction of loads uses each section?** Any section used by <~20% of the tasks that open the file is paying full price on every load — link it instead.
+3. **Are the parts ever needed together?** If every reader of A also needs B, they are one unit. Splitting them just adds a hop (the always-co-loaded rule).
+4. **Sideways or deeper?** Still one concept, just long → sibling files. Several *independently-cited* concepts → it earns its own index (a new disclosure level). The tell: you catch yourself wanting an index for the sub-part.
+5. **What breaks?** List every file that references this one or anything defined in it. Splitting without fixing referrers is how you manufacture a clash.
+
+**The opposite failure has a name.** Ousterhout's *shallow module* / "classitis": a unit whose **interface is large relative to its content**. A 40-line file with a name, a description, a load trigger, an index entry, and inbound links has more interface than substance — and many of them accumulate into more complexity than the one file they replaced. Its distributed-systems twin is the **nanoservice**: a component whose overhead outweighs its utility. Both apply verbatim to context files.
+
+**Merge signals (split too far)** —
+- Two files are **always read together** → one file.
+- A file is **never read** → delete or re-trigger; unreachable content is worse than absent (it costs index space and pollutes routing).
+- Answering one common question needs **3+ hops** → the boundary is in the wrong place.
+- The **index is growing faster than the content** it indexes.
+- A file exists only to **point elsewhere** (a stub that isn't a graduation marker).
+- Siblings **cross-reference each other constantly** → high coupling, low cohesion: they were one concept.
+
+**Don't split at all when** the whole corpus fits comfortably in the window with room for the task — under roughly **200K tokens** Anthropic's own guidance is to skip retrieval and load the lot (attention cost still applies; see `context-rot.md`).
+
+**If you must split content that has cross-part dependencies**, don't leave the fragments bare — carry the context with them (parent-child retrieval, or prepend a situating line per fragment). Fragmentation without re-contextualisation is the single most measured failure of the pattern.
+
+## Evidence & practice
 
 `progressive-disclosure.md` argues *why* lazy loading pays and *how* the three rings work. This page answers the operational question it leaves open: **given one file in a system, should it be broken up — and how would I know I've broken up too much?**
 
-## Part 1 — Why size is the wrong criterion
+### Part 1 — Why size is the wrong criterion
 
 The available size constants are all borrowed and all medium-specific: **≤500 lines** for a SKILL.md body, **~2KB** for a session-hook note before the host truncates it, **256–512 tokens** as the common RAG chunk band (minimum ~200 for complex documents; a 2023 LlamaIndex sweep found 1024 peaked on faithfulness, a 2026 vendor benchmark put recursive-512 first at 69% accuracy — the spread is the point). None of them transfers to a file type you invented.
 
@@ -17,7 +41,7 @@ Worse, the strongest evidence available says structure-by-size *loses to* struct
 
 So: size is a *prompt to investigate*, never a verdict. The criterion is **who needs which part, when**.
 
-## Part 2 — The split test, run against one file
+### Part 2 — The split test, run against one file
 
 **Q1. Trigger inventory — how many distinct situations open this file?**
 Write down every task type that loads it. One trigger ⇒ don't split, whatever the length: a single-purpose 600-line runbook is one unit, and splitting it only adds hops. Several triggers with *different needs* ⇒ split along the trigger boundary, not the length boundary. This is the criterion; everything below is refinement.
@@ -32,7 +56,7 @@ Write down every task type that loads it. One trigger ⇒ don't split, whatever 
 
 **Deriving a bar for a file type nobody has a constant for**: run the ablation from `measuring-context.md` on the file's largest section. Accuracy unchanged ⇒ it was never earning its place; accuracy improves ⇒ it was a distractor; accuracy drops ⇒ keep it and record the number. Three sections measured gives you an empirical bar for that file type, which beats any borrowed constant.
 
-## Part 3 — Over-splitting: the failure with two literatures behind it
+### Part 3 — Over-splitting: the failure with two literatures behind it
 
 **Shallow modules (Ousterhout, *A Philosophy of Software Design*).** A module is *deep* when its interface is small relative to its implementation, *shallow* when the reverse. His named antipattern is **classitis** — the belief that more, smaller units are automatically better: *"small classes don't contribute much functionality, so there have to be many of them, each with its own interface, and these accumulate to increase complexity."* Translate directly: a context file's interface is its **name + description + load trigger + index row + inbound links**. A 40-line file carries roughly as much interface as a 400-line one. Ten 40-line files therefore cost ~10× the interface for the same content — the corpus got *more* complex, not less. **Split into deep files: small routing surface, rich body.**
 
@@ -47,7 +71,7 @@ Write down every task type that loads it. One trigger ⇒ don't split, whatever 
 
 **Fragmentation destroys the context that made content answerable.** Anthropic's canonical example: the chunk *"The company's revenue grew by 3% over the previous quarter"* — which company, which quarter? Split cleanly, individually valid, jointly useless. This is the cost the whole splitting literature is trying to price.
 
-## Part 4 — Three patterns that let you split without paying the fragmentation cost
+### Part 4 — Three patterns that let you split without paying the fragmentation cost
 
 | Pattern | What it does | Measured effect |
 |---|---|---|
@@ -57,7 +81,7 @@ Write down every task type that loads it. One trigger ⇒ don't split, whatever 
 
 The general rule these encode: **split the addressing, not the meaning.** Make the unit of *retrieval* small and the unit of *delivery* whole.
 
-## Part 5 — Detecting over-use in a corpus you already have
+### Part 5 — Detecting over-use in a corpus you already have
 
 Six checks, cheapest first. Every one is computable from the files plus a read log.
 
@@ -74,14 +98,14 @@ Six checks, cheapest first. Every one is computable from the files plus a read l
 - **Stub sprawl** — files that exist only to point elsewhere. Legitimate exactly once, as a graduation marker for a concept that moved. Otherwise it's a hop with no payload.
 - **Reassembly burden** — the reader must open 3+ files and mentally rejoin them to answer a routine question. That's the shallow-module tax made visible; it means the split ran along the wrong seam (an authoring convenience, not a usage boundary).
 
-## Part 6 — Order of operations
+### Part 6 — Order of operations
 
 1. **Start coarse.** The nanoservice literature's consensus and the strongest default: one file per trigger, split only when a measured problem forces it. Over-splitting early is harder to undo than over-consolidating, because merging requires finding every referrer.
 2. **Split only on trigger heterogeneity or a measured per-section usage gap.**
 3. **When you split, re-contextualise** (parent-child, or a situating line per fragment) and **fix every referrer in the same change**.
 4. **Re-measure** — ablation and the co-read matrix — and merge back what the numbers say you over-cut.
 
-## By implementation type
+### By implementation type
 
 | Implementation | Split when | Merge when |
 |---|---|---|

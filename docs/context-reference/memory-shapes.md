@@ -1,19 +1,38 @@
 ---
-description: The evidence behind memory shapes — the four write-time decisions and what to steal from the systems that pioneered them.
-icon: magnifying-glass-chart
-layer: deep
-concept: ../concepts/memory-shapes.md
+description: Deciding what an agent may write down and when. Append-only memory reliably rots, so the write gate is the design.
+icon: brain
 ---
 
-# Memory shapes — the systems, the evidence, the survey
+# Memory shapes
+
+**The principle** — memory doesn't stay true by being appended to. Every durable memory system earns its keep by **deciding, at write time, what a write is allowed to do** — the write-gate is the design, everything else is storage. Even the field's founders concede the failure mode: Letta on MemGPT — "incremental memory formation… may become messy and disorganized over time." Memory rot is real and append-only guarantees it.
+
+**Four write-time decisions, one steal each** (from the systems that pioneered them) —
+
+| Decision at write time | Pioneered by | The steal |
+|---|---|---|
+| *Did this session earn a write?* — diff working state vs. archive; persist deliberately | MemGPT/Letta (paging: working vs. archival tiers) | The **archive-diff ritual** at session end: updates become decisions, not side effects |
+| *Has this spot outgrown itself?* — each write may re-link, merge, rewrite neighbors | A-MEM (living note graph) | **Restructure-on-write**: hierarchy deepens exactly where writes concentrate |
+| *How much is this worth?* — score at write; reflection promotes observations → insights | Generative Agents ("Smallville") | **Judge at write time**: a flat log never becomes knowledge on its own |
+| *Can it prove itself?* — store runnable methods that verify on every use | Voyager (skill library) | **The write-gate is the runtime**: when memory can be a method, store the verified method |
+
+**Status check (the shape shipped)** — this stopped being research: WRITE/COMPRESS are platform primitives (Anthropic's memory tool + context editing); Letta's MemFS runs memory as markdown-in-git with a background sleep-time agent merging session commits — the "PR shape" for memory, deployed; verified-write systems (MemGuard, TRUSTMEM, VerificAgent) now measure what ungated writes cost.
+
+**Rules** —
+- Choose write-time policy before storage tech; a vector DB with no write-gate is a poisoning queue.
+- Consolidation is a separate, idle-time job (sleep-time compute) — never mid-task, always review-shaped.
+- Prefer methods over facts where possible (checkable > assertable).
+- Score/provenance every entry at write; retrieval-time trust repair is the expensive fallback.
+
+## Evidence & practice
 
 Two layers on purpose: the **principle** (a write is a decision — write-time policy is the whole game) is stable; the **survey** of systems below is dated and will age. Steal the decisions, not the architectures.
 
-## The principle, argued
+### The principle, argued
 
 Append-only memory converts every hallucination into a future retrieval. The mechanism is measured: incorrect knowledge written to memory "persists and reinforces over time" — retrieved, restated, re-embedded, cited by its own echoes ([Mem0, grounded memory](https://mem0.ai/blog/reducing-hallucinations-llms-with-grounded-memory)); write-gate validation is the shared blind spot across memory systems examined by the security literature ([arXiv 2604.16548](https://arxiv.org/html/2604.16548)). Meanwhile every durable system in the survey below — independently, across five years — converged on putting its intelligence at the **write**: paging decisions, restructuring decisions, scoring decisions, verification decisions. Storage and retrieval tech varies freely; write-time policy is the invariant. That convergence is the strongest design signal in the field.
 
-## The survey (dated 2026-07 — expect drift)
+### The survey (dated 2026-07 — expect drift)
 
 | System | Shape | Write-time decision | Caveat |
 |---|---|---|---|
@@ -29,7 +48,7 @@ Append-only memory converts every hallucination into a future retrieval. The mec
 
 **Compaction timing** (the paging steal, upgraded): decision-based compaction — rubric-triggered (sub-task resolved? trajectory converging?) — beats token-threshold triggers on cost and quality ("Self-Compacting LM Agents", 2026; see `context-governance.md` for the policy treatment).
 
-## Composing the four decisions (they stack, not compete)
+### Composing the four decisions (they stack, not compete)
 
 A production-shaped write path uses all four in sequence:
 
@@ -40,7 +59,7 @@ A production-shaped write path uses all four in sequence:
 
 Consolidation (reflection, dedup, promotion of episodic → semantic) runs **off the critical path** as sleep-time work, and its output is commits for review, not silent mutations — the MemFS pattern.
 
-## Choosing for your system
+### Choosing for your system
 
 | Your situation | Lead with |
 |---|---|

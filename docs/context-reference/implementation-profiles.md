@@ -1,15 +1,33 @@
 ---
-description: The evidence behind implementation profiles — the five profiles with their dominant failure and first-order levers.
-icon: magnifying-glass-chart
-layer: deep
-concept: ../concepts/implementation-profiles.md
+description: Which context rule matters most depends on the workload — a chatbot, a long-running agent, a batch pipeline all fail on different axes. Read it before applying advice written for a different shape.
+icon: diagram-project
 ---
 
-# Implementation profiles — the five workloads, in full
+# Implementation profiles
+
+**Claim** — "best context" is implementation-relative. The principles are constant (rot, selection, one-home, gates…), but *which lever dominates* flips with the workload's shape: how long it runs, who writes to context, how results merge, and how latency-bound it is. Applying a chatbot's context strategy to a long-horizon agent (or vice versa) fails on the axis that profile stresses most.
+
+**The five profiles and their dominant axis** —
+
+| Profile | Dominant failure | First-order levers |
+|---|---|---|
+| **RAG / KB chatbot** | Confusion + clash from the corpus (near-miss retrieval, stale/duplicate docs) | Selection quality (hybrid→rerank→prune); corpus hygiene (one-home, retirement) |
+| **Coding agent** | Distraction from tool-output pileup; standing-context bloat | Offload + re-SELECT (agentic search, no standing dumps); non-inferable-only context files; append-only cache discipline |
+| **Long-horizon autonomous agent** | Compounding distraction + poisoning over days | Compaction policy (decision-based), structured eviction, memory write-gates, sleep-time consolidation |
+| **Multi-agent system** | Clash from independent decisions; cost blowup (~15× tokens) | Isolation for *read* work only; strict briefs; gates at every trust boundary; serialize the writers |
+| **Text-to-SQL / semantic layer** | Silent wrong-pick (indistinguishable metrics; schema-dump confusion) | Distinguishability of names/descriptions; route-then-load schema; human-gated definitions |
+
+**How to use a profile** — it's a *priority order*, not a menu: every profile eventually needs every principle, but budget your engineering where the profile bleeds. A KB chatbot with a perfect compaction policy and near-miss retrieval is polished in the wrong place.
+
+**The two discriminating questions when your system doesn't match a row** —
+1. *Who writes to context over time?* (nobody → selection problem; the agent → governance/memory problem; many agents → trust-boundary problem)
+2. *Do parallel results merge as facts or as decisions?* (facts → isolate freely; decisions → serialize or expect clash)
+
+## Evidence & practice
 
 Each profile: what shapes it, where it bleeds, the priority order, and the specific evidence. The principles referenced live in their own pages; this page is the *dispatch table*.
 
-## 1. RAG / knowledge-base chatbot
+### 1. RAG / knowledge-base chatbot
 
 **Shape**: short sessions, latency-bound, context written by *authors* (not the agent), answers must ground in the corpus.
 **Bleeds at**: selection (near-miss retrieval is the top quality ceiling — distractors actively mislead) and corpus hygiene (staleness + contradiction: ~70% of enterprise KBs hold contradictory pairs; retrieval keeps finding plausible-but-outdated fragments).
@@ -17,7 +35,7 @@ Each profile: what shapes it, where it bleeds, the priority order, and the speci
 **Deprioritize**: compaction and memory machinery — sessions are short; the corpus, not the transcript, is the living object.
 **Instrument**: retrieval canary set + staleness dashboard (`measuring-context.md`).
 
-## 2. Coding agent
+### 2. Coding agent
 
 **Shape**: medium sessions, tool-loop heavy (100:1 input:output typical), the *environment is the corpus* — most knowledge is re-fetchable from the repo at will.
 **Bleeds at**: distraction (file dumps and tool output piling up) and standing-context bloat — the measured trap: the ETH Zurich AGENTS.md evaluation found context files tend to reduce task success while inflating inference cost >20%; survivors are non-inferable project facts only. And structure won't save a bloated file: McMillan's 1,650-session factorial (arXiv 2605.10039) found size/position/architecture nulls — admission is the lever, and compliance decays in-session (~5.6% odds per generated function) regardless.
@@ -25,7 +43,7 @@ Each profile: what shapes it, where it bleeds, the priority order, and the speci
 **Deprioritize**: retrieval infrastructure (the repo *is* the index); heavy memory graphs.
 **Instrument**: ablation test on every standing block; cache-hit rate.
 
-## 3. Long-horizon autonomous agent (days/weeks, unattended)
+### 3. Long-horizon autonomous agent (days/weeks, unattended)
 
 **Shape**: one context lineage surviving many compactions; the agent is the *primary author* of its own future context — every write is self-administered medicine.
 **Bleeds at**: compounding failures — early wrong assumptions poison later reasoning ("when LLMs take a wrong turn, they get lost and do not recover" — the −39% multi-turn result); rule-following decays with generation itself (~5.6% lower compliance odds per function, McMillan); distraction accumulates monotonically; nothing external re-anchors the run — which is why Manus recites the plan into the recency window every step.
@@ -33,7 +51,7 @@ Each profile: what shapes it, where it bleeds, the priority order, and the speci
 **Deprioritize**: nothing — this profile is the only one that eventually needs every page; it's the stress test of the whole reference.
 **Instrument**: context-length distribution over run time; intervention counts; distractor stress tests on its own accumulated notes.
 
-## 4. Multi-agent system
+### 4. Multi-agent system
 
 **Shape**: parallel windows, results merging upward; ~15× token cost of single-chat (Anthropic; plain agents ~4×) buys breadth — and the spend *is* the mechanism: token usage alone explains 80% of performance variance on BrowseComp.
 **Bleeds at**: clash — the defining risk. The field's live disagreement, resolved by work type: Anthropic's research system beat single-agent by 90.2% (Opus 4 lead + Sonnet 4 subs) on breadth-first *read* work (findings merge as facts); Cognition's "don't build multi-agents" objection — actions carry implicit decisions, and parallel decisions conflict (their Flappy Bird example: Mario background + incompatible bird, each locally fine) — is about *write* work. Anthropic's own "when not to" list (shared-context tasks, tight dependencies, most coding) concedes the same. **Isolate readers, serialize writers.**
@@ -41,7 +59,7 @@ Each profile: what shapes it, where it bleeds, the priority order, and the speci
 **Deprioritize**: shared long-term memory between workers (share pointers, not stores).
 **Instrument**: token-spend per outcome vs. single-agent baseline — the 15× only pays above a value bar; wrong-agent routing rate.
 
-## 5. Text-to-SQL / semantic layer
+### 5. Text-to-SQL / semantic layer
 
 **Shape**: high-stakes single-shot selection — NL question → metric/entity choice → executable SQL; errors return *plausible numbers*, the most silent failure in this reference.
 **Bleeds at**: distinguishability (sibling metrics with identical descriptions force coin-flips — the `total_points` case) and confusion-by-width (whole-catalog schema dumps).
@@ -49,7 +67,7 @@ Each profile: what shapes it, where it bleeds, the priority order, and the speci
 **Deprioritize**: transcript memory/compaction — the corpus is the layer, sessions are short.
 **Instrument**: wrong-metric selection rate on a labeled question set; ambiguity audit on every layer change.
 
-## Cross-profile invariants (what never flips)
+### Cross-profile invariants (what never flips)
 
 1. **Rot is unconditional** — every profile budgets attention, none gets marketed-window tokens for free.
 2. **Write-time gates beat read-time repair** — wherever anything writes to persistent context.
@@ -57,6 +75,6 @@ Each profile: what shapes it, where it bleeds, the priority order, and the speci
 4. **Measure before optimizing** — the reflexive fix (add context) and the right fix are usually opposites.
 5. **Clash resolution needs authority** — no profile lets the model silently pick between contradictions.
 
-## If your system spans profiles
+### If your system spans profiles
 
 Most real systems are hybrids (a coding agent with a KB; a multi-agent researcher feeding a long-horizon planner). Decompose by *context lineage*: each separately-evolving window/store gets its own profile row and its own priority order. The boundaries between lineages are trust boundaries — gate them (`hook-vs-router.md`).

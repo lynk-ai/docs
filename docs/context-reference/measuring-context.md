@@ -1,13 +1,36 @@
 ---
-description: The evidence behind measuring context — the instrument kit — effective length, ablation, attribution.
-icon: magnifying-glass-chart
-layer: deep
-concept: ../concepts/measuring-context.md
+description: Proving a change helped instead of asserting it — how to measure what your agent can actually hold and whether a page earns the tokens it costs.
+icon: ruler
 ---
 
-# Measuring context — the instruments, in full
+# Measuring context
 
-## What the public benchmarks established (and their limits)
+**Claim** — every claim in this reference (rot, position penalties, selection failures) is *measurable in your own system*, and none of the fixes should be applied blind. A degradation claim without an instrument is a vibe; the instrument turns context engineering from folklore into tuning.
+
+**The core metric — effective length** (NoLiMa's method, portable to private evals): fix a task set; measure accuracy at short context (the *base score*); then increase context realistically. Your **effective length** = the longest context at which the model keeps ≥85% of its base score. That number — not the marketed window — is your budget. Most 128K-claiming models fall far short on non-literal tasks.
+
+**The instrument kit** —
+
+| Instrument | Answers | Cost |
+|---|---|---|
+| **Effective-length sweep** | What's my real context budget for *this* model × *this* task? | One eval set + a length ladder |
+| **Position sweep** (same content, gold span at 0/25/50/75/100%) | Is my U-curve costing accuracy? Is placement the bug? | Trivial once the eval set exists |
+| **Context ablation** (run with less) | Is any given block earning its tokens? *Removal that doesn't hurt = confusion inventory; removal that helps = distractors found* | The single highest-value cheap test |
+| **Retrieval canary set** (fixed queries, judged results) | Is selection decaying as the corpus grows? Recall and precision separately | Small labeled set, rerun on corpus change |
+| **Distractor stress test** (inject near-miss content) | How fragile is my task to plausible-wrong context? | Synthesize from your own corpus's neighbors |
+| **Ops dashboards** (context-length distribution, cache-hit rate, intervention counts) | Is the system drifting toward the degraded regime? | Telemetry you likely half-have |
+
+**Rules** —
+- Never benchmark with literal-match needles only (classic NIAH is nearly saturated and overstates ability); use tasks needing inference — the gap between literal and non-literal is exactly the gap between marketing and your workload.
+- Measure before optimizing: the reflexive fix (add more context) and the correct fix (move/prune/split) are *opposites* — only an instrument tells you which.
+- **An artifact's value is its with-vs-without delta**, judged blind against an *external* rubric on a task where it *should* matter — expect null deltas on tasks the model already aces (run a non-inferable task class too).
+- **One run proves nothing**: agents decay ~⅓ from pass^1 to pass^4 (τ-bench: SOTA <50% single-run, pass^8 <25%). Run k trials before believing a context change "worked."
+- Trust *deltas* over absolutes: public-benchmark absolutes inflate as they age into training data (SWE-Bench+ measured ~3×); ablation deltas mostly cancel the inflation.
+- Re-run on every model swap: rot curves are model-specific and non-uniform; a budget tuned for one model silently misfits the next.
+
+## Evidence & practice
+
+### What the public benchmarks established (and their limits)
 
 - **NIAH (needle-in-a-haystack)** — the original probe: plant a fact, ask for it back. Now nearly saturated: frontier models ace literal retrieval at length, which is why vendors quote it. Its saturation is the *reason* better instruments exist — passing NIAH says almost nothing about reasoning at length.
 - **RULER** ([arXiv 2404.06654](https://arxiv.org/abs/2404.06654)) — NIAH extended with multi-hop tracing, aggregation, and QA at configurable lengths. Key finding: claimed vs. effective sizes diverge sharply, and **aggregation/multi-hop degrade fastest** — the task shapes agent work resembles. If you adapt one public suite, adapt this one.
@@ -16,7 +39,7 @@ concept: ../concepts/measuring-context.md
 
 Limit to respect: all are synthetic. They bound what's possible, not what your workload gets — which is why the kit below runs on *your* corpus and tasks.
 
-## Building the harness (one eval set, five instruments)
+### Building the harness (one eval set, five instruments)
 
 **Step 0 — the eval set.** 30–100 tasks from your real workload with verifiable answers (exact match, contains-check, or LLM-judge with rubric). This is the only expensive step; everything below reuses it.
 
@@ -39,7 +62,7 @@ Run it quarterly and on every prefix addition — standing context only ever acc
 - **Ground the judge in execution** where checkable — have it *run* the claims, not read them; the static judge in that same case could only reach "marginal" where the executing judge was decisive (the general principle: verify at the surface where the artifact is actually consumed — a green check on a proxy surface over a red authoritative one is *false green*, confidence manufactured by pointing the tool at the wrong place).
 - **n=1 proves nothing** — see reliability, below.
 
-## Two disciplines the numbers need
+### Two disciplines the numbers need
 
 **Reliability: measure pass^k, not pass^1.** Agents are unstable across identical trials: τ-bench ([arXiv 2406.12045](https://arxiv.org/abs/2406.12045), verified) reports SOTA agents succeeding on **<50% of tasks**, with **pass^8 <25%** in retail — the best agent's pass^k decays ~0.69 → 0.46 from k=1 to k=4 (secondary source, not re-verified against the paper). A single-run pass overstates reliability by roughly a third. For context work this cuts twice: a context change that "fixed it" in one run may have fixed nothing; run k trials and compare *distributions*. And grade **checkpoints/final state, not a canonical path** — agents take different valid routes; a route-matcher fails correct work.
 
@@ -51,7 +74,7 @@ Run it quarterly and on every prefix addition — standing context only ever acc
 - Same table, the tool-quality warning: a badly designed iterative search tool scored 12.0 — **worse than having no search tool at all (15.7)**. A bad tool is negative context. When an agent keeps failing, suspect its tool interface before its model or its prompt.
 - ChatDev ([arXiv 2307.07924](https://arxiv.org/abs/2307.07924)): removing role descriptions from prompts dropped quality 0.395 → 0.221 — its largest single ablation.
 
-## Ops-layer instruments (continuous, no eval set needed)
+### Ops-layer instruments (continuous, no eval set needed)
 
 | Signal | Reading it |
 |---|---|
@@ -61,7 +84,7 @@ Run it quarterly and on every prefix addition — standing context only ever acc
 | Staleness age percentiles | Living-source debt, trending |
 | Wrong-tool / wrong-page selection rate (sampled traces) | Distinguishability and loadout health |
 
-## Decision table — symptom → instrument → fix page
+### Decision table — symptom → instrument → fix page
 
 | Symptom | Run | Then see |
 |---|---|---|
@@ -72,7 +95,7 @@ Run it quarterly and on every prefix addition — standing context only ever acc
 | "Wrong tool/metric picked" | Surface route-test (names+descriptions only) | `distinguishability.md` |
 | "Costs/latency creeping" | Cache-hit rate; length distribution | `caching-economics.md` |
 
-## Discipline
+### Discipline
 
 - **Re-baseline on model swap** — rot curves are model-specific; budgets don't transfer.
 - **One variable per experiment** — length, position, and composition confound each other; the public protocols' whole value is isolation.

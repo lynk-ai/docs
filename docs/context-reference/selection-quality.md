@@ -1,15 +1,31 @@
 ---
-description: The evidence behind selection quality — two-stage retrieval, reranking, and pruning with measured deltas.
-icon: magnifying-glass-chart
-layer: deep
-concept: ../concepts/selection-quality.md
+description: The agent retrieved something plausible but wrong. Why near-misses do more damage than obvious junk, and the retrieval shape that fixes it.
+icon: filter
 ---
 
-# Selection quality — evidence & practice
+# Selection quality
+
+**Claim** — SELECT is the lever everything else depends on, and it fails in a specific, measurable way: retrievers return *plausible near-misses*, and near-misses hurt more than junk (distractor interference actively misleads; it doesn't just dilute). Curation advice is empty without a theory of how selection breaks.
+
+**Why it matters** — two-stage retrieval (broad recall → precise rerank) beats every single-stage method: Recall@5 **0.816 vs 0.695** for hybrid fusion alone, 0.644 for BM25, 0.587 for dense-only. Query-aware pruning (Provence, ICLR 2025) then cuts retrieved content at high compression with little-to-no quality loss — the only pruner that's Pareto-dominant across domains — because the near-misses it deletes were *hurting*: Chroma measured distractors actively degrading answers, compounding with each one added.
+
+**The architecture that wins** —
+1. **Recall stage** — hybrid sparse+dense (BM25 catches exact/rare terms; embeddings catch paraphrase). Fix recall first: don't tune precision until recall@50 > 90%.
+2. **Precision stage** — cross-encoder reranker (MRR@3 +40% relative in benchmark runs).
+3. **Pruning stage** — sentence-level, query-aware (Provence-style), because the unit of rot is the token, not the chunk.
+4. **Agentic escalation** — when one-shot retrieval can't answer, let the model *search iteratively* (query → read → requery). Trades latency for precision; right for high-stakes, wrong for chat latency.
+
+**Rules** —
+- Measure recall and precision separately; they fail independently and have different fixes.
+- The most dangerous retrieval result is rank-2-but-wrong, not rank-50.
+- Selection surfaces (names, descriptions, keywords) are part of retrieval quality — badly labeled corpus = unfixable retriever (see `distinguishability.md`).
+- Every SELECT should justify its tokens: "might be relevant" is how confusion enters.
+
+## Evidence & practice
 
 The missing chapter in most context writing: everyone says "curate," almost no one says how curation *breaks*. Selection fails on four independent axes — recall (didn't find it), precision (found it plus near-misses), granularity (found the right doc, shipped the wrong 90% of it), and surface (the corpus was unfindable as labeled). Each has its own fix; conflating them wastes tuning cycles.
 
-## The evidence base
+### The evidence base
 
 **Hybrid beats pure.** Sparse (BM25/TF-IDF) wins on exact identifiers, rare terms, and jargon; dense embeddings win on paraphrase and cross-vocabulary matching. Tuned hybrid on the WANDS benchmark: 0.7497 NDCG vs 0.6983 (BM25) and 0.6953 (dense) — **+7.4%** over the best single method ([InfoQ hybrid retrieval](https://www.infoq.com/articles/vector-search-hybrid-retrieval-rag/), [Denser hybrid guide](https://denser.ai/blog/hybrid-search-for-rag/)).
 
@@ -19,7 +35,7 @@ The missing chapter in most context writing: everyone says "curate," almost no o
 
 **Order the stages by failure independence.** Tuning advice from production RAG playbooks: get recall@50 above ~90% *before* adding a reranker — a reranker cannot recover documents that never arrived; a better retriever can't fix a reranker that buries them.
 
-## Agentic search vs. one-shot retrieval
+### Agentic search vs. one-shot retrieval
 
 One-shot (embed → top-k → generate) is a bet that the first query formulation suffices. Agentic search (the model reformulates, reads, follows references, requeries) trades latency and tokens for precision, and changes the *unit* of selection from chunks to *trajectories*. When to use which:
 
@@ -32,7 +48,7 @@ One-shot (embed → top-k → generate) is a bet that the first query formulatio
 
 Structured corollary: **metadata-first routing** (read names/descriptions, choose, then fetch bodies) is agentic search over a curated surface — the cheapest form, and the reason label quality (below) is a retrieval concern.
 
-## The surface axis: your corpus is part of the retriever
+### The surface axis: your corpus is part of the retriever
 
 Selection reads names, descriptions, and keywords before bodies. Failures here are unfixable downstream:
 - Two items with near-identical descriptions → the chooser coin-flips regardless of retriever quality (`distinguishability.md`).
@@ -40,14 +56,14 @@ Selection reads names, descriptions, and keywords before bodies. Failures here a
 - Tool selection is the same problem, now with primary-sourced numbers: RAG-MCP (via Breunig) — DeepSeek-v3 degrades sharply past **30 tools** (overlapping descriptions blamed directly), failure "virtually guaranteed" past **100**; the "Less is More" study — dynamic tool selection **+44%** accuracy on a 46-tool setup a quantized Llama 3.1 8B couldn't handle statically (it succeeded with 19). RAG over the tool loadout is SELECT applied to capabilities.
 - **A bad tool is worse than no tool** — measured: SWE-agent's ablations scored a poorly-designed iterative search tool at 12.0 vs **15.7 with no search tools at all** ([arXiv 2405.15793](https://arxiv.org/abs/2405.15793), secondary source — not re-verified). Tools are context too: a confusing interface doesn't just fail to help, it actively costs solved tasks. When an agent keeps failing, audit the tool interface before blaming the model or the retriever.
 
-## Anti-patterns
+### Anti-patterns
 
 - **"Include it just in case"** — the direct cause of confusion-mode failure; every speculative inclusion is a distractor candidate.
 - **Tuning k instead of quality** — raising top-k to fix recall imports near-misses; fix the retriever, not the quota.
 - **One embedding space for everything** — code, prose, and tables have different similarity structures; route by type before embedding.
 - **Trusting similarity as relevance** — similarity is a *candidate generator*; relevance is a judgment (reranker or model) — the gap between them is exactly where distractors live.
 
-## By implementation type
+### By implementation type
 
 | Implementation | Selection shape | Watch for |
 |---|---|---|

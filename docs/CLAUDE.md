@@ -32,8 +32,9 @@ holds the craft of writing context an agent reads well — what a page costs to
 load, why a description isn't the one picked, when a file should split, what
 goes stale. Reach for `context-reference/` whenever layer content is being
 written or judged, not only when a question is asked about it — the build
-validates none of it. Enter at a `concepts/` page there; open its `deep/`
-counterpart only on the trigger that page names.
+validates none of it. Each page there opens with the
+decision-ready summary; its `## Evidence & practice` section holds the study
+numbers and procedures — read past the summary only when you need them.
 Judgment-shaped questions
 ("what makes a good X", "should I do A or B") are answered by `guides/`: the
 concept page defines the primitive, the guide carries the tradeoffs — and a

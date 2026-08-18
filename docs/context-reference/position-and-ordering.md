@@ -1,13 +1,26 @@
 ---
-description: The evidence behind position and ordering — the U-curve evidence and placement rules with numbers.
-icon: magnifying-glass-chart
-layer: deep
-concept: ../concepts/position-and-ordering.md
+description: Where to put the load-bearing part of a file. Content buried in the middle can score worse than leaving it out entirely.
+icon: arrow-down-short-wide
 ---
 
-# Position and ordering — evidence & practice
+# Position and ordering
 
-## What the research established
+**Claim** — context is not a set; it's a sequence, and *where* content sits changes accuracy. Models attend in a U-curve — strong at the beginning (primacy) and end (recency), weak in the middle. Measured: GPT-3.5-Turbo on 20-doc QA drops from **75.8% (answer first) to 53.8% (answer middle)** — below its own **closed-book baseline of 56.1%**: mid-buried evidence is worse than no evidence ("Lost in the Middle", Liu et al., TACL 2024).
+
+**The mechanism** — intrinsic positional attention bias: edge tokens receive outsized attention *regardless of semantic relevance* ("Found in the Middle", 2024 — calibrating the bias away recovers middle accuracy, proving position, not content, causes the loss). Order also affects reasoning itself: premise order changes chain-of-reasoning accuracy even when all premises are present (Chen et al., 2024).
+
+**Placement rules** —
+- **Instructions and role: first.** They also want to be the stable cached prefix — accuracy and economics agree here.
+- **The question/task: last.** Recency slot, and it's the part that varies per request (cache-friendly).
+- **Critical evidence: edges, never buried.** If one document decides the answer, put it just before the question.
+- **Long lists (tools, docs): assume the middle is half-invisible.** Cut the list before you reorder it — fewer items beats better-sorted items.
+- **Rank-order retrieved chunks by relevance toward the edges**, most relevant closest to the question.
+
+**One tension to manage** — recency wants dynamic content late; caching wants stable content early. These are compatible (stable-early + dynamic-late is exactly the cache-optimal layout), but *mid-prefix mutation* breaks both: it invalidates the cache suffix and puts fresh content in the dead zone. Append; don't insert.
+
+## Evidence & practice
+
+### What the research established
 
 **The U-curve is real and large** ([Liu et al., "Lost in the Middle", TACL 2024](https://arxiv.org/abs/2307.03172), primary numbers verified): 20-document QA, gold document moved through positions — GPT-3.5-Turbo: **75.8%** at position 1, **53.8%** at position 10, **63.2%** at position 20. Two findings sharper than the slogan:
 - The −22pp middle dip takes the model **below its own closed-book baseline (56.1%)** — mid-buried evidence is worse than no evidence, because the model would otherwise have answered from weights.
@@ -19,7 +32,7 @@ concept: ../concepts/position-and-ordering.md
 
 **Degradation compounds with length.** Chroma's context-rot results interact: longer context deepens the U — the middle "dead zone" widens as input grows. Position discipline matters *more* at scale, exactly when you have the least room to fix it by shortening.
 
-## The layout that follows
+### The layout that follows
 
 Read top-to-bottom as the physical prompt order:
 
@@ -38,7 +51,7 @@ Notes:
 - **Within a config file, position doesn't matter** (same study, null verified): the target instruction at line 2 vs. 63 vs. 128 vs. 187 vs. 250 of a CLAUDE.md — no detectable compliance difference; file size 25–500 lines — none either. The U-curve governs *where content sits in the assembled window*, not where a line sits inside one small early-loaded file. Don't spend effort ordering your config file; spend it on admission and on re-anchoring at use time.
 - **Long tool lists have a dead middle.** Tool selection failures concentrate in mid-list tools; below ~30 tools this is manageable, above it no ordering saves you — cut the loadout (see `selection-quality.md`).
 
-## Debugging with position
+### Debugging with position
 
 Symptom: "the answer was in context and the model missed it." Before adding more context (the reflexive, wrong fix):
 1. Find the token offset of the critical span; compute its relative position.
@@ -46,7 +59,7 @@ Symptom: "the answer was in context and the model missed it." Before adding more
 3. Cheap A/B: move the span adjacent to the question and rerun. Recovery confirms a placement bug, which no retriever tuning will fix.
 4. Systematic check: run a position sweep on your own eval set (same content, gold span at 0/25/50/75/100%) — this is the NIAH-style instrument adapted to your corpus; see `measuring-context.md`.
 
-## By implementation type
+### By implementation type
 
 | Implementation | Position discipline that pays |
 |---|---|
