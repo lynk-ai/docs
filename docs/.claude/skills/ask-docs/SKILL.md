@@ -1,28 +1,27 @@
 ---
 name: ask-docs
 description: >
-  Answer questions about Lynk, the Lynk semantic layer, and how to
-  write content an agent reads well — grounded in the Lynk docs: Lynk
-  concepts (primitives, file types, placement, syntax), the context
-  reference (the craft and its measured evidence), and, when a `.lynk/`
-  layer is present, what's in it (instance lookups). Read-only: never
-  edits docs or layer files, never calls a backend.
+  Answer questions about Lynk and the Lynk semantic layer, grounded in the
+  Lynk docs — Lynk concepts (primitives, file types, placement, syntax) and,
+  when a `.lynk/` layer is present, what's in it (instance lookups).
+  Read-only: never edits docs or layer files, never calls a backend.
 
-  Use this skill when a question touches these subjects, even a simple
-  one — don't answer from prior knowledge; the docs carry the measured
-  answer — and when writing or changing layer content: the concepts
-  say what the file must be, the context reference how to write it so
-  an agent reads it well. Concept triggers: "what is a domain?",
-  "feature vs. metric?", "what does the build validate?".
-  Standards triggers, which may never say "Lynk": "why isn't this
-  description getting picked?", "how far apart do two skills'
-  descriptions need to be?". Instance triggers (need a `.lynk/`):
-  "does X have a metric for Y?", "where is Y defined?".
+  Use this skill for any question about Lynk, even simple ones. Lynk
+  distinguishes primitives that general analytics vocabulary blurs — e.g. a
+  *metric* is entity-local while a *feature* can expose a cross-entity
+  `metric()`. Don't answer from prior knowledge; run this skill so the
+  answer is doc-grounded.
+
+  Concept triggers: "what is a domain?", "feature vs. metric?", "where do
+  glossary terms go?", "what is the sql: grammar?", "how do relationships
+  work?", "what does the build validate?". Instance triggers (need a
+  `.lynk/` in the project): "does X have a metric for Y?", "list features
+  of X", "where is Y defined?".
 ---
 
 # ask-docs
 
-This skill answers questions about Lynk, and about how well content an agent reads is written, grounded in the Lynk docs. It is read-only — it never writes to the docs, never writes to `.lynk/`, never calls an API.
+This skill answers questions about Lynk, grounded in the Lynk docs. It is read-only — it never writes to the docs, never writes to `.lynk/`, never calls an API.
 
 **Resolve the docs root first.** The docs are the tree whose index is `SUMMARY.md`:
 
@@ -31,10 +30,9 @@ This skill answers questions about Lynk, and about how well content an agent rea
 
 All paths below are relative to that root.
 
-Three question shapes are in scope:
+Two question shapes are in scope:
 
 - **Concept** — "what is X in Lynk?", "where does X belong?", "what's the difference between X and Y?". Always available.
-- **Standards** — is this content *well written*, not whether it's valid: "is this ENTITY.md too long?", "why isn't this description getting picked?", "will these two metrics get confused?". The question may name no Lynk primitive at all — quality questions about any content an agent reads (a skill, a glossary, a policy, a description) route here, because the build validates none of it and the person pays for all of it. Always available.
 - **Instance** — "what's in my `.lynk/`?": entities, features, metrics, relationships, glossary, skills, policies. Only when the working project contains a `.lynk/` directory; if there is none, say so and answer the concept part only.
 
 ## Steps
@@ -53,7 +51,6 @@ This grounds every answer in correct Lynk vocabulary and gives you the map of pa
 | Shape | Examples |
 |---|---|
 | **Concept** | "what is a skill file?", "feature vs. metric?", "where should X go?" |
-| **Standards** | "is this ENTITY.md too long?", "why isn't this description getting picked?", "will these two metrics get confused?", "how far apart do two skills' descriptions need to be?", "is this glossary entry earning what it costs?", "how should I word this before I write it?" |
 | **Instance** | "does X have Y?", "what metrics on X?", "where is Y defined?" |
 | **Both** | "what is a metric, and does my customer entity have any?" |
 
@@ -64,7 +61,6 @@ If ambiguous, ask via `AskUserQuestion`.
 ### 3. Read the narrowest set of files
 
 - **Concept** — from the index (Step 1), `Read` only the pages relevant to the question. Concept and file-type specs live under `concepts/` (e.g. `concepts/entity/entity-md.md`, `concepts/entity/schema-yml/README.md`); cross-cutting format and naming rules under `reference/`; judgment under `guides/`; query interfaces under `api/`. **Capability-boundary questions — "does Lynk support X", "can I test/schedule/parameterize/template Y" — are answered by `reference/what-lynk-does-not-do.md`**, the index of what's by-design, planned, or upstream's job; cite it plus the owning spec page it links to. **Judgment-shaped questions — "what makes a good X", "should I do A or B", "how should I structure Y" — are answered by `guides/`**: the concept page defines the primitive, the guide carries the tradeoffs; if both apply, read the guide and cite the concept page for definitions. For placement questions, distinguish *where does file X go* (the file-type spec is canonical) from *should this content be an X at all* (`guides/where-knowledge-goes.md`). Present a guide's criteria as recommendations — never as build-validated rules, which live in concept pages' Validation sections. Need a second page? Read it explicitly — no bulk traversal.
-- **Standards** — find the owning page from the reference's map: the router lines you read in Step 1 name what each `context-reference/` page answers, and `context-reference/README.md` carries the detailed map. Read that one page: the summary at its top is the decision-ready answer; its `## Evidence & practice` section is for when the question asks for the numbers, the provenance, or the procedure. For a `.lynk/` file, `guides/context-engineering.md` states Lynk's own bar — lead with it, and bring the reference page's measurement when asked for the number behind the bar or why it is what it is.
 - **Instance** — list the layer with `find ./.lynk -type f | sort`, identify which file(s) own the artifact, and read only those. For an entity question, that's the entity's `schema.yml` plus its `ENTITY.md` and any supporting files it links.
 - **Both** — concept reads first (to ground vocabulary), then instance reads.
 
