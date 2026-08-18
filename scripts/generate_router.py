@@ -49,12 +49,6 @@ def build_router() -> str:
         indent, title, path = m.groups()
         if path in ("README.md", "concepts/README.md"):
             continue
-        # The context reference's deep tier is reached from its concept page,
-        # on the trigger that page names — never chosen from an index. Twenty
-        # entries titled "Deep" would add noise to a page whose whole job is
-        # "which one answers my question", and cost ~3,500 characters doing it.
-        if path.startswith("context-reference/deep/"):
-            continue
         page = DOCS / path
         desc = frontmatter_description(page) if page.is_file() else None
         if desc is None:
